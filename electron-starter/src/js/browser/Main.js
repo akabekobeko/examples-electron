@@ -4,6 +4,7 @@ import BrowserWindow from 'browser-window';
 import Menu          from 'menu';
 import Path          from 'path';
 import MainMenu      from './MainMenu.js';
+import Util          from '../util/Util.js';
 
 CrashReporter.start();
 
@@ -14,6 +15,8 @@ CrashReporter.start();
 let mainWindow = null;
 
 App.on( 'ready', () => {
+  console.log( 'Launched: ' + Util.formatDate() );
+
   mainWindow = new BrowserWindow( {
     width: 800,
     height: 600,

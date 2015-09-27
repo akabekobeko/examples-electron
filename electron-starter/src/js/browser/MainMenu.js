@@ -46,6 +46,12 @@ export default class MainMenu {
         label: 'View',
         submenu: [
           {
+            label: 'Test',
+            click() {
+              SuperAgent.get( 'main.js' );
+            }
+          },
+          {
             label: 'Reload',
             accelerator: 'Command+R',
             click() {
