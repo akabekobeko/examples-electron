@@ -9,6 +9,10 @@
     "Electron",
     "Starter"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akabekobeko/examples-electron.git"
+  },
   "scripts": {
     "start": "npm run watch",
     "app": "electron -develop src/",
@@ -26,22 +30,20 @@
     "release:js-browser": "browserify -t babelify ./src/js/browser/Main.js --im --igv \" \" | uglifyjs > ./dist/src/main.js",
     "release:js-renderer": "browserify -t babelify ./src/js/renderer/App.js | uglifyjs > ./dist/src/bundle.js",
     "release:clean": "rimraf ./dist/src",
-    "release:mkdir": "mkdirp ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
-    "release:package": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=0.32.3 --overwrite",
-    "release": "npm-run-all -s release:clean release:mkdir -p release:copy release:css release:js-browser release:js-renderer -s release:package"
+    "release:package": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=all --arch=x64 --version=0.33.3 --overwrite",
+    "release": "npm-run-all -s release:clean release:copy -p release:css release:js-browser release:js-renderer -s release:package"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
-    "browserify": "^11.1.0",
+    "browserify": "^11.2.0",
     "cpx": "^1.2.1",
     "electron-packager": "^5.1.0",
-    "electron-prebuilt": "^0.31.0",
-    "esdoc": "^0.2.6",
+    "electron-prebuilt": "^0.33.3",
+    "esdoc": "^0.3.0",
     "espower-babel": "^3.3.0",
     "exorcist": "^0.4.0",
-    "mkdirp": "^0.5.1",
-    "mocha": "^2.3.2",
+    "mocha": "^2.3.3",
     "ncp": "^2.0.0",
     "npm-run-all": "^1.2.11",
     "power-assert": "^1.0.1",
