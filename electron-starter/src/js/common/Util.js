@@ -40,4 +40,13 @@ export default class Util {
 
     return format;
   }
+
+  /**
+   * Output console log with datetime.
+   *
+   * @param {String} message Message.
+   */
+  static log( message ) {
+    console.log( '[' + Util.formatDate() + ']', message );
+  }
 }

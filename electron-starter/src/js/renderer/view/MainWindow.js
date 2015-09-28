@@ -13,6 +13,10 @@ export default class MainWindow extends React.Component {
     super( props );
 
     this.__onChange = this._onChange.bind( this );
+
+    this.state = {
+      url: 'https://github.com/akabekobeko/examples-electron'
+    };
   }
 
   /**
@@ -39,22 +43,29 @@ export default class MainWindow extends React.Component {
       <div className="sample">
         <span
           className="sample__button"
-          onClick={ this._onClick.bind( this ) }>
+          onClick={ this._onClickButton.bind( this ) }>
           Click
         </span>
         <span>{ this.props.context.sampleStore.datetime }</span>
         <div className="sample__repository">
-          <i className="icon-github"></i> { 'https://github.com/akabekobeko/examples-electron' }
+          <i className="icon-github"></i> <a href="#" onClick={ this._onClickLink.bind( this ) }>{ this.state.url }</a>
         </div>
       </div>
     );
   }
 
   /**
-   * Occurs when a datetime clicked.
+   * Occurs when a button clicked.
    */
-  _onClick() {
+  _onClickButton() {
     this.props.context.sampleAction.updateDatetime();
+  }
+
+  /**
+   * Occurs when a link clicked.
+   */
+  _onClickLink() {
+    this.props.context.sampleAction.showURL( this.state.url );
   }
 
   /**

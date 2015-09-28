@@ -3,16 +3,19 @@ import SampleStore  from './store/SampleStore.js';
 import SampleAction from './action/SampleAction.js';
 
 /**
- * アプリケーションを表します。
+ * Application context.
  */
 export default class AppContext extends Context {
   /**
-   * インスタンスを初期化します。
+   * Initialize instance.
    */
   constructor() {
     super();
 
-    this.sampleStore = new SampleStore( this );
+    this.remote = window.require( 'remote' );
+    this.ipc    = window.require( 'ipc' );
+
+    this.sampleStore  = new SampleStore( this );
     this.sampleAction = new SampleAction( this );
   }
 }

@@ -1,6 +1,6 @@
 import { Store } from 'material-flux';
 import { Keys }  from '../action/SampleAction.js';
-import Util      from '../../util/Util.js';
+import Util      from '../../common/Util.js';
 
 /**
  * Sample store.
@@ -19,6 +19,7 @@ export default class SampleStore extends Store {
     };
 
     this.register( Keys.updateDatetime, this._actionUpdateDatetime );
+    this.register( Keys.showURL,       this._actionShowURL        );
   }
 
   /**
@@ -35,5 +36,14 @@ export default class SampleStore extends Store {
    */
   _actionUpdateDatetime() {
     this.setState( { dateTime: Util.formatDate() } );
+  }
+
+  /**
+   * Show a URL in an external web browser.
+   *
+   * @param {String} url URL.
+   */
+  _actionShowURL( url ) {
+    this.context.ipc.send( 'showURL', url );
   }
 }

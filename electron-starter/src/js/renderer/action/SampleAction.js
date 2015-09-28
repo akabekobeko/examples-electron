@@ -5,7 +5,8 @@ import { Action } from 'material-flux';
  * @type {Object}
  */
 export const Keys = {
-  updateDatetime:   'SampleAction.updateDatetime'
+  updateDatetime: 'SampleAction.updateDatetime',
+  showURL:        'SampleAction.showURL'
 };
 
 /**
@@ -17,5 +18,14 @@ export default class SampleAction extends Action {
    */
   updateDatetime() {
     this.dispatch( Keys.updateDatetime );
+  }
+
+  /**
+   * Show a URL in an external web browser.
+   *
+   * @param {String} url URL.
+   */
+  showURL( url ) {
+    this.dispatch( Keys.showURL, url );
   }
 }

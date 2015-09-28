@@ -1,15 +1,15 @@
 import App from 'app';
 
 /**
- * アプリケーションのメイン メニューです。
+ * Main menu.
  */
 export default class MainMenu {
   /**
-   * メニューを取得します。
+   * Create menu.
    *
-   * @param {BrowserWindow} appWindow アプリケーションのメイン ウィンドウ。
+   * @param {BrowserWindow} appWindow Main window.
    *
-   * @return {Array.<Object>} メニュー情報コレクション。
+   * @return {Array.<Object>} Menu.
    */
   static menu( appWindow ) {
     switch( process.platform ) {
@@ -22,11 +22,11 @@ export default class MainMenu {
   }
 
   /**
-   * メニューを取得します。
+   * Create menu for OS X.
    *
-   * @param {BrowserWindow} appWindow アプリケーションのメイン ウィンドウ。
+   * @param {BrowserWindow} appWindow Main window.
    *
-   * @return {Array.<Object>} メニュー情報コレクション。
+   * @return {Array.<Object>} Menu.
    */
   static _menuOSX( appWindow ) {
     return [
@@ -43,14 +43,8 @@ export default class MainMenu {
         ]
       },
       {
-        label: 'View',
+        label: 'Debug',
         submenu: [
-          {
-            label: 'Test',
-            click() {
-              SuperAgent.get( 'main.js' );
-            }
-          },
           {
             label: 'Reload',
             accelerator: 'Command+R',
@@ -71,11 +65,11 @@ export default class MainMenu {
   }
 
   /**
-   * メニューを取得します。
+   * Create menu for default platform.
    *
-   * @param {BrowserWindow} appWindow アプリケーションのメイン ウィンドウ。
+   * @param {BrowserWindow} appWindow Main window.
    *
-   * @return {Array.<Object>} メニュー情報コレクション。
+   * @return {Array.<Object>} Menu.
    */
   static _menuDefault( appWindow ) {
     return [
@@ -92,7 +86,7 @@ export default class MainMenu {
         ]
       },
       {
-        label: 'View',
+        label: 'Debug',
         submenu: [
           {
             label: 'Reload',
