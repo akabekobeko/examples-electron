@@ -48,9 +48,7 @@ class Main {
    * Occurs when a window all closed.
    */
   onWindowAllClosed() {
-    Util.log( 'Launched' );
-
-    console.info( 'Quit: ' + Util.formatDate() );
+    Util.log( 'Quit' );
     App.quit();
   }
 }
