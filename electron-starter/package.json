@@ -25,14 +25,17 @@
     "watch:css": "stylus -c -w ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-root ./stylus",
     "watch:js-main": "watchify -v -t babelify ./src/js/main/Main.js --im --no-detect-globals -o \"exorcist ./src/main.js.map > ./src/main.js\" -d",
     "watch:js-renderer": "watchify -v -t babelify ./src/js/renderer/App.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d",
-    "watch": "npm-run-all -p watch:js-main watch:js-renderer watch:css",
+    "watch:server": "node-inspector",
+    "watch": "npm-run-all -p watch:js-main watch:js-renderer watch:css watch:server",
     "release:css": "stylus -c ./src/stylus/App.styl -o ./dist/src/bundle.css",
     "release:js-main": "browserify -t babelify ./src/js/main/Main.js --im --no-detect-globals | uglifyjs > ./dist/src/main.js",
     "release:js-renderer": "browserify -t babelify ./src/js/renderer/App.js | uglifyjs > ./dist/src/bundle.js",
     "release:clean": "rimraf ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
-    "release:package": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=all --arch=x64 --version=0.33.3 --overwrite",
-    "release": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer -s release:package"
+    "release:pack-osx": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=0.33.3 --icon=res/app.icns --overwrite --asar",
+    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=0.33.3 --overwrite --asar",
+    "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=0.33.3 --overwrite --asar",
+    "release": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer -s release:pack-osx release:pack-win release:pack-linux"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
@@ -45,6 +48,7 @@
     "exorcist": "^0.4.0",
     "mocha": "^2.3.3",
     "ncp": "^2.0.0",
+    "node-inspector": "^0.12.3",
     "npm-run-all": "^1.2.11",
     "power-assert": "^1.0.1",
     "rimraf": "^2.4.3",
