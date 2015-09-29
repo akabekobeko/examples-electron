@@ -1,5 +1,5 @@
 import Assert from 'power-assert';
-import Util   from '../src/js/util/Util.js';
+import Util   from '../src/js/common/Util.js';
 
 /** @test {Util} */
 describe( 'Util', () => {
