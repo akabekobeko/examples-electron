@@ -14,6 +14,10 @@ export default class MainWindow extends React.Component {
 
     this.__onChange = this._onChange.bind( this );
 
+    /**
+     * State of component.
+     * @type {Object}
+     */
     this.state = {
       url: 'https://github.com/akabekobeko/examples-electron'
     };

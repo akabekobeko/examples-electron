@@ -14,6 +14,10 @@ export default class SampleStore extends Store {
   constructor( context ) {
     super( context );
 
+    /**
+     * State of store.
+     * @type {Object}
+     */
     this.state = {
       dateTime: Util.formatDate()
     };

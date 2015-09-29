@@ -12,10 +12,28 @@ export default class AppContext extends Context {
   constructor() {
     super();
 
+    /**
+     * Object for using modules main process from the renderer.
+     * @type {Object}
+     */
     this.remote = window.require( 'remote' );
-    this.ipc    = window.require( 'ipc' );
 
-    this.sampleStore  = new SampleStore( this );
+    /**
+     * Object for using inter-process communication.
+     * @type {Object}
+     */
+    this.ipc = window.require( 'ipc' );
+
+    /**
+     * Sample store.
+     * @type {SampleStore}
+     */
+    this.sampleStore = new SampleStore( this );
+
+    /**
+     * Sample actions.
+     * @type {SampleAction}
+     */
     this.sampleAction = new SampleAction( this );
   }
 }
