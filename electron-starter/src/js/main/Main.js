@@ -17,13 +17,16 @@ class Main {
   constructor() {
     this._mainWindow  = null;
     this._rendererIPC = null;
+
+    // Compile switch
+    global.DEBUG = true;
   }
 
   /**
    * Occurs when a application launched.
    */
   onReady() {
-    Util.log( 'Launched' );
+    if( DEBUG ) { Util.log( 'Launched' ); }
 
     this._rendererIPC = new RendererIPC();
 
@@ -48,7 +51,8 @@ class Main {
    * Occurs when a window all closed.
    */
   onWindowAllClosed() {
-    Util.log( 'Quit' );
+    if( DEBUG ) { Util.log( 'Quit' ); }
+
     App.quit();
   }
 }

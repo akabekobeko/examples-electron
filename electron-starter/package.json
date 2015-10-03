@@ -28,14 +28,17 @@
     "watch:server": "node-inspector",
     "watch": "npm-run-all -p watch:js-main watch:js-renderer watch:css watch:server",
     "release:css": "stylus -c ./src/stylus/App.styl -o ./dist/src/bundle.css",
-    "release:js-main": "browserify -t babelify ./src/js/main/Main.js --im --no-detect-globals | uglifyjs > ./dist/src/main.js",
-    "release:js-renderer": "browserify -t babelify ./src/js/renderer/App.js | uglifyjs > ./dist/src/bundle.js",
+    "release:js-main": "browserify -t babelify ./src/js/main/Main.js --im --no-detect-globals | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/main.js",
+    "release:js-renderer": "browserify -t babelify ./src/js/renderer/App.js | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/bundle.js",
     "release:clean": "rimraf ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
+    "release:build": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer",
     "release:pack-osx": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=0.33.3 --icon=res/app.icns --overwrite --asar",
-    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=0.33.3 --overwrite --asar",
+    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=0.33.3 --icon=res/app.ico --overwrite --asar",
     "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=0.33.3 --overwrite --asar",
-    "release": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer -s release:pack-osx release:pack-win release:pack-linux"
+    "release:osx": "npm-run-all -s release:build release:pack-osx",
+    "release:win": "npm-run-all -s release:build release:pack-win",
+    "release:linux": "npm-run-all -s release:build release:pack-linux"
   },
   "devDependencies": {
     "babelify": "^6.3.0",

@@ -52,13 +52,29 @@ Run the code document generation by [esdoc](https://www.npmjs.com/package/esdoc)
 npm run esdoc
 ```
 
-### Release build
+## Release build
 
 Build the app for production.
+Please build individually because there is a platform-specific processing.
 
 ```bash
-npm run release
+npm run release:osx
+npm run release:win
+npm run release:linux
 ```
+
+or
+
+```bash
+npm run release:build
+npm run release:pack-osx
+npm run release:pack-win
+npm run release:pack-linux
+```
+
+* It is an error when you run the `release:win` or `release:pack-win` in the OS X environment.
+* It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
+
 
 ## License
 

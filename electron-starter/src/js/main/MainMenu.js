@@ -29,7 +29,7 @@ export default class MainMenu {
    * @return {Array.<Object>} Menu.
    */
   static _menuOSX( appWindow ) {
-    return [
+    const menu = [
       {
         label: 'App',
         submenu: [
@@ -41,8 +41,11 @@ export default class MainMenu {
             }
           }
         ]
-      },
-      {
+      }
+    ];
+
+    if( DEBUG ) {
+      menu.push( {
         label: 'Debug',
         submenu: [
           {
@@ -60,8 +63,10 @@ export default class MainMenu {
             }
           }
         ]
-      }
-    ];
+      } );
+    }
+
+    return menu;
   }
 
   /**
@@ -72,7 +77,7 @@ export default class MainMenu {
    * @return {Array.<Object>} Menu.
    */
   static _menuDefault( appWindow ) {
-    return [
+    const menu = [
       {
         label: 'App',
         submenu: [
@@ -84,8 +89,11 @@ export default class MainMenu {
             }
           }
         ]
-      },
-      {
+      }
+    ];
+
+    if( DEBUG ) {
+      menu.push( {
         label: 'Debug',
         submenu: [
           {
@@ -103,7 +111,9 @@ export default class MainMenu {
             }
           }
         ]
-      }
-    ];
+      } );
+    }
+
+    return menu;
   }
 }

@@ -1,4 +1,5 @@
 import { Context }  from 'material-flux';
+import Util         from '../common/Util.js';
 import SampleStore  from './store/SampleStore.js';
 import SampleAction from './action/SampleAction.js';
 
@@ -11,6 +12,10 @@ export default class AppContext extends Context {
    */
   constructor() {
     super();
+
+    if( DEBUG ) {
+      Util.log( 'Initialize AppContext' );
+    }
 
     /**
      * Object for using modules main process from the renderer.
