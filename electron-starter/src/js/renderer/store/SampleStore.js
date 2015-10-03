@@ -1,6 +1,7 @@
-import { Store } from 'material-flux';
-import { Keys }  from '../action/SampleAction.js';
-import Util      from '../../common/Util.js';
+import { Store }   from 'material-flux';
+import { Keys }    from '../action/SampleAction.js';
+import { IPCKeys } from '../../common/Constants.js';
+import Util        from '../../common/Util.js';
 
 /**
  * Sample store.
@@ -48,6 +49,6 @@ export default class SampleStore extends Store {
    * @param {String} url URL.
    */
   _actionShowURL( url ) {
-    this.context.ipc.send( 'showURL', url );
+    this.context.ipc.send( IPCKeys.ShowURL, url );
   }
 }
