@@ -75,6 +75,17 @@ npm run release:pack-linux
 * It is an error when you run the `release:win` or `release:pack-win` in the OS X environment.
 * It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
 
+## DEBUG variable
+
+It is available `DEBUG` variable for debugging dedicated processing.
+
+```js
+if( DEBUG ) {
+  // Debug only...
+}
+```
+
+This process will be removed in a release version.
 
 ## License
 
