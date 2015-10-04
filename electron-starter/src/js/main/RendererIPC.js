@@ -1,5 +1,6 @@
-import IPC   from 'ipc';
-import Shell from 'shell';
+import IPC         from 'ipc';
+import Shell       from 'shell';
+import { IPCKeys } from '../common/Constants.js';
 
 /**
  * Communicates for renderer process by the IPC.
@@ -9,7 +10,7 @@ export default class RendererIPC {
    * Initialize instance.
    */
   constructor() {
-    IPC.on( 'showURL', this._onShowURL.bind( this ) );
+    IPC.on( IPCKeys.ShowURL, this._onShowURL.bind( this ) );
   }
 
   /**

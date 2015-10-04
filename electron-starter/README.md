@@ -13,16 +13,16 @@ This is a starter kit of the [Electron](http://electron.atom.io/) application de
 ### Watch
 
 Run the watch files, background complie JavaScript/CSS.
-This process is common to Browser and Renderer.
 
 ```bash
 npm start
 ```
 
-If you want to operate with Windows will fix the **watch:js-renderer** of npm-scripts as follows.
+If you want to operate with Windows will fix the **watch:js-main** and **watch:js-renderer** of npm-scripts as follows.
 
 ```js
 {
+  "watch:js-main": "watchify -v -t babelify ./src/js/main/Main.js --im --no-detect-globals -o ./src/main.js -d",
   "watch:js-renderer": "watchify -v -t babelify ./src/js/renderer/App.js -o ./src/bundle.js -d"
 }
 ```
@@ -52,13 +52,40 @@ Run the code document generation by [esdoc](https://www.npmjs.com/package/esdoc)
 npm run esdoc
 ```
 
-### Release build
+## Release build
 
 Build the app for production.
+Please build individually because there is a platform-specific processing.
 
 ```bash
-npm run release
+npm run release:osx
+npm run release:win
+npm run release:linux
 ```
+
+or
+
+```bash
+npm run release:build
+npm run release:pack-osx
+npm run release:pack-win
+npm run release:pack-linux
+```
+
+* It is an error when you run the `release:win` or `release:pack-win` in the OS X environment.
+* It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
+
+## DEBUG variable
+
+It is available `DEBUG` variable for debugging dedicated processing.
+
+```js
+if( DEBUG ) {
+  // Debug only...
+}
+```
+
+This process will be removed in a release version.
 
 ## License
 
