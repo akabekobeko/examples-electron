@@ -38,7 +38,8 @@
     "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=0.33.4 --overwrite --asar",
     "release:osx": "npm-run-all -s release:build release:pack-osx",
     "release:win": "npm-run-all -s release:build release:pack-win",
-    "release:linux": "npm-run-all -s release:build release:pack-linux"
+    "release:linux": "npm-run-all -s release:build release:pack-linux",
+    "release": "npm-run-all -s release:build release:pack-osx release:pack-win release:pack-linux"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
