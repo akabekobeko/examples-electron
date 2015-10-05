@@ -72,8 +72,29 @@ npm run release:pack-win
 npm run release:pack-linux
 ```
 
-* It is an error when you run the `release:win` or `release:pack-win` in the OS X environment.
 * It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
+
+### Package for Windows in OS X
+
+How to build a package for Windows in OS X. Introduction you will install the [WineHQ](https://www.winehq.org/). It is recommended that you use the [Homebrew](http://brew.sh/).
+
+```bash
+brew install wine
+```
+
+Then run the following command. If it is correct environment you should succeed to build the package for Windows.
+
+```bash
+npm run release:win
+```
+
+or
+
+```bash
+npm run release
+```
+
+`release` is a package for all platforms.
 
 ## DEBUG variable
 
