@@ -1,0 +1,103 @@
+@font-face {
+  font-family "icon"
+  src:url("fonts/icon.eot?x0xp39")
+  src:url("fonts/icon.eot?#iefixx0xp39") format("embedded-opentype"),
+    url("fonts/icon.ttf?x0xp39") format("truetype"),
+    url("fonts/icon.woff?x0xp39") format("woff"),
+    url("fonts/icon.svg?x0xp39#icon") format("svg")
+  font-weight normal
+  font-style normal
+}
+
+icon_down = "\e600"
+icon_left = "\e601"
+icon_right = "\e602"
+icon_up = "\e603"
+icon_home = "\e604"
+icon_edit = "\e605"
+icon_category = "\e606"
+icon_tag = "\e607"
+icon_clock = "\e608"
+icon_comment = "\e609"
+icon_config = "\e60a"
+icon_web = "\e60b"
+icon_link = "\e60e"
+icon_bookmark = "\e60f"
+icon_twitter = "\e60d"
+icon_feed = "\e610"
+icon_github = "\e60c"
+
+icon_style() {
+  font-family "icon"
+  speak none
+  font-style normal
+  font-weight normal
+  font-variant normal
+  text-transform none
+  line-height 1
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+}
+
+icon( content ) {
+  icon_style()
+  content content
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  icon_style()
+}
+
+.icon-down:before {
+  content icon_down
+}
+.icon-left:before {
+  content icon_left
+}
+.icon-right:before {
+  content icon_right
+}
+.icon-up:before {
+  content icon_up
+}
+.icon-home:before {
+  content icon_home
+}
+.icon-edit:before {
+  content icon_edit
+}
+.icon-category:before {
+  content icon_category
+}
+.icon-tag:before {
+  content icon_tag
+}
+.icon-clock:before {
+  content icon_clock
+}
+.icon-comment:before {
+  content icon_comment
+}
+.icon-config:before {
+  content icon_config
+}
+.icon-web:before {
+  content icon_web
+}
+.icon-link:before {
+  content icon_link
+}
+.icon-bookmark:before {
+  content icon_bookmark
+}
+.icon-twitter:before {
+  content icon_twitter
+}
+.icon-feed:before {
+  content icon_feed
+}
+.icon-github:before {
+  content icon_github
+}
