@@ -1,7 +1,7 @@
 {
   "name": "electron-starter",
-  "description": "Electron starter kit.",
-  "version": "1.0.2",
+  "description": "Electron Starter Kit.",
+  "version": "1.0.3",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",
@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "material-flux": "^1.2.3",
-    "react": "^0.13.3"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   }
 }

@@ -1,15 +1,15 @@
 
 /**
- * ユーテリティ メソッドを提供します。
+ * Provide a utility method.
  */
 export default class Util {
   /**
-   * 日時データを指定された書式に基いて文字列化します。
+   * Converts the value of the Date object to its equivalent string representation using the specified format.
    *
-   * @param {Date}   date   日時データ。省略時は最新の日時。
-   * @param {String} format 書式指定。省略時は "YYYY-MM-DD hh:mm:ss.SSS"。
+   * @param {Date}   date   Date and time. Default is current date and time.
+   * @param {String} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
    *
-   * @return {String} 文字列。
+   * @return {String} Formatted string.
    *
    * @see http://qiita.com/osakanafish/items/c64fe8a34e7221e811d0
    */
@@ -17,6 +17,7 @@ export default class Util {
     date   = ( date   === undefined ? new Date()                : date   );
     format = ( format === undefined ? 'YYYY-MM-DD hh:mm:ss.SSS' : format );
 
+    // Zero padding
     format = format.replace( /YYYY/g, date.getFullYear() );
     format = format.replace( /MM/g,   ( '0' + ( date.getMonth() + 1 ) ).slice( -2 ) );
     format = format.replace( /DD/g,   ( '0' +          date.getDate() ).slice( -2 ) );
@@ -24,7 +25,7 @@ export default class Util {
     format = format.replace( /mm/g,   ( '0' +       date.getMinutes() ).slice( -2 ) );
     format = format.replace( /ss/g,   ( '0' +       date.getSeconds() ).slice( -2 ) );
 
-    // ゼロ詰め置換を経ても残っているなら、そのまま数値化
+    // Single digit
     format = format.replace( /M/g, date.getMonth() + 1 );
     format = format.replace( /D/g, date.getDate() );
     format = format.replace( /h/g, date.getHours() );
