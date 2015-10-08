@@ -1,4 +1,5 @@
-import React from 'react/dist/react';
+import React    from 'react/dist/react';
+import ReactDOM from 'react-dom/dist/react-dom';
 
 /**
  * Component for application main window.
@@ -86,6 +87,6 @@ export default class MainWindow extends React.Component {
     const area = document.querySelector( '.app' );
     if( !( area ) ) { return; }
 
-    React.render( <MainWindow context={ context } />, area );
+    ReactDOM.render( <MainWindow context={ context } />, area );
   }
 }
