@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "material-flux": "^1.2.3",
+    "musicmetadata": "^2.0.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   }
