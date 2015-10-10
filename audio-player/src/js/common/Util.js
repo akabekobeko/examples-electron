@@ -50,4 +50,13 @@ export default class Util {
   static log( message ) {
     console.log( '[' + Util.formatDate() + ']', message );
   }
+
+  /**
+   * Output console error with datetime.
+   *
+   * @param {String} message Message.
+   */
+  static error( message ) {
+    console.error( '[' + Util.formatDate() + ']', message );
+  }
 }
