@@ -1,7 +1,7 @@
-import { Context }  from 'material-flux';
-import Util         from '../common/Util.js';
-import SampleStore  from './store/SampleStore.js';
-import SampleAction from './action/SampleAction.js';
+import { Context }       from 'material-flux';
+import Util              from '../common/Util.js';
+import AudioPlayerStore  from './store/AudioPlayerStore.js';
+import AudioPlayerAction from './action/AudioPlayerAction.js';
 
 /**
  * Application context.
@@ -30,15 +30,15 @@ export default class AppContext extends Context {
     this.ipc = window.require( 'ipc' );
 
     /**
-     * Sample store.
-     * @type {SampleStore}
+     * Audio player store.
+     * @type {AudioPlayerStore}
      */
-    this.sampleStore = new SampleStore( this );
+    this.audioPlayerStore = new AudioPlayerStore( this );
 
     /**
-     * Sample actions.
-     * @type {SampleAction}
+     * Audio player actions.
+     * @type {AudioPlayerAction}
      */
-    this.sampleAction = new SampleAction( this );
+    this.audioPlayerAction = new AudioPlayerAction( this );
   }
 }
