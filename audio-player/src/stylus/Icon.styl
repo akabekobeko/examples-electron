@@ -1,31 +1,13 @@
 @font-face {
   font-family "icon"
-  src:url("fonts/icon.eot?x0xp39")
-  src:url("fonts/icon.eot?#iefixx0xp39") format("embedded-opentype"),
-    url("fonts/icon.ttf?x0xp39") format("truetype"),
-    url("fonts/icon.woff?x0xp39") format("woff"),
-    url("fonts/icon.svg?x0xp39#icon") format("svg")
+  src:url("fonts/icon.eot?lct42d")
+  src:url("fonts/icon.eot?lct42d#iefix") format("embedded-opentype"),
+    url("fonts/icon.ttf?lct42d") format("truetype"),
+    url("fonts/icon.woff?lct42d") format("woff"),
+    url("fonts/icon.svg?lct42d#icon") format("svg")
   font-weight normal
   font-style normal
 }
-
-icon_down = "\e600"
-icon_left = "\e601"
-icon_right = "\e602"
-icon_up = "\e603"
-icon_home = "\e604"
-icon_edit = "\e605"
-icon_category = "\e606"
-icon_tag = "\e607"
-icon_clock = "\e608"
-icon_comment = "\e609"
-icon_config = "\e60a"
-icon_web = "\e60b"
-icon_link = "\e60e"
-icon_bookmark = "\e60f"
-icon_twitter = "\e60d"
-icon_feed = "\e610"
-icon_github = "\e60c"
 
 icon_style() {
   font-family "icon"
@@ -36,67 +18,80 @@ icon_style() {
   text-transform none
   line-height 1
 
-  /* Better Font Rendering =========== */
+  // Better Font Rendering
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-}
-
-icon( content ) {
-  icon_style()
-  content content
 }
 
 [class^="icon-"], [class*=" icon-"] {
   icon_style()
 }
 
-.icon-down:before {
-  content icon_down
+icon_rew = "\e800"
+icon_warning = "\e801"
+icon_ff = "\e802"
+icon_prev = "\e803"
+icon_next = "\e804"
+icon_pause = "\e805"
+icon_play = "\e806"
+icon_stop = "\e807"
+icon_mute = "\e808"
+icon_volume = "\e809"
+icon_cross = "\e80a"
+icon_minus = "\e80b"
+icon_plus = "\e80c"
+icon_config = "\e80d"
+icon_help = "\e80e"
+icon_info = "\e80f"
+icon_github = "\e810"
+
+.icon-rew:before {
+  content icon_rew
 }
-.icon-left:before {
-  content icon_left
+.icon-warning:before {
+  content icon_warning
 }
-.icon-right:before {
-  content icon_right
+.icon-ff:before {
+  content icon_ff
 }
-.icon-up:before {
-  content icon_up
+.icon-prev:before {
+  content icon_prev
 }
-.icon-home:before {
-  content icon_home
+.icon-next:before {
+  content icon_next
 }
-.icon-edit:before {
-  content icon_edit
+.icon-pause:before {
+  content icon_pause
 }
-.icon-category:before {
-  content icon_category
+.icon-play:before {
+  content icon_play
 }
-.icon-tag:before {
-  content icon_tag
+.icon-stop:before {
+  content icon_stop
 }
-.icon-clock:before {
-  content icon_clock
+.icon-mute:before {
+  content icon_mute
 }
-.icon-comment:before {
-  content icon_comment
+.icon-volume:before {
+  content icon_volume
+}
+.icon-cross:before {
+  content icon_cross
+}
+.icon-minus:before {
+  content icon_minus
+}
+.icon-plus:before {
+  content icon_plus
 }
 .icon-config:before {
   content icon_config
 }
-.icon-web:before {
-  content icon_web
+.icon-help:before {
+  content icon_help
 }
-.icon-link:before {
-  content icon_link
-}
-.icon-bookmark:before {
-  content icon_bookmark
-}
-.icon-twitter:before {
-  content icon_twitter
-}
-.icon-feed:before {
-  content icon_feed
+.icon-info:before {
+  content icon_info
 }
 .icon-github:before {
   content icon_github
