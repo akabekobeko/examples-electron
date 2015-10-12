@@ -61,24 +61,22 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * 現在選択されている曲を取得します。
+   * Get the currently music.
    *
-   * @return {Music} 曲情報。何も選択されていない場合は null。
+   * @return {Music} music.
    */
   get current() {
     return this.state.current;
   }
 
   /**
-   * 次の曲を取得します。
+   * get the next music of the specified music.
+   * Specified music it will return null if at the last of list.
    *
-   * music が未指定の場合、曲リストで選択されているものの前の曲を取得します。
-   * 指定された曲、または選択されている曲がリストの末尾だった場合は null を返します。
+   * @param {Music}   target Target music.
+   * @param {Boolean} prev   True if get in previous of the music. Default is false
    *
-   * @param {Music}   target 基準となる曲。
-   * @param {Boolean} prev   前の曲を得る場合は true。既定は false。
-   *
-   * @return {Music} 成功時は曲情報。それ以外は null。
+   * @return {Music} Success is music. Otherwise null.
    */
   next( target, prev ) {
     const current = ( target ? target : this.state.current );
@@ -99,7 +97,7 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * 音楽リストを初期化します。
+   * Initialize music list.
    */
   _actionInit() {
     this._musicList.init( ( err ) => {
@@ -123,14 +121,13 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * 曲を選択します。
+   * Select the music.
    *
-   * @param {Music} target 選択対象となる曲。
+   * @param {Music} target music.
    */
   _actionSelect( target ) {
     if( this.state.current && target && this.state.current.id === target.id ) { return false; }
 
-    //let err = new Error( 'Failed to select the music, not found.' );
     let newMusic = null;
     this.state.musics.some( ( music ) => {
       if( target.id === music.id ) {
@@ -149,16 +146,16 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * 音声ファイルを追加します。
+   * Add the music.
    */
   _actionAdd() {
     this._openFileDialog.show();
   }
 
   /**
-   * 曲を削除します。
+   * Remove the music.
    *
-   * @param {Number} musicId  削除対象となる曲の識別子。
+   * @param {Number} musicId music identify.
    */
   _actionRemove( musicId ) {
     this._musicList.remove( musicId, ( err ) => {
@@ -179,9 +176,9 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * 追加対象となるファイルが選択された時に発生します。
+   * Occur when the files to be added interest has been selected.
    *
-   * @param {FileList} files ファイル情報コレクション。
+   * @param {FileList} files file list.
    */
   _onSelectFiles( files ) {
     if( !( files && 0 < files.length ) ) { return; }
@@ -195,7 +192,6 @@ export default class MusicListStore extends Store {
       }
     };
 
-    // FileList は Array ではないため forEach を利用できない
     for( let i = 0, max = files.length; i < max; ++i ) {
       this._musicList.add( files[ i ], onAdded );
     }
