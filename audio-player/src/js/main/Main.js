@@ -31,9 +31,11 @@ class Main {
     this._rendererIPC = new RendererIPC();
 
     this._mainWindow = new BrowserWindow( {
-      width: 800,
-      height: 600,
-      resizable: true
+      'width': 800,
+      'min-width': 800,
+      'height': 600,
+      'min-height': 480,
+      'resizable': true
     } );
 
     const filePath = Path.join( __dirname, 'index.html' );
