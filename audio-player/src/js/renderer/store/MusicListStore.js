@@ -1,5 +1,5 @@
 import { Store }     from 'material-flux';
-import { Keys }      from '../actions/MusicListAction.js';
+import { Keys }      from '../action/MusicListAction.js';
 import { IPCKeys }   from '../../common/Constants.js';
 import MusicDatabase from '../model/MusicDatabase.js';
 
@@ -47,7 +47,7 @@ export default class MusicListStore extends Store {
 
     this.register( Keys.init,   this._actionInit   );
     this.register( Keys.select, this._actionSelect );
-    this.register( Keys.add,    this._actionAdd    );
+    this.register( Keys.import, this._actionImport );
     this.register( Keys.remove, this._actionRemove );
   }
 
@@ -146,10 +146,23 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * Add the music.
+   * Import the music from file.
    */
-  _actionAdd() {
-    this._openFileDialog.show();
+  _actionImport() {
+    const dialog = this.context.remote.require( 'dialog' );
+    const options = {
+      title: 'Select music files',
+      filters: [
+        { name: 'Musics', extensions: [ 'mp3', 'm4a', 'aac', 'wav'] }
+      ],
+      properties: [ 'openFile', 'multiSelections' ]
+    };
+
+    dialog.showOpenDialog( options, ( filenames ) => {
+      if( !( filenames ) ) { return; }
+
+      console.log( filenames );
+    } );
   }
 
   /**
