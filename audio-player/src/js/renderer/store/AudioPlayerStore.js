@@ -1,7 +1,7 @@
 import { Store }         from 'material-flux';
 import { Keys }          from '../action/AudioPlayerAction.js';
 import { PlaybackState } from '../../common/Constants.js';
-import { AudioPlayer }   from '../model/AudioPlayer.js';
+import AudioPlayer       from '../model/AudioPlayer.js';
 
 /**
  * Execution interval of call back by the timer at the time of playback ( milliseconds ).
