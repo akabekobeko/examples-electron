@@ -51,7 +51,6 @@ export default class MainIPC {
    * @param  {Function} callback Callback function.
    */
   _readMusicMetadata( filePath, callback ) {
-    // TODO: musicmetadata occurs an exception by ReadStream!!
     const stream = Fs.createReadStream( filePath );
     MusicMetadata( stream, { duration: true }, ( err, metadata ) => {
       if( err ) {
