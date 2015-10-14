@@ -4,7 +4,7 @@ import BrowserWindow from 'browser-window';
 import Menu          from 'menu';
 import Path          from 'path';
 import MainMenu      from './MainMenu.js';
-import RendererIPC   from './RendererIPC.js';
+import MainIPC       from './MainIPC.js';
 import Util          from '../common/Util.js';
 
 /**
@@ -28,7 +28,7 @@ class Main {
   onReady() {
     if( DEBUG ) { Util.log( 'Launched' ); }
 
-    this._rendererIPC = new RendererIPC();
+    this._ipc = new MainIPC();
 
     this._mainWindow = new BrowserWindow( {
       'width': 800,

@@ -97,7 +97,7 @@ export default class MainWindow extends React.Component {
   }
 
   /**
-   * Occurs when the import button is clicked
+   * Occurs when the import button is clicked.
    */
   _onClickAdd() {
     this.props.context.musicListAction.import();

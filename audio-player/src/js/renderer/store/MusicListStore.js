@@ -149,20 +149,7 @@ export default class MusicListStore extends Store {
    * Import the music from file.
    */
   _actionImport() {
-    const dialog = this.context.remote.require( 'dialog' );
-    const options = {
-      title: 'Select music files',
-      filters: [
-        { name: 'Musics', extensions: [ 'mp3', 'm4a', 'aac', 'wav'] }
-      ],
-      properties: [ 'openFile', 'multiSelections' ]
-    };
-
-    dialog.showOpenDialog( options, ( filenames ) => {
-      if( !( filenames ) ) { return; }
-
-      console.log( filenames );
-    } );
+    this.context.ipc.send( IPCKeys.RequestImportMusic );
   }
 
   /**
