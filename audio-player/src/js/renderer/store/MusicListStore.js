@@ -2,6 +2,7 @@ import { Store }     from 'material-flux';
 import { Keys }      from '../action/MusicListAction.js';
 import { IPCKeys }   from '../../common/Constants.js';
 import MusicDatabase from '../model/MusicDatabase.js';
+import Util          from '../../common/Util.js';
 
 /**
  * Manage for music list.
@@ -22,10 +23,11 @@ export default class MusicListStore extends Store {
     this._db = new MusicDatabase();
 
     /**
-     * Audio element.
-     * @type {HTMLAudioElement}
+     * Bound callback function.
+     * @type {Function}
      */
-    this._audioElement = new Audio();
+    this._onProgressImportMusicBind = this._onProgressImportMusic.bind( this );
+    this.context.ipc.addListener( IPCKeys.ProgressImportMusic, this._onProgressImportMusicBind );
 
     /**
      * State of store.
@@ -100,23 +102,13 @@ export default class MusicListStore extends Store {
    * Initialize music list.
    */
   _actionInit() {
-    this._musicList.init( ( err ) => {
+    this._db.init( ( err ) => {
       if( err ) {
-        console.error( err );
-      } else {
-        this._musicList.readAll( ( err2, musics ) => {
-          if( err2 ) {
-            console.error( err2 );
-          } else {
-            const state = { musics: musics };
-            if( 0 < musics.length ) {
-              state.current = musics[ 0 ];
-            }
-
-            this.setState( state );
-          }
-        } );
+        if( DEBUG ) { Util.error( err ); }
+        return;
       }
+
+      this._db.readAll( this._onInitialize.bind( this ) );
     } );
   }
 
@@ -126,22 +118,12 @@ export default class MusicListStore extends Store {
    * @param {Music} target music.
    */
   _actionSelect( target ) {
-    if( this.state.current && target && this.state.current.id === target.id ) { return false; }
-
-    let newMusic = null;
-    this.state.musics.some( ( music ) => {
-      if( target.id === music.id ) {
-        newMusic = music;
-        return true;
+    if( this.state.current ) {
+      if( target.id !== this.state.current.id ) {
+        this.setState( { current: target } );
       }
-
-      return false;
-    } );
-
-    if( newMusic ) {
-      this.setState( { current: newMusic } );
     } else {
-      console.error( 'Failed to select the music, not found.' );
+      this.setState( { current: target } );
     }
   }
 
@@ -158,53 +140,67 @@ export default class MusicListStore extends Store {
    * @param {Number} musicId music identify.
    */
   _actionRemove( musicId ) {
-    this._musicList.remove( musicId, ( err ) => {
+    this._db.remove( musicId, ( err ) => {
       if( err ) {
-        console.error( err );
-      } else {
-        const newMusics = this.state.musics.filter( ( music ) => {
-          return ( music.id !== musicId );
-        } );
-
-        if( newMusics.length !== this.state.musics.length ) {
-          this.setState( { musics: newMusics } );
-        } else {
-          console.error( 'Failed to remove the music, not found.' );
-        }
+        if( DEBUG ) { Util.error( err ); }
+        return;
       }
+
+      const newMusics = this.state.musics.filter( ( music ) => {
+        return ( music.id !== musicId );
+      } );
+
+      if( newMusics.length === this.state.musics.length ) {
+        if( DEBUG ) { Util.error( 'Failed to remove the music, not found.' ); }
+        return;
+      }
+
+      this.setState( { musics: newMusics } );
     } );
   }
 
-  /**
-   * Occur when the files to be added interest has been selected.
-   *
-   * @param {FileList} files file list.
-   */
-  _onSelectFiles( files ) {
-    if( !( files && 0 < files.length ) ) { return; }
-
-    const onAdded = ( err, music ) => {
-      if( err ) {
-        console.error( err );
-      } else {
-        const newMusics = this.state.musics.concat( music );
-        this.setState( { musics: newMusics } );
-      }
-    };
-
-    for( let i = 0, max = files.length; i < max; ++i ) {
-      this._musicList.add( files[ i ], onAdded );
+  _onInitialize( err, musics ) {
+    if( err ) {
+      if( DEBUG ) { Util.error( err ); }
+      return;
     }
+
+    const state = { musics: musics };
+    if( 0 < musics.length ) {
+      state.current = musics[ 0 ];
+    }
+
+    this.setState( state );
   }
 
   /**
-   * Read a music file metadata.
+   * Occurs when a music file of impot has been executed.
    *
-   * @param {File} file File information.
+   * @param {Error}  err     Error information. Success is undefined.
+   * @param {Number} total   The total number of music files.
+   * @param {Number} process Error The number of processing
+   * @param {Object} music   Music metadata.
    */
-  _readMetadata( file ) {
-    if( this._audioElement.canPlayType( file.type ) ) {
-      this._context.ipc.send( IPCKeys.ReadMusicMetadata, file );
+  _onProgressImportMusic( err, total, process, music ) {
+    if( err ) {
+      if( DEBUG ) { Util.error( err ); }
+      return;
     }
+
+    this._db.add( music, this._onAddMusic.bind( this ) );
+  }
+
+  /**
+   * @param {Error}  err   Error information. Success is undefined.
+   * @param {Object} music Music metadata.
+   */
+  _onAddMusic( err, music ) {
+    if( err ) {
+      if( DEBUG ) { Util.error( err ); }
+      return;
+    }
+
+    const newMusics = this.state.musics.concat( music );
+    this.setState( { musics: newMusics } );
   }
 }

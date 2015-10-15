@@ -37,19 +37,13 @@ export default class MusicDatabase {
   }
 
   /**
-   * Add a music file.
+   * Add a music.
    *
-   * @param {File}     file     File information.
+   * @param {Object}   music    Music information.
    * @param {Function} callback Callback function.
    */
-  add( file, callback ) {
-    this._readMetadata( file, ( err, music ) => {
-      if( err ) {
-        return callback( err );
-      }
-
-      this._db.add( music, callback );
-    } );
+  add( music, callback ) {
+    this._db.add( music, callback );
   }
 
   /**

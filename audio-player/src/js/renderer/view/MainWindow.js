@@ -1,6 +1,8 @@
-import React       from 'react/dist/react';
-import ReactDOM    from 'react-dom/dist/react-dom';
+import React       from 'react';
+import ReactDOM    from 'react-dom';
 import AudioPlayer from './AudioPlayer.js';
+import MusicList   from './MusicList.js';
+
 
 /**
  * Component for application main window.
@@ -16,6 +18,13 @@ export default class MainWindow extends React.Component {
   }
 
   /**
+   *
+   */
+  componentDidMount() {
+    this.props.context.musicListAction.init();
+  }
+
+  /**
    * Render for component.
    *
    * @return {ReactElement} Rendering data.
@@ -24,6 +33,7 @@ export default class MainWindow extends React.Component {
     return (
       <div className="page">
         <AudioPlayer context={ this.props.context } />
+        <MusicList context={ this.props.context } />
       </div>
     );
   }

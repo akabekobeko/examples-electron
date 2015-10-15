@@ -1,4 +1,4 @@
-import React from 'react/dist/react';
+import React from 'react';
 
 /**
  * Component for audio player controls.
@@ -64,7 +64,7 @@ export default class MainWindow extends React.Component {
       <div className="audio-player__container__info">
         <div className="audio-player__container__info__container">
           <div className="audio-player__container__info__container__title">Tilte</div>
-          <div className="audio-player__container__info__container__artist-album">Artist - Albumg</div>
+          <div className="audio-player__container__info__container__artist-album">Artist - Album</div>
           <div className="audio-player__container__info__container__time playbacktime">0:00</div>
           <div className="audio-player__container__info__container__time duration">0:00</div>
           <input type="range" className="audio-player__container__info__container__slider"></input>

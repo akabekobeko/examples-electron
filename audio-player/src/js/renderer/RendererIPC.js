@@ -22,25 +22,70 @@ export default class RendererIPC {
      */
     this._ipc = window.require( 'ipc' );
 
+    /**
+     * Event handlers.
+     * @type {Object}
+     */
+    this._listners = {};
+
     // Event handlers
-    this._ipc.on( IPCKeys.FinishImportMusic, this._onFinishImportMusic.bind( this ) );
+    this._ipc.on( IPCKeys.ProgressImportMusic, this._onProgressImportMusic.bind( this ) );
   }
 
   /**
    * This sends an asynchronous message back to the render process.
    * Optionally, there can be one or a series of arguments, arg, which can have any type.
    *
-   * @param  {String}    channel The event name.
-   * @param  {...Object} args    Event arguments ( optional ).
+   * @param {String}    channel The event name.
+   * @param {...Object} args    Event arguments ( optional ).
    */
   send( channel, ...args ) {
     this._ipc.send( channel, args );
   }
 
   /**
-   * Occurs when the import music is finished.
+   * Adds a listener to the end of the listeners array for the specified IPC channel.
+   *
+   * @param {String}   channel  IPC channel. Specify the value defined in IPCKeys.
+   * @param {Function} listener Channel listner.
    */
-  _onFinishImportMusic( music ) {
-    console.log( music );
+  addListener( channel, listener ) {
+    if( this._listners[ channel ] === undefined ) {
+      this._listners[ channel ] = [];
+    }
+
+    this._listners[ channel ].push( listener );
+  }
+
+  /**
+   * Removes a listener from the listener array for the specified IPC channel.
+   *
+   * @param {String}   channel  IPC channel. Specify the value defined in IPCKeys.
+   * @param {Function} listener Channel listner.
+   */
+  removeListener( channel, listener  ) {
+    if( this._listners[ channel ] === undefined ) { return; }
+
+    const listeners = this._listners[ channel ];
+    this._listners[ channel ] = listeners.filter( ( f ) => {
+      return ( f !== listener );
+    } );
+  }
+
+  /**
+   * Occurs when a music file of impot has been executed.
+   *
+   * @param {Error}  err     Error information. Success is undefined.
+   * @param {Number} total   The total number of music files.
+   * @param {Number} process Error The number of processing
+   * @param {Object} music   Music metadata.
+   */
+  _onProgressImportMusic( err, total, process, music ) {
+    const listners = this._listners[ IPCKeys.ProgressImportMusic ];
+    if( !( listners ) ) { return; }
+
+    listners.forEach( ( listner ) => {
+      listner( err, total, process, music );
+    } );
   }
 }

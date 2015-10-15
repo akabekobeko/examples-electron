@@ -32,14 +32,11 @@ export default class MainIPC {
     const filePaths = Dialog.showOpenDialog( options );
     if( !( filePaths ) ) { return; }
 
+    const total   = filePaths.length;
+    let   process = 0;
     filePaths.forEach( ( filePath ) => {
       this._readMusicMetadata( filePath, ( err, music ) => {
-        if( err ) {
-          console.log( err );
-          return;
-        }
-
-        ev.sender.send( IPCKeys.FinishImportMusic, music );
+        ev.sender.send( IPCKeys.ProgressImportMusic, err, total, ++process,  music );
       } );
     } );
   }
