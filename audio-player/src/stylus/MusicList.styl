@@ -1,0 +1,49 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.music-list {
+  position absolute
+  top size_player_height
+  bottom 0
+  width size_full
+  border-collapse collapse
+  border-spacing 0
+
+  thead {
+    position -webkit-sticky
+    position sticky
+  }
+
+  tr {
+    &:nth-child( even ) {
+      background-color color_gray_light
+    }
+
+    &.selected {
+      background-color color_blue_light
+    }
+  }
+
+  th {
+    padding .3em
+    border-right solid 1px color_gray
+    border-bottom solid 1px color_gray
+    font-weight normal
+    font-size .9em
+
+    &:first-child {
+      width 1em
+    }
+  }
+
+  td {
+    padding .2em .5em
+    border-right solid 1px color_gray
+    text-align center
+
+    &.left {
+      text-align left
+    }
+  }
+}
