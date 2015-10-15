@@ -43,6 +43,29 @@ export default class Util {
   }
 
   /**
+   * Convert the seconds to a string.
+   *
+   * @param {Number} seconds Seconds.
+   *
+   * @return {String} Converted string.
+   */
+  static secondsToString( seconds ) {
+    const h = ( seconds / 3600 | 0 );
+    const m = ( ( seconds % 3600 ) / 60 | 0 );
+    const s = ( seconds % 60 );
+
+    function padding( num ) {
+      return ( '0' + num ).slice( -2 );
+    }
+
+    return (
+      0 < h ? h + ':' + padding( m ) + ':' + padding( s ) :
+      0 < m ?                      m + ':' + padding( s ) :
+                                      '0:' + padding( s )
+    );
+  }
+
+  /**
    * Output console log with datetime.
    *
    * @param {String} message Message.
