@@ -50,9 +50,10 @@ export default class Util {
    * @return {String} Converted string.
    */
   static secondsToString( seconds ) {
-    const h = ( seconds / 3600 | 0 );
-    const m = ( ( seconds % 3600 ) / 60 | 0 );
-    const s = ( seconds % 60 );
+    const total = Math.round( seconds );
+    const h     = ( total / 3600 | 0 );
+    const m     = ( ( total % 3600 ) / 60 | 0 );
+    const s     = ( total % 60 );
 
     function padding( num ) {
       return ( '0' + num ).slice( -2 );

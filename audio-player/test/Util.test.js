@@ -26,6 +26,11 @@ describe( 'Util', () => {
 
   /** @test {Util#secondsToString} */
   describe( 'secondsToString', () => {
+    it( '0:00', () => {
+      const str = Util.secondsToString( 0 );
+      assert( str === '0:00' );
+    } )
+
     it( '0:0s', () => {
       const str = Util.secondsToString( 4 );
       assert( str === '0:04' );
