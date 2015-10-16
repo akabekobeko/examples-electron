@@ -38,7 +38,7 @@ export default class AudioPlayerAction extends Action {
    * Pause the currently playback audio.
    */
   pause() {
-    this.dispatch( Keys.play );
+    this.dispatch( Keys.pause );
   }
 
   /**
