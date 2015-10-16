@@ -44,7 +44,7 @@ export default class MusicListStore extends Store {
        * Current music.
        * @type {Music}
        */
-      current: null
+      currentMusic: null
     };
 
     this.register( Keys.init,   this._actionInit   );
@@ -67,8 +67,8 @@ export default class MusicListStore extends Store {
    *
    * @return {Music} music.
    */
-  get current() {
-    return this.state.current;
+  get currentMusic() {
+    return this.state.currentMusic;
   }
 
   /**
@@ -81,7 +81,7 @@ export default class MusicListStore extends Store {
    * @return {Music} Success is music. Otherwise null.
    */
   next( target, prev ) {
-    const current = ( target ? target : this.state.current );
+    const current = ( target ? target : this.state.currentMusic );
     if( !( current ) ) { return null; }
 
     let next = null;
@@ -118,12 +118,12 @@ export default class MusicListStore extends Store {
    * @param {Music} target music.
    */
   _actionSelect( target ) {
-    if( this.state.current ) {
-      if( target.id !== this.state.current.id ) {
-        this.setState( { current: target } );
+    if( this.state.currentMusic ) {
+      if( target.id !== this.state.currentMusic.id ) {
+        this.setState( { currentMusic: target } );
       }
     } else {
-      this.setState( { current: target } );
+      this.setState( { currentMusic: target } );
     }
   }
 
@@ -167,7 +167,7 @@ export default class MusicListStore extends Store {
 
     const state = { musics: musics };
     if( 0 < musics.length ) {
-      state.current = musics[ 0 ];
+      state.currentMusic = musics[ 0 ];
     }
 
     this.setState( state );

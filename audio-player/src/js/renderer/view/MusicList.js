@@ -13,10 +13,15 @@ export default class MusicList extends React.Component {
   constructor( props ) {
     super( props );
 
+    /**
+     * Function to watch the change of Store.
+     * @type {Function}
+     */
     this._onChangeBind = this._onChange.bind( this );
   }
 
   /**
+   * Occurs when the component is mount.
    */
   componentDidMount() {
     this.props.context.audioPlayerStore.onChange( this._onChangeBind );
@@ -24,6 +29,7 @@ export default class MusicList extends React.Component {
   }
 
   /**
+   * Occurs when the component is unmount.
    */
   componentWillUnmount() {
     this.props.context.audioPlayerStore.removeChangeListener( this._onChangeBind );
@@ -61,7 +67,7 @@ export default class MusicList extends React.Component {
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderMusics() {
-    const current = this.props.context.musicListStore.current;
+    const current = this.props.context.musicListStore.currentMusic;
     return this.props.context.musicListStore.musics.map( ( music, index ) => {
       const selected = ( current && music.id === current.id ? 'selected' : '' );
       return (
@@ -82,6 +88,7 @@ export default class MusicList extends React.Component {
   }
 
   /**
+   * Occurs when the Store of the state has been changed.
    */
   _onChange() {
     this.forceUpdate();

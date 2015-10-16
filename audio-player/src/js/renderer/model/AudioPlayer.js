@@ -23,6 +23,12 @@ export default class AudioPlayer {
     } )();
 
     /**
+     * Audio element.
+     * @type {Audio}
+     */
+    this._audio = null;
+
+    /**
      * Node for audio source。
      * @type {MediaElementAudioSourceNode}
      */
@@ -49,25 +55,6 @@ export default class AudioPlayer {
      * @type {Boolean}
      */
     this._isPlaying = false;
-
-    /**
-     * Audio data duration.
-     * @type {Number}
-     */
-    this._duration = 0;
-
-    /**
-     * Playback time.
-     * @type {Number}
-     */
-    this._playbackTime = 0;
-
-    /**
-     * Save the time that you start playback for pause.
-     * Position it is calculated in "Now - Start" to restore the playback.
-     * @type {Number}
-     */
-    this._startTimestamp = 0;
   }
 
   /**
@@ -76,7 +63,7 @@ export default class AudioPlayer {
    * @return {Number} duration.
    */
   get duration() {
-    return this._duration;
+    return ( this._audio ? this._audio.duration : 0 );
   }
 
   /**
@@ -84,8 +71,8 @@ export default class AudioPlayer {
    *
    * @return {Number} playback time ( milliseconds ).
    */
-  get playbackTime() {
-    return this._playbackTime;
+  get currentTime() {
+    return ( this._audio ? this._audio.currentTime : 0 );
   }
 
   /**
@@ -93,21 +80,15 @@ export default class AudioPlayer {
    *
    * @param {Number} playback time ( milliseconds ).
    */
-  set playbackTime( value ) {
-    if( value === undefined ) { return; }
+  set currentTime( value ) {
+    if( value === undefined || !( this._audio ) ) { return; }
 
-    const playbacktime = Number( value );
-    if( playbacktime < 0 || this.duration < playbacktime ) {
+    const currentTime = Number( value );
+    if( currentTime < 0 || this.duration < currentTime ) {
       return;
     }
 
-    if( this._isPlaying ) {
-      this.pause();
-      this._playbackTime = playbacktime;
-      this.play();
-    } else {
-      this._playbackTime = playbacktime;
-    }
+    this._audio.currentTime = currentTime;
   }
 
   /**
@@ -150,9 +131,8 @@ export default class AudioPlayer {
   close() {
     this.stop();
 
-    this._playbackTime   = 0;
-    this._startTimestamp = 0;
-    this._sourceNode     = null;
+    this._audio      = null;
+    this._sourceNode = null;
   }
 
   /**
@@ -164,11 +144,9 @@ export default class AudioPlayer {
   open( filePath, callback ) {
     this.close();
 
-    const audio = new Audio( filePath );
-    audio.addEventListener( 'loadstart', () => {
-      this._duration = Math.round( audio.duration );
-
-      this._source = this._context.createMediaElementSource( audio );
+    this._audio = new Audio( filePath );
+    this._audio.addEventListener( 'loadstart', () => {
+      this._sourceNode = this._context.createMediaElementSource( this._audio );
       this._sourceNode.connect( this._analyserNode );
       callback();
     } );
@@ -178,22 +156,20 @@ export default class AudioPlayer {
    * Play the audio.
    */
   play() {
-    if( !( this._sourceNode ) || this._isPlaying ) { return; }
+    if( !( this._audio ) || this._isPlaying ) { return; }
 
-    this._sourceNode.start( 0, this._playbackTime );
-    this._startTimestamp = Date.now();
-    this._isPlaying      = true;
+    this._audio.play();
+    this._isPlaying = true;
   }
 
   /**
    * Pause the currently playback audio.
    */
   pause() {
-    if( !( this._sourceNode && this._isPlaying ) ) { return; }
+    if( !( this._audio && this._isPlaying ) ) { return; }
 
-    this._sourceNode.stop();
-    this._playbackTime = ( Math.round( ( Date.now() - this._startTimestamp ) / 1000 ) + this._playbackTime );
-    this._isPlaying    = false;
+    this._audio.pause();
+    this._isPlaying = false;
   }
 
   /**
@@ -202,9 +178,8 @@ export default class AudioPlayer {
   stop() {
     if( !( this._sourceNode && this._isPlaying ) ) { return; }
 
-    this._sourceNode.stop();
-    this._startTimestamp = 0;
-    this._playbackTime   = 0;
-    this._isPlaying      = false;
+    this._audio.pause();
+    this._audio.currentTime = 0;
+    this._isPlaying = false;
   }
 }

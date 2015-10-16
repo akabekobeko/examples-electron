@@ -1,6 +1,7 @@
 import { Store }         from 'material-flux';
 import { Keys }          from '../action/AudioPlayerAction.js';
 import { PlaybackState } from '../../common/Constants.js';
+import Util              from '../../common/Util.js';
 import AudioPlayer       from '../model/AudioPlayer.js';
 
 /**
@@ -31,7 +32,7 @@ export default class AudioPlayerStore extends Store {
      * Timer identifier that will be called at one-second intervals during playback.
      * @type {Number}
      */
-    this._playbackTImerIntervalId = null;
+    this._playbackTimerIntervalId = null;
 
     /**
      * State of store.
@@ -83,8 +84,8 @@ export default class AudioPlayerStore extends Store {
    *
    * @return {Number} playback time ( milliseconds ).
    */
-  get playbacktime() {
-    return this._audioPlayer.playbacktime;
+  get currentTime() {
+    return this._audioPlayer.currentTime;
   }
 
   /**
@@ -116,7 +117,8 @@ export default class AudioPlayerStore extends Store {
 
     this._audioPlayer.open( music.path, ( err ) => {
       if( err ) {
-        console.error( err );
+        if( DEBUG ) { Util.error( err ); }
+
         this.setState( { currentMusic: null, playbackState: PlaybackState.Stopped } );
         return;
       }
@@ -125,7 +127,7 @@ export default class AudioPlayerStore extends Store {
       if( withPlay ) {
         this._audioPlayer.play();
         this._startTimer();
-        state.playState = PlaybackState.Playing;
+        state.playbackState = PlaybackState.Playing;
       }
 
       this.setState( state );
@@ -172,7 +174,7 @@ export default class AudioPlayerStore extends Store {
    */
   _actionSeek( position ) {
     if( this.state.currentMusic ) {
-      this._audioPlayer.playbackTime = position;
+      this._audioPlayer.currentTime = position;
       this.setState();
     }
   }
@@ -191,12 +193,13 @@ export default class AudioPlayerStore extends Store {
    * Start the timer.
    */
   _startTimer() {
-    this._playbackTImerIntervalId = setInterval( () => {
-      if( this._audioPlayer.duration <= this._audioPlayer.playbacktime ) {
+    this._playbackTimerIntervalId = setInterval( () => {
+      if( this._audioPlayer.duration <= this._audioPlayer.currentTime ) {
         this._actionStop();
 
-        const nextMusic = this.context.musicList.next( this.state.currentMusic );
+        const nextMusic = this.context.musicListStore.next( this.state.currentMusic );
         if( nextMusic ) {
+          this.context.musicListAction.select( nextMusic );
           this._actionOpen( nextMusic, true );
         }
       }
@@ -209,6 +212,7 @@ export default class AudioPlayerStore extends Store {
    * Stop the timer.
    */
   _stopTimer() {
-    clearInterval( this._playbackTImerIntervalId );
+    clearInterval( this._playbackTimerIntervalId );
+    this._playbackTimerIntervalId = null;
   }
 }
