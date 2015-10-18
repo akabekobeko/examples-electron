@@ -243,6 +243,15 @@ export default class MainWindow extends React.Component {
    * Occurs when the remove music button is clicked.
    */
   _onClickRemoveButton() {
+    const music = this.props.context.musicListStore.currentMusic;
+    if( !( music ) ) { return; }
+
+    if( this.props.context.audioPlayerStore.playbackState !== PlaybackState.Stopped ) {
+      const playMusic = this.props.context.audioPlayerStore.currentMusic;
+      if( playMusic && playMusic.id === music.id ) { return; }
+    }
+
+    this.props.context.musicListAction.remove( music.id );
   }
 
   /**

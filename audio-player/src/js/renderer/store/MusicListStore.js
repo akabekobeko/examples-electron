@@ -155,7 +155,7 @@ export default class MusicListStore extends Store {
         return;
       }
 
-      this.setState( { musics: newMusics } );
+      this.setState( { musics: newMusics, currentMusic: null } );
     } );
   }
 
