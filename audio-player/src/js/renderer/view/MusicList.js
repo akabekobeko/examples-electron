@@ -110,6 +110,6 @@ export default class MusicList extends React.Component {
    */
   _onDoubleClickMusic( music ) {
     this.props.context.musicListAction.select( music );
-    this.props.context.audioPlayerAction.play( music );
+    this.props.context.audioPlayerAction.open( music, true );
   }
 }
