@@ -9,6 +9,8 @@
   height size_player_height
   border-bottom solid 1px color_gray
   background-color color_gray_light
+  -webkit-user-select none
+  user-select node
 
   &__container {
     position relative
@@ -55,6 +57,7 @@
   &__button {
     position absolute
     display inline-block
+    cursor pointer
 
     &.prev {
       font-size 28px
@@ -85,6 +88,7 @@
     margin 0
     padding 0
     background-color transparent
+    cursor pointer
 
     &:focus {
       outline none
@@ -122,7 +126,12 @@
     text-align center
     top 1px
     font-size 15px
+    box-sizing border-box
+    padding 0 4px
     width size_full
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
   }
 
   &__artist-album {
@@ -133,6 +142,10 @@
     right 34px
     font-size 12px
     color color_gray_dark
+    box-sizing border-box
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
   }
 
   &__time {
@@ -160,6 +173,7 @@
     width size_full
     height 16px
     background-color transparent
+    cursor pointer
 
     &:focus {
       outline none
@@ -191,6 +205,7 @@
     display inline-block
     top 11px
     font-size 24px
+    cursor pointer
 
     &.import {
       right 8px
