@@ -137,17 +137,17 @@ export default class MusicListStore extends Store {
   /**
    * Remove the music.
    *
-   * @param {Number} musicId music identify.
+   * @param {Object} music Target music.
    */
-  _actionRemove( musicId ) {
-    this._db.remove( musicId, ( err ) => {
+  _actionRemove( music ) {
+    this._db.remove( music.id, ( err ) => {
       if( err ) {
         if( DEBUG ) { Util.error( err ); }
         return;
       }
 
-      const newMusics = this.state.musics.filter( ( music ) => {
-        return ( music.id !== musicId );
+      const newMusics = this.state.musics.filter( ( m ) => {
+        return ( m.id !== music.id );
       } );
 
       if( newMusics.length === this.state.musics.length ) {
@@ -155,10 +155,21 @@ export default class MusicListStore extends Store {
         return;
       }
 
-      this.setState( { musics: newMusics, currentMusic: null } );
+      let nextCurrentMusic = this.next( music );
+      if( !( nextCurrentMusic ) && 0 < newMusics.length ) {
+        nextCurrentMusic = newMusics[ 0 ];
+      }
+
+      this.setState( { musics: newMusics, currentMusic: nextCurrentMusic } );
     } );
   }
 
+  /**
+   * Occurs when it is initialized.
+   *
+   * @param {Error}          err    Error information. Success is undefined.
+   * @param {Array.<Object>} musics Loaded music collection.
+   */
   _onInitialize( err, musics ) {
     if( err ) {
       if( DEBUG ) { Util.error( err ); }

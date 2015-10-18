@@ -251,7 +251,7 @@ export default class MainWindow extends React.Component {
       if( playMusic && playMusic.id === music.id ) { return; }
     }
 
-    this.props.context.musicListAction.remove( music.id );
+    this.props.context.musicListAction.remove( music );
   }
 
   /**
