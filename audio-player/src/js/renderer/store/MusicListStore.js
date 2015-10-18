@@ -30,12 +30,6 @@ export default class MusicListStore extends Store {
     this.context.ipc.addListener( IPCKeys.ProgressImportMusic, this._onProgressImportMusicBind );
 
     /**
-     * Collection of import result.
-     * @type {Object}
-     */
-    this._importRepots = { success: [], error: [] };
-
-    /**
      * State of store.
      * @type {Object}
      */
@@ -210,7 +204,6 @@ export default class MusicListStore extends Store {
       audio = null;
       this._db.add( music, this._onAddMusic.bind( this ) );
 
-      this._importRepots.success.push( music.path );
       if( total === process ) {
         this._onFinishImport();
       }
@@ -220,7 +213,6 @@ export default class MusicListStore extends Store {
       audio = null;
       if( DEBUG ) { Util.error( 'Unsupported audio file.' ) }
  
-      this._importRepots.error.push( music.path );
       if( total === process ) {
         this._onFinishImport();
       }
@@ -247,33 +239,11 @@ export default class MusicListStore extends Store {
    * Occurs when the import of the music has finished.
    */
   _onFinishImport() {
-    let message = '';
-
-    const success = this._importRepots.success;
-    this._importRepots.success = [];
-    if( 0 < success.length ) {
-      message += 'Success:\n';
-      success.forEach( ( path ) => {
-        message += path + '\n';
-      } );
-      message += '\n'
-    }
-
-    const error = this._importRepots.error;
-    this._importRepots.error = [];
-    if( 0 < error.length  ) {
-      message += 'Error:\n'
-      error.forEach( ( path ) => {
-        message += path + '\n';
-      } );
-    }
-
     this.context.ipc.send( IPCKeys.RequestShowMessage, {
       type: 'info',
-      title: 'Import reports',
-      message: 'Import reports.',
-      detail: message,
-      buttons: [ 'OK', 'Cancel' ]
+      title: 'Information',
+      message: 'Import of music files has been completed.',
+      buttons: [ 'OK' ]
     } );
   }
 }
