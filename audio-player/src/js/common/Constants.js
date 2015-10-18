@@ -4,6 +4,7 @@
  * @type {Object}
  */
 export const IPCKeys = {
+  RequestShowMessage:  'requestShowMessage',
   RequestImportMusic:  'requestImportMusic',
   ProgressImportMusic: 'progressImportMusic'
 };

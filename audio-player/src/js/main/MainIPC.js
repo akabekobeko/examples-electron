@@ -10,9 +10,29 @@ import { IPCKeys }   from '../common/Constants.js';
 export default class MainIPC {
   /**
    * Initialize instance.
+   *
+   * @param {BrowserWindow} appWindow Main window.
    */
-  constructor() {
+  constructor( mainWindow ) {
+    /**
+     * Main window.
+     * @type {BrowserWindow}
+     */
+    this._mainWindow = mainWindow;
+
+    IPC.on( IPCKeys.RequestShowMessage, this._onRequestShowMessage.bind( this ) );
     IPC.on( IPCKeys.RequestImportMusic, this._onRequestImportMusic.bind( this ) );
+  }
+
+  /**
+   * Occurs when the show message dialog has been requested.
+   *
+   * @param {Event}  ev      Event data.
+   * @param {Object} options Message box options.
+   */
+  _onRequestShowMessage( ev, args ) {
+    const options = args[ 0 ];
+    Dialog.showMessageBox( this._mainWindow, options );
   }
 
   /**
@@ -29,7 +49,7 @@ export default class MainIPC {
       properties: [ 'openFile', 'multiSelections' ]
     };
 
-    const filePaths = Dialog.showOpenDialog( options );
+    const filePaths = Dialog.showOpenDialog( this._mainWindow, options );
     if( !( filePaths ) ) { return; }
 
     const total   = filePaths.length;
