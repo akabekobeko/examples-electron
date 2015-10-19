@@ -1,7 +1,7 @@
 {
   "name": "electron-starter",
   "description": "Electron Starter Kit.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",
