@@ -1,0 +1,218 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.audio-player {
+  position absolute
+  top 0
+  width size_full
+  height size_player_height
+  border-bottom solid 1px color_gray
+  background-color color_gray_light
+  -webkit-user-select none
+  user-select node
+
+  &__container {
+    position relative
+    width size_full
+    height size_full
+
+    &__player {
+      position absolute
+      top 0
+      left 0
+      width 256px
+      height size_full
+    }
+
+    &__info {
+      position absolute
+      top 0
+      left 256px
+      right 256px
+      height size_full
+    }
+
+    &__toolbar {
+      position absolute
+      top 0
+      right 0
+      width 256px
+      height size_full
+
+      &__container {
+        position relative
+        width size_full
+        height size_full
+      }
+    }
+  }
+}
+
+.audio-player__container__player__container {
+  position relative
+  width size_full
+  height size_full
+
+  &__button {
+    position absolute
+    display inline-block
+    cursor pointer
+
+    &.prev {
+      font-size 28px
+      left 4px
+      top 10px
+    }
+
+    &.play {
+      font-size 36px
+      left 40px
+      top 5px
+    }
+
+    &.next {
+      font-size 28px
+      left 80px
+      top 10px
+    }
+  }
+
+  &__slider {
+    position absolute
+    left 130px
+    top 8px
+    -webkit-appearance none
+    width 100px
+    height 24px
+    margin 0
+    padding 0
+    background-color transparent
+    cursor pointer
+
+    &:focus {
+      outline none
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance none
+      margin-top -5px
+      width 14px
+      height 14px
+      border-radius 50%
+      border solid 1px color_gray
+      background-color color_white
+      box-shadow 0 1px 1px rgba( 0, 0, 0, 0.4 )
+    }
+
+    &::-webkit-slider-runnable-track {
+      margin-top 6px
+      height 3px
+      background-color color_gray
+    }
+  }
+}
+
+.audio-player__container__info__container {
+  position relative
+  width size_full
+  height size_full
+  border-left solid 1px color_gray
+  border-right solid 1px color_gray
+  background-color color_gray_lightness
+
+  &__title {
+    position absolute
+    text-align center
+    top 1px
+    font-size 15px
+    box-sizing border-box
+    padding 0 4px
+    width size_full
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
+  }
+
+  &__artist-album {
+    position absolute
+    text-align center
+    top 18px
+    left 34px
+    right 34px
+    font-size 12px
+    color color_gray_dark
+    box-sizing border-box
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
+  }
+
+  &__time {
+    position absolute
+    top 19px
+    font-size 12px
+    color color_gray_dark
+
+    &.playbacktime {
+      left 4px
+    }
+
+    &.duration {
+      right 4px
+    }
+  }
+
+
+  &__slider {
+    position absolute
+    bottom 0
+    -webkit-appearance none
+    margin 0
+    padding 0
+    width size_full
+    height 16px
+    background-color transparent
+    cursor pointer
+
+    &:focus {
+      outline none
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance none
+      margin-top -8px
+      width 4px
+      height 11px
+      background-color color_indigo_dark
+    }
+
+    &::-webkit-slider-runnable-track {
+      margin-top 13px
+      height 2px
+      background-color color_gray
+    }
+  }
+}
+
+.audio-player__container__toolbar__container {
+  position relative
+  width size_full
+  height size_full
+
+  &__button {
+    position absolute
+    display inline-block
+    top 11px
+    font-size 24px
+    cursor pointer
+
+    &.import {
+      right 8px
+    }
+
+    &.remove {
+      right 48px
+    }
+  }
+}
