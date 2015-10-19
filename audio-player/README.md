@@ -2,6 +2,8 @@
 
 Example of simple audio player in [Electron](http://electron.atom.io/).
 
+![Screenshot](ss.png)
+
 ## Installation
 
 1. Install [Node.js](https://nodejs.org/)
