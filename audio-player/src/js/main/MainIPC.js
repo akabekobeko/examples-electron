@@ -21,7 +21,8 @@ export default class MainIPC {
     this._mainWindow = mainWindow;
 
     IPC.on( IPCKeys.RequestShowMessage, this._onRequestShowMessage.bind( this ) );
-    IPC.on( IPCKeys.RequestImportMusic, this._onRequestImportMusic.bind( this ) );
+    IPC.on( IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind( this ) );
+    IPC.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
   }
 
   /**
@@ -31,8 +32,31 @@ export default class MainIPC {
    * @param {Object} options Message box options.
    */
   _onRequestShowMessage( ev, args ) {
+    if( !( args ) ) {
+      ev.sender.send( IPCKeys.FinishShowMessage, new Error( 'Invalid arguments.' ), null );
+      return;
+    }
+
     const options = args[ 0 ];
-    Dialog.showMessageBox( this._mainWindow, options );
+    const button  = Dialog.showMessageBox( this._mainWindow, options );
+    ev.sender.send( IPCKeys.FinishShowMessage, button, null );
+  }
+
+  /**
+   * Occurs when the show file/folder open dialog has been requested.
+   *
+   * @param {Event}  ev      Event data.
+   * @param {Object} options Message box options.
+   */
+  _onRequestShowOpenDialog( ev, args ) {
+    if( !( args ) ) {
+      ev.sender.send( IPCKeys.FinishShowOpenDialog, new Error( 'Invalid arguments.' ), null );
+      return;
+    }
+
+    const options = args[ 0 ];
+    const paths   = Dialog.showOpenDialog( this._mainWindow, options );
+    ev.sender.send( IPCKeys.FinishShowOpenDialog, paths, null );
   }
 
   /**
@@ -40,6 +64,20 @@ export default class MainIPC {
    *
    * @param {Event} ev Event data.
    */
+  _onRequestReadMusicMetadata( ev, args ) {
+    if( !( args ) ) {
+      ev.sender.send( IPCKeys.FinishReadMusicMetadata, new Error( 'Invalid arguments.' ), null );
+      return;
+    }
+
+    const filePath = args[ 0 ];
+    if( !( filePath ) ) { return; }
+
+    this._readMusicMetadata( filePath, ( err, music ) => {
+      ev.sender.send( IPCKeys.FinishReadMusicMetadata, err, music );
+    } );
+  }
+  /*
   _onRequestImportMusic( ev ) {
     const options = {
       title: 'Select music files',
@@ -60,6 +98,7 @@ export default class MainIPC {
       } );
     } );
   }
+  */
 
   /**
    * Read a music metadata form file.

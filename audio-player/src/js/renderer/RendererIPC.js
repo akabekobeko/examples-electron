@@ -29,7 +29,9 @@ export default class RendererIPC {
     this._listners = {};
 
     // Event handlers
-    this._ipc.on( IPCKeys.ProgressImportMusic, this._onProgressImportMusic.bind( this ) );
+    this._ipc.on( IPCKeys.FinishShowMessage, this._onFinishShowMessage.bind( this ) );
+    this._ipc.on( IPCKeys.FinishShowOpenDialog, this._onFinishShowOpenDialog.bind( this ) );
+    this._ipc.on( IPCKeys.FinishReadMusicMetadata, this._onFinishReadMusicMetadata.bind( this ) );
   }
 
   /**
@@ -73,19 +75,46 @@ export default class RendererIPC {
   }
 
   /**
-   * Occurs when a music file of impot has been executed.
+   * Occurs when a show message dialog has been finished.
    *
-   * @param {Error}  err     Error information. Success is undefined.
-   * @param {Number} total   The total number of music files.
-   * @param {Number} process Error The number of processing
-   * @param {Object} music   Music metadata.
+   * @param {Array} args Arguments.
    */
-  _onProgressImportMusic( err, total, process, music ) {
-    const listners = this._listners[ IPCKeys.ProgressImportMusic ];
+  _onFinishShowMessage( args ) {
+    const listners = this._listners[ IPCKeys.FinishShowMessage ];
+    if( !( listners ) ) { return; }
+
+    const button = ( args ? args[ 0 ] : undefined );
+    listners.forEach( ( listner ) => {
+      listner( button );
+    } );
+  }
+
+  /**
+   * Occurs when a show open file/folder dialog has been finished.
+   *
+   * @param {Array} args Arguments.
+   */
+  _onFinishShowOpenDialog( args ) {
+    const listners = this._listners[ IPCKeys.FinishShowOpenDialog ];
     if( !( listners ) ) { return; }
 
     listners.forEach( ( listner ) => {
-      listner( err, total, process, music );
+      listner( args );
+    } );
+  }
+
+  /**
+   * Occurs when a music file of read metadata has been finished.
+   *
+   * @param {Error}  err   Error information. Success is undefined.
+   * @param {Object} music Music metadata.
+   */
+  _onFinishReadMusicMetadata( err, music ) {
+    const listners = this._listners[ IPCKeys.FinishReadMusicMetadata ];
+    if( !( listners ) ) { return; }
+
+    listners.forEach( ( listner ) => {
+      listner( err, music );
     } );
   }
 }

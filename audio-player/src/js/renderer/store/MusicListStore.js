@@ -2,6 +2,7 @@ import { Store }     from 'material-flux';
 import { Keys }      from '../action/MusicListAction.js';
 import { IPCKeys }   from '../../common/Constants.js';
 import MusicDatabase from '../model/MusicDatabase.js';
+import MusicImporter from '../model/MusicImporter.js';
 import Util          from '../../common/Util.js';
 
 /**
@@ -23,11 +24,17 @@ export default class MusicListStore extends Store {
     this._db = new MusicDatabase();
 
     /**
+     * Music file importer.
+     * @type {MusicImporter}
+     */
+    this._importer = new MusicImporter( context.ipc, this._db, this._onProgressImportMusic.bind( this ), this._onFinishImportMusic.bind( this ) );
+
+    /**
      * Bound callback function.
      * @type {Function}
      */
-    this._onProgressImportMusicBind = this._onProgressImportMusic.bind( this );
-    this.context.ipc.addListener( IPCKeys.ProgressImportMusic, this._onProgressImportMusicBind );
+    //this._onProgressImportMusicBind = this._onProgressImportMusic.bind( this );
+    //this.context.ipc.addListener( IPCKeys.ProgressImportMusic, this._onProgressImportMusicBind );
 
     /**
      * State of store.
@@ -131,7 +138,7 @@ export default class MusicListStore extends Store {
    * Import the music from file.
    */
   _actionImport() {
-    this.context.ipc.send( IPCKeys.RequestImportMusic );
+    this._importer.execute();
   }
 
   /**
@@ -188,44 +195,11 @@ export default class MusicListStore extends Store {
    * Occurs when a music file of impot has been executed.
    *
    * @param {Error}  err     Error information. Success is undefined.
+   * @param {Object} music   Music data.
+   * @param {Number} process The processed number.
    * @param {Number} total   The total number of music files.
-   * @param {Number} process Error The number of processing
-   * @param {Object} music   Music metadata.
    */
-  _onProgressImportMusic( err, total, process, music ) {
-    if( err ) {
-      if( DEBUG ) { Util.error( err ); }
-      return;
-    }
-
-    // Check supported type
-    let audio = new Audio( music.path );
-    audio.addEventListener( 'loadedmetadata', () => {
-      audio = null;
-      this._db.add( music, this._onAddMusic.bind( this ) );
-
-      if( total === process ) {
-        this._onFinishImport();
-      }
-    } );
-
-    audio.addEventListener( 'error', ( ev ) => {
-      audio = null;
-      if( DEBUG ) { Util.error( 'Unsupported audio file.' ) }
- 
-      if( total === process ) {
-        this._onFinishImport();
-      }
-    } );
-  }
-
-  /**
-   * Occurs when a music added.
-   *
-   * @param {Error}  err   Error information. Success is undefined.
-   * @param {Object} music Music metadata.
-   */
-  _onAddMusic( err, music ) {
+  _onProgressImportMusic( err, music, process, total ) {
     if( err ) {
       if( DEBUG ) { Util.error( err ); }
       return;
@@ -233,12 +207,16 @@ export default class MusicListStore extends Store {
 
     const newMusics = this.state.musics.concat( music );
     this.setState( { musics: newMusics } );
+
+    if( DEBUG ) {
+      Util.log( 'Import [' + process + '/' + total + '] : ' + music.path );
+    }
   }
 
   /**
-   * Occurs when the import of the music has finished.
+   * Occurs when a import music has been finished.
    */
-  _onFinishImport() {
+  _onFinishImportMusic() {
     this.context.ipc.send( IPCKeys.RequestShowMessage, {
       type: 'info',
       title: 'Information',

@@ -37,7 +37,6 @@ class Main {
   onReady() {
     if( DEBUG ) { Util.log( 'Launched' ); }
 
-
     this._mainWindow = new BrowserWindow( {
       'width': 800,
       'min-width': 800,

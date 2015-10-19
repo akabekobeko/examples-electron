@@ -4,9 +4,14 @@
  * @type {Object}
  */
 export const IPCKeys = {
-  RequestShowMessage:  'requestShowMessage',
-  RequestImportMusic:  'requestImportMusic',
-  ProgressImportMusic: 'progressImportMusic'
+  RequestShowMessage: 'requestShowMessage',
+  FinishShowMessage:  'finishShowMessage',
+
+  RequestShowOpenDialog: 'requestShowOpenDialog',
+  FinishShowOpenDialog:  'finishShowOpenDialog',
+
+  RequestReadMusicMetadata: 'requestReadMusicMetadata',
+  FinishReadMusicMetadata:  'finishReadMusicMetadata'
 };
 
 /**
