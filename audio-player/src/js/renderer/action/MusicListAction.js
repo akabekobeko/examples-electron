@@ -25,7 +25,7 @@ export default class MusicListAction extends Action {
   /**
    * Select the music.
    *
-   * @param {Music} target music.
+   * @param {Music} music Target music.
    */
   select( music ) {
     this.dispatch( Keys.select, music );

@@ -234,8 +234,8 @@
   /**
    * Delete an item.
    *
-   * @param {Number}   id               Identifier of the item.
-   * @param {Function} callbackCallback function.
+   * @param {Number}   id       Identifier of the item.
+   * @param {Function} callback Callback function.
    */
   remove( id, callback ) {
     if( !( this._db ) ) { return; }
