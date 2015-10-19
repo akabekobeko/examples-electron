@@ -44,21 +44,23 @@ export default class MusicList extends React.Component {
    */
   render() {
     return (
-      <table className="music-list">
-        <thead>
-          <tr>
-            <th> </th>
-            <th>#</th>
-            <th>Title</th>
-            <th>Artist</th>
-            <th>Album</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this._renderMusics() }
-        </tbody>
-      </table>
+      <div className="music-list">
+        <table>
+          <thead>
+            <tr>
+              <th> </th>
+              <th>#</th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Album</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this._renderMusics() }
+          </tbody>
+        </table>
+      </div>
     );
   }
 
