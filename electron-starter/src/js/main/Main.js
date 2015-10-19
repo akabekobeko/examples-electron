@@ -4,7 +4,7 @@ import BrowserWindow from 'browser-window';
 import Menu          from 'menu';
 import Path          from 'path';
 import MainMenu      from './MainMenu.js';
-import RendererIPC   from './RendererIPC.js';
+import MainIPC       from './MainIPC.js';
 import Util          from '../common/Util.js';
 
 /**
@@ -15,8 +15,17 @@ class Main {
    * Initialize instance.
    */
   constructor() {
+    /**
+     * Application main window.
+     * @type {BrowserWindow}
+     */
     this._mainWindow  = null;
-    this._rendererIPC = null;
+
+    /**
+     * Manage the IPC of the main process.
+     * @type {MainIPC}
+     */
+    this._ipc = null;
 
     // Compile switch
     global.DEBUG = true;
@@ -27,8 +36,6 @@ class Main {
    */
   onReady() {
     if( DEBUG ) { Util.log( 'Launched' ); }
-
-    this._rendererIPC = new RendererIPC();
 
     this._mainWindow = new BrowserWindow( {
       width: 800,
@@ -45,6 +52,8 @@ class Main {
 
     const menu = Menu.buildFromTemplate( MainMenu.menu( this._mainWindow ) );
     Menu.setApplicationMenu( menu );
+
+    this._ipc = new MainIPC( this._mainWindow );
   }
 
   /**

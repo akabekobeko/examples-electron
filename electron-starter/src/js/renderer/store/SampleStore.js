@@ -49,6 +49,6 @@ export default class SampleStore extends Store {
    * @param {String} url URL.
    */
   _actionShowURL( url ) {
-    this.context.ipc.send( IPCKeys.ShowURL, url );
+    this.context.ipc.send( IPCKeys.RequestShowURL, url );
   }
 }
