@@ -1,5 +1,6 @@
-import React from 'react';
-import Util  from '../../common/Util.js';
+import React             from 'react';
+import Util              from '../../common/Util.js';
+import { PlaybackState } from '../../common/Constants.js';
 
 /**
  * Component for music list.
@@ -67,16 +68,20 @@ export default class MusicList extends React.Component {
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderMusics() {
-    const current = this.props.context.musicListStore.currentMusic;
+    const current     = this.props.context.musicListStore.currentMusic;
+    const currentPlay = this._getCurrentPlay();
+
     return this.props.context.musicListStore.musics.map( ( music, index ) => {
       const selected = ( current && music.id === current.id ? 'selected' : '' );
+      const icon     = ( currentPlay && currentPlay.id === music.id ? ( <i className="icon-play"></i> ) : null );
+
       return (
         <tr
           key={ music.id }
           className={ selected }
           onClick={ this._onClickMusic.bind( this, music ) }
           onDoubleClick={ this._onDoubleClickMusic.bind( this, music ) }>
-          <td></td>
+          <td className="icon">{ icon }</td>
           <td>{ index + 1 }</td>
           <td className="left">{ music.title }</td>
           <td className="left">{ music.artist }</td>
@@ -111,5 +116,17 @@ export default class MusicList extends React.Component {
   _onDoubleClickMusic( music ) {
     this.props.context.musicListAction.select( music );
     this.props.context.audioPlayerAction.open( music, true );
+  }
+
+  /**
+   * Get the currently playback mucic
+   *
+   * @return {Object} Success is music, otherwise null.
+   */
+  _getCurrentPlay() {
+    const store = this.props.context.audioPlayerStore;
+    if( store.playbackState === PlaybackState.Stopped ) { return null; }
+
+    return store.currentMusic;
   }
 }
