@@ -4,5 +4,12 @@
  * @type {Object}
  */
 export const IPCKeys = {
-  ShowURL: 'showURL'
+  RequestShowMessage: 'requestShowMessage',
+  FinishShowMessage:  'finishShowMessage',
+
+  RequestShowOpenDialog: 'requestShowOpenDialog',
+  FinishShowOpenDialog:  'finishShowOpenDialog',
+
+  RequestShowURL: 'requestShowURL',
+  FinishShowURL:  'finishShowURL'
 };
