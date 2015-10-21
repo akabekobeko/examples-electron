@@ -6,5 +6,7 @@ global.DEBUG = true;
 
 window.onload = () => {
   const context = new AppContext();
-  MainWindow.setup( context );
+  context.setup( () => {
+    MainWindow.setup( context );
+  } );
 };
