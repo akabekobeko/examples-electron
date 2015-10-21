@@ -1,8 +1,7 @@
-import IPC           from 'ipc';
-import Dialog        from 'dialog';
-import Fs            from 'original-fs';
-import MusicMetadata from 'musicmetadata';
-import { IPCKeys }   from '../common/Constants.js';
+import IPC                 from 'ipc';
+import Dialog              from 'dialog';
+import { IPCKeys }         from '../common/Constants.js';
+import MusicMetadataReader from './model/MusicMetadataReader.js'
 
 /**
  * Manage the IPC of the main process.
@@ -11,25 +10,32 @@ export default class MainIPC {
   /**
    * Initialize instance.
    *
-   * @param {BrowserWindow} appWindow Main window.
+   * @param {Main} context Application cotext.
    */
-  constructor( mainWindow ) {
+  constructor( context ) {
     /**
-     * Main window.
-     * @type {BrowserWindow}
+     * Application cotext.
+     * @type {Main}
      */
-    this._mainWindow = mainWindow;
+    this._context = context;
 
-    IPC.on( IPCKeys.RequestShowMessage, this._onRequestShowMessage.bind( this ) );
-    IPC.on( IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind( this ) );
+    /**
+     * Music metadata reader.
+     * @type {MusicMetadataReader}
+     */
+    this._metadataReader = new MusicMetadataReader( this._context.saveImageDirPath );
+
+    IPC.on( IPCKeys.RequestShowMessage,       this._onRequestShowMessage.bind( this ) );
+    IPC.on( IPCKeys.RequestShowOpenDialog,    this._onRequestShowOpenDialog.bind( this ) );
     IPC.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
+    IPC.on( IPCKeys.RequestGetSaveImageDir,   this._onRequestGetSaveImageDir.bind( this ) );
   }
 
   /**
    * Occurs when the show message dialog has been requested.
    *
-   * @param {Event}  ev      Event data.
-   * @param {Object} options Message box options.
+   * @param {Event}  ev   Event data.
+   * @param {Object} args Arguments.
    */
   _onRequestShowMessage( ev, args ) {
     if( !( args ) ) {
@@ -38,15 +44,15 @@ export default class MainIPC {
     }
 
     const options = args[ 0 ];
-    const button  = Dialog.showMessageBox( this._mainWindow, options );
+    const button  = Dialog.showMessageBox( this._context.mainWindow, options );
     ev.sender.send( IPCKeys.FinishShowMessage, button, null );
   }
 
   /**
    * Occurs when the show file/folder open dialog has been requested.
    *
-   * @param {Event}  ev      Event data.
-   * @param {Object} options Message box options.
+   * @param {Event}  ev   Event data.
+   * @param {Object} args Arguments.
    */
   _onRequestShowOpenDialog( ev, args ) {
     if( !( args ) ) {
@@ -55,14 +61,15 @@ export default class MainIPC {
     }
 
     const options = args[ 0 ];
-    const paths   = Dialog.showOpenDialog( this._mainWindow, options );
+    const paths   = Dialog.showOpenDialog( this._context.mainWindow, options );
     ev.sender.send( IPCKeys.FinishShowOpenDialog, paths, null );
   }
 
   /**
    * Occurs when the import of music files has been requested.
    *
-   * @param {Event} ev Event data.
+   * @param {Event}  ev   Event data.
+   * @param {Object} args Arguments.
    */
   _onRequestReadMusicMetadata( ev, args ) {
     if( !( args ) ) {
@@ -73,53 +80,18 @@ export default class MainIPC {
     const filePath = args[ 0 ];
     if( !( filePath ) ) { return; }
 
-    this._readMusicMetadata( filePath, ( err, music ) => {
+    this._metadataReader.read( filePath, ( err, music ) => {
       ev.sender.send( IPCKeys.FinishReadMusicMetadata, err, music );
     } );
   }
-  /*
-  _onRequestImportMusic( ev ) {
-    const options = {
-      title: 'Select music files',
-      filters: [
-        { name: 'Musics', extensions: [ 'mp3', 'm4a', 'aac', 'wav'] }
-      ],
-      properties: [ 'openFile', 'multiSelections' ]
-    };
-
-    const filePaths = Dialog.showOpenDialog( this._mainWindow, options );
-    if( !( filePaths ) ) { return; }
-
-    const total   = filePaths.length;
-    let   process = 0;
-    filePaths.forEach( ( filePath ) => {
-      this._readMusicMetadata( filePath, ( err, music ) => {
-        ev.sender.send( IPCKeys.ProgressImportMusic, err, total, ++process,  music );
-      } );
-    } );
-  }
-  */
 
   /**
-   * Read a music metadata form file.
+   * Occurs when the import of music files has been requested.
    *
-   * @param  {String}   filePath Music file path.
-   * @param  {Function} callback Callback function.
+   * @param {Event} ev Event data.
    */
-  _readMusicMetadata( filePath, callback ) {
-    const stream = Fs.createReadStream( filePath );
-    MusicMetadata( stream, { duration: true }, ( err, metadata ) => {
-      if( err ) {
-        return callback( err );
-      }
-
-      callback( null, {
-        path:     filePath,
-        title:    metadata.title || '',
-        artist:   ( 0 < metadata.artist.length ? metadata.artist[ 0 ] : '' ),
-        album:    metadata.album || '',
-        duration: metadata.duration
-      } );
-    } );
+  _onRequestGetSaveImageDir( ev ) {
+    console.log( this._context.saveImageDirPath );
+    ev.sender.send( IPCKeys.FinishGetSaveImageDir, this._context.saveImageDirPath );
   }
 }

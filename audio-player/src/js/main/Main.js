@@ -19,7 +19,13 @@ class Main {
      * Application main window.
      * @type {BrowserWindow}
      */
-    this._mainWindow  = null;
+    this.mainWindow  = null;
+
+    /**
+     * Path of the folder in which to save the image.
+     * @type {String}
+     */
+    this.saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
 
     /**
      * Manage the IPC of the main process.
@@ -37,7 +43,9 @@ class Main {
   onReady() {
     if( DEBUG ) { Util.log( 'Launched' ); }
 
-    this._mainWindow = new BrowserWindow( {
+    this._ipc = new MainIPC( this );
+
+    this.mainWindow = new BrowserWindow( {
       'width': 800,
       'min-width': 800,
       'height': 600,
@@ -46,16 +54,14 @@ class Main {
     } );
 
     const filePath = Path.join( __dirname, 'index.html' );
-    this._mainWindow.loadUrl( 'file://' + filePath );
+    this.mainWindow.loadUrl( 'file://' + filePath );
 
-    this._mainWindow.on( 'closed', () => {
-      this._mainWindow = null;
+    this.mainWindow.on( 'closed', () => {
+      this.mainWindow = null;
     } );
 
-    const menu = Menu.buildFromTemplate( MainMenu.menu( this._mainWindow ) );
+    const menu = Menu.buildFromTemplate( MainMenu.menu( this.mainWindow ) );
     Menu.setApplicationMenu( menu );
-
-    this._ipc = new MainIPC( this._mainWindow );
   }
 
   /**
@@ -71,5 +77,10 @@ class Main {
 CrashReporter.start();
 
 const main = new Main();
-App.on( 'ready',             main.onReady           );
-App.on( 'window-all-closed', main.onWindowAllClosed );
+App.on( 'ready', () => {
+  main.onReady();
+}  );
+
+App.on( 'window-all-closed', () => {
+  main.onWindowAllClosed();
+} );
