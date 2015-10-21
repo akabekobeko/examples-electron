@@ -30,13 +30,6 @@ export default class MusicListStore extends Store {
     this._importer = new MusicImporter( context.ipc, this._db, this._onProgressImportMusic.bind( this ), this._onFinishImportMusic.bind( this ) );
 
     /**
-     * Bound callback function.
-     * @type {Function}
-     */
-    //this._onProgressImportMusicBind = this._onProgressImportMusic.bind( this );
-    //this.context.ipc.addListener( IPCKeys.ProgressImportMusic, this._onProgressImportMusicBind );
-
-    /**
      * State of store.
      * @type {Object}
      */
