@@ -1,0 +1,25 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.audio-player__container__toolbar__container {
+  position relative
+  width size_full
+  height size_full
+
+  &__button {
+    position absolute
+    display inline-block
+    top 11px
+    font-size 24px
+    cursor pointer
+
+    &.import {
+      right 8px
+    }
+
+    &.remove {
+      right 48px
+    }
+  }
+}
