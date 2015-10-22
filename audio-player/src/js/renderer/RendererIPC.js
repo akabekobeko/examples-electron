@@ -32,7 +32,6 @@ export default class RendererIPC {
     this._ipc.on( IPCKeys.FinishShowMessage,       this._onFinishShowMessage.bind( this ) );
     this._ipc.on( IPCKeys.FinishShowOpenDialog,    this._onFinishShowOpenDialog.bind( this ) );
     this._ipc.on( IPCKeys.FinishReadMusicMetadata, this._onFinishReadMusicMetadata.bind( this ) );
-    this._ipc.on( IPCKeys.FinishGetSaveImageDir,   this._onFinishGetSaveImageDir.bind( this ) );
   }
 
   /**
@@ -115,20 +114,6 @@ export default class RendererIPC {
 
     listners.forEach( ( listner ) => {
       listner( err, music );
-    } );
-  }
-
-  /**
-   * Occurs when a get save image directory has been finished.
-   *
-   * @param {String} path Directory path.
-   */
-  _onFinishGetSaveImageDir( path ) {
-    const listners = this._listners[ IPCKeys.FinishGetSaveImageDir ];
-    if( !( listners ) ) { return; }
-
-    listners.forEach( ( listner ) => {
-      listner( path );
     } );
   }
 }

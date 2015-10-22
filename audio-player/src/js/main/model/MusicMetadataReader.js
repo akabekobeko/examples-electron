@@ -121,7 +121,7 @@ export default class MusicMetadataReader {
         if( err ) {
           if( DEBUG ) { Util.error( err ); }
         } else {
-          newParams.image = fileName;
+          newParams.image = filePath;
         }
 
         resolve( newParams );

@@ -11,10 +11,7 @@ export const IPCKeys = {
   FinishShowOpenDialog:  'finishShowOpenDialog',
 
   RequestReadMusicMetadata: 'requestReadMusicMetadata',
-  FinishReadMusicMetadata:  'finishReadMusicMetadata',
-
-  RequestGetSaveImageDir: 'requestGetSaveImageDir',
-  FinishGetSaveImageDir: 'finishGetSaveImageDir'
+  FinishReadMusicMetadata:  'finishReadMusicMetadata'
 };
 
 /**

@@ -28,7 +28,6 @@ export default class MainIPC {
     IPC.on( IPCKeys.RequestShowMessage,       this._onRequestShowMessage.bind( this ) );
     IPC.on( IPCKeys.RequestShowOpenDialog,    this._onRequestShowOpenDialog.bind( this ) );
     IPC.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
-    IPC.on( IPCKeys.RequestGetSaveImageDir,   this._onRequestGetSaveImageDir.bind( this ) );
   }
 
   /**
@@ -83,15 +82,5 @@ export default class MainIPC {
     this._metadataReader.read( filePath, ( err, music ) => {
       ev.sender.send( IPCKeys.FinishReadMusicMetadata, err, music );
     } );
-  }
-
-  /**
-   * Occurs when the import of music files has been requested.
-   *
-   * @param {Event} ev Event data.
-   */
-  _onRequestGetSaveImageDir( ev ) {
-    console.log( this._context.saveImageDirPath );
-    ev.sender.send( IPCKeys.FinishGetSaveImageDir, this._context.saveImageDirPath );
   }
 }
