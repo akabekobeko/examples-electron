@@ -120,7 +120,7 @@ export default class MusicImporter {
    */
   _onFinishShowOpenDialog( paths ) {
     if( !( paths ) ) {
-      this._onFinish();
+      this._onFinish( true );
       this._onProgress = null;
       this._onFinish   = null;
       return;

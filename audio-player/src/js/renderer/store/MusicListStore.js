@@ -72,7 +72,7 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * get the next music of the specified music.
+   * Get the next music of the specified music.
    * Specified music it will return null if at the last of list.
    *
    * @param {Music}   target Target music.
@@ -208,8 +208,12 @@ export default class MusicListStore extends Store {
 
   /**
    * Occurs when a import music has been finished.
+   *
+   * @param {Boolean} canceld True if it is canceled. Default is false.
    */
-  _onFinishImportMusic() {
+  _onFinishImportMusic( canceld ) {
+    if( canceld ) { return; }
+
     this.context.ipc.send( IPCKeys.RequestShowMessage, {
       type: 'info',
       title: 'Information',
