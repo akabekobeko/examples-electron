@@ -25,6 +25,24 @@
     }
   }
 
+  &__info {
+    cursor pointer
+  }
+
+  &__spectrum-analizer {
+    cursor pointer
+    position absolute
+    top 0
+    left size_player_height + 4px
+    right 0
+    bottom 12px
+
+    canvas {
+      width size_full
+      height size_full
+    }
+  }
+
   &__title {
     position absolute
     text-align center

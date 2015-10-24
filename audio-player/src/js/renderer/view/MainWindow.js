@@ -3,7 +3,6 @@ import ReactDOM    from 'react-dom';
 import AudioPlayer from './AudioPlayer.js';
 import MusicList   from './MusicList.js';
 
-
 /**
  * Component for application main window.
  */
@@ -18,7 +17,7 @@ export default class MainWindow extends React.Component {
   }
 
   /**
-   *
+   * occur when the component did mount.
    */
   componentDidMount() {
     this.props.context.musicListAction.init();

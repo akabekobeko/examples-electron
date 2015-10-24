@@ -60,8 +60,8 @@ export default class AudioPlayer extends React.Component {
             getNextPlayMusic={ this._getNextPlayMusic.bind( this ) } />
           <AudioPlayerInfo
             audioPlayerAction={ this.props.context.audioPlayerAction }
-            music={ music }
-            currentTime={ this.props.context.audioPlayerStore.currentTime } />
+            audioPlayerStore={ this.props.context.audioPlayerStore }
+            music={ music } />
           <AudioPlayerToolbar
             musicListAction={ this.props.context.musicListAction }
             music={ music }
