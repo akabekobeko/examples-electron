@@ -30,6 +30,21 @@ export default class Artist {
   }
 
   /**
+   * Compare the artist.
+   *
+   * @param {Artist} a The first artist to compare. 
+   * @param {Artist} b The second artist to compare. 
+   *
+   * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
+   */
+  static compare( a, b ) {
+    let strA = a.toLowerCase().replace( 'the ', '' );
+    let strB = b.toLowerCase().replace( 'the ', '' );
+
+    return ( strA === strB ? 0 : ( strA < strB ? -1 : 1 ) );
+  }
+
+  /**
    * Create the artists from musics.
    *
    * @param {Array.<Music>} musics Musics.
@@ -82,21 +97,6 @@ export default class Artist {
   }
 
   /**
-   * Compare the artist.
-   *
-   * @param {Artist} a The first artist to compare. 
-   * @param {Artist} b The second artist to compare. 
-   *
-   * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
-   */
-  static compare( a, b ) {
-    let strA = a.toLowerCase().replace( 'the ', '' );
-    let strB = b.toLowerCase().replace( 'the ', '' );
-
-    return ( strA === strB ? 0 : ( strA < strB ? -1 : 1 ) );
-  }
-
-  /**
    * Get the artist albums.
    *
    * @return {Array.<Album>} albums.
@@ -134,10 +134,7 @@ export default class Artist {
     if( album.artist !== this._name ) { return false; }
 
     this._albums.push( album );
-    this._albums = this._albums.sort( ( a, b ) => {
-      const yearA = Number( a.year ), yearB = Number( b.year );
-      return ( yearA === yearB ? 0 : ( yearA < yearB ? -1 : 1 ) );
-    } );
+    this._albums = this._albums.sort( Album.compare );
 
     this.updateImage();
 

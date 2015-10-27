@@ -42,6 +42,22 @@ export default class Album {
   }
 
   /**
+   * Compare the album.
+   *
+   * @param {Album} a The first album to compare. 
+   * @param {Album} b The second album to compare. 
+   *
+   * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
+   */
+  static compare( a, b ) {
+    if( a.name === b.name ) {
+      return ( a.year === b.year ? 0 : ( a.year < b.year ? -1 : 1 ) );
+    }
+
+    return ( a.name < b.name ? -1 : 1 );
+  }
+
+  /**
    * Find the album by music.
    *
    * @param {Array.<Album>} albums Albums.
