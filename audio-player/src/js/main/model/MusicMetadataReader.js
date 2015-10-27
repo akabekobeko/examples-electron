@@ -70,8 +70,8 @@ export default class MusicMetadataReader {
         album:    m.album || '',
         title:    m.title || '',
         year:     m.year || '',
-        track:    ( m.track ? m.track.no : 0 ),
-        disk:     m.disk || { no: 1, of: 1 },
+        track:    ( m.track ? m.track.no : 1 ),
+        disk:     ( m.disk  ? m.disk.no : 1 ),
         genre:    ( 0 < m.genre.length ? m.genre[ 0 ] : '' ),
         duration: m.duration,
         image:    params.image
