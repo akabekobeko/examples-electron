@@ -53,6 +53,12 @@
     &__body {
       width size_full
 
+      &__disc {
+        width size_full
+        padding 4px
+        color color_gray_darkness
+      }
+
       &__item {
         position relative
         width size_full
@@ -63,14 +69,16 @@
         &__track {
           position absolute
           left 4px
+          width 20px
           bottom 2px
           font-size 16px
+          text-align center
           color color_gray_darkness
         }
 
         &__title {
           position absolute
-          left 20px
+          left 32px
           right 32px
           bottom 2px
           font-size 18px

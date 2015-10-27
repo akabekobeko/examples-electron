@@ -83,17 +83,56 @@ export default class AlbumList extends React.Component {
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderMusics( musics ) {
-    return musics.map( ( music ) => {
-      return (
-        <div
-          key={ music.id }
-          className="album-list__item__body__item">
-          <div className="album-list__item__body__item__track">{ music.track }</div>
-          <div className="album-list__item__body__item__title">{ music.title }</div>
-          <div className="album-list__item__body__item__duration">{ Util.secondsToString( music.duration ) }</div>
-        </div>
-      );
+    // Group by disk number
+    const disks = {};
+    musics.forEach( ( music ) => {
+      if( disks[ music.disk ] === undefined ) {
+        disks[ music.disk ] = [];
+      }
+
+      disks[ music.disk ].push( music );
     } );
+
+    // Multi disk
+    const keys = Object.keys( disks );
+    if( 1 < keys.length ) {
+      const results = [];
+      keys.forEach( ( key ) => {
+        results.push( (
+          <div key={ key } className="album-list__item__body__disc">
+            Disc { key }
+          </div>
+        ) );
+
+        disks[ key ].forEach( ( music ) => {
+          results.push( this._renderMusic( music ) );
+        } );
+      } );
+
+      return results;
+    }
+
+    // Single disk
+    return musics.map( this._renderMusic.bind( this ) );
+  }
+
+  /**
+   * Render for album music.
+   *
+   * @param {Music} musics music
+   *
+   * @return {ReactElement} Rendering data.
+   */
+  _renderMusic( music ) {
+    return (
+      <div
+        key={ music.id }
+        className="album-list__item__body__item">
+        <div className="album-list__item__body__item__track">{ music.track }</div>
+        <div className="album-list__item__body__item__title">{ music.title }</div>
+        <div className="album-list__item__body__item__duration">{ Util.secondsToString( music.duration ) }</div>
+      </div>
+    );
   }
 
   /**
