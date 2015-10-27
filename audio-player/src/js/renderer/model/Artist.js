@@ -38,10 +38,10 @@ export default class Artist {
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
   static compare( a, b ) {
-    let strA = a.toLowerCase().replace( 'the ', '' );
-    let strB = b.toLowerCase().replace( 'the ', '' );
+    let nameA = a.name.toLowerCase().replace( 'the ', '' );
+    let nameB = b.name.toLowerCase().replace( 'the ', '' );
 
-    return ( strA === strB ? 0 : ( strA < strB ? -1 : 1 ) );
+    return ( nameA === nameB ? 0 : ( nameA < nameB ? -1 : 1 ) );
   }
 
   /**
