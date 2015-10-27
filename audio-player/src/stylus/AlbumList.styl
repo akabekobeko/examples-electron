@@ -1,0 +1,82 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.album-list {
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  overflow scroll
+
+  &__item {
+    width size_full
+
+    &__header {
+      position relative
+      width size_full
+      height 52px
+      border-bottom solid 1px color_gray
+
+      &__image {
+        position absolute
+        top 4px
+        left 4px
+        width 44px
+        height 44px
+        object-fit contain
+        background-color color_black
+      }
+
+      &__name {
+        position absolute
+        bottom 4px
+        left 56px
+        right 48px
+        font-size 20px
+        oveflow hidden
+        white-space nowrap
+        text-overflow ellipsis
+      }
+
+      &__year {
+        position absolute
+        bottom 4px
+        right 4px
+        font-size 16px
+      }
+    }
+
+    &__body {
+      width size_full
+
+      &__item {
+        position relative
+        width size_full
+        height 18px
+        font-size 20px
+        margin 4px 0
+
+        &__track {
+          position absolute
+          left 4px
+          bottom 2px
+        }
+
+        &__title {
+          position absolute
+          left 16px
+          right 32px
+          bottom 2px
+        }
+
+        &__duration {
+          position absolute
+          right 4px
+          bottom 2px
+        }
+      }
+    }
+  }
+}

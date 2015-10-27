@@ -65,6 +65,7 @@
     "material-flux": "^1.2.3",
     "musicmetadata": "^2.0.2",
     "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "react-split-pane": "^0.1.15"
   }
 }

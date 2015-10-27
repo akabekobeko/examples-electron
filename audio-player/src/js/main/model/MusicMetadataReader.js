@@ -66,9 +66,13 @@ export default class MusicMetadataReader {
       const m     = params.metadata;
       const music = {
         path:     filePath,
-        title:    m.title || '',
         artist:   ( 0 < m.artist.length ? m.artist[ 0 ] : '' ),
         album:    m.album || '',
+        title:    m.title || '',
+        year:     m.year || '',
+        track:    ( m.track ? m.track.no : 0 ),
+        disk:     m.disk || { no: 1, of: 1 },
+        genre:    ( 0 < m.genre.length ? m.genre[ 0 ] : '' ),
         duration: m.duration,
         image:    params.image
       };

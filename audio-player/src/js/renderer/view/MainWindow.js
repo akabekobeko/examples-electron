@@ -1,7 +1,9 @@
 import React       from 'react';
 import ReactDOM    from 'react-dom';
+import SplitPane   from 'react-split-pane';
 import AudioPlayer from './AudioPlayer.js';
-import MusicList   from './MusicList.js';
+import ArtistList  from './ArtistList.js';
+import AlbumList   from './AlbumList.js';
 
 /**
  * Component for application main window.
@@ -32,7 +34,12 @@ export default class MainWindow extends React.Component {
     return (
       <div className="page">
         <AudioPlayer context={ this.props.context } />
-        <MusicList context={ this.props.context } />
+        <div className="music-list">
+          <SplitPane split="vertical" minSize="256" defaultSize="256">
+            <ArtistList context={ this.props.context } />
+            <AlbumList context={ this.props.context } />
+          </SplitPane>
+        </div>
       </div>
     );
   }

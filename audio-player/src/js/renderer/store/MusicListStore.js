@@ -3,6 +3,8 @@ import { Keys }      from '../action/MusicListAction.js';
 import { IPCKeys }   from '../../common/Constants.js';
 import MusicDatabase from '../model/MusicDatabase.js';
 import MusicImporter from '../model/MusicImporter.js';
+import Artist        from '../model/Artist.js';
+import Album         from '../model/Album.js';
 import Util          from '../../common/Util.js';
 
 /**
@@ -44,13 +46,26 @@ export default class MusicListStore extends Store {
        * Current music.
        * @type {Music}
        */
-      currentMusic: null
+      currentMusic: null,
+
+      /**
+       * Artist list.
+       * @type {Array.<Artist>}
+       */
+      artists: [],
+
+      /**
+       * Current Artist
+       * @type {[type]}
+       */
+      currentArtist: null
     };
 
-    this.register( Keys.init,   this._actionInit   );
-    this.register( Keys.select, this._actionSelect );
-    this.register( Keys.import, this._actionImport );
-    this.register( Keys.remove, this._actionRemove );
+    this.register( Keys.init,         this._actionInit );
+    this.register( Keys.select,       this._actionSelect );
+    this.register( Keys.selectArtist, this._actionSelectArtist );
+    this.register( Keys.import,       this._actionImport );
+    this.register( Keys.remove,       this._actionRemove );
   }
 
   /**
@@ -69,6 +84,24 @@ export default class MusicListStore extends Store {
    */
   get currentMusic() {
     return this.state.currentMusic;
+  }
+
+  /**
+   * Get the all artist.
+   *
+   * @return {Array.<Artist>} artists.
+   */
+  get artists() {
+    return this.state.artists;
+  }
+
+  /**
+   * Get the currently artist.
+   *
+   * @return {Artist} artist.
+   */
+  get currentArtist() {
+    return this.state.currentArtist;
   }
 
   /**
@@ -115,15 +148,30 @@ export default class MusicListStore extends Store {
   /**
    * Select the music.
    *
-   * @param {Music} target music.
+   * @param {Music} music Target music.
    */
-  _actionSelect( target ) {
+  _actionSelect( music ) {
     if( this.state.currentMusic ) {
-      if( target.id !== this.state.currentMusic.id ) {
-        this.setState( { currentMusic: target } );
+      if( music.id !== this.state.currentMusic.id ) {
+        this.setState( { currentMusic: music } );
       }
     } else {
-      this.setState( { currentMusic: target } );
+      this.setState( { currentMusic: music } );
+    }
+  }
+
+  /**
+   * Select the artist.
+   *
+   * @param {Artist} artist Target artist.
+   */
+  _actionSelectArtist( artist ) {
+    if( this.state.currentArtist ) {
+      if( artist.name !== this.state.currentArtist.name ) {
+        this.setState( { currentArtist: artist } );
+      }
+    } else {
+      this.setState( { currentArtist: artist } );
     }
   }
 
@@ -176,9 +224,19 @@ export default class MusicListStore extends Store {
       return;
     }
 
-    const state = { musics: musics };
+    if( !( musics && musics.length ) ) {
+      return;
+    }
+
+    const artists = Artist.fromMusics( musics );
+    const state   = { musics: musics, artists: artists };
+
     if( 0 < musics.length ) {
       state.currentMusic = musics[ 0 ];
+    }
+
+    if( 0 < artists.length ) {
+      state.currentArtist = artists[ 0 ];
     }
 
     this.setState( state );
@@ -198,12 +256,33 @@ export default class MusicListStore extends Store {
       return;
     }
 
-    const newMusics = this.state.musics.concat( music );
-    this.setState( { musics: newMusics } );
-
     if( DEBUG ) {
       Util.log( 'Import [' + process + '/' + total + '] : ' + music.path );
     }
+
+    const newMusics = this.state.musics.concat( music );
+    const state     = { musics: newMusics };
+
+    let artist = Artist.findByMusic( this.state.artists, music );
+    if( artist ) {
+      let album = Album.findByMusic( artist.albums, music );
+      if( album ) {
+        album.add( music );
+      } else {
+        album = new Album( artist.name, music.album );
+        album.add( music );
+        artist.add( album )
+      }
+    } else {
+      artist = new Artist( music.artist );
+      let album = new Album( artist.name, music.album );
+      album.add( music );
+      artist.add( album );
+
+      state.artists = this.state.artists.concat( artist ).sort( Artist.compare );
+    }
+
+    this.setState( state );
   }
 
   /**
