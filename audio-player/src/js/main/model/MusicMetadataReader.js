@@ -71,7 +71,7 @@ export default class MusicMetadataReader {
         title:    m.title || '',
         year:     m.year || '',
         track:    ( m.track && 0 < m.track.no ? m.track.no : 1 ),
-        disk:     ( m.disk  && 0 < m.disk.no  ? m.disk.no  : 1 ),
+        disc:     ( m.disk  && 0 < m.disk.no  ? m.disk.no  : 1 ),
         genre:    ( 0 < m.genre.length ? m.genre[ 0 ] : '' ),
         duration: m.duration,
         image:    params.image

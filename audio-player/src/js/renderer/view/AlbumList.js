@@ -87,18 +87,18 @@ export default class AlbumList extends React.Component {
     const currentMusic = this.props.context.musicListStore.currentMusic;
     const currentPlay  = this._getCurrentPlay();
 
-    // Group by disk number
-    const disks = {};
+    // Group by disc number
+    const discs = {};
     musics.forEach( ( music ) => {
-      if( disks[ music.disk ] === undefined ) {
-        disks[ music.disk ] = [];
+      if( discs[ music.disc ] === undefined ) {
+        discs[ music.disc ] = [];
       }
 
-      disks[ music.disk ].push( music );
+      discs[ music.disc ].push( music );
     } );
 
-    // Multi disk
-    const keys = Object.keys( disks );
+    // Multi disc
+    const keys = Object.keys( discs );
     if( 1 < keys.length ) {
       const results = [];
       keys.forEach( ( key ) => {
@@ -108,7 +108,7 @@ export default class AlbumList extends React.Component {
           </div>
         ) );
 
-        disks[ key ].forEach( ( music ) => {
+        discs[ key ].forEach( ( music ) => {
           results.push( this._renderMusic( music, currentMusic, currentPlay ) );
         } );
       } );
@@ -116,7 +116,7 @@ export default class AlbumList extends React.Component {
       return results;
     }
 
-    // Single disk
+    // Single disc
     return musics.map( ( music ) => {
       return this._renderMusic( music, currentMusic, currentPlay );
     } );
