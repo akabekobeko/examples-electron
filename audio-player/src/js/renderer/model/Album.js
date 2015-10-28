@@ -137,7 +137,7 @@ export default class Album {
     this._musics.push( music );
     this._musics = this._musics.sort( ( a, b ) => {
       if( a.disk !== b.disk ) {
-        return ( a.disk < b.disk ? -1 : 0 );
+        return ( a.disk < b.disk ? -1 : 1 );
       }
 
       return ( a.track === b.track ? 0 : ( a.track < b.track ? -1 : 1 ) );
