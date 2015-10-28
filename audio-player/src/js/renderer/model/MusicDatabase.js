@@ -37,6 +37,15 @@ export default class MusicDatabase {
   }
 
   /**
+   * Clear the database.
+   *
+   * @param {Function} callback Callback function.
+   */
+  clear( callback ) {
+    this._db.clear( callback );
+  }
+
+  /**
    * Add a music.
    *
    * @param {Object}   music    Music information.
