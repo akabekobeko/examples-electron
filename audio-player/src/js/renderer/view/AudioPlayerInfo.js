@@ -62,9 +62,9 @@ export default class AudioPlayerInfo extends React.Component {
     return (
       <div className="audio-player__container__info">
         <div className="audio-player__container__info__container">
-          <div className="audio-player__container__info__container__image">
-            { info.image ? ( <img src={ info.image } /> ) : null }
-          </div>
+          <img
+            className="audio-player__container__info__container__image"
+            src={ info.image } />
           <SpectrumAnalyzer
             audioPlayerStore={ this.props.audioPlayerStore }
             useSpectrumAnalyzer={ this.state.useSpectrumAnalyzer }
