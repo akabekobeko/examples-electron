@@ -1,5 +1,6 @@
-import React from 'react';
-import Util  from '../../common/Util.js';
+import React             from 'react';
+import Util              from '../../common/Util.js';
+import { PlaybackState } from '../../common/Constants.js';
 
 /**
  * Component for album list.
@@ -78,11 +79,14 @@ export default class AlbumList extends React.Component {
   /**
    * Render for album musics.
    *
-   * @param  {Array.<Music>} musics musics
+   * @param {Array.<Music>} musics musics
    *
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderMusics( musics ) {
+    const currentMusic = this.props.context.musicListStore.currentMusic;
+    const currentPlay  = this._getCurrentPlay();
+
     // Group by disk number
     const disks = {};
     musics.forEach( ( music ) => {
@@ -105,7 +109,7 @@ export default class AlbumList extends React.Component {
         ) );
 
         disks[ key ].forEach( ( music ) => {
-          results.push( this._renderMusic( music ) );
+          results.push( this._renderMusic( music, currentMusic, currentPlay ) );
         } );
       } );
 
@@ -113,21 +117,31 @@ export default class AlbumList extends React.Component {
     }
 
     // Single disk
-    return musics.map( this._renderMusic.bind( this ) );
+    return musics.map( ( music ) => {
+      return this._renderMusic( music, currentMusic, currentPlay );
+    } );
   }
 
   /**
    * Render for album music.
    *
-   * @param {Music} musics music
+   * @param {Music} musics       music.
+   * @param {Music} currentMusic Currently music.
+   * @param {Music} currentPlay  Currently playback music.
    *
    * @return {ReactElement} Rendering data.
    */
-  _renderMusic( music ) {
+  _renderMusic( music, currentMusic, currentPlay ) {
+    const selected = ( currentMusic && currentMusic.id === music.id ? ' selected' : '' );
+    const icon     = ( currentPlay  && currentPlay.id  === music.id ? ( <i className="icon-play"></i> ) : null );
+
     return (
       <div
         key={ music.id }
-        className="album-list__item__body__item">
+        className={ 'album-list__item__body__item' + selected }
+        onClick={ this._onClickMusic.bind( this, music ) }
+        onDoubleClick={ this._onDoubleClickMusic.bind( this, music ) }>
+        <div className="album-list__item__body__item__icon">{ icon }</div>
         <div className="album-list__item__body__item__track">{ music.track }</div>
         <div className="album-list__item__body__item__title">{ music.title }</div>
         <div className="album-list__item__body__item__duration">{ Util.secondsToString( music.duration ) }</div>
@@ -140,5 +154,36 @@ export default class AlbumList extends React.Component {
    */
   _onChange() {
     this.forceUpdate();
+  }
+
+  /**
+   * Occurs when the music is clicked.
+   *
+   * @param {Object} music Music.
+   */
+  _onClickMusic( music ) {
+    this.props.context.musicListAction.select( music );
+  }
+
+  /**
+   * Occurs when the music is double-clicked.
+   *
+   * @param {Object} music Music.
+   */
+  _onDoubleClickMusic( music ) {
+    this.props.context.musicListAction.select( music );
+    this.props.context.audioPlayerAction.open( music, true );
+  }
+
+  /**
+   * Get the currently playback mucic
+   *
+   * @return {Object} Success is music, otherwise null.
+   */
+  _getCurrentPlay() {
+    const store = this.props.context.audioPlayerStore;
+    if( store.playbackState === PlaybackState.Stopped ) { return null; }
+
+    return store.currentMusic;
   }
 }

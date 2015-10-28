@@ -34,7 +34,7 @@ export default class MainWindow extends React.Component {
     return (
       <div className="page">
         <AudioPlayer context={ this.props.context } />
-        <div className="music-list">
+        <div className="content">
           <SplitPane split="vertical" minSize="256" defaultSize="256">
             <ArtistList context={ this.props.context } />
             <AlbumList context={ this.props.context } />

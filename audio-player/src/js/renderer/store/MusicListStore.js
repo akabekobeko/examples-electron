@@ -37,18 +37,6 @@ export default class MusicListStore extends Store {
      */
     this.state = {
       /**
-       * Music list.
-       * @type {Array.<Music>}
-       */
-      musics: [],
-
-      /**
-       * Current music.
-       * @type {Music}
-       */
-      currentMusic: null,
-
-      /**
        * Artist list.
        * @type {Array.<Artist>}
        */
@@ -58,7 +46,13 @@ export default class MusicListStore extends Store {
        * Current Artist
        * @type {[type]}
        */
-      currentArtist: null
+      currentArtist: null,
+
+      /**
+       * Current music.
+       * @type {Music}
+       */
+      currentMusic: null
     };
 
     this.register( Keys.init,         this._actionInit );
@@ -66,24 +60,6 @@ export default class MusicListStore extends Store {
     this.register( Keys.selectArtist, this._actionSelectArtist );
     this.register( Keys.import,       this._actionImport );
     this.register( Keys.remove,       this._actionRemove );
-  }
-
-  /**
-   * Get the all musics.
-   *
-   * @return {Array.<Music>} musics.
-   */
-  get musics() {
-    return this.state.musics;
-  }
-
-  /**
-   * Get the currently music.
-   *
-   * @return {Music} music.
-   */
-  get currentMusic() {
-    return this.state.currentMusic;
   }
 
   /**
@@ -105,7 +81,16 @@ export default class MusicListStore extends Store {
   }
 
   /**
-   * Get the next music of the specified music.
+   * Get the currently music.
+   *
+   * @return {Music} music.
+   */
+  get currentMusic() {
+    return this.state.currentMusic;
+  }
+
+  /**
+   * Get the next or previous music of the specified music.
    * Specified music it will return null if at the last of list.
    *
    * @param {Music}   target Target music.
@@ -117,18 +102,81 @@ export default class MusicListStore extends Store {
     const current = ( target ? target : this.state.currentMusic );
     if( !( current ) ) { return null; }
 
-    let next = null;
-    this.state.musics.some( ( music, index ) => {
-      if( music.id === current.id ) {
-        const position =  ( prev ? index - 1 : index + 1 );
-        next = this.state.musics[ position ];
-        return true;
-      }
+    const artist = Artist.findByMusic( this.state.artists, target );
+    if( !( artist ) ) { return null; }
 
-      return false;
+    let result = null;
+    artist.albums.some( ( album, albumIndex ) => {
+      if( album.name !== target.album ) { return false; }
+
+      album.musics.some( ( music, musicIndex ) => {
+        if( music.id !== target.id ) { return false; }
+
+        if( prev ) {
+          result = this._prevMusic( artist, album, albumIndex, musicIndex );
+        } else {
+          result = this._nextMusic( artist, album, albumIndex, musicIndex );
+        }
+
+        return true;
+      } );
+
+      return true;
     } );
 
-    return next;
+    return result;
+  }
+
+  /**
+   * Get the prevoius music.
+   *
+   * @param  {Artist} artist     Currently artis.
+   * @param  {Album}  album      Currently album.
+   * @param  {Number} albumIndex Index of album in artist.albums
+   * @param  {Number} musicIndex Index of music in album.musics
+   *
+   * @return {Music} Success is music, Otherwise null;
+   */
+  _prevMusic( artist, album, albumIndex, musicIndex ) {
+    const position = musicIndex - 1;
+    if( 0 <= position ) {
+      return album.musics[ position ];
+
+    } else if( 0 < albumIndex ) {
+      // Previous album
+      const prevAlbum = artist.albums[ albumIndex - 1 ];
+      if( 0 < prevAlbum.musics.length ) {
+        return prevAlbum.musics[ prevAlbum.musics.length - 1 ];
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Get the next music.
+   *
+   * @param  {Artist} artist     Currently artis.
+   * @param  {Album}  album      Currently album.
+   * @param  {Number} albumIndex Index of album in artist.albums
+   * @param  {Number} musicIndex Index of music in album.musics
+   *
+   * @return {Music} Success is music, Otherwise null;
+   */
+  _nextMusic( artist, album, albumIndex, musicIndex ) {
+    const position = musicIndex + 1;
+    if( position < album.musics.length ) {
+      return album.musics[ position ];
+
+    } else if( albumIndex < artist.albums.length - 1 ) {
+      // Next album
+      const nextAlbum = artist.albums[ albumIndex + 1 ];
+      if( 0 < nextAlbum.musics.length ) {
+        return nextAlbum.musics[ 0 ];
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -194,21 +242,32 @@ export default class MusicListStore extends Store {
         return;
       }
 
-      const newMusics = this.state.musics.filter( ( m ) => {
-        return ( m.id !== music.id );
-      } );
-
-      if( newMusics.length === this.state.musics.length ) {
-        if( DEBUG ) { Util.error( 'Failed to remove the music, not found.' ); }
-        return;
+      // Move current
+      const state  = {};
+      if( music.id === this.state.currentMusic.id ) {
+        state.currentMusic = this.next( music );
       }
 
-      let nextCurrentMusic = this.next( music );
-      if( !( nextCurrentMusic ) && 0 < newMusics.length ) {
-        nextCurrentMusic = newMusics[ 0 ];
+      const artist = Artist.findByMusic( this.state.artists, music );
+      const album  = Album.findByMusic( artist.albums, music );
+
+      // Check last album and artist
+      album.remove( music );
+      if( album.musics.length === 0 ) {
+
+        artist.remove( album );
+        if( artist.albums.length === 0 ) {
+          const newArtists = this.state.artists.filter( ( a ) => {
+            return ( a.name !== artist.name );
+          } );
+
+          if( newArtists.length !== this.state.artists.length ) {
+            state.artists = newArtists;
+          }
+        }
       }
 
-      this.setState( { musics: newMusics, currentMusic: nextCurrentMusic } );
+      this.setState( state );
     } );
   }
 
@@ -231,15 +290,13 @@ export default class MusicListStore extends Store {
     const artists = Artist.fromMusics( musics );
     const state   = { musics: musics, artists: artists };
 
-    if( 0 < musics.length ) {
-      state.currentMusic = musics[ 0 ];
-    }
-
     if( 0 < artists.length ) {
       state.currentArtist = artists[ 0 ];
+      state.currentMusic  = state.currentArtist.albums[ 0 ].musics[ 0 ];
     }
 
     this.setState( state );
+    //this._db.clear();
   }
 
   /**
@@ -260,9 +317,6 @@ export default class MusicListStore extends Store {
       Util.log( 'Import [' + process + '/' + total + '] : ' + music.path );
     }
 
-    const newMusics = this.state.musics.concat( music );
-    const state     = { musics: newMusics };
-
     let artist = Artist.findByMusic( this.state.artists, music );
     if( artist ) {
       let album = Album.findByMusic( artist.albums, music );
@@ -273,16 +327,18 @@ export default class MusicListStore extends Store {
         album.add( music );
         artist.add( album )
       }
+
+      this.setState();
+
     } else {
+      // New Artist and Album
       artist = new Artist( music.artist );
       let album = new Album( artist.name, music.album );
       album.add( music );
       artist.add( album );
 
-      state.artists = this.state.artists.concat( artist ).sort( Artist.compare );
+      this.setState( { artists: this.state.artists.concat( artist ).sort( Artist.compare ) } );
     }
-
-    this.setState( state );
   }
 
   /**
