@@ -32,8 +32,8 @@ export default class Artist {
   /**
    * Compare the artist.
    *
-   * @param {Artist} a The first artist to compare. 
-   * @param {Artist} b The second artist to compare. 
+   * @param {Artist} a The first artist to compare.
+   * @param {Artist} b The second artist to compare.
    *
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */

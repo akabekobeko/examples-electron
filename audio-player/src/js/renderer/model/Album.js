@@ -44,8 +44,8 @@ export default class Album {
   /**
    * Compare the album.
    *
-   * @param {Album} a The first album to compare. 
-   * @param {Album} b The second album to compare. 
+   * @param {Album} a The first album to compare.
+   * @param {Album} b The second album to compare.
    *
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
@@ -136,6 +136,10 @@ export default class Album {
 
     this._musics.push( music );
     this._musics = this._musics.sort( ( a, b ) => {
+      if( a.disk !== b.disk ) {
+        return ( a.disk < b.disk ? -1 : 0 );
+      }
+
       return ( a.track === b.track ? 0 : ( a.track < b.track ? -1 : 1 ) );
     } );
 
