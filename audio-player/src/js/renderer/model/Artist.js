@@ -144,13 +144,13 @@ export default class Artist {
   /**
    * Remove the album
    *
-   * @param {String} name Album name.
+   * @param {Album} album Album.
    *
    * @return {Boolean} Success is true.
    */
-  remove( name ) {
-    const albums = this._albums.filter( ( album ) => {
-      return ( album.name !== name );
+  remove( album ) {
+    const albums = this._albums.filter( ( a ) => {
+      return ( a.name !== album.name );
     } );
 
     if( albums.length === this._albums.length ) { return false; }
@@ -165,7 +165,7 @@ export default class Artist {
    * Update the album image.
    */
   updateImage() {
-    this._albums.some( ( album ) => {
+    const updated = this._albums.some( ( album ) => {
       if( album.image ) {
         this._image = album.image;
         return true;
@@ -173,5 +173,10 @@ export default class Artist {
 
       return false;
     } );
+
+    if( !( updated ) ) {
+      this._image = null;
+    }
+
   }
 }

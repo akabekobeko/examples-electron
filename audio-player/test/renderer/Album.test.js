@@ -36,12 +36,15 @@ describe( 'Album', () => {
   it( 'remove', () => {
     const album = new Album( 'test', 'album' );
     for( let i = 0; i < 3; ++i ) {
-      album.add( TestDataUtil.createMusic( i, 'artist', i, album.name ) );
+      album.add( TestDataUtil.createMusic( i, i, 'artist', album.name ) );
     }
 
     album.remove( album.musics[ 0 ] );
 
-    // Change next
+    // Count
+    assert( album.musics.length === 2 );
+
+    // Change top
     assert( album.year  === album.musics[ 0 ].year );
     assert( album.image === album.musics[ 0 ].image );
   } );

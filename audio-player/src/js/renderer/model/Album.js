@@ -152,13 +152,13 @@ export default class Album {
   /**
    * Remove the music.
    *
-   * @param {Number} id Music identifier.
+   * @param {Music} music Music.
    *
    * @return {Boolean} Success is true.
    */
-  remove( id ) {
-    const musics = this._musics.filter( ( music ) => {
-      return ( music.id !== id );
+  remove( music ) {
+    const musics = this._musics.filter( ( m ) => {
+      return ( m.id !== music.id );
     } );
 
     if( musics.length === this._musics.length ) { return false; }

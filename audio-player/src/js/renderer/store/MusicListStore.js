@@ -243,29 +243,37 @@ export default class MusicListStore extends Store {
       }
 
       // Move current
-      const state  = {};
+      const state  = { artists: this.state.artists.concat() };
       if( music.id === this.state.currentMusic.id ) {
-        state.currentMusic = this.next( music );
+        state.currentMusic = this.next( music, true );
       }
 
-      const artist = Artist.findByMusic( this.state.artists, music );
+      const artist = Artist.findByMusic( state.artists, music );
       const album  = Album.findByMusic( artist.albums, music );
 
       // Check last album and artist
+      let removedArtist = false;
       album.remove( music );
       if( album.musics.length === 0 ) {
 
         artist.remove( album );
         if( artist.albums.length === 0 ) {
-          const newArtists = this.state.artists.filter( ( a ) => {
+          const newArtists = state.artists.filter( ( a ) => {
             return ( a.name !== artist.name );
           } );
 
-          if( newArtists.length !== this.state.artists.length ) {
+          if( newArtists.length !== state.artists.length ) {
             state.artists = newArtists;
+            removedArtist = true;
           }
         }
       }
+
+      // Update current artist
+      const currentArtist = this.state.currentArtist;
+      if( currentArtist && currentArtist.name === artist.name ) {
+        state.currentArtist = ( removedArtist ? null : artist );
+      } 
 
       this.setState( state );
     } );
