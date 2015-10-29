@@ -1,4 +1,5 @@
 import { IPCKeys } from '../../common/Constants.js';
+import Music       from './Music.js';
 
 /**
  * Import the music files.
@@ -120,7 +121,7 @@ export default class MusicImporter {
    */
   _onFinishShowOpenDialog( paths ) {
     if( !( paths ) ) {
-      this._onFinish();
+      this._onFinish( true );
       this._onProgress = null;
       this._onFinish   = null;
       return;
@@ -137,25 +138,16 @@ export default class MusicImporter {
    * Occurs when a music file of read metadata has been executed.
    *
    * @param {Error}  err   Error information. Success is undefined.
-   * @param {Object} music Music metadata.
+   * @param {Object} music Music metadata from main process. ( FinishReadMusicMetadata )
    */
-  _onFinishReadMusicMetadata( err, music ) {
+  _onFinishReadMusicMetadata( err, metadata ) {
     if( err ) {
       this._onProgress( err, null, this._process, this._total );
       this._importMusic();
       return;
     }
 
-    // Register database
-    this._db.add( music, ( err2, music2 ) => {
-      if( err2 ) {
-        this._onProgress( err2, null, this._process, this._total );
-      } else {
-        this._onProgress( null, music2, this._process, this._total );
-      }
-
-      this._importMusic();
-    } );
+    this._register( metadata );
   }
 
   /**
@@ -164,4 +156,25 @@ export default class MusicImporter {
   _onCompleteImportMusic() {
     this._onFinish();
   }
+
+  /**
+   * Register the metadata in the database.
+   *
+   * @param {Object} music Music metadata from main process. ( FinishReadMusicMetadata )
+   */
+  _register( metadata ) {
+    this._db.add( metadata, ( err, m ) => {
+      if( err ) {
+        this._onProgress( err, null, this._process, this._total );
+      } else if( m.id === undefined ) {
+        this._onProgress( new Error( 'Invalid identifier of the music, ' + m.path ), null, this._process, this._total );
+      } else {
+        this._onProgress( null, new Music( m ), this._process, this._total );
+      }
+
+      // Next
+      this._importMusic();
+    } );
+  }
+
 }

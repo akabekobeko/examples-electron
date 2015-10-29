@@ -1,0 +1,53 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.artist-list {
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background-color #fafafa
+
+  &__item {
+    position relative
+    width size_full
+    height 52px
+
+    &.selected {
+      background-color color_blue_light
+    }
+
+    &__image {
+      position absolute
+      top 4px
+      left 4px
+      width 44px
+      height 44px
+      object-fit contain
+    }
+
+    &__name {
+      position absolute
+      top 4px
+      left 56px
+      right 4px
+      font-size 16px
+      overflow hidden
+      white-space nowrap
+      text-overflow ellipsis
+    }
+
+    &__albums {
+      position absolute
+      bottom 4px
+      left 56px
+      right 4px
+      font-size 14px
+      oveflow hidden
+      white-space nowrap
+      text-overflow ellipsis
+    }
+  }
+}

@@ -29,8 +29,8 @@ export default class RendererIPC {
     this._listners = {};
 
     // Event handlers
-    this._ipc.on( IPCKeys.FinishShowMessage, this._onFinishShowMessage.bind( this ) );
-    this._ipc.on( IPCKeys.FinishShowOpenDialog, this._onFinishShowOpenDialog.bind( this ) );
+    this._ipc.on( IPCKeys.FinishShowMessage,       this._onFinishShowMessage.bind( this ) );
+    this._ipc.on( IPCKeys.FinishShowOpenDialog,    this._onFinishShowOpenDialog.bind( this ) );
     this._ipc.on( IPCKeys.FinishReadMusicMetadata, this._onFinishReadMusicMetadata.bind( this ) );
   }
 
@@ -77,13 +77,12 @@ export default class RendererIPC {
   /**
    * Occurs when a show message dialog has been finished.
    *
-   * @param {Array} args Arguments.
+   * @param {Number} button Selected button number ( 0 - N ).
    */
-  _onFinishShowMessage( args ) {
+  _onFinishShowMessage( button ) {
     const listners = this._listners[ IPCKeys.FinishShowMessage ];
     if( !( listners ) ) { return; }
 
-    const button = ( args ? args[ 0 ] : undefined );
     listners.forEach( ( listner ) => {
       listner( button );
     } );
@@ -92,14 +91,14 @@ export default class RendererIPC {
   /**
    * Occurs when a show open file/folder dialog has been finished.
    *
-   * @param {Array} args Arguments.
+   * @param {Array} paths File or folder paths..
    */
-  _onFinishShowOpenDialog( args ) {
+  _onFinishShowOpenDialog( paths ) {
     const listners = this._listners[ IPCKeys.FinishShowOpenDialog ];
     if( !( listners ) ) { return; }
 
     listners.forEach( ( listner ) => {
-      listner( args );
+      listner( paths );
     } );
   }
 

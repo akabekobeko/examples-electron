@@ -5,10 +5,11 @@ import { Action } from 'material-flux';
  * @type {Object}
  */
 export const Keys = {
-  init:   'MusicListAction.init',
-  select: 'MusicListAction.select',
-  import: 'MusicListAction.import',
-  remove: 'MusicListAction.remove'
+  init:         'MusicListAction.init',
+  select:       'MusicListAction.select',
+  selectArtist: 'MusicListAction.selectArtist',
+  import:       'MusicListAction.import',
+  remove:       'MusicListAction.remove'
 };
 
 /**
@@ -32,6 +33,15 @@ export default class MusicListAction extends Action {
   }
 
   /**
+   * Select the artist.
+   *
+   * @param {Artist} artist Target artist.
+   */
+  selectArtist( artist ) {
+    this.dispatch( Keys.selectArtist, artist );
+  }
+
+  /**
    * Import the music from file.
    */
   import() {
@@ -41,7 +51,7 @@ export default class MusicListAction extends Action {
   /**
    * Remove the music.
    *
-   * @param {Object} music Target music.
+   * @param {Music} music Target music.
    */
   remove( music ) {
     this.dispatch( Keys.remove, music );

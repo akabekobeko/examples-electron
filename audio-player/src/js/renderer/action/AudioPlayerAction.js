@@ -20,7 +20,7 @@ export default class AudioPlayerAction extends Action {
   /**
    * Open an audio file for playback target.
    *
-   * @param {Object}  music    Music.
+   * @param {Music}   music    Music.
    * @param {Boolean} withPlay If true to play a audio. Default is false.
    */
   open( music, withPlay ) {

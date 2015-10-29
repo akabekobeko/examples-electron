@@ -54,7 +54,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Get the currently music.
    *
-   * @return {Object} music.
+   * @return {Music} music.
    */
   get currentMusic() {
     return this.state.currentMusic;
@@ -109,7 +109,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Open an audio file for playback target.
    *
-   * @param {Object}  music    Music.
+   * @param {Music}  music     Music.
    * @param {Boolean} withPlay If true to play a audio. Default is false.
    */
   _actionOpen( music, withPlay ) {

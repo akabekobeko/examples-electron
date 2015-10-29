@@ -1,4 +1,5 @@
 import IndexedDBWrapper from './IndexedDBWrapper.js';
+import Music            from './Music.js';
 
 /**
  * Manage for music databse.
@@ -37,13 +38,22 @@ export default class MusicDatabase {
   }
 
   /**
-   * Add a music.
+   * Clear the database.
    *
-   * @param {Object}   music    Music information.
    * @param {Function} callback Callback function.
    */
-  add( music, callback ) {
-    this._db.add( music, callback );
+  clear( callback ) {
+    this._db.clear( callback );
+  }
+
+  /**
+   * Add a music.
+   *
+   * @param {Object}   metadata Music metadata from main process.
+   * @param {Function} callback Callback function.
+   */
+  add( metadata, callback ) {
+    this._db.add( metadata, callback );
   }
 
   /**
@@ -62,6 +72,16 @@ export default class MusicDatabase {
    * @param {Function} callback Callback function.
    */
   readAll( callback ) {
-    this._db.readAll( callback );
+    this._db.readAll( ( err, items ) => {
+      if( err ) {
+        return callback( err, items );
+      }
+
+      const musics = items.map( ( item ) => {
+        return new Music( item );
+      } );
+
+      callback( null, musics );
+    } );
   }
 }

@@ -1,0 +1,112 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.album-list {
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+
+  &__item {
+    width size_full
+    margin-bottom 1em
+
+    &__header {
+      position relative
+      width size_full
+      height 52px
+      border-bottom solid 1px color_gray
+      cursor pointer
+
+      &__image {
+        position absolute
+        top 4px
+        left 4px
+        width 44px
+        height 44px
+        object-fit contain
+      }
+
+      &__name {
+        position absolute
+        bottom 4px
+        left 56px
+        right 48px
+        font-size 20px
+        overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
+      }
+
+      &__year {
+        position absolute
+        bottom 4px
+        right 4px
+        font-size 16px
+        color color_gray_darkness
+      }
+    }
+
+    &__body {
+      width size_full
+
+      &__disc {
+        width size_full
+        padding 4px
+        color color_gray_darkness
+      }
+
+      &__item {
+        position relative
+        width size_full
+        height 18px
+        padding 4px 0
+        cursor pointer
+
+        &.selected {
+          background-color color_blue_light
+        }
+
+        &__icon {
+          position absolute
+          left 4px
+          width 20px
+          bottom 2px
+          font-size 16px
+          text-align center
+        }
+
+        &__track {
+          position absolute
+          left 24px
+          width 20px
+          bottom 2px
+          font-size 16px
+          text-align center
+          color color_gray_darkness
+        }
+
+        &__title {
+          position absolute
+          left 52px
+          right 52px
+          bottom 2px
+          font-size 18px
+          overflow hidden
+          white-space nowrap
+          text-overflow ellipsis
+        }
+
+        &__duration {
+          position absolute
+          right 4px
+          bottom 2px
+          font-size 16px
+          color color_gray_darkness
+        }
+      }
+    }
+  }
+}

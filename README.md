@@ -16,3 +16,6 @@ This is a starter kit of the Electron application development.
 Example of simple audio player in Electron.
 
 * [audio-player](./audio-player)
+* Blog
+ * [Electron を試す 3 – 簡易音楽プレーヤー](http://akabeko.me/blog/2015/10/electron-3/)
+ * [Electron を試す 4 – 簡易音楽プレーヤー 2](http://akabeko.me/blog/2015/10/electron-4/)

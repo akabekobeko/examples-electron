@@ -47,7 +47,7 @@ export default class AudioPlayer {
      * @type {AnalyserNode}
      */
     this._analyserNode = this._context.createAnalyser();
-    this._analyserNode.fftSize = 128;
+    this._analyserNode.fftSize = 64;
     this._analyserNode.connect( this._gainNode );
 
     /**
