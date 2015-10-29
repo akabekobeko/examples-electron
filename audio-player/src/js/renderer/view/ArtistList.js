@@ -61,7 +61,7 @@ export default class ArtistList extends React.Component {
           className={ 'artist-list__item' + selected }
           onClick={ this._onClickItem.bind( this, artist ) }>
           <img className="artist-list__item__image" src={ artist.image } />
-          <div className="artist-list__item__name">{ artist.name }</div>
+          <div className="artist-list__item__name" title={ artist.name }>{ artist.name }</div>
           <div className="artist-list__item__albums">{ artist.albums.length } album (s)</div>
         </div>
         );

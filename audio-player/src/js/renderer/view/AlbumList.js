@@ -66,7 +66,7 @@ export default class AlbumList extends React.Component {
           className="album-list__item">
           <div className="album-list__item__header">
             <img className="album-list__item__header__image" src={ album.image } />
-            <div className="album-list__item__header__name">{ album.name }</div>
+            <div className="album-list__item__header__name" title={ album.name }>{ album.name }</div>
             <div className="album-list__item__header__year">{ album.year }</div>
           </div>
           <div className="album-list__item__body">
@@ -144,7 +144,7 @@ export default class AlbumList extends React.Component {
         onDoubleClick={ this._onDoubleClickMusic.bind( this, music ) }>
         <div className="album-list__item__body__item__icon">{ icon }</div>
         <div className="album-list__item__body__item__track">{ music.track }</div>
-        <div className="album-list__item__body__item__title">{ music.title }</div>
+        <div className="album-list__item__body__item__title" title={ music.title }>{ music.title }</div>
         <div className="album-list__item__body__item__duration">{ Util.secondsToString( music.duration ) }</div>
       </div>
     );
