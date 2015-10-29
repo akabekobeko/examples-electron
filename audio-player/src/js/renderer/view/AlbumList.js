@@ -36,6 +36,7 @@ export default class AlbumList extends React.Component {
     this.props.context.audioPlayerStore.removeChangeListener( this._onChangeBind );
     this.props.context.musicListStore.removeChangeListener( this._onChangeBind );
   }
+
   /**
    * Render for component.
    *
@@ -159,7 +160,7 @@ export default class AlbumList extends React.Component {
   /**
    * Occurs when the music is clicked.
    *
-   * @param {Object} music Music.
+   * @param {Music} music Music.
    */
   _onClickMusic( music ) {
     this.props.context.musicListAction.select( music );
@@ -168,7 +169,7 @@ export default class AlbumList extends React.Component {
   /**
    * Occurs when the music is double-clicked.
    *
-   * @param {Object} music Music.
+   * @param {Music} music Music.
    */
   _onDoubleClickMusic( music ) {
     this.props.context.musicListAction.select( music );
@@ -178,7 +179,7 @@ export default class AlbumList extends React.Component {
   /**
    * Get the currently playback mucic
    *
-   * @return {Object} Success is music, otherwise null.
+   * @return {Music} Success is music, otherwise null.
    */
   _getCurrentPlay() {
     const store = this.props.context.audioPlayerStore;

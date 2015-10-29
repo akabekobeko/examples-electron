@@ -82,7 +82,7 @@ export default class AudioPlayer extends React.Component {
   /**
    * Get the currently music.
    *
-   * @return {Object} Success is music. Otherwise null;
+   * @return {Music} Success is music. Otherwise null;
    */
   _currentMusic() {
     if( this.props.context.audioPlayerStore.playbackState === PlaybackState.Stopped ) {

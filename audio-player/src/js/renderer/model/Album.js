@@ -1,6 +1,7 @@
+import Music from './Music.js';
 
 /**
- * Container of an artist infromation.
+ * Container of an album infromation.
  */
 export default class Album {
   /**
@@ -135,13 +136,7 @@ export default class Album {
     if( music.album !== this._name ) { return false; }
 
     this._musics.push( music );
-    this._musics = this._musics.sort( ( a, b ) => {
-      if( a.disc !== b.disc ) {
-        return ( a.disc < b.disc ? -1 : 1 );
-      }
-
-      return ( a.track === b.track ? 0 : ( a.track < b.track ? -1 : 1 ) );
-    } );
+    this._musics = this._musics.sort( Music.compare );
 
     this.updateImage();
     this.updateYear();

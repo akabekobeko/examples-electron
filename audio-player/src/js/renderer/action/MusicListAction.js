@@ -51,7 +51,7 @@ export default class MusicListAction extends Action {
   /**
    * Remove the music.
    *
-   * @param {Object} music Target music.
+   * @param {Music} music Target music.
    */
   remove( music ) {
     this.dispatch( Keys.remove, music );

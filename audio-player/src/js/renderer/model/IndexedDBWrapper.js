@@ -173,7 +173,7 @@
     };
 
     request.onerror = ( ev ) => {
-      onFinish( ev.target.error );
+      onFinish( ev.target.error, items );
     };
   }
 

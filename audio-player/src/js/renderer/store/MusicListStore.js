@@ -44,7 +44,7 @@ export default class MusicListStore extends Store {
 
       /**
        * Current Artist
-       * @type {[type]}
+       * @type {Artist}
        */
       currentArtist: null,
 
@@ -233,7 +233,7 @@ export default class MusicListStore extends Store {
   /**
    * Remove the music.
    *
-   * @param {Object} music Target music.
+   * @param {Music} music Target music.
    */
   _actionRemove( music ) {
     this._db.remove( music.id, ( err ) => {
@@ -282,8 +282,8 @@ export default class MusicListStore extends Store {
   /**
    * Occurs when it is initialized.
    *
-   * @param {Error}          err    Error information. Success is undefined.
-   * @param {Array.<Object>} musics Loaded music collection.
+   * @param {Error}         err    Error information. Success is undefined.
+   * @param {Array.<Music>} musics Loaded music collection.
    */
   _onInitialize( err, musics ) {
     if( err ) {
@@ -311,7 +311,7 @@ export default class MusicListStore extends Store {
    * Occurs when a music file of impot has been executed.
    *
    * @param {Error}  err     Error information. Success is undefined.
-   * @param {Object} music   Music data.
+   * @param {Music}  music   Music.
    * @param {Number} process The processed number.
    * @param {Number} total   The total number of music files.
    */

@@ -38,8 +38,8 @@ export default class Artist {
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
   static compare( a, b ) {
-    let nameA = a.name.toLowerCase().replace( 'the ', '' );
-    let nameB = b.name.toLowerCase().replace( 'the ', '' );
+    const nameA = a.name.toLowerCase().replace( 'the ', '' );
+    const nameB = b.name.toLowerCase().replace( 'the ', '' );
 
     return ( nameA === nameB ? 0 : ( nameA < nameB ? -1 : 1 ) );
   }
@@ -52,8 +52,7 @@ export default class Artist {
    * @return {Array.<Artist>} Artists.
    */
   static fromMusics( musics ) {
-    let artists = [];
-
+    const artists = [];
     musics.forEach( ( music ) => {
       let artist = Artist.findByMusic( artists, music );
       if( !( artist ) ) {
