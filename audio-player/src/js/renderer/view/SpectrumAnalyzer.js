@@ -163,8 +163,8 @@ export default class SpectrumAnalyzer extends React.Component {
    * Adjust the size of the Canvas on the screen.
    */
   _adjustCanvasSize() {
-    const width  = this._canvas.offsetWidth * window.devicePixelRatio;
-    const height = this._canvas.offsetWidth * window.devicePixelRatio;
+    const width  = this._canvas.offsetWidth  * window.devicePixelRatio;
+    const height = this._canvas.offsetHeight * window.devicePixelRatio;
     if( this._canvas.width  !== width  ) { this._canvas.width  = width;  }
     if( this._canvas.height !== height ) { this._canvas.height = height; }
   }
