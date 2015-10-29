@@ -2,7 +2,15 @@
 
 Example of simple audio player in [Electron](http://electron.atom.io/).
 
-![Screenshot](ss.png)
+**Main UI**
+
+![Main UI](ss-1.png)
+
+**Spectrum Analizer**
+
+Click on the music information area the spectrum analyzer is displayed.
+
+![Screenshot](ss-2.png)
 
 ## Installation
 
