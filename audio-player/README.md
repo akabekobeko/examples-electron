@@ -28,15 +28,6 @@ Run the watch files, background complie JavaScript/CSS.
 npm start
 ```
 
-If you want to operate with Windows will fix the **watch:js-main** and **watch:js-renderer** of npm-scripts as follows.
-
-```js
-{
-  "watch:js-main": "watchify -v -t babelify ./src/js/main/Main.js --im --no-detect-globals -o ./src/main.js -d",
-  "watch:js-renderer": "watchify -v -t babelify ./src/js/renderer/App.js -o ./src/bundle.js -d"
-}
-```
-
 ## Launch application
 
 Launch the Electron app on [electron-prebuilt](https://www.npmjs.com/package/electron-prebuilt).
