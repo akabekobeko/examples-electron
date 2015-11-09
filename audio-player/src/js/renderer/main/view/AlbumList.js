@@ -1,6 +1,6 @@
 import React             from 'react';
-import Util              from '../../common/Util.js';
-import { PlaybackState } from '../../common/Constants.js';
+import Util              from '../../../common/Util.js';
+import { PlaybackState } from '../../../common/Constants.js';
 
 /**
  * Component for album list.

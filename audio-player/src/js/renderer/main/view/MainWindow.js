@@ -46,6 +46,8 @@ export default class MainWindow extends React.Component {
 
   /**
    * Setup for main window.
+   *
+   * @param {MainContext} context Main window context.
    */
   static setup( context ) {
     const area = document.querySelector( '.app' );

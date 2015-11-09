@@ -1,10 +1,10 @@
-import MainWindow from './view/MainWindow.js';
-import AppContext from './AppContext.js';
+import MainWindow  from './main/view/MainWindow.js';
+import MainContext from './main/MainContext.js';
 
 // Compile switch
 global.DEBUG = true;
 
 window.onload = () => {
-  const context = new AppContext();
+  const context = new MainContext();
   MainWindow.setup( context );
 };

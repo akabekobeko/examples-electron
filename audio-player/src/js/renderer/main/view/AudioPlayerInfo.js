@@ -1,5 +1,5 @@
 import React            from 'react';
-import Util             from '../../common/Util.js';
+import Util             from '../../../common/Util.js';
 import SpectrumAnalyzer from './SpectrumAnalyzer.js';
 
 /**

@@ -1,16 +1,16 @@
 import { Context }       from 'material-flux';
-import { IPCKeys }       from '../common/Constants.js';
-import Util              from '../common/Util.js';
-import RendererIPC       from './RendererIPC.js';
+import { IPCKeys }       from '../../common/Constants.js';
+import Util              from '../../common/Util.js';
+import RendererIPC       from '../RendererIPC.js';
 import AudioPlayerStore  from './store/AudioPlayerStore.js';
 import AudioPlayerAction from './action/AudioPlayerAction.js';
 import MusicListStore    from './store/MusicListStore.js';
 import MusicListAction   from './action/MusicListAction.js';
 
 /**
- * Application context.
+ * Main window context.
  */
-export default class AppContext extends Context {
+export default class MainContext extends Context {
   /**
    * Initialize instance.
    */

@@ -1,11 +1,11 @@
 import { Store }     from 'material-flux';
 import { Keys }      from '../action/MusicListAction.js';
-import { IPCKeys }   from '../../common/Constants.js';
+import { IPCKeys }   from '../../../common/Constants.js';
+import Util          from '../../../common/Util.js';
 import MusicDatabase from '../model/MusicDatabase.js';
 import MusicImporter from '../model/MusicImporter.js';
 import Artist        from '../model/Artist.js';
 import Album         from '../model/Album.js';
-import Util          from '../../common/Util.js';
 
 /**
  * Manage for music list.
@@ -14,7 +14,7 @@ export default class MusicListStore extends Store {
   /**
    * Initialize instance.
    *
-   * @param {AppContext} context Application context.
+   * @param {MainContext} context Main window context.
    */
   constructor( context ) {
     super( context );

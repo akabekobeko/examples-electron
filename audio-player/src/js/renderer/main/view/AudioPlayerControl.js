@@ -1,5 +1,5 @@
 import React             from 'react';
-import { PlaybackState } from '../../common/Constants.js';
+import { PlaybackState } from '../../../common/Constants.js';
 
 /**
  * Component for audio player controls.

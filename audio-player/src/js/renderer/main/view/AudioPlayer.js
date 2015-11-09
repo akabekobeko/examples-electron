@@ -1,5 +1,5 @@
 import React              from 'react';
-import { PlaybackState }  from '../../common/Constants.js';
+import { PlaybackState }  from '../../../common/Constants.js';
 import AudioPlayerControl from './AudioPlayerControl.js';
 import AudioPlayerToolbar from './AudioPlayerToolbar.js';
 import AudioPlayerInfo    from './AudioPlayerInfo.js';

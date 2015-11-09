@@ -1,4 +1,4 @@
-import { IPCKeys } from '../../common/Constants.js';
+import { IPCKeys } from '../../../common/Constants.js';
 import Music       from './Music.js';
 
 /**

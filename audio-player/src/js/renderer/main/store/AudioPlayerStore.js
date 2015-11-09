@@ -1,7 +1,7 @@
 import { Store }         from 'material-flux';
 import { Keys }          from '../action/AudioPlayerAction.js';
-import { PlaybackState } from '../../common/Constants.js';
-import Util              from '../../common/Util.js';
+import { PlaybackState } from '../../../common/Constants.js';
+import Util              from '../../../common/Util.js';
 import AudioPlayer       from '../model/AudioPlayer.js';
 
 /**
@@ -17,7 +17,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Initialize instance.
    *
-   * @param {AppContext} context Application context.
+   * @param {MainContext} context Main window context.
    */
   constructor( context ) {
     super( context );
