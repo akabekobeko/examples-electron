@@ -53,7 +53,7 @@ class Main {
       'resizable': true
     } );
 
-    const filePath = Path.join( __dirname, 'index.html' );
+    const filePath = Path.join( __dirname, 'main.html' );
     this.mainWindow.loadUrl( 'file://' + filePath );
 
     this.mainWindow.on( 'closed', () => {
