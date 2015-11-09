@@ -3,7 +3,7 @@
  * The default number of bands equalizer.
  * @type {Number}
  */
-const DEFAULT_EQUALYZER_BANDS = 10;
+const DEFAULT_EQUALIZER_BANDS = 10;
 
 /**
  * Frequency of the central ( kHz ).
@@ -24,9 +24,9 @@ const MIN_GAIN = -40;
 const MAX_GAIN = 40;
 
 /**
- * Provides the graphic equalyzer.
+ * Provides the graphic equalizer.
  */
-export default class AudioEffectGraphicEqualyzer {
+export default class AudioEffectGraphicEqualizer {
   /**
    * Initialize instance.
    *
