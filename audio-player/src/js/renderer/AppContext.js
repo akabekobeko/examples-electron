@@ -25,7 +25,7 @@ export default class AppContext extends Context {
      * Manage the IPC of the renderer process.
      * @type {RendererIPC}
      */
-    this.ipc = new RendererIPC( this );
+    this.ipc = new RendererIPC();
 
     /**
      * Audio player store.

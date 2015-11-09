@@ -6,16 +6,8 @@ import { IPCKeys } from '../common/Constants.js';
 export default class RendererIPC {
   /**
    * Initialize instance.
-   *
-   * @param {AppContext} context Application context.
    */
-  constructor( context ) {
-    /**
-     * Application context.
-     * @type {AppContext}
-     */
-    this._contex = context;
-
+  constructor() {
     /**
      * Object for using inter-process communication.
      * @type {Object}
