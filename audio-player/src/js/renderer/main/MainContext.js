@@ -1,3 +1,5 @@
+import React             from 'react';
+import ReactDOM          from 'react-dom';
 import { Context }       from 'material-flux';
 import { IPCKeys }       from '../../common/Constants.js';
 import Util              from '../../common/Util.js';
@@ -6,6 +8,7 @@ import AudioPlayerStore  from './store/AudioPlayerStore.js';
 import AudioPlayerAction from './action/AudioPlayerAction.js';
 import MusicListStore    from './store/MusicListStore.js';
 import MusicListAction   from './action/MusicListAction.js';
+import MainWindow        from './view/MainWindow.js';
 
 /**
  * Main window context.
@@ -13,8 +16,10 @@ import MusicListAction   from './action/MusicListAction.js';
 export default class MainContext extends Context {
   /**
    * Initialize instance.
+   *
+   * @type {Element} elm Element of the rendering target.
    */
-  constructor() {
+  constructor( elm ) {
     super();
 
     if( DEBUG ) {
@@ -50,5 +55,8 @@ export default class MainContext extends Context {
      * @type {AudioPlayerAction}
      */
     this.musicListAction = new MusicListAction( this );
+
+    // Setup main window
+    ReactDOM.render( <MainWindow context={ this } />, elm );
   }
 }

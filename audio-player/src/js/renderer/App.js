@@ -1,10 +1,13 @@
-import MainWindow  from './main/view/MainWindow.js';
 import MainContext from './main/MainContext.js';
 
 // Compile switch
 global.DEBUG = true;
 
+let context = null;
+
 window.onload = () => {
-  const context = new MainContext();
-  MainWindow.setup( context );
+  const area = document.querySelector( '.app' );
+  if( !( area ) ) { return; }
+
+  context = new MainContext( area );
 };
