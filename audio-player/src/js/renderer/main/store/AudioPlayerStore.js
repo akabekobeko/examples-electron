@@ -17,7 +17,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Initialize instance.
    *
-   * @param {MainContext} context Main window context.
+   * @param {MainWindowContext} context Contect of the main window.
    */
   constructor( context ) {
     super( context );

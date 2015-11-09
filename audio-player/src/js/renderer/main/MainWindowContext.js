@@ -11,9 +11,9 @@ import MusicListAction   from './action/MusicListAction.js';
 import MainWindow        from './view/MainWindow.js';
 
 /**
- * Main window context.
+ * Context of the main window.
  */
-export default class MainContext extends Context {
+export default class MainWindowContext extends Context {
   /**
    * Initialize instance.
    *

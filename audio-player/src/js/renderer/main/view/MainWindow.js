@@ -1,5 +1,4 @@
 import React       from 'react';
-import ReactDOM    from 'react-dom';
 import SplitPane   from 'react-split-pane';
 import AudioPlayer from './AudioPlayer.js';
 import ArtistList  from './ArtistList.js';
@@ -42,17 +41,5 @@ export default class MainWindow extends React.Component {
         </div>
       </div>
     );
-  }
-
-  /**
-   * Setup for main window.
-   *
-   * @param {MainContext} context Main window context.
-   */
-  static setup( context ) {
-    const area = document.querySelector( '.app' );
-    if( !( area ) ) { return; }
-
-    ReactDOM.render( <MainWindow context={ context } />, area );
   }
 }

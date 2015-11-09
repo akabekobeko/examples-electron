@@ -1,4 +1,4 @@
-import MainContext from './main/MainContext.js';
+import MainWindowContext from './main/MainWindowContext.js';
 
 // Compile switch
 global.DEBUG = true;
@@ -9,5 +9,5 @@ window.onload = () => {
   const area = document.querySelector( '.app' );
   if( !( area ) ) { return; }
 
-  context = new MainContext( area );
+  context = new MainWindowContext( area );
 };
