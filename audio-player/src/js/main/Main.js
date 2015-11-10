@@ -1,11 +1,10 @@
 import App           from 'app';
-import CrashReporter from 'crash-reporter';
-import BrowserWindow from 'browser-window';
 import Menu          from 'menu';
 import Path          from 'path';
+import Util          from '../common/Util.js';
 import MainMenu      from './MainMenu.js';
 import MainIPC       from './MainIPC.js';
-import Util          from '../common/Util.js';
+import WindowManager from './WindowManager.js';
 
 /**
  * Application entry point.
@@ -16,16 +15,16 @@ class Main {
    */
   constructor() {
     /**
-     * Application main window.
-     * @type {BrowserWindow}
+     * Manage the window.
+     * @type {WindowManager}
      */
-    this.mainWindow  = null;
+    this._windowManager = new WindowManager();
 
     /**
      * Path of the folder in which to save the image.
      * @type {String}
      */
-    this.saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
+    this._saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
 
     /**
      * Manage the IPC of the main process.
@@ -38,6 +37,24 @@ class Main {
   }
 
   /**
+   * Get the window manager.
+   *
+   * @return {WindowManager} Instance of the window manager.
+   */
+  get windowManager() {
+    return this._windowManager;
+  }
+
+  /**
+   * Get the path of the folder in which to save the image.
+   *
+   * @return {String} path string.
+   */
+  get saveImageDirPath() {
+    return this._saveImageDirPath;
+  }
+
+  /**
    * Occurs when a application launched.
    */
   onReady() {
@@ -45,22 +62,10 @@ class Main {
 
     this._ipc = new MainIPC( this );
 
-    this.mainWindow = new BrowserWindow( {
-      'width': 800,
-      'min-width': 800,
-      'height': 600,
-      'min-height': 480,
-      'resizable': true
-    } );
+    this._windowManager.setup();
+    this._windowManager.showGraphicEqualizer();
 
-    const filePath = Path.join( __dirname, 'main.html' );
-    this.mainWindow.loadUrl( 'file://' + filePath );
-
-    this.mainWindow.on( 'closed', () => {
-      this.mainWindow = null;
-    } );
-
-    const menu = Menu.buildFromTemplate( MainMenu.menu( this.mainWindow ) );
+    const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
     Menu.setApplicationMenu( menu );
   }
 
@@ -74,13 +79,13 @@ class Main {
   }
 }
 
-CrashReporter.start();
-
 const main = new Main();
 App.on( 'ready', () => {
   main.onReady();
 }  );
 
 App.on( 'window-all-closed', () => {
+  if( DEBUG ) { Util.log( 'All of the window was closed.' ); }
+
   main.onWindowAllClosed();
 } );

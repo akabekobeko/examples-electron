@@ -10,12 +10,12 @@ export default class MainIPC {
   /**
    * Initialize instance.
    *
-   * @param {Main} context Application cotext.
+   * @param {App} context Application cotext.
    */
   constructor( context ) {
     /**
      * Application cotext.
-     * @type {Main}
+     * @type {App}
      */
     this._context = context;
 

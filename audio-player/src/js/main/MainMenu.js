@@ -7,28 +7,28 @@ export default class MainMenu {
   /**
    * Create menu.
    *
-   * @param {BrowserWindow} appWindow Main window.
+   * @param {App} app Application instance.
    *
    * @return {Array.<Object>} Menu.
    */
-  static menu( appWindow ) {
+  static menu( app ) {
     switch( process.platform ) {
       case 'darwin':
-        return MainMenu._menuOSX( appWindow );
+        return MainMenu._menuOSX( app );
 
       default:
-        return MainMenu._menuDefault( appWindow );
+        return MainMenu._menuDefault( app );
     }
   }
 
   /**
    * Create menu for OS X.
    *
-   * @param {BrowserWindow} appWindow Main window.
+   * @param {App} app Application instance.
    *
    * @return {Array.<Object>} Menu.
    */
-  static _menuOSX( appWindow ) {
+  static _menuOSX( app ) {
     const menu = [
       {
         label: 'App',
@@ -52,14 +52,14 @@ export default class MainMenu {
             label: 'Reload',
             accelerator: 'Command+R',
             click() {
-              appWindow.reloadIgnoringCache();
+              app.windowManager.mainWindow.reloadIgnoringCache();
             }
           },
           {
             label: 'Toggle DevTools',
             accelerator: 'Alt+Command+I',
             click() {
-              appWindow.toggleDevTools();
+              app.windowManager.mainWindow.toggleDevTools();
             }
           }
         ]
@@ -72,11 +72,11 @@ export default class MainMenu {
   /**
    * Create menu for default platform.
    *
-   * @param {BrowserWindow} appWindow Main window.
+   * @param {App} app Application instance.
    *
    * @return {Array.<Object>} Menu.
    */
-  static _menuDefault( appWindow ) {
+  static _menuDefault( app ) {
     const menu = [
       {
         label: 'App',
@@ -100,14 +100,14 @@ export default class MainMenu {
             label: 'Reload',
             accelerator: 'Ctrl+R',
             click() {
-              appWindow.reloadIgnoringCache();
+              app.windowManager.mainWindow.reloadIgnoringCache();
             }
           },
           {
             label: 'Toggle DevTools',
             accelerator: 'Alt+Ctrl+I',
             click() {
-              appWindow.toggleDevTools();
+              app.windowManager.mainWindow.toggleDevTools();
             }
           }
         ]
