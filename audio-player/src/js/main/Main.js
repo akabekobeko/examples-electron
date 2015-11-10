@@ -63,7 +63,6 @@ class Main {
     this._ipc = new MainIPC( this );
 
     this._windowManager.setup();
-    this._windowManager.showGraphicEqualizer();
 
     const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
     Menu.setApplicationMenu( menu );
