@@ -1,28 +1,3 @@
-
-/**
- * The default number of bands equalizer.
- * @type {Number}
- */
-const DEFAULT_EQUALIZER_BANDS = 10;
-
-/**
- * Frequency of the central ( kHz ).
- * @type {Number}
- */
-const CENTER_FREQUENCY = 31.25;
-
-/**
- * The maximum value of the gain.
- * @type {Number}
- */
-const MIN_GAIN = -40;
-
-/**
- * The minimum value of the gain.
- * @type {Number}
- */
-const MAX_GAIN = 40;
-
 /**
  * Provides the graphic equalizer.
  */
@@ -30,40 +5,32 @@ export default class AudioEffectGraphicEqualizer {
   /**
    * Initialize instance.
    *
-   * @param {AudioContext} context Web Audio context.
-   * @param {Number}       bands   The number of bands of the equalizer, Default is 10 ( bands ).
+   * @param {AudioContext} context         Web Audio context.
+   * @param {Number}       gainMin         The minimum value of the gain.
+   * @param {Number}       gainMax         The maximum value of the gain.
+   * @param {Number}       centerFrequency Frequency of the central ( kHz ).
+   * @param {Number}       bands           The number of bands of the equalizer.
    */
-  constructor( context, bands = DEFAULT_EQUALYZER_BANDS ) {
-    this._peakings = new Array( bands );
+  constructor( context, gainMin, gainMax, centerFrequency, bands ) {
+    /**
+     * The minimum value of the gain.
+     * @type {Number}
+     */
+    this._gainMin = gainMin;
 
-    // Initialize peakings
-    this._peakings[ 0 ] = this._createPeakingFilter( context, CENTER_FREQUENCY );
-    for( let i = 1, frequency = CENTER_FREQUENCY; i < bands; ++i, frequency *= 2 ) {
-      this._peakings[ i ] = this._createPeakingFilter( context, frequency );
-    }
+    /**
+     * The maximum value of the gain.
+     * @type {Number}
+     */
+    this._gainMax = gainMax;
 
-    // Paekings chain
-    for( let i = 0, max = bands - 1; i < max; ++i ) {
-      this._peakings[ i ].connect( this._peakings[ i + 1 ] );
-    }
-  }
+    /**
+     * Peakings.
+     * @type {Array.<BiquadFilterNode>}
+     */
+    this._peakings = null;
 
-  /**
-   * The maximum value of the gain.
-   *
-   * @return {Number} value.
-   */
-  static maxGain() {
-    return MAX_GAIN;
-  }
-
-  /**
-   * The minimum value of the gain.
-   *
-   * @return {Number} value.
-   */
-  static minGain() {
-    return MIN_GAIN;
+    this._setupPeakings( centerFrequency, bands );
   }
 
   /**
@@ -89,7 +56,7 @@ export default class AudioEffectGraphicEqualizer {
     if( !( values && values.length === this._peakings.length ) ) { return; }
 
     values.forEach( ( value, index ) => {
-      if( MIN_GAIN <= value && value <= MAX_GAIN ) {
+      if( this._gainMin <= value && value <= this._gainMax ) {
         this._peakings[ index ].gain.value = value;
       }
     } );
@@ -112,6 +79,26 @@ export default class AudioEffectGraphicEqualizer {
   disconnect() {
     this._peakings[ 0 ].disconnect();
     this._peakings[ this._peakings.length - 1 ].disconnect();
+  }
+
+  /**
+   * Setup the peakings.
+   *
+   * @param {Number} centerFrequency Frequency of the central ( kHz ).
+   * @param {Number} bands           The number of bands of the equalizer.
+   */
+  _setupPeakings( centerFrequency, bands ) {
+    this._peakings = new Array( bands );
+
+    this._peakings[ 0 ] = this._createPeakingFilter( context, centerFrequency );
+    for( let i = 1, frequency = centerFrequency; i < bands; ++i, frequency *= 2 ) {
+      this._peakings[ i ] = this._createPeakingFilter( context, frequency );
+    }
+
+    // Paekings chain
+    for( let i = 0, max = bands - 1; i < max; ++i ) {
+      this._peakings[ i ].connect( this._peakings[ i + 1 ] );
+    }
   }
 
   /**
