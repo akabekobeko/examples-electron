@@ -70,9 +70,40 @@ export default class WindowManager {
   }
 
   /**
+   * Reload the focused window.
+   */
+  reload() {
+    const w = BrowserWindow.getFocusedWindow();
+    if( w ) {
+      w.reloadIgnoringCache();
+    }
+  }
+
+  /**
+   * Switch the display of the developer tools window at focused window.
+   */
+  toggleDevTools() {
+    const w = BrowserWindow.getFocusedWindow();
+    if( w ) {
+      w.toggleDevTools();
+    }
+  }
+
+  /**
+   * Switch the display of the graphic equalizer window.
+   */
+  toggleGraphicEqualizer() {
+    if( this._graphicEqulizer && this._graphicEqulizer.isVisible() ) {
+      this._hideGraphicEqualizer();
+    } else {
+      this._showGraphicEqualizer();
+    }
+  }
+
+  /**
    * Show( with create ) the graphic equalizer window.
    */
-  showGraphicEqualizer() {
+  _showGraphicEqualizer() {
     if( this._graphicEqulizer ) {
       this._graphicEqulizer.show();
       return;
@@ -97,7 +128,7 @@ export default class WindowManager {
   /**
    * Hide the graphic equalizer window.
    */
-  hideGraphicEqualizer() {
+  _hideGraphicEqualizer() {
     if( this._graphicEqulizer ) {
       this._graphicEqulizer.hide();
     }
