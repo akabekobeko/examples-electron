@@ -2,6 +2,7 @@ import React                        from 'react';
 import ReactDOM                     from 'react-dom';
 import { Context }                  from 'material-flux';
 import Util                         from '../../common/Util.js';
+import LocalStorage                 from '../common/LocalStorage.js';
 import EffectGraphicEqualizerStore  from './store/EffectGraphicEqualizerStore.js';
 import EffectGraphicEqualizerAction from './action/EffectGraphicEqualizerAction.js';
 import EffectGraphicEqualizer       from './view/EffectGraphicEqualizer.js';
@@ -27,6 +28,12 @@ export default class EffectGraphicEqualizerContext extends Context {
      * @type {IPC}
      */
     this.ipc = window.require( 'ipc' );
+
+    /**
+     * Provides a localStorage ( Web Storage ) of operating functions.
+     * @type {LocalStorage}
+     */
+    this.localStorage = new LocalStorage();
 
     /**
      * Store of the graphic equalize.

@@ -13,14 +13,22 @@ export const IPCKeys = {
   RequestReadMusicMetadata: 'requestReadMusicMetadata',
   FinishReadMusicMetadata:  'finishReadMusicMetadata',
 
-  RequestShowGraphicEqualizer: 'RequestShowGraphicEqualizer',
+  RequestShowGraphicEqualizer: 'requestShowGraphicEqualizer',
   FinishShowGraphicEqualizer:  'finishShowGraphicEqualizer',
 
-  RequestConnectGraphicEqualizer: 'RrequestConnectGraphicEqualizer',
+  RequestConnectGraphicEqualizer: 'requestConnectGraphicEqualizer',
   FinishConnectGraphicEqualizer:  'finishConnectGraphicEqualizer',
 
   RequestUpdateGraphicEqualizer: 'requestUpdateGraphicEqualizer',
   FinishUpdateGraphicEqualizer:  'finishUpdateGraphicEqualizer'
+};
+
+/**
+ * Defines the key of the Web Storage.
+ * @type {Object}
+ */
+export const StorageKeys = {
+  GraphicEqulizerParams: 'graphicEqulizerParams'
 };
 
 /**
@@ -40,6 +48,7 @@ export const PlaybackState = {
 export const GraphicEqulizerParams = {
   GainMin: -40,
   GainMax: 40,
+  GainStep: 5,
   CenterFrequency: 31.25,
   Bands: 10
 };

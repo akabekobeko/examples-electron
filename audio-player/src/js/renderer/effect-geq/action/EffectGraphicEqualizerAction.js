@@ -25,9 +25,10 @@ export default class EffectGraphicEqualizerAction extends Action {
   /**
    * Update the gains.
    *
-   * @param {Array.<Number>} gains Gains of the graphic equalizer.
+   * @param {Number} index Index of the gains.
+   * @param {Number} value New value.
    */
-  update( gains ) {
-    this.dispatch( Keys.update, gains );
+  update( index, value ) {
+    this.dispatch( Keys.update, index, value );
   }
 }
