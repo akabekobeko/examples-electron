@@ -27,7 +27,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   }
 
   /**
-   * Update the gains.
+   * Update the connection status of the effector.
    *
    * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
    */

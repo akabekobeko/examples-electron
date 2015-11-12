@@ -14,7 +14,7 @@ export const Keys = {
  */
 export default class EffectGraphicEqualizerAction extends Action {
   /**
-   * Update the gains.
+   * Update the connection status of the effector.
    *
    * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
    */
@@ -27,7 +27,7 @@ export default class EffectGraphicEqualizerAction extends Action {
    *
    * @param {Array.<Number>} gains Gains of the graphic equalizer.
    */
-  update( connect, gains ) {
+  update( gains ) {
     this.dispatch( Keys.update, gains );
   }
 }
