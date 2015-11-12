@@ -68,8 +68,8 @@ export default class MusicImporter {
      */
     this._currentFilePath = null;
 
-    this._ipc.addListener( IPCKeys.FinishShowOpenDialog, this._onFinishShowOpenDialog.bind( this ) );
-    this._ipc.addListener( IPCKeys.FinishReadMusicMetadata, this._onFinishReadMusicMetadata.bind( this ) );
+    this._ipc.on( IPCKeys.FinishShowOpenDialog, this._onFinishShowOpenDialog.bind( this ) );
+    this._ipc.on( IPCKeys.FinishReadMusicMetadata, this._onFinishReadMusicMetadata.bind( this ) );
   }
 
   /**

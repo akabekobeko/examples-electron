@@ -2,7 +2,6 @@ import React             from 'react';
 import ReactDOM          from 'react-dom';
 import { Context }       from 'material-flux';
 import Util              from '../../common/Util.js';
-import RendererIPC       from '../RendererIPC.js';
 import AudioPlayerStore  from './store/AudioPlayerStore.js';
 import AudioPlayerAction from './action/AudioPlayerAction.js';
 import MusicListStore    from './store/MusicListStore.js';
@@ -26,10 +25,10 @@ export default class MainWindowContext extends Context {
     }
 
     /**
-     * Manage the IPC of the renderer process.
-     * @type {RendererIPC}
+     * Provides a inter-process communication.
+     * @type {IPC}
      */
-    this.ipc = new RendererIPC();
+    this.ipc = window.require( 'ipc' );
 
     /**
      * Audio player store.

@@ -1,7 +1,10 @@
+import App           from 'app';
+import IPC           from 'ipc';
 import Fs            from 'original-fs';
 import Path          from 'path';
 import Crypto        from 'crypto';
 import MusicMetadata from 'musicmetadata';
+import { IPCKeys }   from '../../common/Constants.js';
 import Util          from '../../common/Util.js';
 import FileUtil      from './FileUtil.js';
 
@@ -11,16 +14,15 @@ import FileUtil      from './FileUtil.js';
 export default class MusicMetadataReader {
   /**
    * Initialize instance.
-   *
-   * @param {String} saveImageDirPath Path of the folder in which to save the image.
    */
-  constructor( saveImageDirPath ) {
+  constructor() {
     /**
-     * Path of the folder in which to save the image
+     * Path of the folder in which to save the image.
      * @type {String}
      */
-    this._saveImageDirPath = saveImageDirPath;
+    this._saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
 
+    // Setup save directory
     if( this._saveImageDirPath ) {
       FileUtil.mkdir( this._saveImageDirPath, ( err ) => {
         if( err ) {
@@ -28,6 +30,8 @@ export default class MusicMetadataReader {
         }
       } );
     }
+
+    IPC.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
   }
 
   /**
@@ -145,5 +149,22 @@ export default class MusicMetadataReader {
 
     sha.update( data );
     return sha.digest( 'hex' );
+  }
+
+  /**
+   * Occurs when the import of music files has been requested.
+   *
+   * @param {Event}  ev       Event data.
+   * @param {String} filePath Music file path.
+   */
+  _onRequestReadMusicMetadata( ev, filePath ) {
+    if( !( filePath ) ) {
+      ev.sender.send( IPCKeys.FinishReadMusicMetadata, new Error( 'Invalid arguments.' ), null );
+      return;
+    }
+
+    this.read( filePath, ( err, music ) => {
+      ev.sender.send( IPCKeys.FinishReadMusicMetadata, err, music );
+    } );
   }
 }

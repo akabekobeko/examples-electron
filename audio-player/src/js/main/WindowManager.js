@@ -29,7 +29,7 @@ export default class WindowManager {
    * @return {BrowserWindow} Instance of the main window.
    */
   get mainWindow() {
-    return this._mainWindow;
+    return this._main;
   }
 
   /**

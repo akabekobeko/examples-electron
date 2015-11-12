@@ -1,10 +1,10 @@
-import App           from 'app';
-import Menu          from 'menu';
-import Path          from 'path';
-import Util          from '../common/Util.js';
-import MainMenu      from './MainMenu.js';
-import MainIPC       from './MainIPC.js';
-import WindowManager from './WindowManager.js';
+import App                 from 'app';
+import Menu                from 'menu';
+import Util                from '../common/Util.js';
+import MainMenu            from './MainMenu.js';
+import DialogManager       from './DialogManager.js';
+import WindowManager       from './WindowManager.js';
+import MusicMetadataReader from './model/MusicMetadataReader.js';
 
 /**
  * Application entry point.
@@ -14,6 +14,10 @@ class Main {
    * Initialize instance.
    */
   constructor() {
+    // Compile switch
+    global.DEBUG = true;
+    if( DEBUG ) { Util.log( 'Initialize Application' ); }
+
     /**
      * Manage the window.
      * @type {WindowManager}
@@ -21,19 +25,16 @@ class Main {
     this._windowManager = new WindowManager();
 
     /**
-     * Path of the folder in which to save the image.
-     * @type {String}
+     * Manage the native dialog.
+     * @type {DialogManager}
      */
-    this._saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
+    this._dialogManager = new DialogManager();
 
     /**
-     * Manage the IPC of the main process.
-     * @type {MainIPC}
+     * Read the metadata from music file.
+     * @type {MusicMetadataReader}
      */
-    this._ipc = null;
-
-    // Compile switch
-    global.DEBUG = true;
+    this._musicMetadataReader = new MusicMetadataReader();
   }
 
   /**
@@ -46,22 +47,9 @@ class Main {
   }
 
   /**
-   * Get the path of the folder in which to save the image.
-   *
-   * @return {String} path string.
-   */
-  get saveImageDirPath() {
-    return this._saveImageDirPath;
-  }
-
-  /**
    * Occurs when a application launched.
    */
   onReady() {
-    if( DEBUG ) { Util.log( 'Launched' ); }
-
-    this._ipc = new MainIPC( this );
-
     this._windowManager.setup();
 
     const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
@@ -80,8 +68,13 @@ class Main {
 
 const main = new Main();
 App.on( 'ready', () => {
+  if( DEBUG ) { Util.log( 'Application is ready' ); }
   main.onReady();
-}  );
+} );
+
+App.on( 'quit', () => {
+  if( DEBUG ) { Util.log( 'Application is quit' ); }
+} );
 
 App.on( 'window-all-closed', () => {
   if( DEBUG ) { Util.log( 'All of the window was closed.' ); }
