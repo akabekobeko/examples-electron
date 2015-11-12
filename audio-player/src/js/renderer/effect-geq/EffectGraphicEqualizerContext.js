@@ -2,7 +2,6 @@ import React                        from 'react';
 import ReactDOM                     from 'react-dom';
 import { Context }                  from 'material-flux';
 import Util                         from '../../common/Util.js';
-import RendererIPC                  from '../RendererIPC.js';
 import EffectGraphicEqualizerStore  from './store/EffectGraphicEqualizerStore.js';
 import EffectGraphicEqualizerAction from './action/EffectGraphicEqualizerAction.js';
 import EffectGraphicEqualizer       from './view/EffectGraphicEqualizer.js';
@@ -24,10 +23,10 @@ export default class EffectGraphicEqualizerContext extends Context {
     }
 
     /**
-     * Manage the IPC of the renderer process.
-     * @type {RendererIPC}
+     * Provides a inter-process communication.
+     * @type {IPC}
      */
-    this.ipc = new RendererIPC();
+    this.ipc = window.require( 'ipc' );
 
     /**
      * Store of the graphic equalize.
