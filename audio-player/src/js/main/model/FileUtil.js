@@ -1,4 +1,5 @@
-import Fs from 'original-fs';
+import Fs   from 'original-fs';
+import Util from '../../common/Util.js';
 
 /**
  * Provide a utility of file/folder operation methods.
@@ -13,7 +14,7 @@ export default class FileUtil {
    */
   static mkdir( path, cb ) {
     if( FileUtil.existsSync( path ) ) {
-      console.log( 'mkdir cancel exists' );
+      Util.log( 'mkdir cancel exists' );
       return cb();
     }
 
@@ -32,7 +33,7 @@ export default class FileUtil {
    */
   static writeFile( path, data, cb, overwrite ) {
     if( !( overwrite ) && FileUtil.existsSync( path ) ) {
-      console.log( 'writeFile cancel exists' );
+      Util.log( 'writeFile cancel exists' );
       return cb();
     }
 
