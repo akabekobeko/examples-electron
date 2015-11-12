@@ -1,4 +1,4 @@
-import IndexedDBWrapper from './IndexedDBWrapper.js';
+import IndexedDBWrapper from '../../common/IndexedDBWrapper.js';
 import Music            from './Music.js';
 
 /**
