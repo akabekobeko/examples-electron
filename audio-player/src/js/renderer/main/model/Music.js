@@ -5,12 +5,12 @@ export default class Music {
   /**
    * Initialize instance.
    *
-   * @param {Number|String} id Identifier of music.
+   * @param {MusicMetadata} metadata Metadata of music.
    */
   constructor( metadata ) {
     /**
-     * Metadata of npm musicmetadata.
-     * @type {[type]}
+     * Metadata of music.
+     * @type {MusicMetadata}
      */
     this._metadata = metadata;
   }
@@ -34,7 +34,7 @@ export default class Music {
   /**
    * Create music information from metadata.
    *
-   * @param {Object} metadata Music metadata from MusicImporter or MusicDatabase.
+   * @param {MusicMetadata} metadata Metadata of music.
    *
    * @return {Music} Music.
    */
@@ -49,7 +49,7 @@ export default class Music {
    * Get the metadata.
    * The value of the order to save the IndexedDB.
    *
-   * @return {Object} Metadata
+   * @return {MusicMetadata} Metadata.
    */
   get metadata() {
     return this._metadata;
