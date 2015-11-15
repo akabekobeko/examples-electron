@@ -13,12 +13,6 @@ export const IPCKeys = {
   RequestReadMusicMetadata: 'requestReadMusicMetadata',
   FinishReadMusicMetadata:  'finishReadMusicMetadata',
 
-  RequestShowGraphicEqualizer: 'requestShowGraphicEqualizer',
-  FinishShowGraphicEqualizer:  'finishShowGraphicEqualizer',
-
-  RequestConnectGraphicEqualizer: 'requestConnectGraphicEqualizer',
-  FinishConnectGraphicEqualizer:  'finishConnectGraphicEqualizer',
-
   RequestUpdateGraphicEqualizer: 'requestUpdateGraphicEqualizer',
   FinishUpdateGraphicEqualizer:  'finishUpdateGraphicEqualizer'
 };
