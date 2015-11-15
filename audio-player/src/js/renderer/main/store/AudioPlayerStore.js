@@ -1,6 +1,7 @@
 import { Store }         from 'material-flux';
 import { Keys }          from '../action/AudioPlayerAction.js';
 import { PlaybackState } from '../../../common/Constants.js';
+import { IPCKeys }       from '../../../common/Constants.js';
 import Util              from '../../../common/Util.js';
 import AudioPlayer       from '../model/AudioPlayer.js';
 
@@ -49,6 +50,9 @@ export default class AudioPlayerStore extends Store {
     this.register( Keys.stop,   this._actionStop   );
     this.register( Keys.seek,   this._actionSeek   );
     this.register( Keys.volume, this._actionVolume );
+
+    // IPC handlers
+    context.ipc.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
   }
 
   /**
@@ -214,5 +218,18 @@ export default class AudioPlayerStore extends Store {
   _stopTimer() {
     clearInterval( this._playbackTimerIntervalId );
     this._playbackTimerIntervalId = null;
+  }
+
+  /**
+   * Occurs when the graphic equalizer update is requested.
+   *
+   * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
+   * @param {Array.<Number>} gains   Gain values.
+   */
+  _onRequestUpdateGraphicEqualizer( connect, gains ) {
+    if( DEBUG ) { Util.log( 'AudioPlayerStore._onRequestUpdateGraphicEqualizer: connect =' + connect + ', gains = ' + gains ); }
+
+    this._audioPlayer.updateGraphicEqualizer( connect, gains );
+    this.context.ipc.send( IPCKeys.FinishUpdateGraphicEqualizer );
   }
 }

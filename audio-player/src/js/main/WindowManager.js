@@ -1,6 +1,8 @@
+import IPC           from 'ipc';
 import Path          from 'path';
 import BrowserWindow from 'browser-window';
 import Util          from '../common/Util.js';
+import { IPCKeys }   from '../common/Constants.js';
 
 /**
  * Manage the window.
@@ -8,6 +10,7 @@ import Util          from '../common/Util.js';
 export default class WindowManager {
   /**
    * Initialize instance.
+   *
    */
   constructor() {
     /**
@@ -21,6 +24,10 @@ export default class WindowManager {
      * @type {BrowserWindow}
      */
     this._graphicEqulizer = null;
+
+    // IPC handlers
+    IPC.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
+    IPC.on( IPCKeys.FinishUpdateGraphicEqualizer, this._onFinishUpdateGraphicEqualizer.bind( this ) );
   }
 
   /**
@@ -131,6 +138,27 @@ export default class WindowManager {
   _hideGraphicEqualizer() {
     if( this._graphicEqulizer ) {
       this._graphicEqulizer.hide();
+    }
+  }
+
+  /**
+   * Occurs when the graphic equalizer update is requested.
+   *
+   * @param {Event}          ev      Event data.
+   * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
+   * @param {Array.<Number>} gains   Gain values.
+   */
+  _onRequestUpdateGraphicEqualizer( ev, connect, gains ) {
+    this._main.webContents.send( IPCKeys.RequestUpdateGraphicEqualizer, connect, gains );
+    ev.sender.send( IPCKeys.FinishUpdateGraphicEqualizer );
+  }
+
+  /**
+   * Occurs when the graphic equalizer update is finished.
+   */
+  _onFinishUpdateGraphicEqualizer() {
+    if( this._graphicEqulizer ) {
+      this._graphicEqulizer.webContents.send( IPCKeys.FinishUpdateGraphicEqualizer );
     }
   }
 }

@@ -1,3 +1,5 @@
+import AudioEffectGraphicEqualizer from './AudioEffectGraphicEqualizer.js';
+import { GraphicEqulizerParams }   from '../../../common/Constants.js';
 
 /**
  * Provides audio playback function.
@@ -15,7 +17,7 @@ export default class AudioPlayer {
      * Audio context.
      * @type {AudioContext|webkitAudioContext}
      */
-    this._context = ( () => {
+    this._audioContext = ( () => {
       const audioContext = ( window.AudioContext || window.webkitAudioContext );
       if( audioContext ) { return new audioContext(); }
 
@@ -38,23 +40,50 @@ export default class AudioPlayer {
      * Node for audio volume adjustment.
      * @type {GainNode}
      */
-    this._gainNode = this._context.createGain();
+    this._gainNode = this._audioContext.createGain();
     this._gainNode.gain.value = 1.0;
-    this._gainNode.connect( this._context.destination );
+    this._gainNode.connect( this._audioContext.destination );
 
     /**
      * Node for audio analyze.
      * @type {AnalyserNode}
      */
-    this._analyserNode = this._context.createAnalyser();
+    this._analyserNode = this._audioContext.createAnalyser();
     this._analyserNode.fftSize = 64;
     this._analyserNode.connect( this._gainNode );
+
+    /**
+     * Node for effector
+     * @type {GainNode}
+     */
+    this._effectNode = this._audioContext.createGain();
+    this._effectNode.gain.value = 1.0;
+    this._effectNode.connect( this._analyserNode );
+
+    /**
+     * Node that connects the source and the effector.
+     * @type {[type]}
+     */
+    this._sourceEffectNode = this._audioContext.createGain();
+    this._sourceEffectNode.gain.value = 1.0;
+    this._sourceEffectNode.connect( this._effectNode );
 
     /**
      * Indicates that the audio is playing.
      * @type {Boolean}
      */
     this._isPlaying = false;
+
+    /**
+     * Effect of the graphic equalizer.
+     * @type {AudioEffectGraphicEqualizer}
+     */
+    this._effectGraphicEqualizer = new AudioEffectGraphicEqualizer(
+      this._audioContext,
+      GraphicEqulizerParams.GainMin,
+      GraphicEqulizerParams.GainMax,
+      GraphicEqulizerParams.CenterFrequency,
+      GraphicEqulizerParams.Bands );
   }
 
   /**
@@ -146,8 +175,8 @@ export default class AudioPlayer {
 
     this._audio = new Audio( filePath );
     this._audio.addEventListener( 'loadstart', () => {
-      this._sourceNode = this._context.createMediaElementSource( this._audio );
-      this._sourceNode.connect( this._analyserNode );
+      this._sourceNode = this._audioContext.createMediaElementSource( this._audio );
+      this._sourceNode.connect( this._sourceEffectNode );
       callback();
     } );
   }
@@ -181,5 +210,23 @@ export default class AudioPlayer {
     this._audio.pause();
     this._audio.currentTime = 0;
     this._isPlaying = false;
+  }
+
+  /**
+   * Update the graphic equalizer.
+   *
+   * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
+   * @param {Array.<Number>} gains   Gain values.
+   */
+  updateGraphicEqualizer( connect, gains ) {
+    this._effectGraphicEqualizer.gains = gains;
+    if( connect !== this._connected ) {
+      if( connect ) {
+        this._effectGraphicEqualizer.connect( this._sourceEffectNode, this._effectNode );
+      } else {
+        this._effectGraphicEqualizer.disconnect();
+        this._sourceEffectNode.connect( this._effectNode );
+      }
+    }
   }
 }

@@ -30,7 +30,13 @@ export default class AudioEffectGraphicEqualizer {
      */
     this._peakings = null;
 
-    this._setupPeakings( centerFrequency, bands );
+    /**
+     * Value indicating that it is connected.
+     * @type {Boolean}
+     */
+    this._connected = false;
+
+    this._setupPeakings( context, centerFrequency, bands );
   }
 
   /**
@@ -69,6 +75,9 @@ export default class AudioEffectGraphicEqualizer {
    * @param {AudioNode} output Output node.
    */
   connect( input, output ) {
+    if( this._connected ) { return; }
+    this._connected = true;
+
     input.connect( this._peakings[ 0 ] );
     this._peakings[ this._peakings.length - 1 ].connect( output );
   }
@@ -77,6 +86,9 @@ export default class AudioEffectGraphicEqualizer {
    * Disconnect the effector from the node.
    */
   disconnect() {
+    if( !( this._connected ) ) { return; }
+    this._connected = false;
+
     this._peakings[ 0 ].disconnect();
     this._peakings[ this._peakings.length - 1 ].disconnect();
   }
@@ -84,10 +96,11 @@ export default class AudioEffectGraphicEqualizer {
   /**
    * Setup the peakings.
    *
-   * @param {Number} centerFrequency Frequency of the central ( kHz ).
-   * @param {Number} bands           The number of bands of the equalizer.
+   * @param {AudioContext} context         Web Audio context.
+   * @param {Number}       centerFrequency Frequency of the central ( kHz ).
+   * @param {Number}       bands           The number of bands of the equalizer.
    */
-  _setupPeakings( centerFrequency, bands ) {
+  _setupPeakings( context, centerFrequency, bands ) {
     this._peakings = new Array( bands );
 
     this._peakings[ 0 ] = this._createPeakingFilter( context, centerFrequency );

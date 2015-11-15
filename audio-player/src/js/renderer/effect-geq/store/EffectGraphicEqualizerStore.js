@@ -1,5 +1,6 @@
 import { Store }                 from 'material-flux';
 import { Keys }                  from '../action/EffectGraphicEqualizerAction.js';
+import { IPCKeys }               from '../../../common/Constants.js';
 import { StorageKeys }           from '../../../common/Constants.js';
 import { GraphicEqulizerParams } from '../../../common/Constants.js';
 
@@ -55,6 +56,7 @@ export default class EffectGraphicEqualizerStore extends Store {
    */
   _actionConnect( connect ) {
     this.setState( { connect: connect } );
+    this._save();
   }
 
   /**
@@ -67,7 +69,6 @@ export default class EffectGraphicEqualizerStore extends Store {
     const gains = this.state.gains.concat();
     gains[ index ] = value;
     this.setState( { gains: gains } );
-
     this._save();
   }
 
@@ -86,6 +87,8 @@ export default class EffectGraphicEqualizerStore extends Store {
 
       this.setState( { gains: gains } );
     }
+
+    this._notifyUpdate();
   }
 
   /**
@@ -93,5 +96,13 @@ export default class EffectGraphicEqualizerStore extends Store {
    */
   _save() {
     this.context.localStorage.setItem( StorageKeys.GraphicEqulizerParams, this.state, true );
+    this._notifyUpdate();
+  }
+
+  /**
+   * That the graphic equalizer has been updated it will notify the audio player.
+   */
+  _notifyUpdate() {
+    this.context.ipc.send( IPCKeys.RequestUpdateGraphicEqualizer, this.state.connect, this.state.gains );
   }
 }
