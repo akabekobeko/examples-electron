@@ -23,3 +23,9 @@
  * @property {Picture}        picture     Image data.
  * @property {Number}         duration    Duration ( Seconds ).
  */
+
+/**
+ * @typedef {Object} GraphicEqualizerPreset
+ * @property {String}         name  Preset name.
+ * @property {Array.<Number>} gains Prest gains.
+ */

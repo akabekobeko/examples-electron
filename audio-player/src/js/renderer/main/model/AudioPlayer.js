@@ -82,7 +82,6 @@ export default class AudioPlayer {
       this._audioContext,
       GraphicEqulizerParams.GainMin,
       GraphicEqulizerParams.GainMax,
-      GraphicEqulizerParams.CenterFrequency,
       GraphicEqulizerParams.Bands );
   }
 

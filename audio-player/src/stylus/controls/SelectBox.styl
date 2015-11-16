@@ -1,0 +1,46 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+.selectbox {
+  position relative
+  height 28px
+  background-color color_indigo_dark
+  border solid 1px color_indigo_dark
+  border-radius 2px
+
+  &__dropdown {
+    width size_full
+    height size_full
+    cursor pointer
+
+    &:after {
+      icon_style()
+      position absolute
+      box-sizing border-box
+      padding-top 8px
+      padding-left 4px
+      right 4px
+      height size_full
+      content icon_cross
+      color color_white
+      font-size 14px
+    }
+
+    &__select {
+      unselectable()
+      appearance_none()
+      z-index 1
+      position absolute
+      width size_full
+      padding .5em 24px .5em .5em
+      outline none
+      border none
+      background-color transparent
+      font-family sans-serif
+      font-size 14px
+      color color_white
+      cursor pointer
+    }
+  }
+}

@@ -118,7 +118,7 @@ export default class WindowManager {
 
     this._graphicEqulizer = new BrowserWindow( {
       'width': 320,
-      'height': 480,
+      'height': 300,
       'resizable': false
     } );
 

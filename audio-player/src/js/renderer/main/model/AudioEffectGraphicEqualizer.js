@@ -5,13 +5,12 @@ export default class AudioEffectGraphicEqualizer {
   /**
    * Initialize instance.
    *
-   * @param {AudioContext} context         Web Audio context.
-   * @param {Number}       gainMin         The minimum value of the gain.
-   * @param {Number}       gainMax         The maximum value of the gain.
-   * @param {Number}       centerFrequency Frequency of the central ( kHz ).
-   * @param {Number}       bands           The number of bands of the equalizer.
+   * @param {AudioContext}   context Web Audio context.
+   * @param {Number}         gainMin The minimum value of the gain.
+   * @param {Number}         gainMax The maximum value of the gain.
+   * @param {Array.<Number>} bands   Frequency band collection of equalizer.
    */
-  constructor( context, gainMin, gainMax, centerFrequency, bands ) {
+  constructor( context, gainMin, gainMax, bands ) {
     /**
      * The minimum value of the gain.
      * @type {Number}
@@ -36,7 +35,7 @@ export default class AudioEffectGraphicEqualizer {
      */
     this._connected = false;
 
-    this._setupPeakings( context, centerFrequency, bands );
+    this._setupPeakings( context, bands );
   }
 
   /**
@@ -89,27 +88,30 @@ export default class AudioEffectGraphicEqualizer {
     if( !( this._connected ) ) { return; }
     this._connected = false;
 
+    // Input chain
     this._peakings[ 0 ].disconnect();
-    this._peakings[ this._peakings.length - 1 ].disconnect();
+    this._peakings[ 0 ].connect( this._peakings[ 1 ] );
+
+    // Output chain
+    const last = this._peakings.length - 1;
+    this._peakings[ last ].disconnect();
+    this._peakings[ last - 1 ].connect( this._peakings[ last ] );
   }
 
   /**
    * Setup the peakings.
    *
-   * @param {AudioContext} context         Web Audio context.
-   * @param {Number}       centerFrequency Frequency of the central ( kHz ).
-   * @param {Number}       bands           The number of bands of the equalizer.
+   * @param {AudioContext}   context Web Audio context.
+   * @param {Array.<Number>} bands   Frequency band collection of equalizer.
    */
-  _setupPeakings( context, centerFrequency, bands ) {
-    this._peakings = new Array( bands );
-
-    this._peakings[ 0 ] = this._createPeakingFilter( context, centerFrequency );
-    for( let i = 1, frequency = centerFrequency; i < bands; ++i, frequency *= 2 ) {
-      this._peakings[ i ] = this._createPeakingFilter( context, frequency );
+  _setupPeakings( context, bands ) {
+    this._peakings = new Array( bands.length );
+    for( let i = 0, max = bands.length; i < max; ++i ) {
+      this._peakings[ i ] = this._createPeakingFilter( context, bands[ i ] );
     }
 
-    // Paekings chain
-    for( let i = 0, max = bands - 1; i < max; ++i ) {
+    // Paekings chain ( 0-1, 1-2, ...N )
+    for( let i = 0, max = bands.length - 1; i < max; ++i ) {
       this._peakings[ i ].connect( this._peakings[ i + 1 ] );
     }
   }

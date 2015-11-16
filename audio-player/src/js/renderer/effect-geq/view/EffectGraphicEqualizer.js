@@ -1,10 +1,12 @@
 import React                     from 'react';
 import { GraphicEqulizerParams } from '../../../common/Constants.js'
+import OnOffSwitch               from '../../common/controls/OnOffSwitch.js';
+import SelectBox                 from '../../common/controls/SelectBox.js';
 
 /**
  * Component for graphic equalizer window.
  */
-export default class GraphicEqualizer extends React.Component {
+export default class EffectGraphicEqualizer extends React.Component {
   /**
    * Initialize instance.
    *
@@ -12,6 +14,16 @@ export default class GraphicEqualizer extends React.Component {
    */
   constructor( props ) {
     super( props );
+
+    /**
+     * State of component.
+     * @type {Object}
+     */
+    this.state = {
+      presets: this.props.context.effectGraphicEqualizerStore.presets.map( ( preset ) => {
+        return preset.name;
+      } )
+    }
 
     /**
      * Function to watch the change of Store.
@@ -42,6 +54,18 @@ export default class GraphicEqualizer extends React.Component {
   render() {
     return (
       <div className="effect-graphic-equalizer">
+        <div className="effect-graphic-equalizer__header">
+          <div className="effect-graphic-equalizer__header__presets">
+            <SelectBox
+              options={ this.state.presets }
+              selectedValue={ this.props.context.effectGraphicEqualizerStore.preset } />
+          </div>
+          <div className="effect-graphic-equalizer__header__connect">
+            <OnOffSwitch
+              checked={ this.props.context.effectGraphicEqualizerStore.connect }
+              onChange={ this._onChangeConncectSwitch.bind( this ) } />
+          </div>
+        </div>
         <div className="effect-graphic-equalizer__gain">
         { this._renderGains() }
         </div>
@@ -55,12 +79,7 @@ export default class GraphicEqualizer extends React.Component {
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderGains() {
-    let frequecy = GraphicEqulizerParams.CenterFrequency;
     return this.props.context.effectGraphicEqualizerStore.gains.map( ( gain, index ) => {
-      if( 0 < index ) {
-        frequecy *= 2;
-      }
-
       return (
         <div key={ index }>
           <input
@@ -77,11 +96,27 @@ export default class GraphicEqualizer extends React.Component {
           <div
             className="effect-graphic-equalizer__gain__frequecy"
             style={ { left: ( index * 32 ) + 5 } }>
-            { this._frequecyToString( frequecy ) }
+            { this._frequecyToString( GraphicEqulizerParams.Bands[ index ] ) }
           </div>
         </div>
       );
     } );
+  }
+
+  /**
+   * Occurs when the connection switch is changed.
+   *
+   * @param {Boolean} frequecy Frequecy.
+   */
+  _onChangeConncectSwitch( connect ) {
+    this.props.context.effectGraphicEqualizerAction.connect( connect );
+  }
+
+  /**
+   * Occurs when the Store of the state has been changed.
+   */
+  _onChange() {
+    this.forceUpdate();
   }
 
   /**
@@ -98,12 +133,5 @@ export default class GraphicEqualizer extends React.Component {
     }
 
     return String( frequecy );
-  }
-
-  /**
-   * Occurs when the Store of the state has been changed.
-   */
-  _onChange() {
-    this.forceUpdate();
   }
 }

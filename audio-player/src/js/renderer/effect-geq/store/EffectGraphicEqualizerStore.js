@@ -22,7 +22,12 @@ export default class EffectGraphicEqualizerStore extends Store {
      */
     this.state = {
       connect: false,
-      gains: []
+      gains: [],
+      presetNumber: 0,
+      presets: [
+        { name: 'Normal',   gains: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
+        { name: 'Loudness', gains: [ 20, 10, 0, 0, 0, 0, 0, 0, -10, -10 ] }
+      ]
     };
 
     this.register( Keys.connect, this._actionConnect );
@@ -47,6 +52,24 @@ export default class EffectGraphicEqualizerStore extends Store {
    */
   get gains() {
     return this.state.gains;
+  }
+
+  /**
+   * Get the index number of presets.
+   *
+   * @return {NUmber} Index number.
+   */
+  get presetNumber() {
+    return this.state.presetNumber;
+  }
+
+  /**
+   * Get the preset gains of graphic equalizer.
+   *
+   * @return {Array.<GraphicEqualizerPreset>} Presets.
+   */
+  get presets() {
+    return this.state.presets;
   }
 
   /**
@@ -78,7 +101,11 @@ export default class EffectGraphicEqualizerStore extends Store {
   _load() {
     const params = this.context.localStorage.getItem( StorageKeys.GraphicEqulizerParams, true );
     if( params ) {
-      this.setState( { connect: params.connect, gains: params.gains } );
+      this.setState( {
+        connect: params.connect,
+        gains:   params.gains,
+        preset:  ( params.preset === undefined ? 0 : params.preset )
+      } );
     } else {
       const gains = [];
       for( let i = 0; i < GraphicEqulizerParams.Bands; ++i ) {
@@ -95,7 +122,13 @@ export default class EffectGraphicEqualizerStore extends Store {
    * Save the parameters of the graphic equalizer.
    */
   _save() {
-    this.context.localStorage.setItem( StorageKeys.GraphicEqulizerParams, this.state, true );
+    const params = {
+      connect: this.state.connect,
+      gains: this.state.gains,
+      preset: 0
+    };
+
+    this.context.localStorage.setItem( StorageKeys.GraphicEqulizerParams, params, true );
     this._notifyUpdate();
   }
 
