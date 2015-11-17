@@ -19,22 +19,28 @@ class Main {
     if( DEBUG ) { Util.log( 'Initialize Application' ); }
 
     /**
+     * IPC module for main process.
+     * @type {ipcMain}
+     */
+    this.ipc = require( 'electron' ).ipcMain;
+
+    /**
      * Manage the window.
      * @type {WindowManager}
      */
-    this._windowManager = new WindowManager();
+    this._windowManager = new WindowManager( this );
 
     /**
      * Manage the native dialog.
      * @type {DialogManager}
      */
-    this._dialogManager = new DialogManager();
+    this._dialogManager = new DialogManager( this );
 
     /**
      * Read the metadata from music file.
      * @type {MusicMetadataReader}
      */
-    this._musicMetadataReader = new MusicMetadataReader();
+    this._musicMetadataReader = new MusicMetadataReader( this );
   }
 
   /**

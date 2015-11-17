@@ -1,4 +1,3 @@
-import IPC         from 'ipc';
 import Dialog      from 'dialog';
 import { IPCKeys } from '../common/Constants.js';
 
@@ -8,10 +7,12 @@ import { IPCKeys } from '../common/Constants.js';
 export default class DialogManager {
   /**
    * Initialize instance.
+   *
+   * @param {Main} context Application context.
    */
-  constructor() {
-    IPC.on( IPCKeys.RequestShowMessage,    this._onRequestShowMessage.bind( this ) );
-    IPC.on( IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind( this ) );
+  constructor( context ) {
+    context.ipc.on( IPCKeys.RequestShowMessage,    this._onRequestShowMessage.bind( this ) );
+    context.ipc.on( IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind( this ) );
   }
 
   /**

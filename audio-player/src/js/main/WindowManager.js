@@ -1,4 +1,3 @@
-import IPC           from 'ipc';
 import Path          from 'path';
 import BrowserWindow from 'browser-window';
 import Util          from '../common/Util.js';
@@ -11,8 +10,9 @@ export default class WindowManager {
   /**
    * Initialize instance.
    *
+   * @param {Main} context Application context.
    */
-  constructor() {
+  constructor( context ) {
     /**
      * the application's main window.
      * @type {BrowserWindow}
@@ -26,8 +26,8 @@ export default class WindowManager {
     this._graphicEqulizer = null;
 
     // IPC handlers
-    IPC.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
-    IPC.on( IPCKeys.FinishUpdateGraphicEqualizer, this._onFinishUpdateGraphicEqualizer.bind( this ) );
+    context.ipc.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
+    context.ipc.on( IPCKeys.FinishUpdateGraphicEqualizer, this._onFinishUpdateGraphicEqualizer.bind( this ) );
   }
 
   /**
@@ -64,7 +64,7 @@ export default class WindowManager {
     } );
 
     const filePath = Path.join( __dirname, 'main.html' );
-    this._main.loadUrl( 'file://' + filePath );
+    this._main.loadURL( 'file://' + filePath );
 
     this._main.on( 'closed', () => {
       if( DEBUG ) { Util.log( 'The main window was closed.' ); }
@@ -108,7 +108,7 @@ export default class WindowManager {
   }
 
   /**
-   * Show( with create ) the graphic equalizer window.
+   * Show ( with create ) the graphic equalizer window.
    */
   _showGraphicEqualizer() {
     if( this._graphicEqulizer ) {
@@ -123,7 +123,7 @@ export default class WindowManager {
     } );
 
     const filePath = Path.join( __dirname, 'effect-geq.html' );
-    this._graphicEqulizer.loadUrl( 'file://' + filePath );
+    this._graphicEqulizer.loadURL( 'file://' + filePath );
 
     this._graphicEqulizer.on( 'closed', () => {
       if( DEBUG ) { Util.log( 'The graphic equalizer window was closed.' ); }
@@ -144,7 +144,7 @@ export default class WindowManager {
   /**
    * Occurs when the graphic equalizer update is requested.
    *
-   * @param {Event}          ev      Event data.
+   * @param {IPCEvent}       ev      Event data.
    * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
    * @param {Array.<Number>} gains   Gain values.
    */

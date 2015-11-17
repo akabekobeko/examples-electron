@@ -1,5 +1,4 @@
 import App           from 'app';
-import IPC           from 'ipc';
 import Fs            from 'original-fs';
 import Path          from 'path';
 import Crypto        from 'crypto';
@@ -14,8 +13,10 @@ import FileUtil      from './FileUtil.js';
 export default class MusicMetadataReader {
   /**
    * Initialize instance.
+   *
+   * @param {Main} context Application context.
    */
-  constructor() {
+  constructor( context ) {
     /**
      * Path of the folder in which to save the image.
      * @type {String}
@@ -31,7 +32,7 @@ export default class MusicMetadataReader {
       } );
     }
 
-    IPC.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
+    context.ipc.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
   }
 
   /**

@@ -117,9 +117,10 @@ export default class MusicImporter {
   /**
    * Occurs when a music file of impot has been executed.
    *
-   * @param {Array.<String>} File/Folder paths.
+   * @param {IPCEvent}       ev    Event data.
+   * @param {Array.<String>} paths File/Folder paths.
    */
-  _onFinishShowOpenDialog( paths ) {
+  _onFinishShowOpenDialog( ev, paths ) {
     if( !( paths ) ) {
       this._onFinish( true );
       this._onProgress = null;
@@ -137,10 +138,11 @@ export default class MusicImporter {
   /**
    * Occurs when a music file of read metadata has been executed.
    *
-   * @param {Error}  err   Error information. Success is undefined.
-   * @param {Object} music Music metadata from main process. ( FinishReadMusicMetadata )
+   * @param {IPCEvent} ev    Event data.
+   * @param {Error}    err   Error information. Success is undefined.
+   * @param {Object}   music Music metadata from main process. ( FinishReadMusicMetadata )
    */
-  _onFinishReadMusicMetadata( err, metadata ) {
+  _onFinishReadMusicMetadata( ev, err, metadata ) {
     if( err ) {
       this._onProgress( err, null, this._process, this._total );
       this._importMusic();

@@ -25,10 +25,10 @@ export default class MainWindowContext extends Context {
     }
 
     /**
-     * Provides a inter-process communication.
-     * @type {IPC}
+     * IPC module for renderer process.
+     * @type {ipcRenderer}
      */
-    this.ipc = window.require( 'ipc' );
+    this.ipc = window.require( 'electron' ).ipcRenderer;
 
     /**
      * Audio player store.

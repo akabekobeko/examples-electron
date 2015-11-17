@@ -24,10 +24,10 @@ export default class EffectGraphicEqualizerContext extends Context {
     }
 
     /**
-     * Provides a inter-process communication.
-     * @type {IPC}
+     * IPC module for renderer process.
+     * @type {ipcRenderer}
      */
-    this.ipc = window.require( 'ipc' );
+    this.ipc = window.require( 'electron' ).ipcRenderer;
 
     /**
      * Provides a localStorage ( Web Storage ) of operating functions.

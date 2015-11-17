@@ -223,13 +223,14 @@ export default class AudioPlayerStore extends Store {
   /**
    * Occurs when the graphic equalizer update is requested.
    *
+   * @param {IPCEvent}       ev      Event data.
    * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
    * @param {Array.<Number>} gains   Gain values.
    */
-  _onRequestUpdateGraphicEqualizer( connect, gains ) {
+  _onRequestUpdateGraphicEqualizer( ev, connect, gains ) {
     if( DEBUG ) { Util.log( 'AudioPlayerStore._onRequestUpdateGraphicEqualizer: connect =' + connect + ', gains = ' + gains ); }
 
     this._audioPlayer.updateGraphicEqualizer( connect, gains );
-    this.context.ipc.send( IPCKeys.FinishUpdateGraphicEqualizer );
+    ev.sender.send( IPCKeys.FinishUpdateGraphicEqualizer );
   }
 }
