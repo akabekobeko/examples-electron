@@ -94,7 +94,7 @@ export default class AudioPlayerControl extends React.Component {
    * @param {Event} ev Event data.
    */
   _onChangeVolume( ev ) {
-    this.props.context.audioPlayerAction.volume( ev.target.value );
+    this.props.audioPlayerAction.volume( ev.target.value );
   }
 
   /**
