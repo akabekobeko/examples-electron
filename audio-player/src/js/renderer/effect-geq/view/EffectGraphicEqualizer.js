@@ -106,7 +106,7 @@ export default class EffectGraphicEqualizer extends React.Component {
    * @return {Array.<ReactElement>} Rendering data.
    */
   _renderStepText() {
-    const elements = [];
+    const elements  = [];
     const className = 'effect-graphic-equalizer__gain__step-text';
     const offset    = 6;
 
@@ -115,7 +115,7 @@ export default class EffectGraphicEqualizer extends React.Component {
         key={ 0 }
         className={ className }
         style={ { top: GridRenderBeginPosition - offset } }>
-          { '+' + GraphicEqulizerParams.GainMax + ' db' }
+          { '+' + GraphicEqulizerParams.GainMax + ' dB' }
       </div>
     ) );
 
@@ -124,7 +124,7 @@ export default class EffectGraphicEqualizer extends React.Component {
         key={ this._gridCenterIndex }
         className={ className }
         style={ { top: GridRenderBeginPosition + ( this._gridCenterIndex * GridRenderStepPosition ) - offset } }>
-          0 db
+          0 dB
       </div>
     ) );
 
@@ -133,7 +133,7 @@ export default class EffectGraphicEqualizer extends React.Component {
         key={ this._gridLineCount - 1 }
         className={ className }
         style={ { top: GridRenderBeginPosition + ( ( this._gridLineCount - 1 ) * GridRenderStepPosition ) - offset } }>
-          { GraphicEqulizerParams.GainMin + ' db' }
+          { GraphicEqulizerParams.GainMin + ' dB' }
       </div>
     ) );
 
