@@ -117,9 +117,10 @@ export default class WindowManager {
     }
 
     this._graphicEqulizer = new BrowserWindow( {
-      'width': 320,
+      'width': 360,
       'height': 300,
-      'resizable': false
+      'resizable': false,
+      alwaysOnTop: true
     } );
 
     const filePath = Path.join( __dirname, 'effect-geq.html' );

@@ -4,6 +4,18 @@ import OnOffSwitch               from '../../common/controls/OnOffSwitch.js';
 import SelectBox                 from '../../common/controls/SelectBox.js';
 
 /**
+ * [GrindRenderBeginPosition description]
+ * @type {Number}
+ */
+const GridRenderBeginPosition = 20;
+
+/**
+ * [GridRenderStepPpsition description]
+ * @type {Number}
+ */
+const GridRenderStepPosition= 12;
+
+/**
  * Component for graphic equalizer window.
  */
 export default class EffectGraphicEqualizer extends React.Component {
@@ -30,6 +42,19 @@ export default class EffectGraphicEqualizer extends React.Component {
      * @type {Function}
      */
     this._onChangeBind = this._onChange.bind( this );
+
+    /**
+     * Grid line count.
+     * @type {Number}
+     */
+    this._gridLineCount = ( Math.abs( GraphicEqulizerParams.GainMin ) / GraphicEqulizerParams.GainStep ) +
+                          ( Math.abs( GraphicEqulizerParams.GainMax ) / GraphicEqulizerParams.GainStep ) + 1;
+
+    /**
+     * Center index of the glid lines.
+     * @type {Number}
+     */
+    this._gridCenterIndex = Math.floor( this._gridLineCount / 2 );
   }
 
   /**
@@ -67,10 +92,83 @@ export default class EffectGraphicEqualizer extends React.Component {
           </div>
         </div>
         <div className="effect-graphic-equalizer__gain">
-        { this._renderGains() }
+          { this._renderStepText() }
+          { this._renderGridLines() }
+          { this._renderGains() }
         </div>
       </div>
     );
+  }
+
+  /**
+   * Render for gain step text.
+   *
+   * @return {Array.<ReactElement>} Rendering data.
+   */
+  _renderStepText() {
+    const elements = [];
+    const className = 'effect-graphic-equalizer__gain__step-text';
+    const offset    = 6;
+
+    elements.push( (
+      <div
+        key={ 0 }
+        className={ className }
+        style={ { top: GridRenderBeginPosition - offset } }>
+          { '+' + GraphicEqulizerParams.GainMax + ' db' }
+      </div>
+    ) );
+
+    elements.push( (
+      <div
+        key={ this._gridCenterIndex }
+        className={ className }
+        style={ { top: GridRenderBeginPosition + ( this._gridCenterIndex * GridRenderStepPosition ) - offset } }>
+          0 db
+      </div>
+    ) );
+
+    elements.push( (
+      <div
+        key={ this._gridLineCount - 1 }
+        className={ className }
+        style={ { top: GridRenderBeginPosition + ( ( this._gridLineCount - 1 ) * GridRenderStepPosition ) - offset } }>
+          { GraphicEqulizerParams.GainMin + ' db' }
+      </div>
+    ) );
+
+    return elements;
+  }
+
+  /**
+   * Render for grid line.
+   *
+   * @param {Number} index Index of the grid lines.
+   * @param {Number} position Rendering position.
+   *
+   * @return {ReactElement} Rendering data.
+   */
+  _renderGridLine( index, position ) {
+    const style = { top: position };
+
+    let className = 'effect-graphic-equalizer__gain__step-line';
+    className = ( index === 0 || index === this._gridCenterIndex || index === this._gridLineCount - 1 ? className + ' highlight' : className );
+
+    return ( <div key={ index } className={ className } style={ style } /> )
+  }
+
+  /**
+   * Render for grid lines.
+   *
+   * @return {Array.<ReactElement>} Rendering data.
+   */
+  _renderGridLines() {
+    const elements = [];
+    for( let i = 0; i < this._gridLineCount; ++i ) {
+      elements.push( this._renderGridLine( i, GridRenderBeginPosition + ( i * GridRenderStepPosition ) ) );
+    }
+
+    return elements;
   }
 
   /**
@@ -84,18 +182,18 @@ export default class EffectGraphicEqualizer extends React.Component {
         <div key={ index }>
           <input
             className="effect-graphic-equalizer__gain__slider"
-            style={ { left: -84 + ( index * 31 ) } }
+            style={ { left: -44 + ( index * 31 ) } }
             type="range"
             value={ gain }
             min={ GraphicEqulizerParams.GainMin }
             max={ GraphicEqulizerParams.GainMax }
-            step="10"
+            step={ GraphicEqulizerParams.GainStep }
             onChange={ ( ev ) => {
               this.props.context.effectGraphicEqualizerAction.update( index, ev.target.value );
             } } />
           <div
             className="effect-graphic-equalizer__gain__frequecy"
-            style={ { left: ( index * 32 ) + 5 } }>
+            style={ { left: ( index * 32 ) + 46 } }>
             { this._frequecyToString( GraphicEqulizerParams.Bands[ index ] ) }
           </div>
         </div>

@@ -9,7 +9,7 @@ body, html {
 .effect-graphic-equalizer {
   width size_full
   height size_full
-  background-color color_gray_light
+  background-color color_white
 
   &__header {
     position relative
@@ -37,8 +37,23 @@ body, html {
 
     &__step-line {
       position absolute
-      width size_full
-      border-top solid 1px color_gray
+      left 40px
+      right 0
+      border-top solid 1px color_gray_light
+
+      &.highlight {
+        border-top solid 1px color_gray
+      }
+    }
+
+    &__step-text {
+      unselectable()
+      position absolute
+      left 0
+      width 38px
+      text-align right
+      font-size 11px
+      cursor default
     }
 
     &__slider {
@@ -77,7 +92,6 @@ body, html {
       position absolute
       top 225px
       font-size 11px
-      font-weight bold
       cursor default
     }
   }
