@@ -5,6 +5,12 @@ import { StorageKeys }           from '../../../common/Constants.js';
 import { GraphicEqulizerParams } from '../../../common/Constants.js';
 
 /**
+ * Preset number of the manual.
+ * @type {Number}
+ */
+const PresetIndexManual = 0;
+
+/**
  * Manage for audio player.
  */
 export default class EffectGraphicEqualizerStore extends Store {
@@ -17,21 +23,39 @@ export default class EffectGraphicEqualizerStore extends Store {
     super( context );
 
     /**
+     * Preset of graphic equalizer.
+     * @type {Array.<GraphicEqualizerPreset>}
+     */
+    this._presets = [
+      { name: 'Manual',   gains: [] },
+      { name: 'Flat',     gains: [  0,  0,  0, 0,  0,  0,  0,  0,  0,  0 ] },
+      { name: 'Acoustic', gains: [ 20, 20, 15, 5, 10, 10, 15, 15, 15, 10 ] },
+      { name: 'Pops',     gains: [ -5, -5,  0, 5, 10, 10,  5,  5,  0, -5 ] },
+      { name: 'Rock',     gains: [ 20, 15, 10, 5,  0, -5,  0,  5, 10, 15 ] },
+      { name: 'R&B',      gains: [ 10, 25, 15, 5, -5,  0,  5,  5, 10, 15 ] },
+      { name: 'Techno',   gains: [ 15, 15, 10, 5,  0,  5,  0,  5, 10, 15 ] }
+    ];
+
+    /**
+     * Preset names.
+     * @type {Array.<String>}
+     */
+    this._presetNames = this._presets.map( ( preset ) => {
+      return preset.name;
+    } );
+
+    /**
      * State of store.
      * @type {Object}
      */
     this.state = {
       connect: false,
-      gains: [],
-      presetNumber: 0,
-      presets: [
-        { name: 'Normal',   gains: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
-        { name: 'Loudness', gains: [ 20, 10, 0, 0, 0, 0, 0, 0, -10, -10 ] }
-      ]
+      presetNumber: PresetIndexManual
     };
 
     this.register( Keys.connect, this._actionConnect );
-    this.register( Keys.update, this._actionUpdate );
+    this.register( Keys.updateGain, this._actionUpdateGain );
+    this.register( Keys.selectPreset, this._actionSelectPreset );
 
     this._load();
   }
@@ -51,7 +75,7 @@ export default class EffectGraphicEqualizerStore extends Store {
    * @return {Array.<Number>} Gains.
    */
   get gains() {
-    return this.state.gains;
+    return this._presets[ this.state.presetNumber ].gains;
   }
 
   /**
@@ -64,12 +88,12 @@ export default class EffectGraphicEqualizerStore extends Store {
   }
 
   /**
-   * Get the preset gains of graphic equalizer.
+   * Get the preset names of graphic equalizer.
    *
-   * @return {Array.<GraphicEqualizerPreset>} Presets.
+   * @return {Array.<String>} Presets.
    */
-  get presets() {
-    return this.state.presets;
+  get presetNames() {
+    return this._presetNames;
   }
 
   /**
@@ -83,16 +107,38 @@ export default class EffectGraphicEqualizerStore extends Store {
   }
 
   /**
-   * Update the gains.
+   * Update the gain.
    *
    * @param {Number} index Index of the gains.
    * @param {Number} value New value.
    */
-  _actionUpdate( index, value ) {
-    const gains = this.state.gains.concat();
-    gains[ index ] = value;
-    this.setState( { gains: gains } );
+  _actionUpdateGain( index, value ) {
+    let gains = this._presets[ this.state.presetNumber ].gains;
+    if( this.state.presetNumber === PresetIndexManual ) {
+      gains[ index ] = value;
+      this.setState();
+    } else {
+      // Updated "Manual" based on the current preset
+      gains = gains.concat();
+      gains[ index ] = value;
+      this._presets[ PresetIndexManual ].gains = gains;
+      this.setState( { presetNumber: PresetIndexManual } );
+    }
+
     this._save();
+    this._notifyUpdate();
+  }
+
+  /**
+   * Select the preset.
+   *
+   * @param {Number} presetNumber Number of the new prest.
+   */
+  _actionSelectPreset( presetNumber ) {
+    this.setState( { presetNumber: presetNumber } );
+
+    this._save();
+    this._notifyUpdate();
   }
 
   /**
@@ -101,18 +147,18 @@ export default class EffectGraphicEqualizerStore extends Store {
   _load() {
     const params = this.context.localStorage.getItem( StorageKeys.GraphicEqulizerParams, true );
     if( params ) {
+      this._presets[ PresetIndexManual ].gains = params.gains;
       this.setState( {
-        connect: params.connect,
-        gains:   params.gains,
-        preset:  ( params.preset === undefined ? 0 : params.preset )
+        connect:      params.connect,
+        presetNumber: ( params.preset === undefined ? PresetIndexManual : params.preset )
       } );
     } else {
-      const gains = [];
-      for( let i = 0; i < GraphicEqulizerParams.Bands; ++i ) {
-        gains.push( 0 );
+      // First launch
+      for( let i = 0, max = GraphicEqulizerParams.Bands.length; i < max; ++i ) {
+        this._presets[ PresetIndexManual ].gains.push( GraphicEqulizerParams.GainFlat );
       }
 
-      this.setState( { gains: gains } );
+      this.setState();
     }
 
     this._notifyUpdate();
@@ -124,8 +170,8 @@ export default class EffectGraphicEqualizerStore extends Store {
   _save() {
     const params = {
       connect: this.state.connect,
-      gains: this.state.gains,
-      preset: 0
+      gains: this._presets[ PresetIndexManual ].gains,
+      preset: this.state.presetNumber
     };
 
     this.context.localStorage.setItem( StorageKeys.GraphicEqulizerParams, params, true );
@@ -136,6 +182,6 @@ export default class EffectGraphicEqualizerStore extends Store {
    * That the graphic equalizer has been updated it will notify the audio player.
    */
   _notifyUpdate() {
-    this.context.ipc.send( IPCKeys.RequestUpdateGraphicEqualizer, this.state.connect, this.state.gains );
+    this.context.ipc.send( IPCKeys.RequestUpdateGraphicEqualizer, this.state.connect, this._presets[ this.state.presetNumber ].gains );
   }
 }

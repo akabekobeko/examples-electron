@@ -10,7 +10,7 @@ export default class SelectBox extends React.Component {
    * @return {ReactElement} Rendering data.
    */
   render() {
-    const selectedValue = ( typeof this.props.selectedValue === 'number' ? this.prpps.selectedValue : 0 );
+    const selectedValue = ( typeof this.props.selectedValue === 'number' ? this.props.selectedValue : 0 );
     return (
       <div className="selectbox">
         <div className="selectbox__dropdown">

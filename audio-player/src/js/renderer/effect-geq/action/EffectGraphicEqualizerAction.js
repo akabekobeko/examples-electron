@@ -5,8 +5,9 @@ import { Action } from 'material-flux';
  * @type {Object}
  */
 export const Keys = {
-  connect: 'EffectGraphicEqualizerAction.connect',
-  update: 'EffectGraphicEqualizerAction.update'
+  connect:      'EffectGraphicEqualizerAction.connect',
+  updateGain:   'EffectGraphicEqualizerAction.updateGain',
+  selectPreset: 'EffectGraphicEqualizerAction.selectPreset'
 };
 
 /**
@@ -28,7 +29,16 @@ export default class EffectGraphicEqualizerAction extends Action {
    * @param {Number} index Index of the gains.
    * @param {Number} value New value.
    */
-  update( index, value ) {
-    this.dispatch( Keys.update, index, value );
+  updateGain( index, value ) {
+    this.dispatch( Keys.updateGain, index, value );
+  }
+
+  /**
+   * Select the preset.
+   *
+   * @param {Number} presetNumber Number of the new prest.
+   */
+  selectPreset( presetNumber ) {
+    this.dispatch( Keys.selectPreset, presetNumber );
   }
 }

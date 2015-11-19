@@ -28,16 +28,6 @@ export default class EffectGraphicEqualizer extends React.Component {
     super( props );
 
     /**
-     * State of component.
-     * @type {Object}
-     */
-    this.state = {
-      presets: this.props.context.effectGraphicEqualizerStore.presets.map( ( preset ) => {
-        return preset.name;
-      } )
-    }
-
-    /**
      * Function to watch the change of Store.
      * @type {Function}
      */
@@ -82,8 +72,9 @@ export default class EffectGraphicEqualizer extends React.Component {
         <div className="effect-graphic-equalizer__header">
           <div className="effect-graphic-equalizer__header__presets">
             <SelectBox
-              options={ this.state.presets }
-              selectedValue={ this.props.context.effectGraphicEqualizerStore.preset } />
+              options={ this.props.context.effectGraphicEqualizerStore.presetNames }
+              selectedValue={ this.props.context.effectGraphicEqualizerStore.presetNumber }
+              onChange={ this._onChangePresetName.bind( this ) } />
           </div>
           <div className="effect-graphic-equalizer__header__connect">
             <OnOffSwitch
@@ -124,7 +115,7 @@ export default class EffectGraphicEqualizer extends React.Component {
         key={ this._gridCenterIndex }
         className={ className }
         style={ { top: GridRenderBeginPosition + ( this._gridCenterIndex * GridRenderStepPosition ) - offset } }>
-          0 dB
+          { '+' + GraphicEqulizerParams.GainFlat + ' dB' }
       </div>
     ) );
 
@@ -189,7 +180,7 @@ export default class EffectGraphicEqualizer extends React.Component {
             max={ GraphicEqulizerParams.GainMax }
             step={ GraphicEqulizerParams.GainStep }
             onChange={ ( ev ) => {
-              this.props.context.effectGraphicEqualizerAction.update( index, ev.target.value );
+              this.props.context.effectGraphicEqualizerAction.updateGain( index, ev.target.value );
             } } />
           <div
             className="effect-graphic-equalizer__gain__frequecy"
@@ -208,6 +199,15 @@ export default class EffectGraphicEqualizer extends React.Component {
    */
   _onChangeConncectSwitch( connect ) {
     this.props.context.effectGraphicEqualizerAction.connect( connect );
+  }
+
+  /**
+   * Occurs when the preset number is changed.
+   *
+   * @param {Number} presetNumber New preset number.
+   */
+  _onChangePresetName( presetNumber ) {
+    this.props.context.effectGraphicEqualizerAction.selectPreset( presetNumber );
   }
 
   /**

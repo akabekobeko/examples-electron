@@ -82,7 +82,7 @@ export default class WindowManager {
   reload() {
     const w = BrowserWindow.getFocusedWindow();
     if( w ) {
-      w.reloadIgnoringCache();
+      w.webContents.reloadIgnoringCache();
     }
   }
 
@@ -116,12 +116,23 @@ export default class WindowManager {
       return;
     }
 
-    this._graphicEqulizer = new BrowserWindow( {
-      'width': 360,
-      'height': 300,
-      'resizable': false,
-      alwaysOnTop: true
-    } );
+    if( process.platform === 'darwin' ) {
+      this._graphicEqulizer = new BrowserWindow( {
+        'width': 360,
+        'height': 300,
+        'resizable': false,
+        'alwaysOnTop': true
+      } );
+
+    } else {
+      // Add a heigth for menu bar
+      this._graphicEqulizer = new BrowserWindow( {
+        'width': 380,
+        'height': 340,
+        'resizable': false,
+        'alwaysOnTop': true
+      } );
+    }
 
     const filePath = Path.join( __dirname, 'effect-geq.html' );
     this._graphicEqulizer.loadURL( 'file://' + filePath );
