@@ -1,4 +1,5 @@
-import App from 'app';
+import App             from 'app';
+import { WindowTypes } from './WindowManager.js'
 
 /**
  * Main menu.
@@ -94,7 +95,7 @@ export default class MainMenu {
     return {
       'application:quit': () => { App.quit(); },
 
-      'effector:graphic-equalizer': () => { context.windowManager.toggleGraphicEqualizer(); },
+      'effector:graphic-equalizer': () => { context.windowManager.toggle( WindowTypes.GraphicEqualizer ); },
 
       'debug:reload':    () => { context.windowManager.reload(); },
       'debug:dev-tools': () => { context.windowManager.toggleDevTools(); }

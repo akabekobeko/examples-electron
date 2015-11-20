@@ -3,6 +3,7 @@ import Menu                from 'menu';
 import Util                from '../common/Util.js';
 import MainMenu            from './MainMenu.js';
 import DialogManager       from './DialogManager.js';
+import { WindowTypes }     from './WindowManager.js'
 import WindowManager       from './WindowManager.js';
 import MusicMetadataReader from './model/MusicMetadataReader.js';
 
@@ -56,7 +57,7 @@ class Main {
    * Occurs when a application launched.
    */
   onReady() {
-    this._windowManager.setup();
+    this._windowManager.show( WindowTypes.Main );
 
     const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
     Menu.setApplicationMenu( menu );
