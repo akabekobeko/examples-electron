@@ -1,5 +1,5 @@
-import Artist from '../src/js/renderer/model/Artist.js';
-import Album  from '../src/js/renderer/model/Album.js';
+import Artist from '../src/js/renderer/main/model/Artist.js';
+import Album  from '../src/js/renderer/main/model/Album.js';
 
 /**
  * Provide a test data utility method.

@@ -14,32 +14,32 @@ export default class Util {
    * @see http://qiita.com/osakanafish/items/c64fe8a34e7221e811d0
    */
   static formatDate( date, format ) {
-    date   = ( date   === undefined ? new Date()                : date   );
-    format = ( format === undefined ? 'YYYY-MM-DD hh:mm:ss.SSS' : format );
+    const d = ( date   === undefined ? new Date()                : date   );
+    let   f = ( format === undefined ? 'YYYY-MM-DD hh:mm:ss.SSS' : format );
 
     // Zero padding
-    format = format.replace( /YYYY/g, date.getFullYear() );
-    format = format.replace( /MM/g,   ( '0' + ( date.getMonth() + 1 ) ).slice( -2 ) );
-    format = format.replace( /DD/g,   ( '0' +          date.getDate() ).slice( -2 ) );
-    format = format.replace( /hh/g,   ( '0' +         date.getHours() ).slice( -2 ) );
-    format = format.replace( /mm/g,   ( '0' +       date.getMinutes() ).slice( -2 ) );
-    format = format.replace( /ss/g,   ( '0' +       date.getSeconds() ).slice( -2 ) );
+    f = f.replace( /YYYY/g, d.getFullYear() );
+    f = f.replace( /MM/g,   ( '0' + ( d.getMonth() + 1 ) ).slice( -2 ) );
+    f = f.replace( /DD/g,   ( '0' +          d.getDate() ).slice( -2 ) );
+    f = f.replace( /hh/g,   ( '0' +         d.getHours() ).slice( -2 ) );
+    f = f.replace( /mm/g,   ( '0' +       d.getMinutes() ).slice( -2 ) );
+    f = f.replace( /ss/g,   ( '0' +       d.getSeconds() ).slice( -2 ) );
 
     // Single digit
-    format = format.replace( /M/g, date.getMonth() + 1 );
-    format = format.replace( /D/g, date.getDate() );
-    format = format.replace( /h/g, date.getHours() );
-    format = format.replace( /m/g, date.getMinutes() );
-    format = format.replace( /s/g, date.getSeconds() );
+    f = f.replace( /M/g, d.getMonth() + 1 );
+    f = f.replace( /D/g, d.getDate() );
+    f = f.replace( /h/g, d.getHours() );
+    f = f.replace( /m/g, d.getMinutes() );
+    f = f.replace( /s/g, d.getSeconds() );
 
-    if( format.match( /S/g ) ) {
-      const milliSeconds = ( '00' + date.getMilliseconds() ).slice( -3 );
-      for( let i = 0, max = format.match( /S/g ).length; i < max; ++i ) {
-        format = format.replace( /S/, milliSeconds.substring( i, i + 1 ) );
+    if( f.match( /S/g ) ) {
+      const milliSeconds = ( '00' + d.getMilliseconds() ).slice( -3 );
+      for( let i = 0, max = f.match( /S/g ).length; i < max; ++i ) {
+        f = f.replace( /S/, milliSeconds.substring( i, i + 1 ) );
       }
     }
 
-    return format;
+    return f;
   }
 
   /**
@@ -69,18 +69,18 @@ export default class Util {
   /**
    * Output console log with datetime.
    *
-   * @param {String} message Message.
+   * @param {Array} args Message arguments.
    */
-  static log( message ) {
-    console.log( '[' + Util.formatDate() + ']', message );
+  static log( ...args ) {
+    console.log( '[' + Util.formatDate() + ']', ...args );
   }
 
   /**
    * Output console error with datetime.
    *
-   * @param {String} message Message.
+   * @param {Array} args Message arguments.
    */
-  static error( message ) {
-    console.error( '[' + Util.formatDate() + ']', message );
+  static error( ...args ) {
+    console.error( '[' + Util.formatDate() + ']', ...args );
   }
 }

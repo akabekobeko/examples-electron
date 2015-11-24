@@ -1,0 +1,55 @@
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+onoffswitch_size = 24px
+
+.onoffswitch {
+  unselectable()
+  position relative
+  width onoffswitch_size * 2
+
+  &__checkbox {
+    display none
+  }
+
+  &__label {
+    display block
+    overflow hidden
+    cursor pointer
+    padding 0
+    height onoffswitch_size
+    line-height onoffswitch_size
+    border 2px solid #999999
+    border-radius onoffswitch_size
+    background-color #EEEEEE
+    transition background-color 0.3s ease-in
+
+    &:before {
+      display block
+      position absolute
+      top 0
+      bottom 0
+      right 22px
+      content ""
+      margin 0
+      width onoffswitch_size
+      background color_white
+      border 2px solid #999999
+      border-radius onoffswitch_size
+      transition all 0.3s ease-in 0s 
+    }
+  }
+
+  &__checkbox:checked + &__label {
+    background-color color_indigo_dark
+  }
+
+  &__checkbox:checked + &__label, &__checkbox:checked + &__label:before {
+     border-color color_indigo_dark
+  }
+
+  &__checkbox:checked + &__label:before {
+    right 0
+  }
+}
