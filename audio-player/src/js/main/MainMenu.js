@@ -35,7 +35,7 @@ export default class MainMenu {
     const keymaps  = MainMenu._keymaps();
     const handlers = MainMenu._handlers( context );
 
-    const menu = templates.map( ( template ) => {
+    return templates.map( ( template ) => {
       return {
         label:   template.label,
         submenu: template.submenu.map( ( item ) => {
@@ -47,8 +47,6 @@ export default class MainMenu {
         } )
       }
     } );
-
-    return menu;
   }
 
   /**
