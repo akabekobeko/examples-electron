@@ -201,10 +201,12 @@ export default class WindowManager {
       // Add a heigth for menu bar
       w = new BrowserWindow( {
         'width': 380,
-        'height': 340,
+        'height': 320,
         'resizable': false,
         'alwaysOnTop': true
       } );
+
+      w.setMenu( null );
     }
 
     w.on( 'closed', () => {
