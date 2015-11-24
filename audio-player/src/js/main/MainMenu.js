@@ -15,6 +15,7 @@ export default class MainMenu {
   static menu( context ) {
     const templates = [
       { label: 'App', submenu: [
+        { label: 'About Electron Audio Player', command: 'application:about' },
         { label: 'Quit', command: 'application:quit' }
       ] },
       { label: 'Effector', submenu: [
@@ -93,6 +94,7 @@ export default class MainMenu {
    */
   static _handlers( context ) {
     return {
+      'application:about': () => { context.windowManager.toggle( WindowTypes.About ); },
       'application:quit': () => { App.quit(); },
 
       'effector:graphic-equalizer': () => { context.windowManager.toggle( WindowTypes.GraphicEqualizer ); },

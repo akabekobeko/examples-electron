@@ -9,6 +9,7 @@ import { IPCKeys }   from '../common/Constants.js';
  */
 export const WindowTypes = {
   Main:             'main',
+  About:            'about',
   GraphicEqualizer: 'graphicEqualizer'
 };
 
@@ -65,6 +66,10 @@ export default class WindowManager {
     switch( type ) {
       case WindowTypes.Main:
         this._showMain();
+        break;
+
+      case WindowTypes.About:
+        this._showAbout();
         break;
 
       case WindowTypes.GraphicEqualizer:
@@ -148,6 +153,33 @@ export default class WindowManager {
     w.loadURL( 'file://' + filePath );
 
     this._windows.set( WindowTypes.Main, w );
+  }
+
+  /**
+   * Show the about application window.
+   */
+  _showAbout() {
+    if( this._windows.get( WindowTypes.About ) ) { return; }
+
+    const w = new BrowserWindow( {
+      'width': 400,
+      'height': 256,
+      'resizable': false,
+      'alwaysOnTop': true
+    } );
+
+    w.setMenu( null );
+
+    w.on( 'closed', () => {
+      if( DEBUG ) { Util.log( 'The about application window was closed.' ); }
+
+      this._windows.delete( WindowTypes.About );
+    } );
+
+    const filePath = Path.join( __dirname, 'window-about.html' );
+    w.loadURL( 'file://' + filePath );
+
+    this._windows.set( WindowTypes.About, w );
   }
 
   /**
