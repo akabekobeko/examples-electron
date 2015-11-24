@@ -144,7 +144,7 @@ export default class WindowManager {
       this._windows.delete( WindowTypes.Main );
     } );
 
-    const filePath = Path.join( __dirname, 'main.html' );
+    const filePath = Path.join( __dirname, 'window-main.html' );
     w.loadURL( 'file://' + filePath );
 
     this._windows.set( WindowTypes.Main, w );
@@ -181,7 +181,7 @@ export default class WindowManager {
       this._windows.delete( WindowTypes.GraphicEqualizer );
     } );
 
-    const filePath = Path.join( __dirname, 'effect-geq.html' );
+    const filePath = Path.join( __dirname, 'window-effect-geq.html' );
     w.loadURL( 'file://' + filePath );
 
     this._windows.set( WindowTypes.GraphicEqualizer, w );
