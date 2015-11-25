@@ -1,7 +1,7 @@
 {
   "name": "electron-starter",
   "description": "Electron Starter Kit.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",
@@ -33,38 +33,38 @@
     "release:clean": "rimraf ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
     "release:build": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer",
-    "release:pack-osx": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=0.34.2 --overwrite --asar --icon=res/app.icns",
-    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=0.34.2 --overwrite --asar --icon=res/app.ico --version-string.CompanyName=\"Company\" --version-string.LegalCopyright=\"Copylight (C) USERNAME, All right reserved.\" --version-string.FileDescription=\"Electron application\" --version-string.OriginalFilename=\"Starter.exe\" --version-string.FileVersion=\"1.0.5\" --version-string.ProductVersion=\"1.0.5\" --version-string.ProductName=\"Starter\" --version-string.InternalName=\"Starter\"",
-    "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=0.34.2 --overwrite --asar",
+    "release:pack-osx": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=0.35.1 --overwrite --asar --icon=res/app.icns",
+    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=0.35.1 --overwrite --asar --icon=res/app.ico --version-string.CompanyName=\"Company\" --version-string.LegalCopyright=\"Copylight (C) USERNAME, All right reserved.\" --version-string.FileDescription=\"Electron application\" --version-string.OriginalFilename=\"Starter.exe\" --version-string.FileVersion=\"1.0.6\" --version-string.ProductVersion=\"1.0.6\" --version-string.ProductName=\"Starter\" --version-string.InternalName=\"Starter\"",
+    "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=0.35.1 --overwrite --asar",
     "release:osx": "npm-run-all -s release:build release:pack-osx",
     "release:win": "npm-run-all -s release:build release:pack-win",
     "release:linux": "npm-run-all -s release:build release:pack-linux",
     "release": "npm-run-all -s release:build release:pack-osx release:pack-win release:pack-linux"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.0.15",
-    "babel-preset-react": "^6.0.15",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "cpx": "^1.2.1",
     "electron-packager": "^5.1.1",
-    "electron-prebuilt": "^0.34.2",
+    "electron-prebuilt": "^0.35.1",
     "esdoc": "^0.4.3",
-    "espower-babel": "^3.3.0",
+    "espower-babel": "^4.0.0",
     "exorcist": "^0.4.0",
-    "mocha": "^2.3.3",
+    "mocha": "^2.3.4",
     "ncp": "^2.0.0",
     "node-inspector": "^0.12.3",
-    "npm-run-all": "^1.2.12",
-    "power-assert": "^1.1.0",
-    "rimraf": "^2.4.3",
+    "npm-run-all": "^1.3.2",
+    "power-assert": "^1.2.0",
+    "rimraf": "^2.4.4",
     "stylus": "^0.52.4",
-    "uglify-js": "^2.5.0",
-    "watchify": "^3.6.0"
+    "uglify-js": "^2.6.1",
+    "watchify": "^3.6.1"
   },
   "dependencies": {
-    "material-flux": "^1.2.3",
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "material-flux": "^1.3.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
   }
 }

@@ -24,7 +24,7 @@ export default class SampleStore extends Store {
     };
 
     this.register( Keys.updateDatetime, this._actionUpdateDatetime );
-    this.register( Keys.showURL,       this._actionShowURL        );
+    this.register( Keys.showURL,        this._actionShowURL        );
   }
 
   /**
