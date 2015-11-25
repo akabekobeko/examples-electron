@@ -9,3 +9,4 @@ src/bundle.js
 src/main.js
 src/bundle.css
 !.gitignore
+!.babelrc
