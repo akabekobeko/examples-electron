@@ -14,7 +14,7 @@ export default class MainMenu {
   static menu( context ) {
     const templates = [
       { label: 'App', submenu: [
-        { label: 'About Electron Audio Player', command: 'application:about' },
+        { label: 'About Multiple Windows', command: 'application:about' },
         { label: 'Quit', command: 'application:quit' }
       ] }
     ];
