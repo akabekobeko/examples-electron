@@ -1,5 +1,4 @@
-import App             from 'app';
-import { WindowTypes } from './WindowManager.js'
+import App from 'app';
 
 /**
  * Main menu.
@@ -15,7 +14,7 @@ export default class MainMenu {
   static menu( context ) {
     const templates = [
       { label: 'App', submenu: [
-        { label: 'About Electron Starter Kit', command: 'application:about' },
+        { label: 'About Multiple Windows', command: 'application:about' },
         { label: 'Quit', command: 'application:quit' }
       ] }
     ];
@@ -89,7 +88,7 @@ export default class MainMenu {
    */
   static _handlers( context ) {
     return {
-      'application:about': () => { context.windowManager.toggle( WindowTypes.About ); },
+      'application:about': () => { context.windowManager.createAboutWindow(); },
       'application:quit': () => { App.quit(); },
 
       'debug:reload':    () => { context.windowManager.reload(); },

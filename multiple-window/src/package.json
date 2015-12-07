@@ -1,0 +1,12 @@
+{
+  "name": "electron-multiple-windows",
+  "description": "Electron Multiple Windows.",
+  "version": "1.0.0",
+  "author": "akabeko",
+  "license": "MIT",
+  "main": "main.js",
+  "keywords": [
+    "Electron",
+    "Starter"
+  ]
+}

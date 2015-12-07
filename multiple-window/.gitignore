@@ -1,0 +1,12 @@
+node_modules/
+dist/
+esdoc/
+
+*.
+*.log
+*.map
+src/bundle.js
+src/main.js
+src/bundle.css
+!.gitignore
+!.babelrc
