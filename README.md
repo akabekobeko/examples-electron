@@ -17,5 +17,6 @@ Example of simple audio player in Electron.
 
 * [audio-player](./audio-player)
 * Blog
- * [Electron を試す 3 – 簡易音楽プレーヤー](http://akabeko.me/blog/2015/10/electron-3/)
- * [Electron を試す 4 – 簡易音楽プレーヤー 2](http://akabeko.me/blog/2015/10/electron-4/)
+ * [Electron を試す 3 - 簡易音楽プレーヤー](http://akabeko.me/blog/2015/10/electron-3/)
+ * [Electron を試す 4 - 簡易音楽プレーヤー 2](http://akabeko.me/blog/2015/10/electron-4/)
+ * [Electron を試す 5 - Electron v0.35.0 対応](http://akabeko.me/blog/2015/11/electron-5/)
