@@ -161,11 +161,7 @@ export default class WindowManager {
    * @param {IPCEvent} ev Event data.
    */
   _onRequestGetWindowIDs( ev ) {
-    const windowIDs = [];
-    for( let key of this._windows.keys() ) {
-      windowIDs.push( key );
-    }
-
+    const windowIDs = Array.from( this._windows.keys() );
     ev.sender.send( IPCKeys.FinishGetWindowIDs, windowIDs );
   }
 }
