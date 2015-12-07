@@ -1,0 +1,52 @@
+
+@import "common/Color.styl"
+@import "common/Size.styl"
+@import "common/MixIn.styl"
+
+html, body {
+  margin 0
+  padding 0
+  width size_full
+  height size_full
+  color color_text
+  font-family sans-serif
+}
+
+.app {
+  width size_full
+  height size_full
+  background-color color_white
+}
+
+button( back_color, text_color ) {
+  unselectable()
+  cursor pointer
+  display inline-block
+  margin 1em 0
+  padding .3em .5em
+  border-radius .2em
+  border solid 1px back_color
+  color text_color
+  background-color back_color
+}
+
+.sample {
+  fieldset {
+    margin 1em
+    border solid 1px color_gray_dark
+  }
+
+  input[type="text"] {
+    font-size 1em
+    font-family sans-serif
+    padding .3em
+  }
+
+  &__button-new-window {
+    button( color_blue, color_white )
+  }
+
+  &__button-send-message {
+    button( color_green, color_white )
+  }
+}
