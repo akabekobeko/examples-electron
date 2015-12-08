@@ -63,11 +63,11 @@ export default class WindowManager {
    */
   createNewWindow() {
     const w = new BrowserWindow( {
-      'width': 400,
-      'height': 400,
-      'min-width': 400,
-      'min-height': 400,
-      'resizable': true
+      width: 400,
+      height: 400,
+      minWidth: 400,
+      minHeight: 400,
+      resizable: true
     } );
 
     const id = w.id;
@@ -97,10 +97,10 @@ export default class WindowManager {
     if( this._aboutDialog ) { return; }
 
     const w = new BrowserWindow( {
-      'width': 400,
-      'height': 256,
-      'resizable': false,
-      'alwaysOnTop': true
+      width: 400,
+      heigh: 256,
+      resizable: false,
+      alwaysOnTop: true
     } );
 
     w.setMenu( null );
