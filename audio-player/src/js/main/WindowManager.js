@@ -129,11 +129,11 @@ export default class WindowManager {
     if( this._windows.get( WindowTypes.Main ) ) { return; }
 
     const w = new BrowserWindow( {
-      'width': 800,
-      'height': 600,
-      'min-width': 800,
-      'min-height': 480,
-      'resizable': true
+      width: 800,
+      height: 600,
+      minWidth: 800,
+      minHeight: 480,
+      resizable: true
     } );
 
     w.on( 'closed', () => {
@@ -162,10 +162,10 @@ export default class WindowManager {
     if( this._windows.get( WindowTypes.About ) ) { return; }
 
     const w = new BrowserWindow( {
-      'width': 400,
-      'height': 256,
-      'resizable': false,
-      'alwaysOnTop': true
+      width: 400,
+      height: 256,
+      resizable: false,
+      alwaysOnTop: true
     } );
 
     w.setMenu( null );
@@ -191,19 +191,19 @@ export default class WindowManager {
     let w = null;
     if( process.platform === 'darwin' ) {
       w = new BrowserWindow( {
-        'width': 360,
-        'height': 300,
-        'resizable': false,
-        'alwaysOnTop': true
+        width: 360,
+        height: 300,
+        resizable: false,
+        alwaysOnTop: true
       } );
 
     } else {
       // Add a heigth for menu bar
       w = new BrowserWindow( {
-        'width': 380,
-        'height': 320,
-        'resizable': false,
-        'alwaysOnTop': true
+        width: 380,
+        height: 320,
+        resizable: false,
+        alwaysOnTop: true
       } );
 
       w.setMenu( null );

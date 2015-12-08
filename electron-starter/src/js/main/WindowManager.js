@@ -133,11 +133,11 @@ export default class WindowManager {
     if( this._windows.get( WindowTypes.Main ) ) { return; }
 
     const w = new BrowserWindow( {
-      'width': 800,
-      'height': 600,
-      'min-width': 800,
-      'min-height': 480,
-      'resizable': true
+      width: 600,
+      height: 480,
+      minWidth: 480,
+      minHeight: 320,
+      resizable: true
     } );
 
     w.on( 'closed', () => {
@@ -166,10 +166,10 @@ export default class WindowManager {
     if( this._windows.get( WindowTypes.About ) ) { return; }
 
     const w = new BrowserWindow( {
-      'width': 400,
-      'height': 256,
-      'resizable': false,
-      'alwaysOnTop': true
+      width: 400,
+      height: 256,
+      resizable: false,
+      alwaysOnTop: true
     } );
 
     w.setMenu( null );
