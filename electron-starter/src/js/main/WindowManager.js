@@ -4,15 +4,6 @@ import Util          from '../common/Util.js';
 import { IPCKeys }   from '../common/Constants.js';
 
 /**
- * Define the type of window.
- * @type {Object}
- */
-export const WindowTypes = {
-  Main:  'main',
-  About: 'about'
-};
-
-/**
  * Manage the window.
  */
 export default class WindowManager {
@@ -30,80 +21,19 @@ export default class WindowManager {
 
     /**
      * Collection of a managed window.
-     * @type {Map}
+     * @type {Map.<String, BrowserWindow>}
      */
     this._windows = new Map();
 
-    // IPC handlers
-    context.ipc.on( IPCKeys.RequestShowURL, this._onRequestShowURL.bind( this ) );
-  }
+    /**
+     * About dialog.
+     * @type {BrowserWindow}
+     */
+    this._aboutDialog = null;
 
-  /**
-   * Get the window from key.
-   *
-   * @param {WindowTypes} type Window type.
-   *
-   * @return {BrowserWindow} Successful if window instance, otherwise undefined.
-   */
-  getWindow( type ) {
-    return this._windows.get( type );
-  }
-
-  /**
-   * Close a window.
-   *
-   * @param {WindowTypes} type Window type.
-   */
-  close( type ) {
-    const w = this._windows.get( type );
-    if( !( w ) ) { return; }
-
-    w.close();
-  }
-
-  /**
-   * Show a window.
-   *
-   * @param {WindowTypes} type Window type.
-   */
-  show( type ) {
-    switch( type ) {
-      case WindowTypes.Main:
-        this._showMain();
-        break;
-
-      case WindowTypes.About:
-        this._showAbout();
-        break;
-
-      case WindowTypes.GraphicEqualizer:
-        this._showGraphicEqualizer();
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Switch the window display, Show or hide.
-   *
-   * @param {WindowTypes} type Window type.
-   */
-  toggle( type ) {
-    // Main window is always showing
-    if( type === WindowTypes.Main ) { return; }
-
-    const w = this._windows.get( type );
-    if( w ) {
-      if( w.isVisible() ) {
-        w.hide();
-      } else {
-        w.show();
-      }
-    } else {
-      this.show( type );
-    }
+    context.ipc.on( IPCKeys.RequestCreateNewWindow, this._onRequestCreateNewWindow.bind( this ) );
+    context.ipc.on( IPCKeys.RequestSendMessage, this._onRequestSendMessage.bind( this ) );
+    context.ipc.on( IPCKeys.RequestGetWindowIDs, this._onRequestGetWindowIDs.bind( this ) );
   }
 
   /**
@@ -127,47 +57,49 @@ export default class WindowManager {
   }
 
   /**
-   * Show the main window.
+   * Create a new window.
+   *
+   * @return {BrowserWindow} Created window.
    */
-  _showMain() {
-    if( this._windows.get( WindowTypes.Main ) ) { return; }
-
+  createNewWindow() {
     const w = new BrowserWindow( {
-      width: 600,
-      height: 480,
-      minWidth: 480,
-      minHeight: 320,
+      width: 400,
+      height: 400,
+      minWidth: 400,
+      minHeight: 400,
       resizable: true
     } );
 
+    const id = w.id;
+
     w.on( 'closed', () => {
-      if( DEBUG ) { Util.log( 'The main window was closed.' ); }
+      if( DEBUG ) { Util.log( 'Window was closed, id = ' + id ); }
 
-      // Close an other windows
-      this._windows.forEach( ( value, key ) => {
-        if( key === WindowTypes.Main ) { return; }
+      // Unregister
+      this._windows.delete( id );
+      this._notifyUpdateWindowIDs( id );
 
-        value.close();
-      } );
-
-      this._windows.delete( WindowTypes.Main );
+      if( this._windows.size === 0 && this._aboutDialog ) {
+        this._aboutDialog.close();
+      }
     } );
 
     const filePath = Path.join( __dirname, 'window-main.html' );
-    w.loadURL( 'file://' + filePath );
+    w.loadURL( 'file://' + filePath + '#' + w.id );
+    this._windows.set( id, w );
 
-    this._windows.set( WindowTypes.Main, w );
+    return w;
   }
 
   /**
    * Show the about application window.
    */
-  _showAbout() {
-    if( this._windows.get( WindowTypes.About ) ) { return; }
+  createAboutWindow() {
+    if( this._aboutDialog ) { return; }
 
     const w = new BrowserWindow( {
       width: 400,
-      height: 256,
+      heigh: 256,
       resizable: false,
       alwaysOnTop: true
     } );
@@ -177,24 +109,69 @@ export default class WindowManager {
     w.on( 'closed', () => {
       if( DEBUG ) { Util.log( 'The about application window was closed.' ); }
 
-      this._windows.delete( WindowTypes.About );
+      this._aboutDialog = null;
     } );
 
     const filePath = Path.join( __dirname, 'window-about.html' );
     w.loadURL( 'file://' + filePath );
 
-    this._windows.set( WindowTypes.About, w );
+    this._aboutDialog = w;
   }
 
   /**
-   * Occurs when a show link requested.
+   * Notify that the window ID list has been updated.
    *
-   * @param {IPCEvent} ev  Event data.
-   * @param {String}   url URL.
+   * @param {Number} excludeID Exclude ID.
    */
-  _onRequestShowURL( ev, url ) {
-    console.log( url );
-    this._context.shell.openExternal( url );
-    ev.sender.send( IPCKeys.FinishShowURL );
+  _notifyUpdateWindowIDs( excludeID ) {
+    const windowIDs = [];
+    for( let key of this._windows.keys() ) {
+      windowIDs.push( key );
+    }
+
+    this._windows.forEach( ( w ) => {
+      if( w.id === excludeID ) { return; }
+
+      w.webContents.send( IPCKeys.UpdateWindowIDs, windowIDs );
+    } );
+  }
+
+  /**
+   * Occurs when a show new window requested.
+   *
+   * @param {IPCEvent} ev Event data.
+   */
+  _onRequestCreateNewWindow( ev ) {
+    const createdWindow = this.createNewWindow();
+    ev.sender.send( IPCKeys.FinishCreateNewWindow );
+
+    // Because it may not receive the message, explicit request ( RequestGetWindowIDs ) later
+    this._notifyUpdateWindowIDs( createdWindow.id );
+  }
+
+  /**
+   * Occurs when a send message requested.
+   *
+   * @param {IPCEvent} ev      Event data.
+   * @param {Number}   id      Target window's identifier.
+   * @param {String}   message Message.
+   */
+  _onRequestSendMessage( ev, id, message ) {
+    const w = this._windows.get( id );
+    if( w ) {
+      w.webContents.send( IPCKeys.UpdateMessage, message );
+    }
+
+    ev.sender.send( IPCKeys.FinishSendMessage );
+  }
+
+  /**
+   * Occurs when a get window identifiers requested.
+   *
+   * @param {IPCEvent} ev Event data.
+   */
+  _onRequestGetWindowIDs( ev ) {
+    const windowIDs = Array.from( this._windows.keys() );
+    ev.sender.send( IPCKeys.FinishGetWindowIDs, windowIDs );
   }
 }
