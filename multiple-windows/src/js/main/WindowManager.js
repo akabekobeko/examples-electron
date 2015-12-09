@@ -77,6 +77,7 @@ export default class WindowManager {
 
       // Unregister
       this._windows.delete( id );
+      this._notifyUpdateWindowIDs( id );
 
       if( this._windows.size === 0 && this._aboutDialog ) {
         this._aboutDialog.close();
@@ -118,6 +119,24 @@ export default class WindowManager {
   }
 
   /**
+   * Notify that the window ID list has been updated.
+   *
+   * @param {Number} excludeID Exclude ID.
+   */
+  _notifyUpdateWindowIDs( excludeID ) {
+    const windowIDs = [];
+    for( let key of this._windows.keys() ) {
+      windowIDs.push( key );
+    }
+
+    this._windows.forEach( ( w ) => {
+      if( w.id === excludeID ) { return; }
+
+      w.webContents.send( IPCKeys.UpdateWindowIDs, windowIDs );
+    } );
+  }
+
+  /**
    * Occurs when a show new window requested.
    *
    * @param {IPCEvent} ev Event data.
@@ -126,17 +145,7 @@ export default class WindowManager {
     const createdWindow = this.createNewWindow();
     ev.sender.send( IPCKeys.FinishCreateNewWindow );
 
-    const windowIDs = [];
-    for( let key of this._windows.keys() ) {
-      windowIDs.push( key );
-    }
-
-    this._windows.forEach( ( w ) => {
-      // Because it may not receive the message, explicit request ( RequestGetWindowIDs ) later
-      if( w.id === createdWindow.id ) { return; }
-
-      w.webContents.send( IPCKeys.UpdateWindowIDs, windowIDs );
-    } );
+    this._notifyUpdateWindowIDs( createdWindow.id );
   }
 
   /**
