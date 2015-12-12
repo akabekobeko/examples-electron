@@ -100,7 +100,7 @@ export default class AudioPlayer extends React.Component {
    * @return {Music} Success is music. Otherwise null.
    */
   _getNextPlayMusic( prev ) {
-    let music = this._currentMusic();
+    const music = this._currentMusic();
     if( !( music ) ) { return null; }
 
     return this.props.context.musicListStore.next( music, prev );

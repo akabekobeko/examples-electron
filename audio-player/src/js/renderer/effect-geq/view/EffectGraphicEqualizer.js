@@ -1,5 +1,5 @@
 import React                     from 'react';
-import { GraphicEqulizerParams } from '../../../common/Constants.js'
+import { GraphicEqulizerParams } from '../../../common/Constants.js';
 import OnOffSwitch               from '../../common/controls/OnOffSwitch.js';
 import SelectBox                 from '../../common/controls/SelectBox.js';
 
@@ -13,7 +13,7 @@ const GridRenderBeginPosition = 20;
  * [GridRenderStepPpsition description]
  * @type {Number}
  */
-const GridRenderStepPosition= 12;
+const GridRenderStepPosition = 12;
 
 /**
  * Component for graphic equalizer window.
@@ -145,7 +145,7 @@ export default class EffectGraphicEqualizer extends React.Component {
     let className = 'effect-graphic-equalizer__gain__step-line';
     className = ( index === 0 || index === this._gridCenterIndex || index === this._gridLineCount - 1 ? className + ' highlight' : className );
 
-    return ( <div key={ index } className={ className } style={ style } /> )
+    return ( <div key={ index } className={ className } style={ style } /> );
   }
 
   /**
