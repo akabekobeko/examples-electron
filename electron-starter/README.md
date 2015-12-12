@@ -2,6 +2,8 @@
 
 This is a starter kit of the [Electron](http://electron.atom.io/) application development.
 
+![Screenshot](./ss.png)
+
 ## Installation
 
 1. Install [Node.js](https://nodejs.org/)
