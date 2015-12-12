@@ -46,7 +46,7 @@ export default class AudioPlayerInfo extends React.Component {
       currentTimeText: Util.secondsToString( this.props.audioPlayerStore.currentTime ),
       duration:        0,
       durationText: '  0:00'
-    }
+    };
 
     const music = this.props.music;
     if( this.props.music ) {

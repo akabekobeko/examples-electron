@@ -273,7 +273,7 @@ export default class MusicListStore extends Store {
       const currentArtist = this.state.currentArtist;
       if( currentArtist && currentArtist.name === artist.name ) {
         state.currentArtist = ( removedArtist ? null : artist );
-      } 
+      }
 
       this.setState( state );
     } );
@@ -333,7 +333,7 @@ export default class MusicListStore extends Store {
       } else {
         album = new Album( artist.name, music.album );
         album.add( music );
-        artist.add( album )
+        artist.add( album );
       }
 
       this.setState();
@@ -341,7 +341,7 @@ export default class MusicListStore extends Store {
     } else {
       // New Artist and Album
       artist = new Artist( music.artist );
-      let album = new Album( artist.name, music.album );
+      const album = new Album( artist.name, music.album );
       album.add( music );
       artist.add( album );
 

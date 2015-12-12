@@ -1,5 +1,5 @@
 import App             from 'app';
-import { WindowTypes } from './WindowManager.js'
+import { WindowTypes } from './WindowManager.js';
 
 /**
  * Main menu.
@@ -40,9 +40,9 @@ export default class MainMenu {
             label: item.label,
             accelerator: keymaps[ item.command ],
             click: handlers[ item.command ]
-          }
+          };
         } )
-      }
+      };
     } );
   }
 
@@ -89,11 +89,11 @@ export default class MainMenu {
    */
   static _handlers( context ) {
     return {
-      'application:about': () => { context.windowManager.toggle( WindowTypes.About ); },
+      'application:about': () => { context.windowManager.createAboutWindow(); },
       'application:quit': () => { App.quit(); },
 
       'debug:reload':    () => { context.windowManager.reload(); },
       'debug:dev-tools': () => { context.windowManager.toggleDevTools(); }
-    }
+    };
   }
 }

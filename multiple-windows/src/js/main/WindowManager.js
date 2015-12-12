@@ -99,7 +99,7 @@ export default class WindowManager {
 
     const w = new BrowserWindow( {
       width: 400,
-      heigh: 256,
+      height: 256,
       resizable: false,
       alwaysOnTop: true
     } );

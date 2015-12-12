@@ -73,7 +73,7 @@ export default class AlbumList extends React.Component {
             { this._renderMusics( album.musics ) }
           </div>
         </div>
-      )
+      );
     } );
   }
 

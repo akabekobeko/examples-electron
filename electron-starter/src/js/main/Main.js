@@ -2,9 +2,9 @@ import App             from 'app';
 import Menu            from 'menu';
 import Util            from '../common/Util.js';
 import MainMenu        from './MainMenu.js';
-import DialogManager       from './DialogManager.js';
-import { WindowTypes } from './WindowManager.js'
+import DialogManager   from './DialogManager.js';
 import WindowManager   from './WindowManager.js';
+import { IPCKeys }     from '../common/Constants.js';
 
 /**
  * Application entry point.
@@ -41,6 +41,11 @@ class Main {
      * @type {DialogManager}
      */
     this._dialogManager = new DialogManager( this );
+
+    this._ipc.on( IPCKeys.RequestShowURL, ( ev, url ) => {
+      this._shell.openExternal( url );
+      ev.sender.send( IPCKeys.FinishShowURL );
+    } );
   }
 
   /**
@@ -72,7 +77,7 @@ class Main {
    * Occurs when a application launched.
    */
   onReady() {
-    this._windowManager.show( WindowTypes.Main );
+    this._windowManager.createNewWindow();
 
     const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
     Menu.setApplicationMenu( menu );
