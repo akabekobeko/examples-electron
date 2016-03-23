@@ -1,5 +1,9 @@
-import App             from 'app';
+import App from 'app';
+import Shell from 'shell';
 import { WindowTypes } from './WindowManager.js';
+
+const AppName = 'Electron Audio Player';
+const HelpURL = 'https://github.com/akabekobeko/examples-electron';
 
 /**
  * Main menu.
@@ -14,91 +18,196 @@ export default class MainMenu {
    */
   static menu( context ) {
     const templates = [
-      { label: 'App', submenu: [
-        { label: 'About Electron Audio Player', command: 'application:about' },
-        { label: 'Quit', command: 'application:quit' }
-      ] },
-      { label: 'Effector', submenu: [
-        { label: 'Graphic Equalizer', command: 'effector:graphic-equalizer' }
-      ] }
+      MainMenu._menuEffector( context ),
+      MainMenu._menuView(),
+      MainMenu._menuWindow(),
+      MainMenu._menuHelp()
     ];
 
-    if( DEBUG ) {
-      templates.push( {
-        label: 'Debug', submenu: [
-          { label: 'Reload', command: 'debug:reload' },
-          { label: 'Developer Tools', command: 'debug:dev-tools' }
-        ]
-      } );
+    if( process.platform === 'darwin' ) {
+      templates.unshift( MainMenu._menuApp( context ) );
     }
 
-    const keymaps  = MainMenu._keymaps();
-    const handlers = MainMenu._handlers( context );
-
-    return templates.map( ( template ) => {
-      return {
-        label:   template.label,
-        submenu: template.submenu.map( ( item ) => {
-          return {
-            label: item.label,
-            accelerator: keymaps[ item.command ],
-            click: handlers[ item.command ]
-          };
-        } )
-      };
-    } );
+    return templates;
   }
 
   /**
-   * Get the keyboard shortcuts maps for OS X.
+   * Create a menu of Application ( OS X only ).
    *
-   * @return {Object} Success is key maps ( Key/Value pare ).
+   * @return {Object} Menu data.
    */
-  static _keymaps() {
-    switch( process.platform ) {
-      case 'darwin':
-        return {
-          'application:quit': 'command+q',
-
-          'debug:reload':    'command+r',
-          'debug:dev-tools': 'command+alt+i'
-        };
-
-      case 'win32':
-        return {
-          'application:quit': 'alt+f4',
-
-          'debug:reload':    'ctrl+r',
-          'debug:dev-tools': 'ctrl+alt+i'
-        };
-
-      // Otherwise Linux
-      default:
-        return {
-          'application:quit': 'ctrl+q',
-
-          'debug:reload':    'ctrl+r',
-          'debug:dev-tools': 'ctrl+alt+i'
-        };
-    }
+  static _menuApp( context ) {
+    return {
+      label: AppName,
+      submenu: [
+        {
+          label: 'About ' + AppName,
+          click: () => {
+            context.windowManager.toggle( WindowTypes.About );
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Services',
+          role: 'services',
+          submenu: []
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Hide ' + AppName,
+          accelerator: 'Command+H',
+          role: 'hide'
+        },
+        {
+          label: 'Hide Others',
+          accelerator: 'Command+Alt+H',
+          role: 'hideothers'
+        },
+        {
+          label: 'Show All',
+          role: 'unhide'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: () => { App.quit(); }
+        },
+      ]
+    };
   }
 
   /**
-   * Get the handler functions when the menu item is clicked.
+   * Create a menu of Effector.
    *
    * @param {Main} context Application instance.
    *
-   * @return {Object} Menu handler functions ( Key/Value pare ).
+   * @return {Object} Menu data.
    */
-  static _handlers( context ) {
+  static _menuEffector( context ) {
     return {
-      'application:about': () => { context.windowManager.toggle( WindowTypes.About ); },
-      'application:quit': () => { App.quit(); },
+      label: 'Effector',
+      submenu: [
+        {
+          label: 'Graphic Equalizer',
+          click: () => {
+            context.windowManager.toggle( WindowTypes.GraphicEqualizer );
+          }
+        }
+      ]
+    };
+  }
 
-      'effector:graphic-equalizer': () => { context.windowManager.toggle( WindowTypes.GraphicEqualizer ); },
+  /**
+   * Create a menu of View.
+   *
+   * @return {Object} Menu data.
+   */
+  static _menuView() {
+    const templates = {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Toggle Full Screen',
+          accelerator: ( () => {
+            return ( process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11' );
+          } )(),
+          click: ( item, focusedWindow ) => {
+            if( focusedWindow ) {
+              focusedWindow.setFullScreen( !( focusedWindow.isFullScreen() ) );
+            }
+          }
+        }
+      ]
+    };
 
-      'debug:reload':    () => { context.windowManager.reload(); },
-      'debug:dev-tools': () => { context.windowManager.toggleDevTools(); }
+    if( DEBUG ) {
+      templates.submenu.unshift( {
+        label: 'Reload',
+        accelerator: 'CmdOrCtrl+R',
+        click: ( item, focusedWindow ) => {
+          if( focusedWindow ) {
+            focusedWindow.reload();
+          }
+        }
+      } );
+
+      templates.submenu.push( {
+        label: 'Toggle Developer Tools',
+        accelerator: ( () => {
+          return ( process.platform === 'darwin' ? 'Alt+Command+I' :  'Ctrl+Shift+I' );
+        } )(),
+        click: ( item, focusedWindow ) => {
+          if( focusedWindow ) {
+            focusedWindow.toggleDevTools();
+          }
+        }
+      } );
+    }
+
+    return templates;
+  }
+
+  /**
+   * Create a menu of Window.
+   *
+   * @return {Object} Menu data.
+   */
+  static _menuWindow() {
+    const templates = {
+      label: 'Window',
+      role: 'window',
+      submenu: [
+        {
+          label: 'Minimize',
+          accelerator: 'CmdOrCtrl+M',
+          role: 'minimize'
+        },
+        {
+          label: 'Close',
+          accelerator: 'CmdOrCtrl+W',
+          role: 'close'
+        },
+      ]
+    };
+
+    if( process.platform === 'darwin' ) {
+      templates.submenu.push( {
+        type: 'separator'
+      } );
+
+      templates.submenu.push( {
+        label: 'Bring All to Front',
+        role: 'front'
+      } );
+    }
+
+    return templates;
+  }
+
+  /**
+   * Create a menu of Help.
+   *
+   * @return {Object} Menu data.
+   */
+  static _menuHelp() {
+    return {
+      label: 'Help',
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click: () => {
+            Shell.openExternal( HelpURL );
+          }
+        }
+      ]
     };
   }
 }
