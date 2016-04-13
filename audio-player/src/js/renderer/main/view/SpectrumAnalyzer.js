@@ -14,7 +14,7 @@ export default class SpectrumAnalyzer extends React.Component {
   /**
    * Initialize instance.
    *
-   * @param {Object} props Properties。
+   * @param {Object} props Properties.
    */
   constructor( props ) {
     super( props );
