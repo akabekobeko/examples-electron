@@ -1,5 +1,5 @@
-import React    from 'react/dist/react';
-import ReactDOM from 'react-dom/dist/react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * Component for application main window.
@@ -8,7 +8,7 @@ export default class MainWindow extends React.Component {
   /**
    * Initialize instance.
    *
-   * @param {Object} props Properties。
+   * @param {Object} props Properties.
    */
   constructor( props ) {
     super( props );
