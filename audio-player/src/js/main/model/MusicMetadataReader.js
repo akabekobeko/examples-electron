@@ -1,11 +1,11 @@
-import App           from 'app';
-import Fs            from 'original-fs';
-import Path          from 'path';
-import Crypto        from 'crypto';
+import Electron from 'electron';
+import Fs from 'original-fs';
+import Path from 'path';
+import Crypto from 'crypto';
 import MusicMetadata from 'musicmetadata';
-import { IPCKeys }   from '../../common/Constants.js';
-import Util          from '../../common/Util.js';
-import FileUtil      from './FileUtil.js';
+import { IPCKeys } from '../../common/Constants.js';
+import Util from '../../common/Util.js';
+import FileUtil from './FileUtil.js';
 
 /**
  * Read the metadata from music file.
@@ -21,7 +21,7 @@ export default class MusicMetadataReader {
      * Path of the folder in which to save the image.
      * @type {String}
      */
-    this._saveImageDirPath = Path.join( App.getPath( 'userData' ), 'images' );
+    this._saveImageDirPath = Path.join( Electron.app.getPath( 'userData' ), 'images' );
 
     // Setup save directory
     if( this._saveImageDirPath ) {
@@ -104,7 +104,7 @@ export default class MusicMetadataReader {
           return reject( err );
         }
 
-        resolve( { metadata } );
+        return resolve( { metadata } );
       } );
     } );
   }
@@ -118,7 +118,8 @@ export default class MusicMetadataReader {
     return new Promise( ( resolve ) => {
       const picture = params.metadata.picture;
       if( !( this._saveImageDirPath && picture && 0 < picture.length ) ) {
-        return resolve( params );
+        resolve( params );
+        return;
       }
 
       const fileName = this._getHash( picture[ 0 ].data ) + '.' + picture[ 0 ].format;
@@ -146,9 +147,9 @@ export default class MusicMetadataReader {
    * @return {String} Hash string.
    */
   _getHash( data ) {
-    const sha = Crypto.createHash('sha1');
-
+    const sha = Crypto.createHash( 'sha1' );
     sha.update( data );
+
     return sha.digest( 'hex' );
   }
 
