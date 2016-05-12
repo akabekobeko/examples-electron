@@ -1,7 +1,7 @@
-import Path          from 'path';
-import BrowserWindow from 'browser-window';
-import Util          from '../common/Util.js';
-import { IPCKeys }   from '../common/Constants.js';
+import Electron from 'electron';
+import Path from 'path';
+import Util from '../common/Util.js';
+import { IPCKeys } from '../common/Constants.js';
 
 /**
  * Manage the window.
@@ -40,7 +40,7 @@ export default class WindowManager {
    * Reload the focused window, For debug.
    */
   reload() {
-    const w = BrowserWindow.getFocusedWindow();
+    const w = Electron.BrowserWindow.getFocusedWindow();
     if( w ) {
       w.reload();
     }
@@ -50,7 +50,7 @@ export default class WindowManager {
    * Switch the display of the developer tools window at focused window, For debug.
    */
   toggleDevTools() {
-    const w = BrowserWindow.getFocusedWindow();
+    const w = Electron.BrowserWindow.getFocusedWindow();
     if( w ) {
       w.toggleDevTools();
     }
@@ -62,7 +62,7 @@ export default class WindowManager {
    * @return {BrowserWindow} Created window.
    */
   createNewWindow() {
-    const w = new BrowserWindow( {
+    const w = new Electron.BrowserWindow( {
       width: 400,
       height: 400,
       minWidth: 400,
@@ -97,7 +97,7 @@ export default class WindowManager {
   createAboutWindow() {
     if( this._aboutDialog ) { return; }
 
-    const w = new BrowserWindow( {
+    const w = new Electron.BrowserWindow( {
       width: 400,
       height: 256,
       resizable: false,

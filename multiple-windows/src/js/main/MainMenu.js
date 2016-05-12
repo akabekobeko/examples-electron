@@ -1,5 +1,4 @@
-import App from 'app';
-import Shell from 'shell';
+import Electron from 'electron';
 
 const AppName = 'Electron Multiple Windows';
 const HelpURL = 'https://github.com/akabekobeko/examples-electron';
@@ -75,7 +74,7 @@ export default class MainMenu {
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click: () => { App.quit(); }
+          click: () => { Electron.app.quit(); }
         },
       ]
     };
@@ -181,7 +180,7 @@ export default class MainMenu {
         {
           label: 'Learn More',
           click: () => {
-            Shell.openExternal( HelpURL );
+            Electron.shell.openExternal( HelpURL );
           }
         }
       ]
