@@ -1,4 +1,4 @@
-import Fs   from 'original-fs';
+import Fs from 'original-fs';
 import Util from '../../common/Util.js';
 
 /**

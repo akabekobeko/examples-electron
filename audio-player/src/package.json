@@ -1,7 +1,7 @@
 {
   "name": "electron-audio-player",
   "description": "Example of simple audio player in Electron.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",

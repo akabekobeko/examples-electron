@@ -1,7 +1,7 @@
-import Path          from 'path';
-import BrowserWindow from 'browser-window';
-import Util          from '../common/Util.js';
-import { IPCKeys }   from '../common/Constants.js';
+import Electron from 'electron';
+import Path from 'path';
+import Util from '../common/Util.js';
+import { IPCKeys } from '../common/Constants.js';
 
 /**
  * Define the type of window.
@@ -106,7 +106,7 @@ export default class WindowManager {
    * Reload the focused window, For debug.
    */
   reload() {
-    const w = BrowserWindow.getFocusedWindow();
+    const w = Electron.BrowserWindow.getFocusedWindow();
     if( w ) {
       w.reload();
     }
@@ -116,7 +116,7 @@ export default class WindowManager {
    * Switch the display of the developer tools window at focused window, For debug.
    */
   toggleDevTools() {
-    const w = BrowserWindow.getFocusedWindow();
+    const w = Electron.BrowserWindow.getFocusedWindow();
     if( w ) {
       w.toggleDevTools();
     }
@@ -128,7 +128,7 @@ export default class WindowManager {
   _showMain() {
     if( this._windows.get( WindowTypes.Main ) ) { return; }
 
-    const w = new BrowserWindow( {
+    const w = new Electron.BrowserWindow( {
       width: 800,
       height: 600,
       minWidth: 800,
@@ -161,7 +161,7 @@ export default class WindowManager {
   _showAbout() {
     if( this._windows.get( WindowTypes.About ) ) { return; }
 
-    const w = new BrowserWindow( {
+    const w = new Electron.BrowserWindow( {
       width: 400,
       height: 256,
       resizable: false,
@@ -190,7 +190,7 @@ export default class WindowManager {
 
     let w = null;
     if( process.platform === 'darwin' ) {
-      w = new BrowserWindow( {
+      w = new Electron.BrowserWindow( {
         width: 360,
         height: 300,
         resizable: false,
@@ -199,7 +199,7 @@ export default class WindowManager {
 
     } else {
       // Add a heigth for menu bar
-      w = new BrowserWindow( {
+      w = new Electron.BrowserWindow( {
         width: 380,
         height: 320,
         resizable: false,

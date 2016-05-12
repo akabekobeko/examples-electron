@@ -1,10 +1,9 @@
-import App                 from 'app';
-import Menu                from 'menu';
-import Util                from '../common/Util.js';
-import MainMenu            from './MainMenu.js';
-import DialogManager       from './DialogManager.js';
-import { WindowTypes }     from './WindowManager.js';
-import WindowManager       from './WindowManager.js';
+import Electron from 'electron';
+import Util from '../common/Util.js';
+import MainMenu from './MainMenu.js';
+import DialogManager from './DialogManager.js';
+import { WindowTypes } from './WindowManager.js';
+import WindowManager from './WindowManager.js';
 import MusicMetadataReader from './model/MusicMetadataReader.js';
 
 /**
@@ -58,9 +57,9 @@ class Main {
    */
   onReady() {
     this._windowManager.show( WindowTypes.Main );
-
-    const menu = Menu.buildFromTemplate( MainMenu.menu( this ) );
-    Menu.setApplicationMenu( menu );
+    const templates = MainMenu.menu( this );
+    const menu = Electron.Menu.buildFromTemplate( templates );
+    Electron.Menu.setApplicationMenu( menu );
   }
 
   /**
@@ -69,21 +68,21 @@ class Main {
   onWindowAllClosed() {
     if( DEBUG ) { Util.log( 'Quit' ); }
 
-    App.quit();
+    Electron.app.quit();
   }
 }
 
 const main = new Main();
-App.on( 'ready', () => {
+Electron.app.on( 'ready', () => {
   if( DEBUG ) { Util.log( 'Application is ready' ); }
   main.onReady();
 } );
 
-App.on( 'quit', () => {
+Electron.app.on( 'quit', () => {
   if( DEBUG ) { Util.log( 'Application is quit' ); }
 } );
 
-App.on( 'window-all-closed', () => {
+Electron.app.on( 'window-all-closed', () => {
   if( DEBUG ) { Util.log( 'All of the window was closed.' ); }
 
   main.onWindowAllClosed();

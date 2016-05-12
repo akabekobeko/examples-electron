@@ -1,4 +1,4 @@
-import Dialog      from 'dialog';
+import Electron from 'electron';
 import { IPCKeys } from '../common/Constants.js';
 
 /**
@@ -25,10 +25,10 @@ export default class DialogManager {
    */
   showMessage( ownerWindow, options ) {
     if( ownerWindow ) {
-      return Dialog.showMessageBox( ownerWindow, options );
+      return Electron.dialog.showMessageBox( ownerWindow, options );
     }
 
-    return Dialog.showMessageBox( options );
+    return Electron.dialog.showMessageBox( options );
   }
 
   /**
@@ -41,10 +41,10 @@ export default class DialogManager {
    */
   showOpenDialog( ownerWindow, options ) {
     if( ownerWindow ) {
-      return Dialog.showOpenDialog( ownerWindow, options );
+      return Electron.dialog.showOpenDialog( ownerWindow, options );
     }
 
-    return Dialog.showOpenDialog( options );
+    return Electron.dialog.showOpenDialog( options );
   }
 
   /**
