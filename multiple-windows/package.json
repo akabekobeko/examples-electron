@@ -1,7 +1,7 @@
 {
   "name": "electron-multiple-windows",
   "description": "Electron Multiple Windows.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",
@@ -13,14 +13,27 @@
     "type": "git",
     "url": "git+https://github.com/akabekobeko/examples-electron.git"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "env": {
+      "development": {
+        "presets": [
+          "power-assert"
+        ]
+      }
+    }
+  },
   "config": {
     "app": "MultipleWindows",
-    "electron": "1.0.1"
+    "electron": "1.1.0"
   },
   "scripts": {
     "start": "npm run watch",
     "app": "electron --debug=5858 src/",
-    "test": "mocha",
+    "test": "mocha  --compilers js:babel-register test/**/*.test.js",
     "esdoc": "esdoc -c esdoc.json",
     "build:css": "stylus -c ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-root ./stylus",
     "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node -d | exorcist ./src/main.js.map > ./src/main.js",
@@ -32,8 +45,8 @@
     "watch:server": "node-inspector",
     "watch": "npm-run-all -p watch:js-main watch:js-renderer watch:css watch:server",
     "release:css": "stylus -c ./src/stylus/App.styl -o ./dist/src/bundle.css",
-    "release:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/main.js",
-    "release:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/bundle.js",
+    "release:js-main": "cross-env NODE_ENV=production browserify -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/main.js",
+    "release:js-renderer": "cross-env NODE_ENV=production browserify -t [ babelify ] ./src/js/renderer/App.js | uglifyjs -c warnings=false -d DEBUG=false > ./dist/src/bundle.js",
     "release:clean": "rimraf ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
     "release:build": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer",
@@ -53,15 +66,16 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "cpx": "^1.3.1",
+    "cross-env": "^1.0.7",
     "devtron": "^1.1.0",
     "electron-packager": "^7.0.1",
-    "electron-prebuilt": "^1.0.1",
+    "electron-prebuilt": "^1.1.0",
     "esdoc": "^0.4.7",
     "exorcist": "^0.4.0",
     "mocha": "^2.4.5",
     "ncp": "^2.0.0",
     "node-inspector": "^0.12.8",
-    "npm-run-all": "^2.0.0",
+    "npm-run-all": "^2.1.0",
     "power-assert": "^1.4.1",
     "rimraf": "^2.5.2",
     "stylus": "^0.54.5",

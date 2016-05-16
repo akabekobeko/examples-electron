@@ -1,6 +1,6 @@
-import assert       from 'power-assert';
+import assert from 'assert';
 import TestDataUtil from '../TestDataUtil.js';
-import Album        from '../../src/js/renderer/main/model/Album.js';
+import Album from '../../src/js/renderer/main/model/Album.js';
 
 /** @test {Album} */
 describe( 'Album', () => {
