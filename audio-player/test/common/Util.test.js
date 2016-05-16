@@ -1,5 +1,5 @@
 import assert from 'assert';
-import Util   from '../../src/js/common/Util.js';
+import Util from '../../src/js/common/Util.js';
 
 /** @test {Util} */
 describe( 'Util', () => {

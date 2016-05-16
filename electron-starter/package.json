@@ -13,6 +13,19 @@
     "type": "git",
     "url": "git+https://github.com/akabekobeko/examples-electron.git"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "env": {
+      "development": {
+        "presets": [
+          "power-assert"
+        ]
+      }
+    }
+  },
   "config": {
     "app": "Starter",
     "electron": "1.1.0"
@@ -20,7 +33,7 @@
   "scripts": {
     "start": "npm run watch",
     "app": "electron --debug=5858 src/",
-    "test": "mocha",
+    "test": "mocha --compilers js:babel-register test/**/*.test.js",
     "esdoc": "esdoc -c esdoc.json",
     "build:css": "stylus -c ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-root ./stylus",
     "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node -d | exorcist ./src/main.js.map > ./src/main.js",
