@@ -26,10 +26,6 @@
       }
     }
   },
-  "config": {
-    "app": "Starter",
-    "electron": "1.1.0"
-  },
   "scripts": {
     "start": "npm run watch",
     "app": "electron --debug=5858 src/",
@@ -50,9 +46,9 @@
     "release:clean": "rimraf ./dist/src",
     "release:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,package.json}\" ./dist/src",
     "release:build": "npm-run-all -s release:clean release:copy -p release:css release:js-main release:js-renderer",
-    "release:pack-osx": "electron-packager ./dist/src $npm_package_config_app --out=dist/bin --cache=dist/cache --platform=darwin --arch=x64 --version=$npm_package_config_electron --overwrite --asar --icon=res/app.icns",
-    "release:pack-win": "electron-packager ./dist/src $npm_package_config_app --out=dist/bin --cache=dist/cache --platform=win32 --arch=x64 --version=$npm_package_config_electron --overwrite --asar --icon=res/app.ico --version-string.CompanyName=\"Company\" --version-string.LegalCopyright=\"Copylight (C) USERNAME, All right reserved.\" --version-string.FileDescription=\"Electron application\" --version-string.OriginalFilename=\"$npm_package_config_app.exe\" --version-string.FileVersion=\"$npm_package_version\" --version-string.ProductVersion=\"$npm_package_version\" --version-string.ProductName=\"$npm_package_config_app\" --version-string.InternalName=\"$npm_package_config_app\"",
-    "release:pack-linux": "electron-packager ./dist/src $npm_package_config_app --out=dist/bin --cache=dist/cache --platform=linux --arch=x64 --version=$npm_package_config_electron --overwrite --asar",
+    "release:pack-osx": "electron-packager ./dist/src Starter --out=dist/bin --download.cache=dist/cache --platform=darwin --arch=x64 --version=1.1.0 --overwrite --asar --icon=res/app.icns",
+    "release:pack-win": "electron-packager ./dist/src Starter --out=dist/bin --download.cache=dist/cache --platform=win32 --arch=x64 --version=1.1.0 --overwrite --asar --icon=res/app.ico --version-string.CompanyName=\"Company\" --version-string.LegalCopyright=\"Copylight (C) USERNAME, All right reserved.\" --version-string.FileDescription=\"Electron application\" --version-string.OriginalFilename=\"Starter.exe\" --version-string.FileVersion=\"1.2.1\" --version-string.ProductVersion=\"1.2.1\" --version-string.ProductName=\"Starter\" --version-string.InternalName=\"Starter\"",
+    "release:pack-linux": "electron-packager ./dist/src Starter --out=dist/bin --download.cache=dist/cache --platform=linux --arch=x64 --version=1.1.0 --overwrite --asar",
     "release:osx": "npm-run-all -s release:build release:pack-osx",
     "release:win": "npm-run-all -s release:build release:pack-win",
     "release:linux": "npm-run-all -s release:build release:pack-linux",
