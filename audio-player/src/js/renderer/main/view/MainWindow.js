@@ -1,5 +1,5 @@
 import React       from 'react';
-import SplitPane   from 'react-split-pane';
+import SplitPane   from './react-split-pane/SplitPane.js';
 import AudioPlayer from './AudioPlayer.js';
 import ArtistList  from './ArtistList.js';
 import AlbumList   from './AlbumList.js';
