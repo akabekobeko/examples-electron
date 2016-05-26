@@ -29,18 +29,18 @@
   },
   "config": {
     "app": "AudioPlayer",
-    "electron": "1.1.0"
+    "electron": "1.1.3"
   },
   "scripts": {
     "start": "npm run watch",
     "app": "electron --debug=5858 src/",
     "test": "mocha --compilers js:babel-register test/**/*.test.js",
     "esdoc": "esdoc -c esdoc.json",
-    "build:css": "stylus -c ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-root ./stylus",
+    "build:css": "stylus -c ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-base ./stylus",
     "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node -d | exorcist ./src/main.js.map > ./src/main.js",
     "build:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js -d | exorcist ./src/bundle.js.map > ./src/bundle.js",
     "build": "npm-run-all -p build:css build:js-main build:js-renderer",
-    "watch:css": "stylus -c -w ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-root ./stylus",
+    "watch:css": "stylus -c -w ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-base ./stylus",
     "watch:js-main": "watchify -v -t [ babelify ] ./src/js/main/Main.js --im --no-detect-globals --node -o \"exorcist ./src/main.js.map > ./src/main.js\" -d",
     "watch:js-renderer": "watchify -v -t [ babelify ] ./src/js/renderer/App.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d",
     "watch:server": "node-inspector",
@@ -67,14 +67,14 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "cpx": "^1.3.1",
-    "cross-conf-env": "^1.0.0",
-    "cross-env": "^1.0.7",
+    "cross-conf-env": "^1.0.4",
+    "cross-env": "^1.0.8",
     "devtron": "^1.1.2",
     "electron-packager": "^7.0.2",
-    "electron-prebuilt": "^1.1.0",
+    "electron-prebuilt": "^1.1.3",
     "esdoc": "^0.4.7",
     "exorcist": "^0.4.0",
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.3",
     "ncp": "^2.0.0",
     "node-inspector": "^0.12.8",
     "npm-run-all": "^2.1.1",
@@ -86,9 +86,9 @@
   },
   "dependencies": {
     "material-flux": "^1.4.0",
-    "musicmetadata": "^2.0.2",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
+    "musicmetadata": "^2.0.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
     "react-split-pane": "^0.1.42"
   }
 }
