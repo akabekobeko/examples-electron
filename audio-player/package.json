@@ -1,7 +1,7 @@
 {
   "name": "electron-audio-player",
   "description": "Example of simple audio player in Electron.",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": "akabeko",
   "license": "MIT",
   "main": "main.js",
@@ -29,7 +29,7 @@
   },
   "config": {
     "app": "AudioPlayer",
-    "electron": "1.1.3"
+    "electron": "1.2.0"
   },
   "scripts": {
     "start": "npm run watch",
@@ -71,7 +71,7 @@
     "cross-env": "^1.0.8",
     "devtron": "^1.1.2",
     "electron-packager": "^7.0.2",
-    "electron-prebuilt": "^1.1.3",
+    "electron-prebuilt": "^1.2.0",
     "esdoc": "^0.4.7",
     "exorcist": "^0.4.0",
     "mocha": "^2.5.3",
@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "material-flux": "^1.4.0",
-    "musicmetadata": "^2.0.3",
+    "musicmetadata": "^2.0.4",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-split-pane": "^0.1.42"
