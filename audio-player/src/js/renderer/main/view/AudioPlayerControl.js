@@ -42,7 +42,7 @@ export default class AudioPlayerControl extends React.Component {
           <input
             type="range"
             className="audio-player__container__control__container__slider"
-            mix={ 0 }
+            min={ 0 }
             max={ 100 }
             value={ this.props.volume }
             onChange={ this._onChangeVolume.bind( this ) }>
