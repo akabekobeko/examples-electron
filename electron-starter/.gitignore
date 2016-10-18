@@ -5,7 +5,7 @@ esdoc/
 *.
 *.log
 *.map
-src/bundle.js
+src/renderer.js
 src/main.js
 src/bundle.css
 !.gitignore
