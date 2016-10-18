@@ -40,12 +40,12 @@
     "build:css": "stylus -c ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-base ./stylus",
     "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -d | exorcist ./src/main.js.map > ./src/main.js",
     "build:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js --exclude electron -d | exorcist ./src/renderer.js.map > ./src/renderer.js",
-    "build": "npm-run-all -p build:css build:js-main build:js-renderer",
+    "build": "npm-run-all -p build:*",
     "watch:css": "stylus -c -w ./src/stylus/App.styl -o ./src/bundle.css -m --sourcemap-base ./stylus",
     "watch:js-main": "watchify -v -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -o \"exorcist ./src/main.js.map > ./src/main.js\" -d",
     "watch:js-renderer": "watchify -v -t [ babelify ] ./src/js/renderer/App.js --exclude electron -o \"exorcist ./src/renderer.js.map > ./src/renderer.js\" -d",
     "watch:server": "node-inspector",
-    "watch": "npm-run-all -p watch:js-main watch:js-renderer watch:css watch:server",
+    "watch": "npm-run-all -p watch:*",
     "release:css": "stylus -c ./src/stylus/App.styl -o ./dist/src/bundle.css",
     "release:js-main": "cross-env NODE_ENV=production browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node | uglifyjs -c warnings=false -m -d DEBUG=false > ./dist/src/main.js",
     "release:js-renderer": "cross-env NODE_ENV=production browserify -t [ babelify ] ./src/js/renderer/App.js --exclude electron | uglifyjs -c warnings=false -m -d DEBUG=false > ./dist/src/renderer.js",
@@ -58,7 +58,7 @@
     "release:osx": "npm-run-all -s release:build release:pack-osx",
     "release:win": "npm-run-all -s release:build release:pack-win",
     "release:linux": "npm-run-all -s release:build release:pack-linux",
-    "release": "npm-run-all -s release:build release:pack-osx release:pack-win release:pack-linux"
+    "release": "npm-run-all -s release:build release:pack-*"
   },
   "devDependencies": {
     "babel-preset-latest": "^6.16.0",
