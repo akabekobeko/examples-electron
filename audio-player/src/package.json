@@ -4,7 +4,7 @@
   "version": "1.4.0",
   "author": "akabeko",
   "license": "MIT",
-  "main": "main.js",
+  "main": "assets/main.js",
   "keywords": [
     "Electron",
     "Audio",

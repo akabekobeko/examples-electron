@@ -84,7 +84,7 @@ export default class WindowManager {
       }
     } );
 
-    const filePath = Path.join( __dirname, 'window-main.html' );
+    const filePath = Path.join( __dirname, 'index.html' );
     w.loadURL( 'file://' + filePath + '#' + w.id );
     this._windows.set( id, w );
 
@@ -112,7 +112,7 @@ export default class WindowManager {
       this._aboutDialog = null;
     } );
 
-    const filePath = Path.join( __dirname, 'window-about.html' );
+    const filePath = Path.join( __dirname, 'about.html' );
     w.loadURL( 'file://' + filePath );
 
     this._aboutDialog = w;
