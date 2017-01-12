@@ -67,9 +67,9 @@ npm run release:pack-linux
 
 * It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
 
-### Package for Windows in OS X
+### Package for Windows in macOS
 
-How to build a package for Windows in OS X. Introduction you will install the [WineHQ](https://www.winehq.org/). It is recommended that you use the [Homebrew](http://brew.sh/).
+How to build a package for Windows in macOS. Introduction you will install the [WineHQ](https://www.winehq.org/). It is recommended that you use the [Homebrew](http://brew.sh/).
 
 ```bash
 brew install wine
