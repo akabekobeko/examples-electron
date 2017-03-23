@@ -1,4 +1,4 @@
-import { Action } from 'material-flux';
+import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
@@ -6,8 +6,8 @@ import { Action } from 'material-flux';
  */
 export const Keys = {
   updateDatetime: 'SampleAction.updateDatetime',
-  showURL:        'SampleAction.showURL'
-};
+  showURL: 'SampleAction.showURL'
+}
 
 /**
  * Sample actions.
@@ -16,8 +16,8 @@ export default class SampleAction extends Action {
   /**
    * Update datetime.
    */
-  updateDatetime() {
-    this.dispatch( Keys.updateDatetime );
+  updateDatetime () {
+    this.dispatch(Keys.updateDatetime)
   }
 
   /**
@@ -25,7 +25,7 @@ export default class SampleAction extends Action {
    *
    * @param {String} url URL.
    */
-  showURL( url ) {
-    this.dispatch( Keys.showURL, url );
+  showURL (url) {
+    this.dispatch(Keys.showURL, url)
   }
 }

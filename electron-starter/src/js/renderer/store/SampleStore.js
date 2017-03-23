@@ -1,7 +1,7 @@
-import { Store }   from 'material-flux';
-import { Keys }    from '../action/SampleAction.js';
-import { IPCKeys } from '../../common/Constants.js';
-import Util        from '../../common/Util.js';
+import { Store }   from 'material-flux'
+import { Keys }    from '../action/SampleAction.js'
+import { IPCKeys } from '../../common/Constants.js'
+import Util        from '../../common/Util.js'
 
 /**
  * Sample store.
@@ -12,8 +12,8 @@ export default class SampleStore extends Store {
    *
    * @param {AppContext} context Application context.
    */
-  constructor( context ) {
-    super( context );
+  constructor (context) {
+    super(context)
 
     /**
      * State of store.
@@ -21,10 +21,10 @@ export default class SampleStore extends Store {
      */
     this.state = {
       dateTime: Util.formatDate()
-    };
+    }
 
-    this.register( Keys.updateDatetime, this._actionUpdateDatetime );
-    this.register( Keys.showURL,        this._actionShowURL        );
+    this.register(Keys.updateDatetime, this._actionUpdateDatetime)
+    this.register(Keys.showURL,        this._actionShowURL)
   }
 
   /**
@@ -32,15 +32,15 @@ export default class SampleStore extends Store {
    *
    * @return {String} datetime.
    */
-  get datetime() {
-    return this.state.dateTime;
+  get datetime () {
+    return this.state.dateTime
   }
 
   /**
    * Update datetime.
    */
-  _actionUpdateDatetime() {
-    this.setState( { dateTime: Util.formatDate() } );
+  _actionUpdateDatetime () {
+    this.setState({ dateTime: Util.formatDate() })
   }
 
   /**
@@ -48,7 +48,7 @@ export default class SampleStore extends Store {
    *
    * @param {String} url URL.
    */
-  _actionShowURL( url ) {
-    this.context.ipc.send( IPCKeys.RequestShowURL, url );
+  _actionShowURL (url) {
+    this.context.ipc.send(IPCKeys.RequestShowURL, url)
   }
 }

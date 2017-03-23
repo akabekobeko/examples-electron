@@ -5,20 +5,20 @@
  */
 export const IPCKeys = {
   RequestShowMessage: 'RequestShowMessage',
-  FinishShowMessage:  'FinishShowMessage',
+  FinishShowMessage: 'FinishShowMessage',
 
   RequestShowOpenDialog: 'RequestShowOpenDialog',
-  FinishShowOpenDialog:  'FinishShowOpenDialog',
+  FinishShowOpenDialog: 'FinishShowOpenDialog',
 
   RequestCreateNewWindow: 'RequestCreateNewWindow',
-  FinishCreateNewWindow:  'FinishCreateNewWindow',
+  FinishCreateNewWindow: 'FinishCreateNewWindow',
 
   RequestSendMessage: 'RequestSendMessage',
-  FinishSendMessage:  'FinishSendMessage',
+  FinishSendMessage: 'FinishSendMessage',
 
   RequestGetWindowIDs: 'RequestGetWindowIDs',
   FinishGetWindowIDs: 'FinishGetWindowIDs',
 
   UpdateWindowIDs: 'UpdateWindowIDs',
   UpdateMessage: 'UpdateMessage'
-};
+}

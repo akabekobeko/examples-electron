@@ -1,11 +1,11 @@
-import { Store }     from 'material-flux';
-import { Keys }      from '../action/MusicListAction.js';
-import { IPCKeys }   from '../../../common/Constants.js';
-import Util          from '../../../common/Util.js';
-import MusicDatabase from '../model/MusicDatabase.js';
-import MusicImporter from '../model/MusicImporter.js';
-import Artist        from '../model/Artist.js';
-import Album         from '../model/Album.js';
+import { Store } from 'material-flux'
+import { Keys } from '../action/MusicListAction.js'
+import { IPCKeys } from '../../../common/Constants.js'
+import Util from '../../../common/Util.js'
+import MusicDatabase from '../model/MusicDatabase.js'
+import MusicImporter from '../model/MusicImporter.js'
+import Artist from '../model/Artist.js'
+import Album from '../model/Album.js'
 
 /**
  * Manage for music list.
@@ -16,20 +16,20 @@ export default class MusicListStore extends Store {
    *
    * @param {MainWindowContext} context Contect of the main window.
    */
-  constructor( context ) {
-    super( context );
+  constructor (context) {
+    super(context)
 
     /**
      * Music database.
      * @type {MusicDatabase}
      */
-    this._db = new MusicDatabase();
+    this._db = new MusicDatabase()
 
     /**
      * Music file importer.
      * @type {MusicImporter}
      */
-    this._importer = new MusicImporter( context.ipc, this._db, this._onProgressImportMusic.bind( this ), this._onFinishImportMusic.bind( this ) );
+    this._importer = new MusicImporter(context.ipc, this._db, this._onProgressImportMusic.bind(this), this._onFinishImportMusic.bind(this))
 
     /**
      * State of store.
@@ -53,13 +53,13 @@ export default class MusicListStore extends Store {
        * @type {Music}
        */
       currentMusic: null
-    };
+    }
 
-    this.register( Keys.init,         this._actionInit );
-    this.register( Keys.select,       this._actionSelect );
-    this.register( Keys.selectArtist, this._actionSelectArtist );
-    this.register( Keys.import,       this._actionImport );
-    this.register( Keys.remove,       this._actionRemove );
+    this.register(Keys.init,         this._actionInit)
+    this.register(Keys.select,       this._actionSelect)
+    this.register(Keys.selectArtist, this._actionSelectArtist)
+    this.register(Keys.import,       this._actionImport)
+    this.register(Keys.remove,       this._actionRemove)
   }
 
   /**
@@ -67,8 +67,8 @@ export default class MusicListStore extends Store {
    *
    * @return {Array.<Artist>} artists.
    */
-  get artists() {
-    return this.state.artists;
+  get artists () {
+    return this.state.artists
   }
 
   /**
@@ -76,8 +76,8 @@ export default class MusicListStore extends Store {
    *
    * @return {Artist} artist.
    */
-  get currentArtist() {
-    return this.state.currentArtist;
+  get currentArtist () {
+    return this.state.currentArtist
   }
 
   /**
@@ -85,8 +85,8 @@ export default class MusicListStore extends Store {
    *
    * @return {Music} music.
    */
-  get currentMusic() {
-    return this.state.currentMusic;
+  get currentMusic () {
+    return this.state.currentMusic
   }
 
   /**
@@ -98,33 +98,36 @@ export default class MusicListStore extends Store {
    *
    * @return {Music} Success is music. Otherwise null.
    */
-  next( target, prev ) {
-    const current = ( target ? target : this.state.currentMusic );
-    if( !( current ) ) { return null; }
+  next (target = this.state.currentMusic, prev) {
+    const artist = Artist.findByMusic(this.state.artists, target)
+    if (!(artist)) {
+      return null
+    }
 
-    const artist = Artist.findByMusic( this.state.artists, target );
-    if( !( artist ) ) { return null; }
+    let result = null
+    artist.albums.some((album, albumIndex) => {
+      if (album.name !== target.album) {
+        return false
+      }
 
-    let result = null;
-    artist.albums.some( ( album, albumIndex ) => {
-      if( album.name !== target.album ) { return false; }
-
-      album.musics.some( ( music, musicIndex ) => {
-        if( music.id !== target.id ) { return false; }
-
-        if( prev ) {
-          result = this._prevMusic( artist, album, albumIndex, musicIndex );
-        } else {
-          result = this._nextMusic( artist, album, albumIndex, musicIndex );
+      album.musics.some((music, musicIndex) => {
+        if (music.id !== target.id) {
+          return false
         }
 
-        return true;
-      } );
+        if (prev) {
+          result = this._prevMusic(artist, album, albumIndex, musicIndex)
+        } else {
+          result = this._nextMusic(artist, album, albumIndex, musicIndex)
+        }
 
-      return true;
-    } );
+        return true
+      })
 
-    return result;
+      return true
+    })
+
+    return result
   }
 
   /**
@@ -135,22 +138,21 @@ export default class MusicListStore extends Store {
    * @param  {Number} albumIndex Index of album in artist.albums
    * @param  {Number} musicIndex Index of music in album.musics
    *
-   * @return {Music} Success is music, Otherwise null;
+   * @return {Music} Success is music, Otherwise null
    */
-  _prevMusic( artist, album, albumIndex, musicIndex ) {
-    const position = musicIndex - 1;
-    if( 0 <= position ) {
-      return album.musics[ position ];
-
-    } else if( 0 < albumIndex ) {
+  _prevMusic (artist, album, albumIndex, musicIndex) {
+    const position = musicIndex - 1
+    if (0 <= position) {
+      return album.musics[ position ]
+    } else if (0 < albumIndex) {
       // Previous album
-      const prevAlbum = artist.albums[ albumIndex - 1 ];
-      if( 0 < prevAlbum.musics.length ) {
-        return prevAlbum.musics[ prevAlbum.musics.length - 1 ];
+      const prevAlbum = artist.albums[ albumIndex - 1 ]
+      if (0 < prevAlbum.musics.length) {
+        return prevAlbum.musics[ prevAlbum.musics.length - 1 ]
       }
     }
 
-    return null;
+    return null
   }
 
   /**
@@ -161,36 +163,38 @@ export default class MusicListStore extends Store {
    * @param  {Number} albumIndex Index of album in artist.albums
    * @param  {Number} musicIndex Index of music in album.musics
    *
-   * @return {Music} Success is music, Otherwise null;
+   * @return {Music} Success is music, Otherwise null
    */
-  _nextMusic( artist, album, albumIndex, musicIndex ) {
-    const position = musicIndex + 1;
-    if( position < album.musics.length ) {
-      return album.musics[ position ];
-
-    } else if( albumIndex < artist.albums.length - 1 ) {
+  _nextMusic (artist, album, albumIndex, musicIndex) {
+    const position = musicIndex + 1
+    if (position < album.musics.length) {
+      return album.musics[ position ]
+    } else if (albumIndex < artist.albums.length - 1) {
       // Next album
-      const nextAlbum = artist.albums[ albumIndex + 1 ];
-      if( 0 < nextAlbum.musics.length ) {
-        return nextAlbum.musics[ 0 ];
+      const nextAlbum = artist.albums[ albumIndex + 1 ]
+      if (0 < nextAlbum.musics.length) {
+        return nextAlbum.musics[ 0 ]
       }
     }
 
-    return null;
+    return null
   }
 
   /**
    * Initialize music list.
    */
-  _actionInit() {
-    this._db.init( ( err ) => {
-      if( err ) {
-        if( DEBUG ) { Util.error( err ); }
-        return;
+  _actionInit () {
+    this._db.init((err) => {
+      if (err) {
+        if (DEBUG) {
+          Util.error(err)
+        }
+
+        return
       }
 
-      this._db.readAll( this._onInitialize.bind( this ) );
-    } );
+      this._db.readAll(this._onInitialize.bind(this))
+    })
   }
 
   /**
@@ -198,13 +202,13 @@ export default class MusicListStore extends Store {
    *
    * @param {Music} music Target music.
    */
-  _actionSelect( music ) {
-    if( this.state.currentMusic ) {
-      if( music.id !== this.state.currentMusic.id ) {
-        this.setState( { currentMusic: music } );
+  _actionSelect (music) {
+    if (this.state.currentMusic) {
+      if (music.id !== this.state.currentMusic.id) {
+        this.setState({ currentMusic: music })
       }
     } else {
-      this.setState( { currentMusic: music } );
+      this.setState({ currentMusic: music })
     }
   }
 
@@ -213,21 +217,21 @@ export default class MusicListStore extends Store {
    *
    * @param {Artist} artist Target artist.
    */
-  _actionSelectArtist( artist ) {
-    if( this.state.currentArtist ) {
-      if( artist.name !== this.state.currentArtist.name ) {
-        this.setState( { currentArtist: artist } );
+  _actionSelectArtist (artist) {
+    if (this.state.currentArtist) {
+      if (artist.name !== this.state.currentArtist.name) {
+        this.setState({ currentArtist: artist })
       }
     } else {
-      this.setState( { currentArtist: artist } );
+      this.setState({ currentArtist: artist })
     }
   }
 
   /**
    * Import the music from file.
    */
-  _actionImport() {
-    this._importer.execute();
+  _actionImport () {
+    this._importer.execute()
   }
 
   /**
@@ -235,48 +239,50 @@ export default class MusicListStore extends Store {
    *
    * @param {Music} music Target music.
    */
-  _actionRemove( music ) {
-    this._db.remove( music.id, ( err ) => {
-      if( err ) {
-        if( DEBUG ) { Util.error( err ); }
-        return;
+  _actionRemove (music) {
+    this._db.remove(music.id, (err) => {
+      if (err) {
+        if (DEBUG) {
+          Util.error(err)
+        }
+
+        return
       }
 
       // Move current
-      const state  = { artists: this.state.artists.concat() };
-      if( music.id === this.state.currentMusic.id ) {
-        state.currentMusic = this.next( music, true );
+      const state  = { artists: this.state.artists.concat() }
+      if (music.id === this.state.currentMusic.id) {
+        state.currentMusic = this.next(music, true)
       }
 
-      const artist = Artist.findByMusic( state.artists, music );
-      const album  = Album.findByMusic( artist.albums, music );
+      const artist = Artist.findByMusic(state.artists, music)
+      const album  = Album.findByMusic(artist.albums, music)
 
       // Check last album and artist
-      let removedArtist = false;
-      album.remove( music );
-      if( album.musics.length === 0 ) {
+      let removedArtist = false
+      album.remove(music)
+      if (album.musics.length === 0) {
+        artist.remove(album)
+        if (artist.albums.length === 0) {
+          const newArtists = state.artists.filter((a) => {
+            return (a.name !== artist.name)
+          })
 
-        artist.remove( album );
-        if( artist.albums.length === 0 ) {
-          const newArtists = state.artists.filter( ( a ) => {
-            return ( a.name !== artist.name );
-          } );
-
-          if( newArtists.length !== state.artists.length ) {
-            state.artists = newArtists;
-            removedArtist = true;
+          if (newArtists.length !== state.artists.length) {
+            state.artists = newArtists
+            removedArtist = true
           }
         }
       }
 
       // Update current artist
-      const currentArtist = this.state.currentArtist;
-      if( currentArtist && currentArtist.name === artist.name ) {
-        state.currentArtist = ( removedArtist ? null : artist );
+      const currentArtist = this.state.currentArtist
+      if (currentArtist && currentArtist.name === artist.name) {
+        state.currentArtist = (removedArtist ? null : artist)
       }
 
-      this.setState( state );
-    } );
+      this.setState(state)
+    })
   }
 
   /**
@@ -285,26 +291,28 @@ export default class MusicListStore extends Store {
    * @param {Error}         err    Error information. Success is undefined.
    * @param {Array.<Music>} musics Loaded music collection.
    */
-  _onInitialize( err, musics ) {
-    if( err ) {
-      if( DEBUG ) { Util.error( err ); }
-      return;
+  _onInitialize (err, musics) {
+    if (err) {
+      if (DEBUG) {
+        Util.error(err)
+      }
+
+      return
     }
 
-    if( !( musics && musics.length ) ) {
-      return;
+    if (!(musics && musics.length)) {
+      return
     }
 
-    const artists = Artist.fromMusics( musics );
-    const state   = { musics: musics, artists: artists };
+    const artists = Artist.fromMusics(musics)
+    const state   = { musics: musics, artists: artists }
 
-    if( 0 < artists.length ) {
-      state.currentArtist = artists[ 0 ];
-      state.currentMusic  = state.currentArtist.albums[ 0 ].musics[ 0 ];
+    if (0 < artists.length) {
+      state.currentArtist = artists[ 0 ]
+      state.currentMusic  = state.currentArtist.albums[ 0 ].musics[ 0 ]
     }
 
-    this.setState( state );
-    //this._db.clear();
+    this.setState(state)
   }
 
   /**
@@ -315,37 +323,39 @@ export default class MusicListStore extends Store {
    * @param {Number} process The processed number.
    * @param {Number} total   The total number of music files.
    */
-  _onProgressImportMusic( err, music, process, total ) {
-    if( err ) {
-      if( DEBUG ) { Util.error( err ); }
-      return;
-    }
-
-    if( DEBUG ) {
-      Util.log( 'Import [' + process + '/' + total + '] : ' + music.path );
-    }
-
-    let artist = Artist.findByMusic( this.state.artists, music );
-    if( artist ) {
-      let album = Album.findByMusic( artist.albums, music );
-      if( album ) {
-        album.add( music );
-      } else {
-        album = new Album( artist.name, music.album );
-        album.add( music );
-        artist.add( album );
+  _onProgressImportMusic (err, music, process, total) {
+    if (err) {
+      if (DEBUG) {
+        Util.error(err)
       }
 
-      this.setState();
+      return
+    }
 
+    if (DEBUG) {
+      Util.log('Import [' + process + '/' + total + '] : ' + music.path)
+    }
+
+    let artist = Artist.findByMusic(this.state.artists, music)
+    if (artist) {
+      let album = Album.findByMusic(artist.albums, music)
+      if (album) {
+        album.add(music)
+      } else {
+        album = new Album(artist.name, music.album)
+        album.add(music)
+        artist.add(album)
+      }
+
+      this.setState()
     } else {
       // New Artist and Album
-      artist = new Artist( music.artist );
-      const album = new Album( artist.name, music.album );
-      album.add( music );
-      artist.add( album );
+      artist = new Artist(music.artist)
+      const album = new Album(artist.name, music.album)
+      album.add(music)
+      artist.add(album)
 
-      this.setState( { artists: this.state.artists.concat( artist ).sort( Artist.compare ) } );
+      this.setState({ artists: this.state.artists.concat(artist).sort(Artist.compare) })
     }
   }
 
@@ -354,14 +364,16 @@ export default class MusicListStore extends Store {
    *
    * @param {Boolean} canceld True if it is canceled. Default is false.
    */
-  _onFinishImportMusic( canceld ) {
-    if( canceld ) { return; }
+  _onFinishImportMusic (canceld) {
+    if (canceld) {
+      return
+    }
 
-    this.context.ipc.send( IPCKeys.RequestShowMessage, {
+    this.context.ipc.send(IPCKeys.RequestShowMessage, {
       type: 'info',
       title: 'Information',
       message: 'Import of music files has been completed.',
       buttons: [ 'OK' ]
-    } );
+    })
   }
 }

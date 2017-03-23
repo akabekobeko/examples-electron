@@ -5,11 +5,11 @@
  */
 export const IPCKeys = {
   RequestShowMessage: 'requestShowMessage',
-  FinishShowMessage:  'finishShowMessage',
+  FinishShowMessage: 'finishShowMessage',
 
   RequestShowOpenDialog: 'requestShowOpenDialog',
-  FinishShowOpenDialog:  'finishShowOpenDialog',
+  FinishShowOpenDialog: 'finishShowOpenDialog',
 
   RequestShowURL: 'requestShowURL',
-  FinishShowURL:  'finishShowURL'
-};
+  FinishShowURL: 'finishShowURL'
+}

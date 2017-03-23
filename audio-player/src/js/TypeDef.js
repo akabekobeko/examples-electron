@@ -39,3 +39,27 @@
  * @property {String}         name  Preset name.
  * @property {Array.<Number>} gains Prest gains.
  */
+
+/**
+  * @external {EventEmitter} https://github.com/atom/electron/blob/master/docs/api/web-contents.md
+  */
+
+/**
+ * @external {ipcMain} https://github.com/atom/electron/blob/master/docs/api/ipc-main.md
+ */
+
+/**
+ * @external {ipcRenderer} https://github.com/atom/electron/blob/master/docs/api/ipc-renderer.md
+ */
+
+/**
+ * @external {IPCEvent} https://github.com/atom/electron/blob/master/docs/api/ipc-main.md
+ */
+
+/**
+ * @external {EventEmitter} https://nodejs.org/api/events.html
+ */
+
+/**
+ * @external {Buffer} https://nodejs.org/api/buffer.html
+ */

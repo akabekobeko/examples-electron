@@ -1,4 +1,4 @@
-import { Action } from 'material-flux';
+import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
@@ -6,8 +6,8 @@ import { Action } from 'material-flux';
  */
 export const Keys = {
   createNewWindow: 'MainWindowAction.createNewWindow',
-  sendMessage:     'MainWindowAction.sendMessage'
-};
+  sendMessage: 'MainWindowAction.sendMessage'
+}
 
 /**
  * Main window actions.
@@ -16,8 +16,8 @@ export default class MainWindowAction extends Action {
   /**
    * Create a new window.
    */
-  createNewWindow() {
-    this.dispatch( Keys.createNewWindow );
+  createNewWindow () {
+    this.dispatch(Keys.createNewWindow)
   }
 
   /**
@@ -26,7 +26,7 @@ export default class MainWindowAction extends Action {
    * @param {Number} id      Identifier of a target window.
    * @param {String} message Message string.
    */
-  sendMessage( id, message ) {
-    this.dispatch( Keys.sendMessage, id, message );
+  sendMessage (id, message) {
+    this.dispatch(Keys.sendMessage, id, message)
   }
 }

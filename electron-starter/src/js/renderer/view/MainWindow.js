@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 /**
  * Component for application main window.
@@ -10,10 +10,12 @@ export default class MainWindow extends React.Component {
    *
    * @param {Object} props Properties.
    */
-  constructor( props ) {
-    super( props );
+  constructor (props) {
+    super(props)
 
-    this.__onChange = this._onChange.bind( this );
+    this._onChangeBind      = this._onChange.bind(this)
+    this._onClickButtonBind = this._onClickButton.bind(this)
+    this._onClickLinkBind   = this._onClickLink.bind(this)
 
     /**
      * State of component.
@@ -21,21 +23,21 @@ export default class MainWindow extends React.Component {
      */
     this.state = {
       url: 'https://github.com/akabekobeko/examples-electron'
-    };
+    }
   }
 
   /**
    * Occurs when a component mounted.
    */
-  componentDidMount() {
-    this.props.context.sampleStore.onChange( this.__onChange );
+  componentDidMount () {
+    this.props.context.sampleStore.onChange(this._onChangeBind)
   }
 
   /**
    * Occurs before the component unmounted.
    */
-  componentWillUnmount() {
-    this.props.context.sampleStore.removeChangeListener( this.__onChange );
+  componentWillUnmount () {
+    this.props.context.sampleStore.removeChangeListener(this._onChangeBind)
   }
 
   /**
@@ -43,50 +45,54 @@ export default class MainWindow extends React.Component {
    *
    * @return {ReactElement} Rendering data.
    */
-  render() {
+  render () {
     return (
       <div className="sample">
         <span
           className="sample__button"
-          onClick={ this._onClickButton.bind( this ) }>
+          onClick={this._onClickButtonBind}>
           Click
         </span>
         <span>{ this.props.context.sampleStore.datetime }</span>
         <div className="sample__repository">
-          <i className="icon-github"></i> <a href="#" onClick={ this._onClickLink.bind( this ) }>{ this.state.url }</a>
+          <i className="icon-github" /> <a href="#" onClick={this._onClickLinkBind}>{ this.state.url }</a>
         </div>
       </div>
-    );
+    )
   }
 
   /**
    * Occurs when a button clicked.
    */
-  _onClickButton() {
-    this.props.context.sampleAction.updateDatetime();
+  _onClickButton () {
+    this.props.context.sampleAction.updateDatetime()
   }
 
   /**
    * Occurs when a link clicked.
    */
-  _onClickLink() {
-    this.props.context.sampleAction.showURL( this.state.url );
+  _onClickLink () {
+    this.props.context.sampleAction.showURL(this.state.url)
   }
 
   /**
    * Occurs when a store updated.
    */
-  _onChange() {
-    this.forceUpdate();
+  _onChange () {
+    this.forceUpdate()
   }
 
   /**
    * Setup for main window.
    */
-  static setup( context ) {
-    const area = document.querySelector( '.app' );
-    if( !( area ) ) { return; }
+  static setup (context) {
+    const area = document.querySelector('.app')
+    if (!(area)) { return }
 
-    ReactDOM.render( <MainWindow context={ context } />, area );
+    ReactDOM.render(<MainWindow context={context} />, area)
   }
+}
+
+MainWindow.propTypes = {
+  context: React.PropTypes.object
 }

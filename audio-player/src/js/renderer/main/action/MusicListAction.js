@@ -1,16 +1,16 @@
-import { Action } from 'material-flux';
+import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
  * @type {Object}
  */
 export const Keys = {
-  init:         'MusicListAction.init',
-  select:       'MusicListAction.select',
+  init: 'MusicListAction.init',
+  select: 'MusicListAction.select',
   selectArtist: 'MusicListAction.selectArtist',
-  import:       'MusicListAction.import',
-  remove:       'MusicListAction.remove'
-};
+  import: 'MusicListAction.import',
+  remove: 'MusicListAction.remove'
+}
 
 /**
  * Music list actions.
@@ -19,8 +19,8 @@ export default class MusicListAction extends Action {
   /**
    * Initiliaze music list.
    */
-  init() {
-    this.dispatch( Keys.init );
+  init () {
+    this.dispatch(Keys.init)
   }
 
   /**
@@ -28,8 +28,8 @@ export default class MusicListAction extends Action {
    *
    * @param {Music} music Target music.
    */
-  select( music ) {
-    this.dispatch( Keys.select, music );
+  select (music) {
+    this.dispatch(Keys.select, music)
   }
 
   /**
@@ -37,15 +37,15 @@ export default class MusicListAction extends Action {
    *
    * @param {Artist} artist Target artist.
    */
-  selectArtist( artist ) {
-    this.dispatch( Keys.selectArtist, artist );
+  selectArtist (artist) {
+    this.dispatch(Keys.selectArtist, artist)
   }
 
   /**
    * Import the music from file.
    */
-  import() {
-    this.dispatch( Keys.import );
+  import () {
+    this.dispatch(Keys.import)
   }
 
   /**
@@ -53,7 +53,7 @@ export default class MusicListAction extends Action {
    *
    * @param {Music} music Target music.
    */
-  remove( music ) {
-    this.dispatch( Keys.remove, music );
+  remove (music) {
+    this.dispatch(Keys.remove, music)
   }
 }

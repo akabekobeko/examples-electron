@@ -1,5 +1,5 @@
-import IndexedDBWrapper from '../../common/IndexedDBWrapper.js';
-import Music            from './Music.js';
+import IndexedDBWrapper from '../../common/IndexedDBWrapper.js'
+import Music from './Music.js'
 
 /**
  * Manage for music databse.
@@ -8,12 +8,12 @@ export default class MusicDatabase {
   /**
    * Initialize instance.
    */
-  constructor() {
+  constructor () {
     /**
      * Database.
      * @type {IndexedDBWrapper}
      */
-    this._db = new IndexedDBWrapper( 'music_db', 1, 'musics' );
+    this._db = new IndexedDBWrapper('music_db', 1, 'musics')
   }
 
   /**
@@ -21,7 +21,7 @@ export default class MusicDatabase {
    *
    * @param  {Function} callback Callback function.
    */
-  init( callback ) {
+  init (callback) {
     const params = {
       create: {
         keyPath: 'id',
@@ -30,11 +30,11 @@ export default class MusicDatabase {
       index: [
         { name: 'path', keyPath: 'path', params: { unique: true } }
       ]
-    };
+    }
 
-    this._db.open( params, ( err ) => {
-      callback( err );
-    } );
+    this._db.open(params, (err) => {
+      callback(err)
+    })
   }
 
   /**
@@ -42,8 +42,8 @@ export default class MusicDatabase {
    *
    * @param {Function} callback Callback function.
    */
-  clear( callback ) {
-    this._db.clear( callback );
+  clear (callback) {
+    this._db.clear(callback)
   }
 
   /**
@@ -52,8 +52,8 @@ export default class MusicDatabase {
    * @param {Object}   metadata Music metadata from main process.
    * @param {Function} callback Callback function.
    */
-  add( metadata, callback ) {
-    this._db.add( metadata, callback );
+  add (metadata, callback) {
+    this._db.add(metadata, callback)
   }
 
   /**
@@ -62,8 +62,8 @@ export default class MusicDatabase {
    * @param {Number}   musicId  Target identifier.
    * @param {Function} callback Callback function.
    */
-  remove( musicId, callback ) {
-    this._db.remove( musicId, callback );
+  remove (musicId, callback) {
+    this._db.remove(musicId, callback)
   }
 
   /**
@@ -71,17 +71,17 @@ export default class MusicDatabase {
    *
    * @param {Function} callback Callback function.
    */
-  readAll( callback ) {
-    this._db.readAll( ( err, items ) => {
-      if( err ) {
-        return callback( err, items );
+  readAll (callback) {
+    this._db.readAll((err, items) => {
+      if (err) {
+        return callback(err, items)
       }
 
-      const musics = items.map( ( item ) => {
-        return new Music( item );
-      } );
+      const musics = items.map((item) => {
+        return new Music(item)
+      })
 
-      callback( null, musics );
-    } );
+      callback(null, musics)
+    })
   }
 }

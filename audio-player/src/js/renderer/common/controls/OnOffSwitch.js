@@ -1,39 +1,51 @@
-import React from 'react';
+import React from 'react'
 
 /**
  * Component for On/Off switch control.
  */
 export default class OnOffSwitch extends React.Component {
   /**
+   * Initialize instance.
+   *
+   * @param {Object} props Properties.
+   */
+  constructor (props) {
+    super(props)
+
+    this._onClickBind  = this._onClick.bind(this)
+    this._onChangeBind = this._onChange.bind(this)
+  }
+
+  /**
    * Render for component.
    *
    * @return {ReactElement} Rendering data.
    */
-  render() {
+  render () {
     return (
       <div
         className="onoffswitch"
-        onClick={ this._onClick.bind( this ) }>
+        onClick={this._onClickBind}>
         <input
           id="onoffswitch"
           name="onoffswitch"
           className="onoffswitch__checkbox"
           type="checkbox"
-          checked={ this.props.checked }
-          onChange={ this._onChange.bind( this ) } />
+          checked={this.props.checked}
+          onChange={this._onChangeBind} />
         <label
           className="onoffswitch__label" />
       </div>
-    );
+    )
   }
 
   /**
    * Occurs when the switch is clicked.
    */
-  _onClick() {
-    const checked = !( this.props.checked );
-    if( this.props.onChange ) {
-      this.props.onChange( checked );
+  _onClick () {
+    const checked = !(this.props.checked)
+    if (this.props.onChange) {
+      this.props.onChange(checked)
     }
   }
 
@@ -42,7 +54,12 @@ export default class OnOffSwitch extends React.Component {
    * Also it required onChange If you want to specify a checked in checkbox.
    * However checkbox this function be changed is not called.
    */
-  _onChange() {
+  _onChange () {
     // Dummy
   }
+}
+
+OnOffSwitch.propTypes = {
+  onChange: React.PropTypes.func,
+  checked: React.PropTypes.bool
 }

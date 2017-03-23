@@ -1,15 +1,14 @@
-import { Store }         from 'material-flux';
-import { Keys }          from '../action/AudioPlayerAction.js';
-import { PlaybackState } from '../../../common/Constants.js';
-import { IPCKeys }       from '../../../common/Constants.js';
-import Util              from '../../../common/Util.js';
-import AudioPlayer       from '../model/AudioPlayer.js';
+import { Store } from 'material-flux'
+import { Keys } from '../action/AudioPlayerAction.js'
+import { PlaybackState, IPCKeys } from '../../../common/Constants.js'
+import Util from '../../../common/Util.js'
+import AudioPlayer from '../model/AudioPlayer.js'
 
 /**
- * Execution interval of call back by the timer at the time of playback ( milliseconds ).
+ * Execution interval of call back by the timer at the time of playback (milliseconds).
  * @type {Number}
  */
-const PlaybackTimerInterval = 1000;
+const PlaybackTimerInterval = 1000
 
 /**
  * Manage for audio player.
@@ -20,39 +19,39 @@ export default class AudioPlayerStore extends Store {
    *
    * @param {MainWindowContext} context Contect of the main window.
    */
-  constructor( context ) {
-    super( context );
+  constructor (context) {
+    super(context)
 
     /**
      * Audio player.
      * @type {AudioPlayer}
      */
-    this._audioPlayer = new AudioPlayer();
+    this._audioPlayer = new AudioPlayer()
 
     /**
      * Timer identifier that will be called at one-second intervals during playback.
      * @type {Number}
      */
-    this._playbackTimerIntervalId = null;
+    this._playbackTimerIntervalId = null
 
     /**
      * State of store.
      * @type {Object}
      */
     this.state = {
-      currentMusic:  null,
+      currentMusic: null,
       playbackState: PlaybackState.Stopped
-    };
+    }
 
-    this.register( Keys.open,   this._actionOpen   );
-    this.register( Keys.play,   this._actionPlay   );
-    this.register( Keys.pause,  this._actionPause  );
-    this.register( Keys.stop,   this._actionStop   );
-    this.register( Keys.seek,   this._actionSeek   );
-    this.register( Keys.volume, this._actionVolume );
+    this.register(Keys.open,   this._actionOpen)
+    this.register(Keys.play,   this._actionPlay)
+    this.register(Keys.pause,  this._actionPause)
+    this.register(Keys.stop,   this._actionStop)
+    this.register(Keys.seek,   this._actionSeek)
+    this.register(Keys.volume, this._actionVolume)
 
     // IPC handlers
-    context.ipc.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
+    context.ipc.on(IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind(this))
   }
 
   /**
@@ -60,8 +59,8 @@ export default class AudioPlayerStore extends Store {
    *
    * @return {Music} music.
    */
-  get currentMusic() {
-    return this.state.currentMusic;
+  get currentMusic () {
+    return this.state.currentMusic
   }
 
   /**
@@ -69,8 +68,8 @@ export default class AudioPlayerStore extends Store {
    *
    * @return {PlaybackState} state.
    */
-  get playbackState() {
-    return this.state.playbackState;
+  get playbackState () {
+    return this.state.playbackState
   }
 
   /**
@@ -78,18 +77,18 @@ export default class AudioPlayerStore extends Store {
    *
    * @return {Number} duration.
    */
-  get duration() {
-    const duration = this._audioPlayer.duration();
-    return ( duration === 0 ? ( this.state.currentMusic ? this.state.currentMusic.duration : 0 ) : duration );
+  get duration () {
+    const duration = this._audioPlayer.duration()
+    return (duration === 0 ? (this.state.currentMusic ? this.state.currentMusic.duration : 0) : duration)
   }
 
   /**
    * Get the currently playback time.
    *
-   * @return {Number} playback time ( milliseconds ).
+   * @return {Number} playback time (milliseconds).
    */
-  get currentTime() {
-    return this._audioPlayer.currentTime;
+  get currentTime () {
+    return this._audioPlayer.currentTime
   }
 
   /**
@@ -97,17 +96,17 @@ export default class AudioPlayerStore extends Store {
    *
    * @return {Uint8Array} Spectrums If an audio during playback. Otherwise null.
    */
-  get spectrums() {
-    return this._audioPlayer.spectrums;
+  get spectrums () {
+    return this._audioPlayer.spectrums
   }
 
   /**
    * Get the audio volume.
    *
-   * @return {Number} volume ( range: 0 - 100 ).
+   * @return {Number} volume (range: 0 - 100).
    */
-  get volume() {
-    return this._audioPlayer.volume;
+  get volume () {
+    return this._audioPlayer.volume
   }
 
   /**
@@ -116,108 +115,112 @@ export default class AudioPlayerStore extends Store {
    * @param {Music}  music     Music.
    * @param {Boolean} withPlay If true to play a audio. Default is false.
    */
-  _actionOpen( music, withPlay ) {
-    if( !( music ) ) { return; }
+  _actionOpen (music, withPlay) {
+    if (!(music)) {
+      return
+    }
 
-    this._audioPlayer.open( music.path, ( err ) => {
-      if( err ) {
-        if( DEBUG ) { Util.error( err ); }
+    this._audioPlayer.open(music.path, (err) => {
+      if (err) {
+        if (DEBUG) {
+          Util.error(err)
+        }
 
-        this.setState( { currentMusic: null, playbackState: PlaybackState.Stopped } );
-        return;
+        this.setState({ currentMusic: null, playbackState: PlaybackState.Stopped })
+        return
       }
 
-      const state = { currentMusic: music };
-      if( withPlay ) {
-        this._audioPlayer.play();
-        this._startTimer();
-        state.playbackState = PlaybackState.Playing;
+      const state = { currentMusic: music }
+      if (withPlay) {
+        this._audioPlayer.play()
+        this._startTimer()
+        state.playbackState = PlaybackState.Playing
       }
 
-      this.setState( state );
-    } );
+      this.setState(state)
+    })
   }
 
   /**
    * Play the audio.
    */
-  _actionPlay() {
-    if( this.state.currentMusic && this.state.playbackState !== PlaybackState.Playing ) {
-      this._audioPlayer.play();
-      this._startTimer();
-      this.setState( { playbackState: PlaybackState.Playing } );
+  _actionPlay () {
+    if (this.state.currentMusic && this.state.playbackState !== PlaybackState.Playing) {
+      this._audioPlayer.play()
+      this._startTimer()
+      this.setState({ playbackState: PlaybackState.Playing })
     }
   }
 
   /**
    * Pause the currently playback audio.
    */
-  _actionPause() {
-    if( this.state.currentMusic && this.state.playbackState === PlaybackState.Playing ) {
-      this._audioPlayer.pause();
-      this._stopTimer();
-      this.setState( { playbackState: PlaybackState.Paused } );
+  _actionPause () {
+    if (this.state.currentMusic && this.state.playbackState === PlaybackState.Playing) {
+      this._audioPlayer.pause()
+      this._stopTimer()
+      this.setState({ playbackState: PlaybackState.Paused })
     }
   }
 
   /**
    * Stop the currently playback audio.
    */
-  _actionStop() {
-    if( this.state.currentMusic && this.state.playbackState !== PlaybackState.Stopped ) {
-      this._audioPlayer.stop();
-      this._stopTimer();
-      this.setState( { playbackState: PlaybackState.Stopped } );
+  _actionStop () {
+    if (this.state.currentMusic && this.state.playbackState !== PlaybackState.Stopped) {
+      this._audioPlayer.stop()
+      this._stopTimer()
+      this.setState({ playbackState: PlaybackState.Stopped })
     }
   }
 
   /**
    * Stop the currently playback audio.
    *
-   * @param {Number} position New position ( milliseconds ).
+   * @param {Number} position New position (milliseconds).
    */
-  _actionSeek( position ) {
-    if( this.state.currentMusic ) {
-      this._audioPlayer.currentTime = position;
-      this.setState();
+  _actionSeek (position) {
+    if (this.state.currentMusic) {
+      this._audioPlayer.currentTime = position
+      this.setState()
     }
   }
 
   /**
    * Change the volume fro playback audio.
    *
-   * @param {Number} volume New volume ( range: 0 - 100 ).
+   * @param {Number} volume New volume (range: 0 - 100).
    */
-  _actionVolume( volume ) {
-    this._audioPlayer.volume = volume;
-    this.setState();
+  _actionVolume (volume) {
+    this._audioPlayer.volume = volume
+    this.setState()
   }
 
   /**
    * Start the timer.
    */
-  _startTimer() {
-    this._playbackTimerIntervalId = setInterval( () => {
-      if( this._audioPlayer.duration <= this._audioPlayer.currentTime ) {
-        this._actionStop();
+  _startTimer () {
+    this._playbackTimerIntervalId = setInterval(() => {
+      if (this._audioPlayer.duration <= this._audioPlayer.currentTime) {
+        this._actionStop()
 
-        const nextMusic = this.context.musicListStore.next( this.state.currentMusic );
-        if( nextMusic ) {
-          this.context.musicListAction.select( nextMusic );
-          this._actionOpen( nextMusic, true );
+        const nextMusic = this.context.musicListStore.next(this.state.currentMusic)
+        if (nextMusic) {
+          this.context.musicListAction.select(nextMusic)
+          this._actionOpen(nextMusic, true)
         }
       }
 
-      this.setState();
-    }, PlaybackTimerInterval );
+      this.setState()
+    }, PlaybackTimerInterval)
   }
 
   /**
    * Stop the timer.
    */
-  _stopTimer() {
-    clearInterval( this._playbackTimerIntervalId );
-    this._playbackTimerIntervalId = null;
+  _stopTimer () {
+    clearInterval(this._playbackTimerIntervalId)
+    this._playbackTimerIntervalId = null
   }
 
   /**
@@ -227,10 +230,12 @@ export default class AudioPlayerStore extends Store {
    * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
    * @param {Array.<Number>} gains   Gain values.
    */
-  _onRequestUpdateGraphicEqualizer( ev, connect, gains ) {
-    if( DEBUG ) { Util.log( 'AudioPlayerStore._onRequestUpdateGraphicEqualizer: connect =' + connect + ', gains = ' + gains ); }
+  _onRequestUpdateGraphicEqualizer (ev, connect, gains) {
+    if (DEBUG) {
+      Util.log('AudioPlayerStore._onRequestUpdateGraphicEqualizer: connect =' + connect + ', gains = ' + gains)
+    }
 
-    this._audioPlayer.updateGraphicEqualizer( connect, gains );
-    ev.sender.send( IPCKeys.FinishUpdateGraphicEqualizer );
+    this._audioPlayer.updateGraphicEqualizer(connect, gains)
+    ev.sender.send(IPCKeys.FinishUpdateGraphicEqualizer)
   }
 }

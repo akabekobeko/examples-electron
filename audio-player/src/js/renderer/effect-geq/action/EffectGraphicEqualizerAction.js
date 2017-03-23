@@ -1,14 +1,14 @@
-import { Action } from 'material-flux';
+import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
  * @type {Object}
  */
 export const Keys = {
-  connect:      'EffectGraphicEqualizerAction.connect',
-  updateGain:   'EffectGraphicEqualizerAction.updateGain',
+  connect: 'EffectGraphicEqualizerAction.connect',
+  updateGain: 'EffectGraphicEqualizerAction.updateGain',
   selectPreset: 'EffectGraphicEqualizerAction.selectPreset'
-};
+}
 
 /**
  * Graphic equalizer actions.
@@ -19,8 +19,8 @@ export default class EffectGraphicEqualizerAction extends Action {
    *
    * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
    */
-  connect( connect ) {
-    this.dispatch( Keys.connect, connect );
+  connect (connect) {
+    this.dispatch(Keys.connect, connect)
   }
 
   /**
@@ -29,8 +29,8 @@ export default class EffectGraphicEqualizerAction extends Action {
    * @param {Number} index Index of the gains.
    * @param {Number} value New value.
    */
-  updateGain( index, value ) {
-    this.dispatch( Keys.updateGain, index, value );
+  updateGain (index, value) {
+    this.dispatch(Keys.updateGain, index, value)
   }
 
   /**
@@ -38,7 +38,7 @@ export default class EffectGraphicEqualizerAction extends Action {
    *
    * @param {Number} presetNumber Number of the new prest.
    */
-  selectPreset( presetNumber ) {
-    this.dispatch( Keys.selectPreset, presetNumber );
+  selectPreset (presetNumber) {
+    this.dispatch(Keys.selectPreset, presetNumber)
   }
 }

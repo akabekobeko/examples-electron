@@ -1,4 +1,4 @@
-import Util from '../../common/Util.js';
+import Util from '../../common/Util.js'
 
 /**
  * Provides a Web Storage of operating functions.
@@ -9,12 +9,12 @@ export default class WebStorage {
    *
    * @param {localStorage|sessionStorage} storage Instance of local or session storage.
    */
-  constructor( storage ) {
+  constructor (storage) {
     /**
      * Instance of local or session storage.
      * @type {localStorage|sessionStorage}
      */
-    this._storage = storage;
+    this._storage = storage
   }
 
   /**
@@ -25,17 +25,19 @@ export default class WebStorage {
    *
    * @return {Object} Successful if the loaded value. Otherwise "null".
    */
-  getItem( key, withParseJSON ) {
-    if( !( this._storage ) ) { return null; }
+  getItem (key, withParseJSON) {
+    if (!(this._storage)) {
+      return null
+    }
 
-    const item   = this._storage.getItem( key );
+    const item   = this._storage.getItem(key)
 
     try {
-      const result = ( item ? ( withParseJSON ? JSON.parse( item ) : item ) : null );
-      return result;
-    } catch( err ) {
-      Util.error( err );
-      return null;
+      const result = (item ? (withParseJSON ? JSON.parse(item) : item) : null)
+      return result
+    } catch (err) {
+      Util.error(err)
+      return null
     }
   }
 
@@ -48,11 +50,13 @@ export default class WebStorage {
    *
    * @return {Boolean} Successful if "true".
    */
-  setItem( key, value, withStringify ) {
-    if( !( this._storage ) ) { return false; }
+  setItem (key, value, withStringify) {
+    if (!(this._storage)) {
+      return false
+    }
 
-    this._storage.setItem( key, withStringify ? JSON.stringify( value ) : value );
-    return true;
+    this._storage.setItem(key, withStringify ? JSON.stringify(value) : value)
+    return true
   }
 
   /**
@@ -62,11 +66,13 @@ export default class WebStorage {
    *
    * @return {Boolean} Successful if "true".
    */
-  removeItem( key ) {
-    if( !( this._storage ) ) { return false; }
+  removeItem (key) {
+    if (!(this._storage)) {
+      return false
+    }
 
-    this._storage.removeItem( key );
-    return true;
+    this._storage.removeItem(key)
+    return true
   }
 
   /**
@@ -74,10 +80,12 @@ export default class WebStorage {
    *
    * @return {Boolean} Successful if "true".
    */
-  clear() {
-    if( !( this._storage ) ) { return false; }
+  clear () {
+    if (!(this._storage)) {
+      return false
+    }
 
-    this._storage.clear();
-    return true;
+    this._storage.clear()
+    return true
   }
 }

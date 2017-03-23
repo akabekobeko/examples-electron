@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 /**
  * Component for application main window.
@@ -10,29 +10,37 @@ export default class MainWindow extends React.Component {
    *
    * @param {Object} props Properties.
    */
-  constructor( props ) {
-    super( props );
+  constructor (props) {
+    super(props)
 
+    /**
+     * State of component.
+     * @type {Object}
+     */
     this.state = {
       message: '',
       targetWindowID: 0
-    };
+    }
 
-    this.__onChange = this._onChange.bind( this );
+    this._onChangeBind                 = this._onChange.bind(this)
+    this._onClickNewWindowButtonBind   = this._onClickNewWindowButton.bind(this)
+    this._onChangeTargetWindowIdBind   = this._onChangeTargetWindowID.bind(this)
+    this._onChangeSendMessageInputBind = this._onChangeSendMessageInput.bind(this)
+    this._onClickSendMessageButtonBind = this._onClickSendMessageButton.bind(this)
   }
 
   /**
    * Occurs when a component mounted.
    */
-  componentDidMount() {
-    this.props.context.mainWindowStore.onChange( this.__onChange );
+  componentDidMount () {
+    this.props.context.mainWindowStore.onChange(this._onChangeBind)
   }
 
   /**
    * Occurs before the component unmounted.
    */
-  componentWillUnmount() {
-    this.props.context.mainWindowStore.removeChangeListener( this.__onChange );
+  componentWillUnmount () {
+    this.props.context.mainWindowStore.removeChangeListener(this._onChangeBind)
   }
 
   /**
@@ -40,13 +48,13 @@ export default class MainWindow extends React.Component {
    *
    * @return {ReactElement} Rendering data.
    */
-  render() {
+  render () {
     return (
       <div className="sample">
         <form>
           <fieldset>
             <legend>Window</legend>
-            <div className="sample__button-new-window" onClick={ this._onClickNewWindowButton.bind( this ) }>New Window</div>
+            <div className="sample__button-new-window" onClick={this._onClickNewWindowButtonBind}>New Window</div>
           </fieldset>
           <fieldset>
             <legend>Message</legend>
@@ -56,21 +64,21 @@ export default class MainWindow extends React.Component {
             </p>
             <p>
               <label>Target Window : </label>
-              <select onChange={ this._onChangeTargetWindowID.bind( this ) }>
+              <select onChange={this._onChangeTargetWindowIdBind}>
                 { this._renderTargetWindowIDs() }
               </select>
             </p>
             <p>
               <input
                 type="text"
-                value={ this.state.message }
-                onChange={ this._onChangeSendMessageInput.bind( this ) } />
+                value={this.state.message}
+                onChange={this._onChangeSendMessageInputBind} />
             </p>
-            <div className="sample__button-send-message" onClick={ this._onClickSendMessageButton.bind( this ) }>Send Message</div>
+            <div className="sample__button-send-message" onClick={this._onClickSendMessageButtonBind}>Send Message</div>
           </fieldset>
         </form>
       </div>
-    );
+    )
   }
 
   /**
@@ -78,23 +86,23 @@ export default class MainWindow extends React.Component {
    *
    * @return {Array.<ReactElement>} Rendering data.
    */
-  _renderTargetWindowIDs() {
-    return this.props.context.mainWindowStore.windowIDs.map( ( id ) => {
+  _renderTargetWindowIDs () {
+    return this.props.context.mainWindowStore.windowIDs.map((id) => {
       return (
-        <option key={ id } value={ id }>{ id }</option>
-      );
-    } );
+        <option key={id} value={id}>{ id }</option>
+      )
+    })
   }
 
   /**
    * Occurs when a store updated.
    */
-  _onChange() {
-    const windowIDs = this.props.context.mainWindowStore.windowIDs;
-    if( this.state.targetWindowID === 0 && 0 < windowIDs.length ) {
-      this.setState( { targetWindowID: windowIDs[ 0 ] } );
+  _onChange () {
+    const windowIDs = this.props.context.mainWindowStore.windowIDs
+    if (this.state.targetWindowID === 0 && 0 < windowIDs.length) {
+      this.setState({ targetWindowID: windowIDs[ 0 ] })
     } else {
-      this.forceUpdate();
+      this.forceUpdate()
     }
   }
 
@@ -103,8 +111,8 @@ export default class MainWindow extends React.Component {
    *
    * @param {Object} ev Event data.
    */
-  _onChangeSendMessageInput( ev ) {
-    this.setState( { message: ev.target.value } );
+  _onChangeSendMessageInput (ev) {
+    this.setState({ message: ev.target.value })
   }
 
   /**
@@ -112,31 +120,35 @@ export default class MainWindow extends React.Component {
    *
    * @param {Object} ev Event data.
    */
-  _onChangeTargetWindowID( ev ) {
-    this.setState( { targetWindowID: Number( ev.target.value ) } );
+  _onChangeTargetWindowID (ev) {
+    this.setState({ targetWindowID: Number(ev.target.value) })
   }
 
   /**
    * Occurs when a new window button clicked.
    */
-  _onClickNewWindowButton() {
-    this.props.context.mainWindowAction.createNewWindow();
+  _onClickNewWindowButton () {
+    this.props.context.mainWindowAction.createNewWindow()
   }
 
   /**
   * Occurs when a send message button clicked.
    */
-  _onClickSendMessageButton() {
-    this.props.context.mainWindowAction.sendMessage( this.state.targetWindowID, this.state.message );
+  _onClickSendMessageButton () {
+    this.props.context.mainWindowAction.sendMessage(this.state.targetWindowID, this.state.message)
   }
 
   /**
    * Setup for main window.
    */
-  static setup( context ) {
-    const area = document.querySelector( '.app' );
-    if( !( area ) ) { return; }
+  static setup (context) {
+    const area = document.querySelector('.app')
+    if (!(area)) { return }
 
-    ReactDOM.render( <MainWindow context={ context } />, area );
+    ReactDOM.render(<MainWindow context={context} />, area)
   }
+}
+
+MainWindow.propTypes = {
+  context: React.PropTypes.object
 }

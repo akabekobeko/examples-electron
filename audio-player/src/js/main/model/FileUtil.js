@@ -1,5 +1,5 @@
-import Fs from 'original-fs';
-import Util from '../../common/Util.js';
+import Fs from 'original-fs'
+import Util from '../../common/Util.js'
 
 /**
  * Provide a utility of file/folder operation methods.
@@ -12,15 +12,15 @@ export default class FileUtil {
    * @param  {String}   path Directory path.
    * @param  {Function} cb   Callback function.
    */
-  static mkdir( path, cb ) {
-    if( FileUtil.existsSync( path ) ) {
-      Util.log( 'mkdir cancel exists' );
-      return cb();
+  static mkdir (path, cb) {
+    if (FileUtil.existsSync(path)) {
+      Util.log('mkdir cancel exists')
+      return cb()
     }
 
-    Fs.mkdir( path, ( err ) => {
-      cb( err );
-    } );
+    Fs.mkdir(path, (err) => {
+      cb(err)
+    })
   }
 
   /**
@@ -31,15 +31,15 @@ export default class FileUtil {
    * @param  {Function}    cb        Callback function.
    * @param  {Boolean}     overwrite True if to overwrite the file. Default is false.
    */
-  static writeFile( path, data, cb, overwrite ) {
-    if( !( overwrite ) && FileUtil.existsSync( path ) ) {
-      Util.log( 'writeFile cancel exists' );
-      return cb();
+  static writeFile (path, data, cb, overwrite) {
+    if (!(overwrite) && FileUtil.existsSync(path)) {
+      Util.log('writeFile cancel exists')
+      return cb()
     }
 
-    Fs.writeFile( path, data, ( err ) => {
-      cb( err );
-    } );
+    Fs.writeFile(path, data, (err) => {
+      cb(err)
+    })
   }
 
   /**
@@ -49,12 +49,12 @@ export default class FileUtil {
    *
    * @return {Boolean} True if exists. Otherwise false.
    */
-  static existsSync( path ) {
+  static existsSync (path) {
     try {
-      Fs.accessSync( path, Fs.F_OK );
-      return true;
-    } catch( err ) {
-      return false;
+      Fs.accessSync(path, Fs.F_OK)
+      return true
+    } catch (err) {
+      return false
     }
   }
 }
