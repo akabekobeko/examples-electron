@@ -19,7 +19,7 @@
     "destination": "./esdoc",
     "test": {
       "type": "mocha",
-      "source": "./test"
+      "source": "./src"
     }
   },
   "babel": {
@@ -44,8 +44,9 @@
   "scripts": {
     "start": "npm run watch",
     "app": "electron src/",
-    "test": "mocha --compilers js:babel-register test/**/*.test.js",
+    "test": "mocha --compilers js:babel-register src/js/**/*.test.js",
     "esdoc": "esdoc",
+    "eslint": "eslint ./src/js",
     "build:css": "stylus -c ./src/stylus/App.styl -o ./src/assets/bundle.css -m --sourcemap-base ./stylus",
     "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -d | exorcist ./src/assets/main.js.map > ./src/assets/main.js",
     "build:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js --exclude electron -d | exorcist ./src/assets/renderer.js.map > ./src/assets/renderer.js",
@@ -69,34 +70,42 @@
     "release": "npm-run-all -s release:build release:pack-*"
   },
   "devDependencies": {
-    "babel-preset-latest": "^6.16.0",
+    "babel-preset-latest": "^6.24.0",
     "babel-preset-power-assert": "^1.0.0",
-    "babel-preset-react": "^6.16.0",
-    "babel-register": "^6.18.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-register": "^6.24.0",
     "babelify": "^7.3.0",
-    "browserify": "^13.3.0",
+    "browserify": "^14.1.0",
     "cpx": "^1.5.0",
-    "cross-conf-env": "^1.0.7",
-    "cross-env": "^3.1.4",
+    "cross-conf-env": "^1.1.2",
+    "cross-env": "^3.2.4",
     "devtron": "^1.4.0",
-    "electron": "^1.4.14",
-    "electron-packager": "^8.5.0",
+    "electron": "^1.6.2",
+    "electron-packager": "^8.6.0",
     "esdoc": "^0.5.2",
+    "eslint": "^3.18.0",
+    "eslint-config-standard": "^7.1.0",
+    "eslint-config-standard-react": "^4.3.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-standard": "^2.1.1",
     "exorcist": "^0.4.0",
     "mocha": "^3.2.0",
     "ncp": "^2.0.0",
-    "npm-run-all": "^4.0.0",
+    "npm-run-all": "^4.0.2",
     "power-assert": "^1.4.2",
-    "rimraf": "^2.5.4",
+    "rimraf": "^2.6.1",
     "stylus": "^0.54.5",
-    "uglify-js": "^2.7.5",
-    "watchify": "^3.8.0"
+    "uglify-js": "^2.8.14",
+    "watchify": "^3.9.0"
   },
   "dependencies": {
     "material-flux": "^1.4.0",
     "musicmetadata": "^2.0.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-split-pane": "^0.1.57"
+    "react-split-pane": "^0.1.59"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "extends": ["standard", "standard-react"],
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "DEBUG": true
+  },
+  "rules": {
+    "no-multi-spaces": 0,
+    "yoda": 0,
+    "jsx-quotes": 0
+  }
+}

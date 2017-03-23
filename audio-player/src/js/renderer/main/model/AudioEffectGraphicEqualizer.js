@@ -10,32 +10,32 @@ export default class AudioEffectGraphicEqualizer {
    * @param {Number}         gainMax The maximum value of the gain.
    * @param {Array.<Number>} bands   Frequency band collection of equalizer.
    */
-  constructor( context, gainMin, gainMax, bands ) {
+  constructor (context, gainMin, gainMax, bands) {
     /**
      * The minimum value of the gain.
      * @type {Number}
      */
-    this._gainMin = gainMin;
+    this._gainMin = gainMin
 
     /**
      * The maximum value of the gain.
      * @type {Number}
      */
-    this._gainMax = gainMax;
+    this._gainMax = gainMax
 
     /**
      * Peakings.
      * @type {Array.<BiquadFilterNode>}
      */
-    this._peakings = null;
+    this._peakings = null
 
     /**
      * Value indicating that it is connected.
      * @type {Boolean}
      */
-    this._connected = false;
+    this._connected = false
 
-    this._setupPeakings( context, bands );
+    this._setupPeakings(context, bands)
   }
 
   /**
@@ -43,13 +43,13 @@ export default class AudioEffectGraphicEqualizer {
    *
    * @return {Array.<Number>} Gain values.
    */
-  get gains() {
-    const gains = new Array( this._peakings.length );
-    this._peakings.forEach( ( peaking, index ) => {
-      gains[ index ] = peaking.gain.value;
-    } );
+  get gains () {
+    const gains = new Array(this._peakings.length)
+    this._peakings.forEach((peaking, index) => {
+      gains[index] = peaking.gain.value
+    })
 
-    return gains;
+    return gains
   }
 
   /**
@@ -57,14 +57,16 @@ export default class AudioEffectGraphicEqualizer {
    *
    * @return {Array.<Number>} values Gain values.
    */
-  set gains( values ) {
-    if( !( values && values.length === this._peakings.length ) ) { return; }
+  set gains (values) {
+    if (!(values && values.length === this._peakings.length)) {
+      return
+    }
 
-    values.forEach( ( value, index ) => {
-      if( this._gainMin <= value && value <= this._gainMax ) {
-        this._peakings[ index ].gain.value = value;
+    values.forEach((value, index) => {
+      if (this._gainMin <= value && value <= this._gainMax) {
+        this._peakings[index].gain.value = value
       }
-    } );
+    })
   }
 
   /**
@@ -73,29 +75,35 @@ export default class AudioEffectGraphicEqualizer {
    * @param {AudioNode} input  Input node.
    * @param {AudioNode} output Output node.
    */
-  connect( input, output ) {
-    if( this._connected ) { return; }
-    this._connected = true;
+  connect (input, output) {
+    if (this._connected) {
+      return
+    }
 
-    input.connect( this._peakings[ 0 ] );
-    this._peakings[ this._peakings.length - 1 ].connect( output );
+    this._connected = true
+
+    input.connect(this._peakings[0])
+    this._peakings[this._peakings.length - 1].connect(output)
   }
 
   /**
    * Disconnect the effector from the node.
    */
-  disconnect() {
-    if( !( this._connected ) ) { return; }
-    this._connected = false;
+  disconnect () {
+    if (!(this._connected)) {
+      return
+    }
+
+    this._connected = false
 
     // Input chain
-    this._peakings[ 0 ].disconnect();
-    this._peakings[ 0 ].connect( this._peakings[ 1 ] );
+    this._peakings[0].disconnect()
+    this._peakings[0].connect(this._peakings[1])
 
     // Output chain
-    const last = this._peakings.length - 1;
-    this._peakings[ last ].disconnect();
-    this._peakings[ last - 1 ].connect( this._peakings[ last ] );
+    const last = this._peakings.length - 1
+    this._peakings[last].disconnect()
+    this._peakings[last - 1].connect(this._peakings[last])
   }
 
   /**
@@ -104,15 +112,15 @@ export default class AudioEffectGraphicEqualizer {
    * @param {AudioContext}   context Web Audio context.
    * @param {Array.<Number>} bands   Frequency band collection of equalizer.
    */
-  _setupPeakings( context, bands ) {
-    this._peakings = new Array( bands.length );
-    for( let i = 0, max = bands.length; i < max; ++i ) {
-      this._peakings[ i ] = this._createPeakingFilter( context, bands[ i ] );
+  _setupPeakings (context, bands) {
+    this._peakings = new Array(bands.length)
+    for (let i = 0, max = bands.length; i < max; ++i) {
+      this._peakings[ i ] = this._createPeakingFilter(context, bands[ i ])
     }
 
-    // Paekings chain ( 0-1, 1-2, ...N )
-    for( let i = 0, max = bands.length - 1; i < max; ++i ) {
-      this._peakings[ i ].connect( this._peakings[ i + 1 ] );
+    // Paekings chain (0-1, 1-2, ...N)
+    for (let i = 0, max = bands.length - 1; i < max; ++i) {
+      this._peakings[ i ].connect(this._peakings[ i + 1 ])
     }
   }
 
@@ -120,17 +128,17 @@ export default class AudioEffectGraphicEqualizer {
    * Create the peaking filter.
    *
    * @param {AudioContext} context   Web Audio context.
-   * @param {Number}       frequency The number of frequency ( kHz ).
+   * @param {Number}       frequency The number of frequency (kHz).
    *
    * @return {BiquadFilterNode} Peeking filter.
    */
-  _createPeakingFilter( context, frequency ) {
-    const peaking = context.createBiquadFilter();
-    peaking.type            = 'peaking';
-    peaking.frequency.value = frequency;
-    peaking.Q.value         = 2;
-    peaking.gain.value      = 0;
+  _createPeakingFilter (context, frequency) {
+    const peaking = context.createBiquadFilter()
+    peaking.type            = 'peaking'
+    peaking.frequency.value = frequency
+    peaking.Q.value         = 2
+    peaking.gain.value      = 0
 
-    return peaking;
+    return peaking
   }
 }

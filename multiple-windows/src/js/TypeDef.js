@@ -17,3 +17,11 @@
 /**
  * @external {IPCEvent} https://github.com/atom/electron/blob/master/docs/api/ipc-main.md
  */
+
+/**
+ * @external {EventEmitter} https://nodejs.org/api/events.html
+ */
+
+/**
+ * @external {Buffer} https://nodejs.org/api/buffer.html
+ */

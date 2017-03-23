@@ -1,17 +1,17 @@
-import Electron from 'electron';
-import Path from 'path';
-import Util from '../common/Util.js';
-import { IPCKeys } from '../common/Constants.js';
+import Electron from 'electron'
+import Path from 'path'
+import Util from '../common/Util.js'
+import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Define the type of window.
  * @type {Object}
  */
 export const WindowTypes = {
-  Main:             'main',
-  About:            'about',
+  Main: 'main',
+  About: 'about',
   GraphicEqualizer: 'graphicEqualizer'
-};
+}
 
 /**
  * Manage the window.
@@ -22,16 +22,16 @@ export default class WindowManager {
    *
    * @param {Main} context Application context.
    */
-  constructor( context ) {
+  constructor (context) {
     /**
      * Collection of a managed window.
      * @type {Map}
      */
-    this._windows = new Map();
+    this._windows = new Map()
 
     // IPC handlers
-    context.ipc.on( IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind( this ) );
-    context.ipc.on( IPCKeys.FinishUpdateGraphicEqualizer, this._onFinishUpdateGraphicEqualizer.bind( this ) );
+    context.ipc.on(IPCKeys.RequestUpdateGraphicEqualizer, this._onRequestUpdateGraphicEqualizer.bind(this))
+    context.ipc.on(IPCKeys.FinishUpdateGraphicEqualizer, this._onFinishUpdateGraphicEqualizer.bind(this))
   }
 
   /**
@@ -41,8 +41,8 @@ export default class WindowManager {
    *
    * @return {BrowserWindow} Successful if window instance, otherwise undefined.
    */
-  getWindow( type ) {
-    return this._windows.get( type );
+  getWindow (type) {
+    return this._windows.get(type)
   }
 
   /**
@@ -50,11 +50,13 @@ export default class WindowManager {
    *
    * @param {WindowTypes} type Window type.
    */
-  close( type ) {
-    const w = this._windows.get( type );
-    if( !( w ) ) { return; }
+  close (type) {
+    const w = this._windows.get(type)
+    if (!(w)) {
+      return
+    }
 
-    w.close();
+    w.close()
   }
 
   /**
@@ -62,22 +64,22 @@ export default class WindowManager {
    *
    * @param {WindowTypes} type Window type.
    */
-  show( type ) {
-    switch( type ) {
+  show (type) {
+    switch (type) {
       case WindowTypes.Main:
-        this._showMain();
-        break;
+        this._showMain()
+        break
 
       case WindowTypes.About:
-        this._showAbout();
-        break;
+        this._showAbout()
+        break
 
       case WindowTypes.GraphicEqualizer:
-        this._showGraphicEqualizer();
-        break;
+        this._showGraphicEqualizer()
+        break
 
       default:
-        break;
+        break
     }
   }
 
@@ -86,139 +88,154 @@ export default class WindowManager {
    *
    * @param {WindowTypes} type Window type.
    */
-  toggle( type ) {
+  toggle (type) {
     // Main window is always showing
-    if( type === WindowTypes.Main ) { return; }
+    if (type === WindowTypes.Main) {
+      return
+    }
 
-    const w = this._windows.get( type );
-    if( w ) {
-      if( w.isVisible() ) {
-        w.hide();
+    const w = this._windows.get(type)
+    if (w) {
+      if (w.isVisible()) {
+        w.hide()
       } else {
-        w.show();
+        w.show()
       }
     } else {
-      this.show( type );
+      this.show(type)
     }
   }
 
   /**
    * Reload the focused window, For debug.
    */
-  reload() {
-    const w = Electron.BrowserWindow.getFocusedWindow();
-    if( w ) {
-      w.reload();
+  reload () {
+    const w = Electron.BrowserWindow.getFocusedWindow()
+    if (w) {
+      w.reload()
     }
   }
 
   /**
    * Switch the display of the developer tools window at focused window, For debug.
    */
-  toggleDevTools() {
-    const w = Electron.BrowserWindow.getFocusedWindow();
-    if( w ) {
-      w.toggleDevTools();
+  toggleDevTools () {
+    const w = Electron.BrowserWindow.getFocusedWindow()
+    if (w) {
+      w.toggleDevTools()
     }
   }
 
   /**
    * Show the main window.
    */
-  _showMain() {
-    if( this._windows.get( WindowTypes.Main ) ) { return; }
+  _showMain () {
+    if (this._windows.get(WindowTypes.Main)) {
+      return
+    }
 
-    const w = new Electron.BrowserWindow( {
+    const w = new Electron.BrowserWindow({
       width: 800,
       height: 600,
       minWidth: 800,
       minHeight: 480,
       resizable: true
-    } );
+    })
 
-    w.on( 'closed', () => {
-      if( DEBUG ) { Util.log( 'The main window was closed.' ); }
+    w.on('closed', () => {
+      if (DEBUG) {
+        Util.log('The main window was closed.')
+      }
 
       // Close an other windows
-      this._windows.forEach( ( value, key ) => {
-        if( key === WindowTypes.Main ) { return; }
+      this._windows.forEach((value, key) => {
+        if (key === WindowTypes.Main) {
+          return
+        }
 
-        value.close();
-      } );
+        value.close()
+      })
 
-      this._windows.delete( WindowTypes.Main );
-    } );
+      this._windows.delete(WindowTypes.Main)
+    })
 
-    const filePath = Path.join( __dirname, 'index.html' );
-    w.loadURL( 'file://' + filePath );
+    const filePath = Path.join(__dirname, 'index.html')
+    w.loadURL('file://' + filePath)
 
-    this._windows.set( WindowTypes.Main, w );
+    this._windows.set(WindowTypes.Main, w)
   }
 
   /**
    * Show the about application window.
    */
-  _showAbout() {
-    if( this._windows.get( WindowTypes.About ) ) { return; }
+  _showAbout () {
+    if (this._windows.get(WindowTypes.About)) {
+      return
+    }
 
-    const w = new Electron.BrowserWindow( {
+    const w = new Electron.BrowserWindow({
       width: 400,
       height: 256,
       resizable: false,
       alwaysOnTop: true
-    } );
+    })
 
-    w.setMenu( null );
+    w.setMenu(null)
 
-    w.on( 'closed', () => {
-      if( DEBUG ) { Util.log( 'The about application window was closed.' ); }
+    w.on('closed', () => {
+      if (DEBUG) {
+        Util.log('The about application window was closed.')
+      }
 
-      this._windows.delete( WindowTypes.About );
-    } );
+      this._windows.delete(WindowTypes.About)
+    })
 
-    const filePath = Path.join( __dirname, 'about.html' );
-    w.loadURL( 'file://' + filePath );
+    const filePath = Path.join(__dirname, 'about.html')
+    w.loadURL('file://' + filePath)
 
-    this._windows.set( WindowTypes.About, w );
+    this._windows.set(WindowTypes.About, w)
   }
 
   /**
    * Show the graphic equalizer window.
    */
-  _showGraphicEqualizer() {
-    if( this._windows.get( WindowTypes.GraphicEqualizer ) ) { return; }
+  _showGraphicEqualizer () {
+    if (this._windows.get(WindowTypes.GraphicEqualizer)) {
+      return
+    }
 
-    let w = null;
-    if( process.platform === 'darwin' ) {
-      w = new Electron.BrowserWindow( {
+    let w = null
+    if (process.platform === 'darwin') {
+      w = new Electron.BrowserWindow({
         width: 360,
         height: 300,
         resizable: false,
         alwaysOnTop: true
-      } );
-
+      })
     } else {
       // Add a heigth for menu bar
-      w = new Electron.BrowserWindow( {
+      w = new Electron.BrowserWindow({
         width: 380,
         height: 320,
         resizable: false,
         alwaysOnTop: true
-      } );
+      })
 
-      w.setMenu( null );
+      w.setMenu(null)
     }
 
-    w.on( 'closed', () => {
-      if( DEBUG ) { Util.log( 'The graphic equalizer window was closed.' ); }
+    w.on('closed', () => {
+      if (DEBUG) {
+        Util.log('The graphic equalizer window was closed.')
+      }
 
-      this._windows.delete( WindowTypes.GraphicEqualizer );
-    } );
+      this._windows.delete(WindowTypes.GraphicEqualizer)
+    })
 
-    const filePath = Path.join( __dirname, 'effect-geq.html' );
-    w.loadURL( 'file://' + filePath );
+    const filePath = Path.join(__dirname, 'effect-geq.html')
+    w.loadURL('file://' + filePath)
 
-    this._windows.set( WindowTypes.GraphicEqualizer, w );
+    this._windows.set(WindowTypes.GraphicEqualizer, w)
   }
 
   /**
@@ -228,21 +245,25 @@ export default class WindowManager {
    * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
    * @param {Array.<Number>} gains   Gain values.
    */
-  _onRequestUpdateGraphicEqualizer( ev, connect, gains ) {
-    const w = this._windows.get( WindowTypes.Main );
-    if( !( w ) ) { return; }
+  _onRequestUpdateGraphicEqualizer (ev, connect, gains) {
+    const w = this._windows.get(WindowTypes.Main)
+    if (!(w)) {
+      return
+    }
 
-    w.webContents.send( IPCKeys.RequestUpdateGraphicEqualizer, connect, gains );
-    ev.sender.send( IPCKeys.FinishUpdateGraphicEqualizer );
+    w.webContents.send(IPCKeys.RequestUpdateGraphicEqualizer, connect, gains)
+    ev.sender.send(IPCKeys.FinishUpdateGraphicEqualizer)
   }
 
   /**
    * Occurs when the graphic equalizer update is finished.
    */
-  _onFinishUpdateGraphicEqualizer() {
-    const w = this._windows.get( WindowTypes.GraphicEqualizer );
-    if( !( w ) ) { return; }
+  _onFinishUpdateGraphicEqualizer () {
+    const w = this._windows.get(WindowTypes.GraphicEqualizer)
+    if (!(w)) {
+      return
+    }
 
-    w.webContents.send( IPCKeys.FinishUpdateGraphicEqualizer );
+    w.webContents.send(IPCKeys.FinishUpdateGraphicEqualizer)
   }
 }

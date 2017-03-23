@@ -1,8 +1,8 @@
-import React              from 'react';
-import { PlaybackState }  from '../../../common/Constants.js';
-import AudioPlayerControl from './AudioPlayerControl.js';
-import AudioPlayerToolbar from './AudioPlayerToolbar.js';
-import AudioPlayerInfo    from './AudioPlayerInfo.js';
+import React from 'react'
+import { PlaybackState } from '../../../common/Constants.js'
+import AudioPlayerControl from './AudioPlayerControl.js'
+import AudioPlayerToolbar from './AudioPlayerToolbar.js'
+import AudioPlayerInfo from './AudioPlayerInfo.js'
 
 /**
  * Component for audio player controls.
@@ -13,30 +13,27 @@ export default class AudioPlayer extends React.Component {
    *
    * @param {Object} props Properties.
    */
-  constructor( props ) {
-    super( props );
+  constructor (props) {
+    super(props)
 
-    /**
-     * Function to watch the change of Store.
-     * @type {Function}
-     */
-    this._onChangeBind = this._onChange.bind( this );
+    this._onChangeBind         = this._onChange.bind(this)
+    this._getNextPlayMusicBind = this._getNextPlayMusic.bind(this)
   }
 
   /**
    * Occurs when the component is mount.
    */
-  componentDidMount() {
-    this.props.context.audioPlayerStore.onChange( this._onChangeBind );
-    this.props.context.musicListStore.onChange( this._onChangeBind );
+  componentDidMount () {
+    this.props.context.audioPlayerStore.onChange(this._onChangeBind)
+    this.props.context.musicListStore.onChange(this._onChangeBind)
   }
 
   /**
    * Occurs when the component is unmount.
    */
-  componentWillUnmount() {
-    this.props.context.audioPlayerStore.removeChangeListener( this._onChangeBind );
-    this.props.context.musicListStore.removeChangeListener( this._onChangeBind );
+  componentWillUnmount () {
+    this.props.context.audioPlayerStore.removeChangeListener(this._onChangeBind)
+    this.props.context.musicListStore.removeChangeListener(this._onChangeBind)
   }
 
   /**
@@ -44,52 +41,52 @@ export default class AudioPlayer extends React.Component {
    *
    * @return {ReactElement} Rendering data.
    */
-  render() {
-    const music         = this._currentMusic();
-    const playbackState = this.props.context.audioPlayerStore.playbackState;
+  render () {
+    const music         = this._currentMusic()
+    const playbackState = this.props.context.audioPlayerStore.playbackState
 
     return (
       <div className="audio-player">
         <div className="audio-player__container">
           <AudioPlayerControl
-            audioPlayerAction={ this.props.context.audioPlayerAction }
-            musicListAction={ this.props.context.musicListAction }
-            music={ music }
-            playbackState={ playbackState }
-            volume={ this.props.context.audioPlayerStore.volume }
-            getNextPlayMusic={ this._getNextPlayMusic.bind( this ) } />
+            audioPlayerAction={this.props.context.audioPlayerAction}
+            musicListAction={this.props.context.musicListAction}
+            music={music}
+            playbackState={playbackState}
+            volume={this.props.context.audioPlayerStore.volume}
+            getNextPlayMusic={this._getNextPlayMusicBind} />
           <AudioPlayerInfo
-            audioPlayerAction={ this.props.context.audioPlayerAction }
-            audioPlayerStore={ this.props.context.audioPlayerStore }
-            music={ music } />
+            audioPlayerAction={this.props.context.audioPlayerAction}
+            audioPlayerStore={this.props.context.audioPlayerStore}
+            music={music} />
           <AudioPlayerToolbar
-            musicListAction={ this.props.context.musicListAction }
-            music={ music }
-            playMusic={ this.props.context.audioPlayerStore.currentMusic }
-            playbackState={ playbackState } />
+            musicListAction={this.props.context.musicListAction}
+            music={music}
+            playMusic={this.props.context.audioPlayerStore.currentMusic}
+            playbackState={playbackState} />
         </div>
       </div>
-    );
+    )
   }
 
   /**
    * Occurs when the Store of the state has been changed.
    */
-  _onChange() {
-    this.forceUpdate();
+  _onChange () {
+    this.forceUpdate()
   }
 
   /**
    * Get the currently music.
    *
-   * @return {Music} Success is music. Otherwise null;
+   * @return {Music} Success is music. Otherwise null
    */
-  _currentMusic() {
-    if( this.props.context.audioPlayerStore.playbackState === PlaybackState.Stopped ) {
-      return this.props.context.musicListStore.currentMusic;
+  _currentMusic () {
+    if (this.props.context.audioPlayerStore.playbackState === PlaybackState.Stopped) {
+      return this.props.context.musicListStore.currentMusic
     }
 
-    return this.props.context.audioPlayerStore.currentMusic;
+    return this.props.context.audioPlayerStore.currentMusic
   }
 
   /**
@@ -99,10 +96,16 @@ export default class AudioPlayer extends React.Component {
    *
    * @return {Music} Success is music. Otherwise null.
    */
-  _getNextPlayMusic( prev ) {
-    const music = this._currentMusic();
-    if( !( music ) ) { return null; }
+  _getNextPlayMusic (prev) {
+    const music = this._currentMusic()
+    if (!(music)) {
+      return null
+    }
 
-    return this.props.context.musicListStore.next( music, prev );
+    return this.props.context.musicListStore.next(music, prev)
   }
+}
+
+AudioPlayer.propTypes = {
+  context: React.PropTypes.object
 }

@@ -1,11 +1,11 @@
-import Electron from 'electron';
-import Fs from 'original-fs';
-import Path from 'path';
-import Crypto from 'crypto';
-import MusicMetadata from 'musicmetadata';
-import { IPCKeys } from '../../common/Constants.js';
-import Util from '../../common/Util.js';
-import FileUtil from './FileUtil.js';
+import Electron from 'electron'
+import Fs from 'original-fs'
+import Path from 'path'
+import Crypto from 'crypto'
+import MusicMetadata from 'musicmetadata'
+import { IPCKeys } from '../../common/Constants.js'
+import Util from '../../common/Util.js'
+import FileUtil from './FileUtil.js'
 
 /**
  * Read the metadata from music file.
@@ -16,23 +16,25 @@ export default class MusicMetadataReader {
    *
    * @param {Main} context Application context.
    */
-  constructor( context ) {
+  constructor (context) {
     /**
      * Path of the folder in which to save the image.
      * @type {String}
      */
-    this._saveImageDirPath = Path.join( Electron.app.getPath( 'userData' ), 'images' );
+    this._saveImageDirPath = Path.join(Electron.app.getPath('userData'), 'images')
 
     // Setup save directory
-    if( this._saveImageDirPath ) {
-      FileUtil.mkdir( this._saveImageDirPath, ( err ) => {
-        if( err ) {
-          if( DEBUG ) { Util.error( err ); }
+    if (this._saveImageDirPath) {
+      FileUtil.mkdir(this._saveImageDirPath, (err) => {
+        if (err) {
+          if (DEBUG) {
+            Util.error(err)
+          }
         }
-      } );
+      })
     }
 
-    context.ipc.on( IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind( this ) );
+    context.ipc.on(IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind(this))
   }
 
   /**
@@ -40,8 +42,8 @@ export default class MusicMetadataReader {
    *
    * @return {String} Directory path.
    */
-  get saveImageDirPath() {
-    return this._saveImageDirPath;
+  get saveImageDirPath () {
+    return this._saveImageDirPath
   }
 
   /**
@@ -49,8 +51,8 @@ export default class MusicMetadataReader {
    *
    * @param {String} path Directory path.
    */
-  set saveImageDirPath( path ) {
-    this._saveImageDirPath = path;
+  set saveImageDirPath (path) {
+    this._saveImageDirPath = path
   }
 
   /**
@@ -59,34 +61,34 @@ export default class MusicMetadataReader {
    * @param {String}   filePath Music file path.
    * @param {Function} callback Callback function.
    */
-  read( filePath, callback ) {
+  read (filePath, callback) {
     Promise.resolve()
-    .then( () => {
-      return this._readMetadata( filePath );
-    } )
-    .then( ( params ) => {
-      return this._readImage( params );
-    } )
-    .then( ( params ) => {
-      const m     = params.metadata;
+    .then(() => {
+      return this._readMetadata(filePath)
+    })
+    .then((params) => {
+      return this._readImage(params)
+    })
+    .then((params) => {
+      const m     = params.metadata
       const music = {
-        path:     filePath,
-        artist:   ( 0 < m.artist.length ? m.artist[ 0 ] : '' ),
-        album:    m.album || '',
-        title:    m.title || '',
-        year:     m.year || '',
-        track:    ( m.track && 0 < m.track.no ? m.track.no : 1 ),
-        disc:     ( m.disk  && 0 < m.disk.no  ? m.disk.no  : 1 ),
-        genre:    ( 0 < m.genre.length ? m.genre[ 0 ] : '' ),
+        path: filePath,
+        artist: (0 < m.artist.length ? m.artist[ 0 ] : ''),
+        album: m.album || '',
+        title: m.title || '',
+        year: m.year || '',
+        track: (m.track && 0 < m.track.no ? m.track.no : 1),
+        disc: (m.disk  && 0 < m.disk.no  ? m.disk.no  : 1),
+        genre: (0 < m.genre.length ? m.genre[ 0 ] : ''),
         duration: m.duration,
-        image:    params.image
-      };
+        image: params.image
+      }
 
-      callback( null, music );
-    } )
-    .catch( ( err ) => {
-      callback( err );
-    } );
+      callback(null, music)
+    })
+    .catch((err) => {
+      callback(err)
+    })
   }
 
   /**
@@ -96,17 +98,17 @@ export default class MusicMetadataReader {
    *
    * @return {Promise} Instance of Promise.
    */
-  _readMetadata( filePath ) {
-    return new Promise( ( resolve, reject ) => {
-      const stream = Fs.createReadStream( filePath );
-      MusicMetadata( stream, { duration: true }, ( err, metadata ) => {
-        if( err ) {
-          return reject( err );
+  _readMetadata (filePath) {
+    return new Promise((resolve, reject) => {
+      const stream = Fs.createReadStream(filePath)
+      MusicMetadata(stream, { duration: true }, (err, metadata) => {
+        if (err) {
+          return reject(err)
         }
 
-        return resolve( { metadata } );
-      } );
-    } );
+        return resolve({ metadata })
+      })
+    })
   }
 
   /**
@@ -114,29 +116,31 @@ export default class MusicMetadataReader {
    *
    * @param {Object} metadata Music metadata.
    */
-  _readImage( params ) {
-    return new Promise( ( resolve ) => {
-      const picture = params.metadata.picture;
-      if( !( this._saveImageDirPath && picture && 0 < picture.length ) ) {
-        resolve( params );
-        return;
+  _readImage (params) {
+    return new Promise((resolve) => {
+      const picture = params.metadata.picture
+      if (!(this._saveImageDirPath && picture && 0 < picture.length)) {
+        resolve(params)
+        return
       }
 
-      const fileName = this._getHash( picture[ 0 ].data ) + '.' + picture[ 0 ].format;
-      const filePath = Path.join( this._saveImageDirPath, fileName );
+      const fileName = this._getHash(picture[ 0 ].data) + '.' + picture[ 0 ].format
+      const filePath = Path.join(this._saveImageDirPath, fileName)
 
       // Save image file
-      FileUtil.writeFile( filePath, picture[ 0 ].data, ( err ) => {
-        const newParams = params;
-        if( err ) {
-          if( DEBUG ) { Util.error( err ); }
+      FileUtil.writeFile(filePath, picture[ 0 ].data, (err) => {
+        const newParams = params
+        if (err) {
+          if (DEBUG) {
+            Util.error(err)
+          }
         } else {
-          newParams.image = filePath;
+          newParams.image = filePath
         }
 
-        resolve( newParams );
-      } );
-    } );
+        resolve(newParams)
+      })
+    })
   }
 
   /**
@@ -146,11 +150,11 @@ export default class MusicMetadataReader {
    *
    * @return {String} Hash string.
    */
-  _getHash( data ) {
-    const sha = Crypto.createHash( 'sha1' );
-    sha.update( data );
+  _getHash (data) {
+    const sha = Crypto.createHash('sha1')
+    sha.update(data)
 
-    return sha.digest( 'hex' );
+    return sha.digest('hex')
   }
 
   /**
@@ -159,14 +163,14 @@ export default class MusicMetadataReader {
    * @param {Event}  ev       Event data.
    * @param {String} filePath Music file path.
    */
-  _onRequestReadMusicMetadata( ev, filePath ) {
-    if( !( filePath ) ) {
-      ev.sender.send( IPCKeys.FinishReadMusicMetadata, new Error( 'Invalid arguments.' ), null );
-      return;
+  _onRequestReadMusicMetadata (ev, filePath) {
+    if (!(filePath)) {
+      ev.sender.send(IPCKeys.FinishReadMusicMetadata, new Error('Invalid arguments.'), null)
+      return
     }
 
-    this.read( filePath, ( err, music ) => {
-      ev.sender.send( IPCKeys.FinishReadMusicMetadata, err, music );
-    } );
+    this.read(filePath, (err, music) => {
+      ev.sender.send(IPCKeys.FinishReadMusicMetadata, err, music)
+    })
   }
 }

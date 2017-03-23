@@ -7,12 +7,12 @@ export default class Music {
    *
    * @param {MusicMetadata} metadata Metadata of music.
    */
-  constructor( metadata ) {
+  constructor (metadata) {
     /**
      * Metadata of music.
      * @type {MusicMetadata}
      */
-    this._metadata = metadata;
+    this._metadata = metadata
   }
 
   /**
@@ -23,12 +23,12 @@ export default class Music {
    *
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
-  static compare( a, b ) {
-    if( a.disc !== b.disc ) {
-      return ( a.disc < b.disc ? -1 : 1 );
+  static compare (a, b) {
+    if (a.disc !== b.disc) {
+      return (a.disc < b.disc ? -1 : 1)
     }
 
-    return ( a.track === b.track ? 0 : ( a.track < b.track ? -1 : 1 ) );
+    return (a.track === b.track ? 0 : (a.track < b.track ? -1 : 1))
   }
 
   /**
@@ -38,11 +38,11 @@ export default class Music {
    *
    * @return {Music} Music.
    */
-  static fromMetadata( metadata ) {
-    const music = new Music( metadata );
-    music._metadata = metadata;
+  static fromMetadata (metadata) {
+    const music = new Music(metadata)
+    music._metadata = metadata
 
-    return music;
+    return music
   }
 
   /**
@@ -51,8 +51,8 @@ export default class Music {
    *
    * @return {MusicMetadata} Metadata.
    */
-  get metadata() {
-    return this._metadata;
+  get metadata () {
+    return this._metadata
   }
 
   /**
@@ -60,8 +60,8 @@ export default class Music {
    *
    * @return {Number} Identifier.
    */
-  get id() {
-    return this._metadata.id;
+  get id () {
+    return this._metadata.id
   }
 
   /**
@@ -69,8 +69,8 @@ export default class Music {
    *
    * @return {String} File path.
    */
-  get path() {
-    return this._metadata.path;
+  get path () {
+    return this._metadata.path
   }
 
   /**
@@ -78,8 +78,8 @@ export default class Music {
    *
    * @return {String} Artist name.
    */
-  get artist() {
-    return this._metadata.artist;
+  get artist () {
+    return this._metadata.artist
   }
 
   /**
@@ -87,8 +87,8 @@ export default class Music {
    *
    * @return {String} Album name.
    */
-  get album() {
-    return this._metadata.album;
+  get album () {
+    return this._metadata.album
   }
 
   /**
@@ -96,8 +96,8 @@ export default class Music {
    *
    * @return {String} Album name.
    */
-  get title() {
-    return this._metadata.title;
+  get title () {
+    return this._metadata.title
   }
 
   /**
@@ -105,26 +105,26 @@ export default class Music {
    *
    * @return {String} Year.
    */
-  get year() {
-    return this._metadata.year;
+  get year () {
+    return this._metadata.year
   }
 
   /**
    * Get the track number.
    *
-   * @return {Number} Track number ( range: 1 - N ).
+   * @return {Number} Track number (range: 1 - N).
    */
-  get track() {
-    return this._metadata.track;
+  get track () {
+    return this._metadata.track
   }
 
   /**
    * Get the disc number.
    *
-   * @return {Number} Disc number ( range: 1 - N ).
+   * @return {Number} Disc number (range: 1 - N).
    */
-  get disc() {
-    return this._metadata.disc;
+  get disc () {
+    return this._metadata.disc
   }
 
   /**
@@ -132,17 +132,17 @@ export default class Music {
    *
    * @return {String} Genre name.
    */
-  get genre() {
-    return this._metadata.genre;
+  get genre () {
+    return this._metadata.genre
   }
 
   /**
    * Get the duration of music.
    *
-   * @return {Number} Duration of music ( Seconds ).
+   * @return {Number} Duration of music (Seconds).
    */
-  get duration() {
-    return this._metadata.duration;
+  get duration () {
+    return this._metadata.duration
   }
 
   /**
@@ -150,7 +150,7 @@ export default class Music {
    *
    * @return {String} Image file path.
    */
-  get image() {
-    return this._metadata.image;
+  get image () {
+    return this._metadata.image
   }
 }

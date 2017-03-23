@@ -1,8 +1,8 @@
-import Electron from 'electron';
-import { WindowTypes } from './WindowManager.js';
+import Electron from 'electron'
+import { WindowTypes } from './WindowManager.js'
 
-const AppName = 'Electron Audio Player';
-const HelpURL = 'https://github.com/akabekobeko/examples-electron';
+const AppName = 'Electron Audio Player'
+const HelpURL = 'https://github.com/akabekobeko/examples-electron'
 
 /**
  * Main menu.
@@ -15,34 +15,34 @@ export default class MainMenu {
    *
    * @return {Array.<Object>} Menu.
    */
-  static menu( context ) {
+  static menu (context) {
     const templates = [
-      MainMenu._menuEffector( context ),
+      MainMenu._menuEffector(context),
       MainMenu._menuView(),
       MainMenu._menuWindow(),
       MainMenu._menuHelp()
-    ];
+    ]
 
-    if( process.platform === 'darwin' ) {
-      templates.unshift( MainMenu._menuApp( context ) );
+    if (process.platform === 'darwin') {
+      templates.unshift(MainMenu._menuApp(context))
     }
 
-    return templates;
+    return templates
   }
 
   /**
-   * Create a menu of Application ( OS X only ).
+   * Create a menu of Application (OS X only).
    *
    * @return {Object} Menu data.
    */
-  static _menuApp( context ) {
+  static _menuApp (context) {
     return {
       label: AppName,
       submenu: [
         {
           label: 'About ' + AppName,
           click: () => {
-            context.windowManager.toggle( WindowTypes.About );
+            context.windowManager.toggle(WindowTypes.About)
           }
         },
         {
@@ -76,10 +76,12 @@ export default class MainMenu {
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click: () => { Electron.app.quit(); }
-        },
+          click: () => {
+            Electron.app.quit()
+          }
+        }
       ]
-    };
+    }
   }
 
   /**
@@ -89,18 +91,18 @@ export default class MainMenu {
    *
    * @return {Object} Menu data.
    */
-  static _menuEffector( context ) {
+  static _menuEffector (context) {
     return {
       label: 'Effector',
       submenu: [
         {
           label: 'Graphic Equalizer',
           click: () => {
-            context.windowManager.toggle( WindowTypes.GraphicEqualizer );
+            context.windowManager.toggle(WindowTypes.GraphicEqualizer)
           }
         }
       ]
-    };
+    }
   }
 
   /**
@@ -108,49 +110,49 @@ export default class MainMenu {
    *
    * @return {Object} Menu data.
    */
-  static _menuView() {
+  static _menuView () {
     const templates = {
       label: 'View',
       submenu: [
         {
           label: 'Toggle Full Screen',
-          accelerator: ( () => {
-            return ( process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11' );
-          } )(),
-          click: ( item, focusedWindow ) => {
-            if( focusedWindow ) {
-              focusedWindow.setFullScreen( !( focusedWindow.isFullScreen() ) );
+          accelerator: (() => {
+            return (process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11')
+          })(),
+          click: (item, focusedWindow) => {
+            if (focusedWindow) {
+              focusedWindow.setFullScreen(!(focusedWindow.isFullScreen()))
             }
           }
         }
       ]
-    };
-
-    if( DEBUG ) {
-      templates.submenu.unshift( {
-        label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click: ( item, focusedWindow ) => {
-          if( focusedWindow ) {
-            focusedWindow.reload();
-          }
-        }
-      } );
-
-      templates.submenu.push( {
-        label: 'Toggle Developer Tools',
-        accelerator: ( () => {
-          return ( process.platform === 'darwin' ? 'Alt+Command+I' :  'Ctrl+Shift+I' );
-        } )(),
-        click: ( item, focusedWindow ) => {
-          if( focusedWindow ) {
-            focusedWindow.toggleDevTools();
-          }
-        }
-      } );
     }
 
-    return templates;
+    if (DEBUG) {
+      templates.submenu.unshift({
+        label: 'Reload',
+        accelerator: 'CmdOrCtrl+R',
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.reload()
+          }
+        }
+      })
+
+      templates.submenu.push({
+        label: 'Toggle Developer Tools',
+        accelerator: (() => {
+          return (process.platform === 'darwin' ? 'Alt+Command+I' :  'Ctrl+Shift+I')
+        })(),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.toggleDevTools()
+          }
+        }
+      })
+    }
+
+    return templates
   }
 
   /**
@@ -158,7 +160,7 @@ export default class MainMenu {
    *
    * @return {Object} Menu data.
    */
-  static _menuWindow() {
+  static _menuWindow () {
     const templates = {
       label: 'Window',
       role: 'window',
@@ -172,22 +174,22 @@ export default class MainMenu {
           label: 'Close',
           accelerator: 'CmdOrCtrl+W',
           role: 'close'
-        },
+        }
       ]
-    };
-
-    if( process.platform === 'darwin' ) {
-      templates.submenu.push( {
-        type: 'separator'
-      } );
-
-      templates.submenu.push( {
-        label: 'Bring All to Front',
-        role: 'front'
-      } );
     }
 
-    return templates;
+    if (process.platform === 'darwin') {
+      templates.submenu.push({
+        type: 'separator'
+      })
+
+      templates.submenu.push({
+        label: 'Bring All to Front',
+        role: 'front'
+      })
+    }
+
+    return templates
   }
 
   /**
@@ -195,7 +197,7 @@ export default class MainMenu {
    *
    * @return {Object} Menu data.
    */
-  static _menuHelp() {
+  static _menuHelp () {
     return {
       label: 'Help',
       role: 'help',
@@ -203,10 +205,10 @@ export default class MainMenu {
         {
           label: 'Learn More',
           click: () => {
-            Electron.shell.openExternal( HelpURL );
+            Electron.shell.openExternal(HelpURL)
           }
         }
       ]
-    };
+    }
   }
 }

@@ -5,17 +5,17 @@
  */
 export const IPCKeys = {
   RequestShowMessage: 'requestShowMessage',
-  FinishShowMessage:  'finishShowMessage',
+  FinishShowMessage: 'finishShowMessage',
 
   RequestShowOpenDialog: 'requestShowOpenDialog',
-  FinishShowOpenDialog:  'finishShowOpenDialog',
+  FinishShowOpenDialog: 'finishShowOpenDialog',
 
   RequestReadMusicMetadata: 'requestReadMusicMetadata',
-  FinishReadMusicMetadata:  'finishReadMusicMetadata',
+  FinishReadMusicMetadata: 'finishReadMusicMetadata',
 
   RequestUpdateGraphicEqualizer: 'requestUpdateGraphicEqualizer',
-  FinishUpdateGraphicEqualizer:  'finishUpdateGraphicEqualizer'
-};
+  FinishUpdateGraphicEqualizer: 'finishUpdateGraphicEqualizer'
+}
 
 /**
  * Defines the key of the Web Storage.
@@ -23,7 +23,7 @@ export const IPCKeys = {
  */
 export const StorageKeys = {
   GraphicEqulizerParams: 'graphicEqulizerParams'
-};
+}
 
 /**
  * Audio playback status.
@@ -33,7 +33,7 @@ export const PlaybackState = {
   Stopped: 0,
   Paused: 1,
   Playing: 2
-};
+}
 
 /**
  * Define the parameters of graphic equalizer.
@@ -44,5 +44,5 @@ export const GraphicEqulizerParams = {
   GainMax: 40,
   GainFlat: 0,
   GainStep: 5,
-  Bands: [ 31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000, 16000 ]
-};
+  Bands: [31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+}

@@ -1,5 +1,7 @@
 # Electron Starter Kit
 
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+
 This is a starter kit of the [Electron](http://electron.atom.io/) application development.
 
 ![Screenshot](./ss.png)
@@ -94,7 +96,7 @@ npm run release
 It is available `DEBUG` variable for debugging dedicated processing.
 
 ```js
-if( DEBUG ) {
+if (DEBUG) {
   // Debug only...
 }
 ```

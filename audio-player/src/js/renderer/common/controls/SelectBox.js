@@ -1,28 +1,39 @@
-import React from 'react';
+import React from 'react'
 
 /**
  * Component for select-box control.
  */
 export default class SelectBox extends React.Component {
   /**
+   * Initialize instance.
+   *
+   * @param {Object} props Properties.
+   */
+  constructor (props) {
+    super(props)
+
+    this._onChangeBind = this._onChange.bind(this)
+  }
+
+  /**
    * Render for component.
    *
    * @return {ReactElement} Rendering data.
    */
-  render() {
-    const selectedValue = ( typeof this.props.selectedValue === 'number' ? this.props.selectedValue : 0 );
+  render () {
+    const selectedValue = (typeof this.props.selectedValue === 'number' ? this.props.selectedValue : 0)
     return (
       <div className="selectbox">
         <div className="selectbox__dropdown">
           <select
             className="selectbox__dropdown__select"
-            value={ selectedValue }
-            onChange={ this._onChange.bind( this ) }>
-            { this._renderOptions() }
+            value={selectedValue}
+            onChange={this._onChangeBind}>
+            {this._renderOptions()}
           </select>
         </div>
       </div>
-    );
+    )
   }
 
   /**
@@ -30,10 +41,10 @@ export default class SelectBox extends React.Component {
    *
    * @return {Array.<ReactElement>} Rendering data.
    */
-  _renderOptions() {
-    return this.props.options.map( ( option, index ) => {
-      return ( <option key={ index } value={ index }>{ option }</option> );
-    } );
+  _renderOptions () {
+    return this.props.options.map((option, index) => {
+      return (<option key={index} value={index}>{option}</option>)
+    })
   }
 
   /**
@@ -41,9 +52,15 @@ export default class SelectBox extends React.Component {
    *
    * @param {Event} ev Event data.
    */
-  _onChange( ev ) {
-    if( this.props.onChange ) {
-      this.props.onChange( Number( ev.target.value ) );
+  _onChange (ev) {
+    if (this.props.onChange) {
+      this.props.onChange(Number(ev.target.value))
     }
   }
+}
+
+SelectBox.propTypes = {
+  selectedValue: React.PropTypes.number,
+  options: React.PropTypes.array,
+  onChange: React.PropTypes.func
 }

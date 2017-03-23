@@ -1,5 +1,5 @@
-import Electron from 'electron';
-import { IPCKeys } from '../common/Constants.js';
+import Electron from 'electron'
+import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Manage the dialog.
@@ -10,9 +10,9 @@ export default class DialogManager {
    *
    * @param {Main} context Application context.
    */
-  constructor( context ) {
-    context.ipc.on( IPCKeys.RequestShowMessage,    this._onRequestShowMessage.bind( this ) );
-    context.ipc.on( IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind( this ) );
+  constructor (context) {
+    context.ipc.on(IPCKeys.RequestShowMessage,    this._onRequestShowMessage.bind(this))
+    context.ipc.on(IPCKeys.RequestShowOpenDialog, this._onRequestShowOpenDialog.bind(this))
   }
 
   /**
@@ -23,12 +23,12 @@ export default class DialogManager {
    *
    * @return {Number} Index of the selected button on dialog.
    */
-  showMessage( ownerWindow, options ) {
-    if( ownerWindow ) {
-      return Electron.dialog.showMessageBox( ownerWindow, options );
+  showMessage (ownerWindow, options) {
+    if (ownerWindow) {
+      return Electron.dialog.showMessageBox(ownerWindow, options)
     }
 
-    return Electron.dialog.showMessageBox( options );
+    return Electron.dialog.showMessageBox(options)
   }
 
   /**
@@ -39,12 +39,12 @@ export default class DialogManager {
    *
    * @return {Array.<String>} On success this method returns an array of file paths chosen by the user, otherwise it returns undefined.
    */
-  showOpenDialog( ownerWindow, options ) {
-    if( ownerWindow ) {
-      return Electron.dialog.showOpenDialog( ownerWindow, options );
+  showOpenDialog (ownerWindow, options) {
+    if (ownerWindow) {
+      return Electron.dialog.showOpenDialog(ownerWindow, options)
     }
 
-    return Electron.dialog.showOpenDialog( options );
+    return Electron.dialog.showOpenDialog(options)
   }
 
   /**
@@ -53,14 +53,14 @@ export default class DialogManager {
    * @param {Event}  ev      Event data.
    * @param {Object} options Options of a dialog.
    */
-  _onRequestShowMessage( ev, options ) {
-    if( !( options ) ) {
-      ev.sender.send( IPCKeys.FinishShowMessage, new Error( 'Invalid arguments.' ), null );
-      return;
+  _onRequestShowMessage (ev, options) {
+    if (!(options)) {
+      ev.sender.send(IPCKeys.FinishShowMessage, new Error('Invalid arguments.'), null)
+      return
     }
 
-    const button = this.showMessage( ev.sender.getOwnerBrowserWindow(), options );
-    ev.sender.send( IPCKeys.FinishShowMessage, button, null );
+    const button = this.showMessage(ev.sender.getOwnerBrowserWindow(), options)
+    ev.sender.send(IPCKeys.FinishShowMessage, button, null)
   }
 
   /**
@@ -69,13 +69,13 @@ export default class DialogManager {
    * @param {Event}  ev      Event data.
    * @param {Object} options Options of a dialog.
    */
-  _onRequestShowOpenDialog( ev, options ) {
-    if( !( options ) ) {
-      ev.sender.send( IPCKeys.FinishShowOpenDialog, new Error( 'Invalid arguments.' ), null );
-      return;
+  _onRequestShowOpenDialog (ev, options) {
+    if (!(options)) {
+      ev.sender.send(IPCKeys.FinishShowOpenDialog, new Error('Invalid arguments.'), null)
+      return
     }
 
-    const paths = this.showOpenDialog( ev.sender.getOwnerBrowserWindow(), options );
-    ev.sender.send( IPCKeys.FinishShowOpenDialog, paths, null );
+    const paths = this.showOpenDialog(ev.sender.getOwnerBrowserWindow(), options)
+    ev.sender.send(IPCKeys.FinishShowOpenDialog, paths, null)
   }
 }

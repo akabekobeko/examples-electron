@@ -1,4 +1,4 @@
-import Album from './Album.js';
+import Album from './Album.js'
 
 /**
  * Container of an artist infromation.
@@ -9,24 +9,24 @@ export default class Artist {
    *
    * @param {String} name Artist name.
    */
-  constructor( name ) {
+  constructor (name) {
     /**
      * Artist name.
      * @type {String}
      */
-    this._name = name;
+    this._name = name
 
     /**
      * Artist albums.
      * @type {Array.<Album>}
      */
-    this._albums = [];
+    this._albums = []
 
     /**
      * Path of the image file.
      * @type {String}
      */
-    this._image = null;
+    this._image = null
   }
 
   /**
@@ -37,11 +37,11 @@ export default class Artist {
    *
    * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
-  static compare( a, b ) {
-    const nameA = a.name.toLowerCase().replace( 'the ', '' );
-    const nameB = b.name.toLowerCase().replace( 'the ', '' );
+  static compare (a, b) {
+    const nameA = a.name.toLowerCase().replace('the ', '')
+    const nameB = b.name.toLowerCase().replace('the ', '')
 
-    return ( nameA === nameB ? 0 : ( nameA < nameB ? -1 : 1 ) );
+    return (nameA === nameB ? 0 : (nameA < nameB ? -1 : 1))
   }
 
   /**
@@ -51,26 +51,26 @@ export default class Artist {
    *
    * @return {Array.<Artist>} Artists.
    */
-  static fromMusics( musics ) {
-    const artists = [];
-    musics.forEach( ( music ) => {
-      let artist = Artist.findByMusic( artists, music );
-      if( !( artist ) ) {
-        artist = new Artist( music.artist );
-        artists.push( artist );
+  static fromMusics (musics) {
+    const artists = []
+    musics.forEach((music) => {
+      let artist = Artist.findByMusic(artists, music)
+      if (!(artist)) {
+        artist = new Artist(music.artist)
+        artists.push(artist)
       }
 
-      let album = Album.findByMusic( artist.albums, music );
-      if( album ) {
-        album.add( music );
+      let album = Album.findByMusic(artist.albums, music)
+      if (album) {
+        album.add(music)
       } else {
-        album = new Album( artist.name, music.album );
-        album.add( music );
-        artist.add( album );
+        album = new Album(artist.name, music.album)
+        album.add(music)
+        artist.add(album)
       }
-    } );
+    })
 
-    return artists.sort( Artist.compare );
+    return artists.sort(Artist.compare)
   }
 
   /**
@@ -81,18 +81,18 @@ export default class Artist {
    *
    * @return {Album} Success is artist, Otherwise null.
    */
-  static findByMusic( artists, music ) {
-    let result = null;
-    artists.some( ( artist ) => {
-      if( music.artist === artist.name ) {
-        result = artist;
-        return true;
+  static findByMusic (artists, music) {
+    let result = null
+    artists.some((artist) => {
+      if (music.artist === artist.name) {
+        result = artist
+        return true
       }
 
-      return false;
-    } );
+      return false
+    })
 
-    return result;
+    return result
   }
 
   /**
@@ -100,8 +100,8 @@ export default class Artist {
    *
    * @return {Array.<Album>} albums.
    */
-  get albums() {
-    return this._albums;
+  get albums () {
+    return this._albums
   }
 
   /**
@@ -109,8 +109,8 @@ export default class Artist {
    *
    * @return {String} name.
    */
-  get name() {
-    return this._name;
+  get name () {
+    return this._name
   }
 
   /**
@@ -118,8 +118,8 @@ export default class Artist {
    *
    * @return {String} Path of the image file.
    */
-  get image() {
-    return this._image;
+  get image () {
+    return this._image
   }
 
   /**
@@ -129,15 +129,17 @@ export default class Artist {
    *
    * @return {Boolean} Success is true.
    */
-  add( album ) {
-    if( album.artist !== this._name ) { return false; }
+  add (album) {
+    if (album.artist !== this._name) {
+      return false
+    }
 
-    this._albums.push( album );
-    this._albums = this._albums.sort( Album.compare );
+    this._albums.push(album)
+    this._albums = this._albums.sort(Album.compare)
 
-    this.updateImage();
+    this.updateImage()
 
-    return true;
+    return true
   }
 
   /**
@@ -147,35 +149,36 @@ export default class Artist {
    *
    * @return {Boolean} Success is true.
    */
-  remove( album ) {
-    const albums = this._albums.filter( ( a ) => {
-      return ( a.name !== album.name );
-    } );
+  remove (album) {
+    const albums = this._albums.filter((a) => {
+      return (a.name !== album.name)
+    })
 
-    if( albums.length === this._albums.length ) { return false; }
+    if (albums.length === this._albums.length) {
+      return false
+    }
 
-    this._albums = albums;
-    this.updateImage();
+    this._albums = albums
+    this.updateImage()
 
-    return true;
+    return true
   }
 
   /**
    * Update the album image.
    */
-  updateImage() {
-    const updated = this._albums.some( ( album ) => {
-      if( album.image ) {
-        this._image = album.image;
-        return true;
+  updateImage () {
+    const updated = this._albums.some((album) => {
+      if (album.image) {
+        this._image = album.image
+        return true
       }
 
-      return false;
-    } );
+      return false
+    })
 
-    if( !( updated ) ) {
-      this._image = null;
+    if (!(updated)) {
+      this._image = null
     }
-
   }
 }
