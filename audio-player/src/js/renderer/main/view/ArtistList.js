@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Item of the ArtistList.
@@ -41,9 +42,9 @@ class ArtistItem extends React.Component {
 }
 
 ArtistItem.propTypes = {
-  selected: React.PropTypes.string,
-  artist: React.PropTypes.object,
-  click: React.PropTypes.func
+  selected: PropTypes.string,
+  artist: PropTypes.object,
+  click: PropTypes.func
 }
 
 /**
@@ -125,5 +126,5 @@ export default class ArtistList extends React.Component {
 }
 
 ArtistList.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }

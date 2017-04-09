@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { GraphicEqulizerParams } from '../../../common/Constants.js'
 import OnOffSwitch from '../../common/controls/OnOffSwitch.js'
 import SelectBox from '../../common/controls/SelectBox.js'
@@ -222,5 +223,5 @@ export default class EffectGraphicEqualizer extends React.Component {
 }
 
 EffectGraphicEqualizer.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }

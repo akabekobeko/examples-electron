@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { PlaybackState } from '../../../common/Constants.js'
 import AudioPlayerControl from './AudioPlayerControl.js'
 import AudioPlayerToolbar from './AudioPlayerToolbar.js'
@@ -107,5 +108,5 @@ export default class AudioPlayer extends React.Component {
 }
 
 AudioPlayer.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }

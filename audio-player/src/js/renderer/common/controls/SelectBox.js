@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Component for select-box control.
@@ -60,7 +61,7 @@ export default class SelectBox extends React.Component {
 }
 
 SelectBox.propTypes = {
-  selectedValue: React.PropTypes.number,
-  options: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  selectedValue: PropTypes.number,
+  options: PropTypes.array,
+  onChange: PropTypes.func
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-// import SplitPane from './react-split-pane/SplitPane.js'
+import PropTypes from 'prop-types'
 import SplitPane from 'react-split-pane'
 import AudioPlayer from './AudioPlayer.js'
 import ArtistList from './ArtistList.js'
@@ -37,5 +37,5 @@ export default class MainWindow extends React.Component {
 }
 
 MainWindow.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Util from '../../../common/Util.js'
 import { PlaybackState } from '../../../common/Constants.js'
 
@@ -53,11 +54,11 @@ class MusicItem extends React.Component {
 }
 
 MusicItem.propTypes = {
-  selected: React.PropTypes.string,
-  icon: React.PropTypes.object,
-  music: React.PropTypes.object,
-  click: React.PropTypes.func,
-  doubleClick: React.PropTypes.func
+  selected: PropTypes.string,
+  icon: PropTypes.object,
+  music: PropTypes.object,
+  click: PropTypes.func,
+  doubleClick: PropTypes.func
 }
 
 /**
@@ -245,5 +246,5 @@ export default class AlbumList extends React.Component {
 }
 
 AlbumList.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }
