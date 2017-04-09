@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Util from '../../../common/Util.js'
 import SpectrumAnalyzer from './SpectrumAnalyzer.js'
 
@@ -112,7 +113,7 @@ export default class AudioPlayerInfo extends React.Component {
 }
 
 AudioPlayerInfo.propTypes = {
-  audioPlayerStore: React.PropTypes.object,
-  audioPlayerAction: React.PropTypes.object,
-  music: React.PropTypes.object
+  audioPlayerStore: PropTypes.object,
+  audioPlayerAction: PropTypes.object,
+  music: PropTypes.object
 }

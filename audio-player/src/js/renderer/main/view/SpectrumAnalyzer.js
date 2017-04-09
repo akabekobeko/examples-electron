@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { PlaybackState } from '../../../common/Constants.js'
 
 /**
@@ -170,7 +171,7 @@ export default class SpectrumAnalyzer extends React.Component {
 }
 
 SpectrumAnalyzer.propTypes = {
-  audioPlayerStore: React.PropTypes.object,
-  onClickInfoDisplay: React.PropTypes.func,
-  useSpectrumAnalyzer: React.PropTypes.bool
+  audioPlayerStore: PropTypes.object,
+  onClickInfoDisplay: PropTypes.func,
+  useSpectrumAnalyzer: PropTypes.bool
 }

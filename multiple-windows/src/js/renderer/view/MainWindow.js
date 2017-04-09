@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
 /**
@@ -150,5 +151,5 @@ export default class MainWindow extends React.Component {
 }
 
 MainWindow.propTypes = {
-  context: React.PropTypes.object
+  context: PropTypes.object
 }

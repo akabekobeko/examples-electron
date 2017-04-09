@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Component for On/Off switch control.
@@ -60,6 +61,6 @@ export default class OnOffSwitch extends React.Component {
 }
 
 OnOffSwitch.propTypes = {
-  onChange: React.PropTypes.func,
-  checked: React.PropTypes.bool
+  onChange: PropTypes.func,
+  checked: PropTypes.bool
 }
