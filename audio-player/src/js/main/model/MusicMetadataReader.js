@@ -63,32 +63,32 @@ export default class MusicMetadataReader {
    */
   read (filePath, callback) {
     Promise.resolve()
-    .then(() => {
-      return this._readMetadata(filePath)
-    })
-    .then((params) => {
-      return this._readImage(params)
-    })
-    .then((params) => {
-      const m     = params.metadata
-      const music = {
-        path: filePath,
-        artist: (0 < m.artist.length ? m.artist[ 0 ] : ''),
-        album: m.album || '',
-        title: m.title || '',
-        year: m.year || '',
-        track: (m.track && 0 < m.track.no ? m.track.no : 1),
-        disc: (m.disk  && 0 < m.disk.no  ? m.disk.no  : 1),
-        genre: (0 < m.genre.length ? m.genre[ 0 ] : ''),
-        duration: m.duration,
-        image: params.image
-      }
+      .then(() => {
+        return this._readMetadata(filePath)
+      })
+      .then((params) => {
+        return this._readImage(params)
+      })
+      .then((params) => {
+        const m     = params.metadata
+        const music = {
+          path: filePath,
+          artist: (0 < m.artist.length ? m.artist[ 0 ] : ''),
+          album: m.album || '',
+          title: m.title || '',
+          year: m.year || '',
+          track: (m.track && 0 < m.track.no ? m.track.no : 1),
+          disc: (m.disk  && 0 < m.disk.no  ? m.disk.no  : 1),
+          genre: (0 < m.genre.length ? m.genre[ 0 ] : ''),
+          duration: m.duration,
+          image: params.image
+        }
 
-      callback(null, music)
-    })
-    .catch((err) => {
-      callback(err)
-    })
+        callback(null, music)
+      })
+      .catch((err) => {
+        callback(err)
+      })
   }
 
   /**
@@ -114,7 +114,7 @@ export default class MusicMetadataReader {
   /**
    * Read and save the image from music metadata.
    *
-   * @param {Object} metadata Music metadata.
+   * @param {Object} params Music metadata.
    */
   _readImage (params) {
     return new Promise((resolve) => {

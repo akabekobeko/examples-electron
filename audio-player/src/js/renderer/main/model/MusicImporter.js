@@ -136,9 +136,9 @@ export default class MusicImporter {
   /**
    * Occurs when a music file of read metadata has been executed.
    *
-   * @param {IPCEvent} ev    Event data.
-   * @param {Error}    err   Error information. Success is undefined.
-   * @param {Object}   music Music metadata from main process. (FinishReadMusicMetadata)
+   * @param {IPCEvent} ev       Event data.
+   * @param {Error}    err      Error information. Success is undefined.
+   * @param {Object}   metadata Music metadata from main process. (FinishReadMusicMetadata)
    */
   _onFinishReadMusicMetadata (ev, err, metadata) {
     if (err) {
@@ -160,7 +160,7 @@ export default class MusicImporter {
   /**
    * Register the metadata in the database.
    *
-   * @param {Object} music Music metadata from main process. (FinishReadMusicMetadata)
+   * @param {Object} metadata Music metadata from main process. (FinishReadMusicMetadata)
    */
   _register (metadata) {
     this._db.add(metadata, (err, m) => {

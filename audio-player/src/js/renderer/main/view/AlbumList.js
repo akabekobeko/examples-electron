@@ -166,7 +166,7 @@ export default class AlbumList extends React.Component {
           <div key={key} className="album-list__item__body__disc">
             Disc {key}
           </div>
-      ))
+        ))
 
         discs[key].forEach((music) => {
           results.push(this._renderMusic(music, currentMusic, currentPlay))
@@ -185,7 +185,7 @@ export default class AlbumList extends React.Component {
   /**
    * Render for album music.
    *
-   * @param {Music} musics       music.
+   * @param {Music} music        music.
    * @param {Music} currentMusic Currently music.
    * @param {Music} currentPlay  Currently playback music.
    *
