@@ -62,7 +62,7 @@
   },
   "scripts": {
     "start": "npm run watch",
-    "app": "electron src/",
+    "app": "electron --inspect=5858 src/",
     "test": "mocha --compilers js:babel-register src/js/**/*.test.js",
     "esdoc": "esdoc",
     "eslint": "eslint ./src/js",
