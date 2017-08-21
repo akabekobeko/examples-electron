@@ -16,10 +16,22 @@
   "esdoc": {
     "source": "./src/js",
     "destination": "./esdoc",
-    "test": {
-      "type": "mocha",
-      "source": "./src/js"
-    }
+    "plugins": [
+      {
+        "name": "esdoc-jsx-plugin",
+        "option": {
+          "enable": true
+        }
+      },
+      {
+        "name": "esdoc-standard-plugin",
+        "option": {
+          "test": {
+            "source": "./src/js"
+          }
+        }
+      }
+    ]
   },
   "babel": {
     "presets": [
@@ -89,6 +101,8 @@
     "electron": "^1.7.5",
     "electron-packager": "^8.7.2",
     "esdoc": "^1.0.1",
+    "esdoc-jsx-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",

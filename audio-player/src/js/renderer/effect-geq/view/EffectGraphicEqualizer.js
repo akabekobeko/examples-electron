@@ -183,7 +183,7 @@ export default class EffectGraphicEqualizer extends React.Component {
   /**
    * Occurs when the connection switch is changed.
    *
-   * @param {Boolean} frequecy Frequecy.
+   * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
    */
   _onChangeConncectSwitch (connect) {
     this.props.context.effectGraphicEqualizerAction.connect(connect)
