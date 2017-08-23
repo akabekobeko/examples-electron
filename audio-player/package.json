@@ -40,7 +40,7 @@
         "env",
         {
           "targets": {
-            "electron": "1.6"
+            "electron": "1.7"
           }
         }
       ],
@@ -67,12 +67,12 @@
     "esdoc": "esdoc",
     "eslint": "eslint ./src/js",
     "build:css": "stylus -c ./src/stylus/App.styl -o ./src/assets/bundle.css -m --sourcemap-base ./stylus",
-    "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -d | exorcist ./src/assets/main.js.map > ./src/assets/main.js",
-    "build:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js --exclude electron -d | exorcist ./src/assets/renderer.js.map > ./src/assets/renderer.js",
+    "build:js-main": "browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -d | exorcist --base ./src/assets ./src/assets/main.js.map > ./src/assets/main.js",
+    "build:js-renderer": "browserify -t [ babelify ] ./src/js/renderer/App.js --exclude electron -d | exorcist --base ./src/assets ./src/assets/renderer.js.map > ./src/assets/renderer.js",
     "build": "npm-run-all -p build:*",
     "watch:css": "stylus -c -w ./src/stylus/App.styl -o ./src/assets/bundle.css -m --sourcemap-base ./stylus",
-    "watch:js-main": "watchify -v -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -o \"exorcist ./src/assets/main.js.map > ./src/assets/main.js\" -d",
-    "watch:js-renderer": "watchify -v -t [ babelify ] ./src/js/renderer/App.js --exclude electron -o \"exorcist ./src/assets/renderer.js.map > ./src/assets/renderer.js\" -d",
+    "watch:js-main": "watchify -v -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node -o \"exorcist --base ./src/assets ./src/assets/main.js.map > ./src/assets/main.js\" -d",
+    "watch:js-renderer": "watchify -v -t [ babelify ] ./src/js/renderer/App.js --exclude electron -o \"exorcist --base ./src/assets ./src/assets/renderer.js.map > ./src/assets/renderer.js\" -d",
     "watch": "npm-run-all -p watch:*",
     "release:css": "stylus -c ./src/stylus/App.styl -o ./dist/src/assets/bundle.css",
     "release:js-main": "cross-env NODE_ENV=production browserify -t [ babelify ] ./src/js/main/Main.js --exclude electron --im --no-detect-globals --node | uglifyjs -c warnings=false -m -d DEBUG=false > ./dist/src/assets/main.js",
