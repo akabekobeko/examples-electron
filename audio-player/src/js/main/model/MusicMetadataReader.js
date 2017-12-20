@@ -1,5 +1,5 @@
 import Electron from 'electron'
-import Fs from 'original-fs'
+import Fs from 'fs'
 import Path from 'path'
 import Crypto from 'crypto'
 import MusicMetadata from 'musicmetadata'
