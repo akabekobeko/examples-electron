@@ -3,12 +3,11 @@ import Util from '../common/Util.js'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager from './WindowManager.js'
-import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Application entry point.
  */
-class Main {
+class App {
   /**
    * Initialize instance.
    */
@@ -42,11 +41,6 @@ class Main {
      * @type {DialogManager}
      */
     this._dialogManager = new DialogManager(this)
-
-    this._ipc.on(IPCKeys.RequestShowURL, (ev, url) => {
-      this._shell.openExternal(url)
-      ev.sender.send(IPCKeys.FinishShowURL)
-    })
   }
 
   /**
@@ -96,13 +90,13 @@ class Main {
   }
 }
 
-const main = new Main()
+const app = new App()
 Electron.app.on('ready', () => {
   if (DEBUG) {
     Util.log('Application is ready')
   }
 
-  main.onReady()
+  app.onReady()
 })
 
 Electron.app.on('quit', () => {
@@ -116,5 +110,5 @@ Electron.app.on('window-all-closed', () => {
     Util.log('All of the window was closed.')
   }
 
-  main.onWindowAllClosed()
+  app.onWindowAllClosed()
 })

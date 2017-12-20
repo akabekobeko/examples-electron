@@ -2,13 +2,13 @@ import Electron from 'electron'
 import Util from '../common/Util.js'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
-import WindowManager, { WindowTypes } from './WindowManager.js'
-import MusicMetadataReader from './model/MusicMetadataReader.js'
+import WindowManager from './WindowManager.js'
+import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Application entry point.
  */
-class Main {
+class App {
   /**
    * Initialize instance.
    */
@@ -23,7 +23,13 @@ class Main {
      * IPC module for main process.
      * @type {ipcMain}
      */
-    this.ipc = require('electron').ipcMain
+    this._ipc = require('electron').ipcMain
+
+    /**
+     * The shell module provides functions related to desktop integration.
+     * @type {shell}
+     */
+    this._shell = require('electron').shell
 
     /**
      * Manage the window.
@@ -37,11 +43,26 @@ class Main {
      */
     this._dialogManager = new DialogManager(this)
 
-    /**
-     * Read the metadata from music file.
-     * @type {MusicMetadataReader}
-     */
-    this._musicMetadataReader = new MusicMetadataReader(this)
+    this._ipc.on(IPCKeys.RequestShowURL, (ev, url) => {
+      this._shell.openExternal(url)
+      ev.sender.send(IPCKeys.FinishShowURL)
+    })
+  }
+
+  /**
+   * Get the IPC module.
+   * @return {ipcMain} IPC module.
+   */
+  get ipc () {
+    return this._ipc
+  }
+
+  /**
+   * Get the shell module.
+   * @return {shell} IPC module.
+   */
+  get shell () {
+    return this._shell
   }
 
   /**
@@ -57,9 +78,9 @@ class Main {
    * Occurs when a application launched.
    */
   onReady () {
-    this._windowManager.show(WindowTypes.Main)
-    const templates = MainMenu.menu(this)
-    const menu = Electron.Menu.buildFromTemplate(templates)
+    this._windowManager.createNewWindow()
+
+    const menu = Electron.Menu.buildFromTemplate(MainMenu.menu(this))
     Electron.Menu.setApplicationMenu(menu)
   }
 
@@ -75,13 +96,13 @@ class Main {
   }
 }
 
-const main = new Main()
+const app = new App()
 Electron.app.on('ready', () => {
   if (DEBUG) {
     Util.log('Application is ready')
   }
 
-  main.onReady()
+  app.onReady()
 })
 
 Electron.app.on('quit', () => {
@@ -95,5 +116,5 @@ Electron.app.on('window-all-closed', () => {
     Util.log('All of the window was closed.')
   }
 
-  main.onWindowAllClosed()
+  app.onWindowAllClosed()
 })
