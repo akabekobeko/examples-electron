@@ -1,130 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { PlaybackState } from '../../../common/Constants.js'
+import Styles from './AudioPlayerControl.scss'
 
 /**
- * Component for audio player controls.
+ * Component of an audio player controls.
+ *
+ * @param {object} props Properties.
+ * @param {boolean} props.isPlaying "true" if the music is playing.
+ * @param {number} props.volume Volume.
+ * @param {function} props.onPlay Called when the music is played or stopped.
+ * @param {function} props.onPrev Called when moving to the previous music.
+ * @param {function} props.onNext Called when moving to the next music.
+ * @param {function} props.onChangeVolume Called when the volume is changed.
  */
-export default class AudioPlayerControl extends React.Component {
-  /**
-   * Initialize instance.
-   *
-   * @param {Object} props Properties.
-   */
-  constructor (props) {
-    super(props)
-
-    this._onClickPrevButtonBind = this._onClickPrevButton.bind(this)
-    this._onClickPlayButtonBind = this._onClickPlayButton.bind(this)
-    this._onClickNextButtonBind = this._onClickNextButton.bind(this)
-    this._onChangeVolumeBind    = this._onChangeVolume.bind(this)
-  }
-
-  /**
-   * Render for component.
-   *
-   * @return {ReactElement} Rendering data.
-   */
-  render () {
-    const playIcon = (this.props.playbackState === PlaybackState.Playing ? 'icon-pause' : 'icon-play')
-    return (
-      <div className="audio-player__container__control">
-        <div className="audio-player__container__control__container">
-          <div
-            className="audio-player__container__control__container__button prev"
-            onClick={this._onClickPrevButtonBind}>
-            <i className="icon-prev" />
-          </div>
-          <div
-            className="audio-player__container__control__container__button play"
-            onClick={this._onClickPlayButtonBind}>
-            <i className={playIcon} />
-          </div>
-          <div
-            className="audio-player__container__control__container__button next"
-            onClick={this._onClickNextButtonBind}>
-            <i className="icon-next" />
-          </div>
-          <input
-            type="range"
-            className="audio-player__container__control__container__slider"
-            min={0}
-            max={100}
-            value={this.props.volume}
-            onChange={this._onChangeVolumeBind} />
+const AudioPlayerControl = ({ isPlaying, volume, onPlay, onPrev, onNext, onChangeVolume }) => {
+  return (
+    <div className={Styles.player}>
+      <div className={Styles.container}>
+        <div className={Styles.prev} onClick={onPrev}>
+          <i className={'icon-prev'} />
         </div>
+        <div className={Styles.play} onClick={onPlay}>
+          <i className={isPlaying ? 'icon-pause' : 'icon-play'} />
+        </div>
+        <div className={Styles.next} onClick={onNext}>
+          <i className={'icon-next'} />
+        </div>
+        <input
+          type="range"
+          className={Styles.slider}
+          min={0}
+          max={100}
+          value={volume}
+          onChange={(ev) => onChangeVolume(ev.target.value)}
+        />
       </div>
-    )
-  }
-
-  /**
-   * Occurs when the play music button is clicked.
-   */
-  _onClickPlayButton () {
-    switch (this.props.playbackState) {
-      case PlaybackState.Stopped:
-        this.props.audioPlayerAction.open(this.props.music, true)
-        break
-
-      case PlaybackState.Paused:
-        this.props.audioPlayerAction.play()
-        break
-
-      case PlaybackState.Playing:
-        this.props.audioPlayerAction.pause()
-        break
-
-      default:
-        break
-    }
-  }
-
-  /**
-   * Occurs when the previource music button is clicked.
-   */
-  _onClickPrevButton () {
-    this._playNextMusic(true)
-  }
-
-  /**
-   * Occurs when the next music button is clicked.
-   */
-  _onClickNextButton () {
-    this._playNextMusic()
-  }
-
-  /**
-   * Occurs when the volume is changed.
-   *
-   * @param {Event} ev Event data.
-   */
-  _onChangeVolume (ev) {
-    this.props.audioPlayerAction.volume(ev.target.value)
-  }
-
-  /**
-   * Play the next music.
-   *
-   * @param {Boolean} prev If true to play a music. Default is false.
-   */
-  _playNextMusic (prev) {
-    const music = this.props.getNextPlayMusic(prev)
-    if (!(music)) {
-      return
-    }
-
-    this.props.musicListAction.select(music)
-    if (this.props.playbackState !== PlaybackState.Stopped) {
-      this.props.audioPlayerAction.open(music, true)
-    }
-  }
+    </div>
+  )
 }
 
 AudioPlayerControl.propTypes = {
-  audioPlayerAction: PropTypes.object,
-  musicListAction: PropTypes.object,
-  getNextPlayMusic: PropTypes.func,
-  playbackState: PropTypes.number,
+  isPlaying: PropTypes.bool,
   volume: PropTypes.number,
-  music: PropTypes.object
+  onPlay: PropTypes.func,
+  onPrev: PropTypes.func,
+  onNext: PropTypes.func,
+  onChangeVolume: PropTypes.func
 }
+
+export default AudioPlayerControl

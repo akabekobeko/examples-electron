@@ -5,9 +5,9 @@ export default class IndexedDBWrapper {
   /**
    * Initialize instance.
    *
-   * @param {String} dbName      Database name.
-   * @param {Number} dbVersion   Database version.
-   * @param {String} dbStoreName Store name.
+   * @param {string} dbName Database name.
+   * @param {number} dbVersion Database version.
+   * @param {string} dbStoreName Store name.
    *
    * @throws {Error} IndexedDB is undefined.
    */
@@ -46,7 +46,7 @@ export default class IndexedDBWrapper {
   /**
    * Default callback.。
    *
-   * @param  {Error} err Error information。
+   * @param {Error} err Error information。
    *
    * @return Allways false. Cursor processing is abort.
    */
@@ -63,8 +63,8 @@ export default class IndexedDBWrapper {
   /**
    * Open the database.
    *
-   * @param {Object}   params   Parameters.
-   * @param {Function} callback Callback function.
+   * @param {object} params Parameters.
+   * @param {function} callback Callback function.
    *
    * @throws {Error} "params.create" is undefined.
    */
@@ -106,7 +106,7 @@ export default class IndexedDBWrapper {
   /**
    * Dispose the database.
    *
-   * @param {Function} callback Callback function.
+   * @param {function} callback Callback function.
    */
   dispose (callback) {
     const onFinish = (callback || this._defaultCallback)
@@ -130,7 +130,7 @@ export default class IndexedDBWrapper {
   /**
    * Clear the database.
    *
-   * @param {Function} callback Callback function.
+   * @param {function} callback Callback function.
    */
   clear (callback) {
     if (!(this._db)) {
@@ -154,7 +154,7 @@ export default class IndexedDBWrapper {
   /**
    * Read all of the items.
    *
-   * @param {Function} callback Callback function.
+   * @param {function} callback Callback function.
    */
   readAll (callback) {
     if (!(this._db)) {
@@ -185,7 +185,7 @@ export default class IndexedDBWrapper {
   /**
    * Read until stop all of the items.
    *
-   * @param {Function} callback Callback function (Each item). Want to continue returns true.
+   * @param {function} callback Callback function (Each item). Want to continue returns true.
    */
   readSome (callback) {
     if (!(this._db)) {
@@ -216,8 +216,8 @@ export default class IndexedDBWrapper {
   /**
    * Add or update an item.
    *
-   * @param {Object}   item     Item. Updates if existing identifier is set.
-   * @param {Function} callback Callback function.
+   * @param {object} item Item. Updates if existing identifier is set.
+   * @param {function} callback Callback function.
    */
   add (item, callback) {
     if (!(this._db)) {
@@ -243,8 +243,8 @@ export default class IndexedDBWrapper {
   /**
    * Delete an item.
    *
-   * @param {Number}   id       Identifier of the item.
-   * @param {Function} callback Callback function.
+   * @param {number} id Identifier of the item.
+   * @param {function} callback Callback function.
    */
   remove (id, callback) {
     if (!(this._db)) {

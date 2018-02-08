@@ -1,5 +1,5 @@
 import Electron from 'electron'
-import { IPCKeys } from '../common/Constants.js'
+import { IPCKeys } from '../Constants.js'
 
 /**
  * Manage the dialog.

@@ -1,5 +1,5 @@
 import AudioEffectGraphicEqualizer from './AudioEffectGraphicEqualizer.js'
-import { GraphicEqulizerParams }   from '../../../common/Constants.js'
+import { GraphicEqulizerParams }   from '../../../Constants.js'
 
 const AppAudioContext = (window.AudioContext || window.webkitAudioContext)
 
@@ -65,7 +65,7 @@ export default class AudioPlayer {
 
     /**
      * Node that connects the source and the effector.
-     * @type {[type]}
+     * @type {GainNode}
      */
     this._sourceEffectNode = this._audioContext.createGain()
     this._sourceEffectNode.gain.value = 1.0
@@ -73,7 +73,7 @@ export default class AudioPlayer {
 
     /**
      * Indicates that the audio is playing.
-     * @type {Boolean}
+     * @type {boolean}
      */
     this._isPlaying = false
 
@@ -91,7 +91,7 @@ export default class AudioPlayer {
   /**
    * Get an audio duration.
    *
-   * @return {Number} duration.
+   * @return {number} duration.
    */
   get duration () {
     return (this._audio ? this._audio.duration : 0)
@@ -100,7 +100,7 @@ export default class AudioPlayer {
   /**
    * Get the currently playback time.
    *
-   * @return {Number} playback time (milliseconds).
+   * @return {number} playback time (milliseconds).
    */
   get currentTime () {
     return (this._audio ? this._audio.currentTime : 0)
@@ -109,7 +109,7 @@ export default class AudioPlayer {
   /**
    * Set the currently playback time.
    *
-   * @param {Number} playback time (milliseconds).
+   * @param {number} playback time (milliseconds).
    */
   set currentTime (value) {
     if (value === undefined || !(this._audio)) {
@@ -143,7 +143,7 @@ export default class AudioPlayer {
   /**
    * Get the audio volume.
    *
-   * @return {Number} volume (range: 0 - 100).
+   * @return {number} Volume (range: 0 - 100).
    */
   get volume () {
     return (this._gainNode.gain.value * 100)
@@ -152,7 +152,7 @@ export default class AudioPlayer {
   /**
    * Set the volume fro playback audio.
    *
-   * @param {Number} value New volume (range: 0 - 100).
+   * @param {number} value New volume (range: 0 - 100).
    */
   set volume (value) {
     if (0 <= value && value <= 100) {
@@ -173,8 +173,8 @@ export default class AudioPlayer {
   /**
    * Open an audio file for playback target.
    *
-   * @param {String}   filePath Audio file path.
-   * @param {Function} callback Callback function that occurs when load a file.
+   * @param {string} filePath Audio file path.
+   * @param {function} callback Callback function that occurs when load a file.
    */
   open (filePath, callback) {
     this.close()
@@ -227,8 +227,8 @@ export default class AudioPlayer {
   /**
    * Update the graphic equalizer.
    *
-   * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
-   * @param {Array.<Number>} gains   Gain values.
+   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {number[]} gains   Gain values.
    */
   updateGraphicEqualizer (connect, gains) {
     this._effectGraphicEqualizer.gains = gains

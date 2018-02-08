@@ -1,0 +1,11 @@
+@import "../../AppVariables.scss";
+
+.line {
+  @include unselectable();
+  position: absolute;
+  left: 0;
+  width: 38px;
+  text-align: right;
+  font-size: 11px;
+  cursor: default;
+}
