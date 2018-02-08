@@ -1,7 +1,6 @@
 import { Store } from 'material-flux'
 import { Keys } from '../action/MusicListAction.js'
-import { IPCKeys } from '../../../common/Constants.js'
-import Util from '../../../common/Util.js'
+import { IPCKeys } from '../../../Constants.js'
 import MusicDatabase from '../model/MusicDatabase.js'
 import MusicImporter from '../model/MusicImporter.js'
 import Artist from '../model/Artist.js'
@@ -33,12 +32,12 @@ export default class MusicListStore extends Store {
 
     /**
      * State of store.
-     * @type {Object}
+     * @type {object}
      */
     this.state = {
       /**
        * Artist list.
-       * @type {Array.<Artist>}
+       * @type {Artist[]}
        */
       artists: [],
 
@@ -65,7 +64,7 @@ export default class MusicListStore extends Store {
   /**
    * Get the all artist.
    *
-   * @return {Array.<Artist>} artists.
+   * @return {Artist[]} artists.
    */
   get artists () {
     return this.state.artists
@@ -93,8 +92,8 @@ export default class MusicListStore extends Store {
    * Get the next or previous music of the specified music.
    * Specified music it will return null if at the last of list.
    *
-   * @param {Music}   target Target music.
-   * @param {Boolean} prev   True if get in previous of the music. Default is false
+   * @param {Music} target Target music.
+   * @param {boolean} prev True if get in previous of the music. Default is false
    *
    * @return {Music} Success is music. Otherwise null.
    */
@@ -133,10 +132,10 @@ export default class MusicListStore extends Store {
   /**
    * Get the prevoius music.
    *
-   * @param  {Artist} artist     Currently artis.
-   * @param  {Album}  album      Currently album.
-   * @param  {Number} albumIndex Index of album in artist.albums
-   * @param  {Number} musicIndex Index of music in album.musics
+   * @param {Artist} artist Currently artis.
+   * @param {Album} album Currently album.
+   * @param {number} albumIndex Index of album in artist.albums
+   * @param {number} musicIndex Index of music in album.musics
    *
    * @return {Music} Success is music, Otherwise null
    */
@@ -158,10 +157,10 @@ export default class MusicListStore extends Store {
   /**
    * Get the next music.
    *
-   * @param  {Artist} artist     Currently artis.
-   * @param  {Album}  album      Currently album.
-   * @param  {Number} albumIndex Index of album in artist.albums
-   * @param  {Number} musicIndex Index of music in album.musics
+   * @param {Artist} artist Currently artis.
+   * @param {Album} album Currently album.
+   * @param {number} albumIndex Index of album in artist.albums
+   * @param {number} musicIndex Index of music in album.musics
    *
    * @return {Music} Success is music, Otherwise null
    */
@@ -187,7 +186,7 @@ export default class MusicListStore extends Store {
     this._db.init((err) => {
       if (err) {
         if (DEBUG) {
-          Util.error(err)
+          console.error(err)
         }
 
         return
@@ -243,7 +242,7 @@ export default class MusicListStore extends Store {
     this._db.remove(music.id, (err) => {
       if (err) {
         if (DEBUG) {
-          Util.error(err)
+          console.error(err)
         }
 
         return
@@ -288,13 +287,13 @@ export default class MusicListStore extends Store {
   /**
    * Occurs when it is initialized.
    *
-   * @param {Error}         err    Error information. Success is undefined.
-   * @param {Array.<Music>} musics Loaded music collection.
+   * @param {Error} err Error information. Success is undefined.
+   * @param {Music[]} musics Loaded music collection.
    */
   _onInitialize (err, musics) {
     if (err) {
       if (DEBUG) {
-        Util.error(err)
+        console.error(err)
       }
 
       return
@@ -318,22 +317,22 @@ export default class MusicListStore extends Store {
   /**
    * Occurs when a music file of impot has been executed.
    *
-   * @param {Error}  err     Error information. Success is undefined.
-   * @param {Music}  music   Music.
-   * @param {Number} process The processed number.
-   * @param {Number} total   The total number of music files.
+   * @param {Error} err Error information. Success is undefined.
+   * @param {Music} music Music.
+   * @param {number} process The processed number.
+   * @param {number} total The total number of music files.
    */
   _onProgressImportMusic (err, music, process, total) {
     if (err) {
       if (DEBUG) {
-        Util.error(err)
+        console.error(err)
       }
 
       return
     }
 
     if (DEBUG) {
-      Util.log('Import [' + process + '/' + total + '] : ' + music.path)
+      console.log('Import [' + process + '/' + total + '] : ' + music.path)
     }
 
     let artist = Artist.findByMusic(this.state.artists, music)
@@ -362,7 +361,7 @@ export default class MusicListStore extends Store {
   /**
    * Occurs when a import music has been finished.
    *
-   * @param {Boolean} canceld True if it is canceled. Default is false.
+   * @param {boolean} canceld True if it is canceled. Default is false.
    */
   _onFinishImportMusic (canceld) {
     if (canceld) {

@@ -7,24 +7,24 @@ export default class Artist {
   /**
    * Initialize instance.
    *
-   * @param {String} name Artist name.
+   * @param {string} name Artist name.
    */
   constructor (name) {
     /**
      * Artist name.
-     * @type {String}
+     * @type {string}
      */
     this._name = name
 
     /**
      * Artist albums.
-     * @type {Array.<Album>}
+     * @type {Album[]}
      */
     this._albums = []
 
     /**
      * Path of the image file.
-     * @type {String}
+     * @type {string}
      */
     this._image = null
   }
@@ -35,7 +35,7 @@ export default class Artist {
    * @param {Artist} a The first artist to compare.
    * @param {Artist} b The second artist to compare.
    *
-   * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
+   * @return {number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
   static compare (a, b) {
     const nameA = a.name.toLowerCase().replace('the ', '')
@@ -47,9 +47,9 @@ export default class Artist {
   /**
    * Create the artists from musics.
    *
-   * @param {Array.<Music>} musics Musics.
+   * @param {Music[]} musics Musics.
    *
-   * @return {Array.<Artist>} Artists.
+   * @return {Artist[]} Artists.
    */
   static fromMusics (musics) {
     const artists = []
@@ -76,8 +76,8 @@ export default class Artist {
   /**
    * Find the artist by music.
    *
-   * @param {Array.<Artist>} artists Artists.
-   * @param {Music}          music  Music.
+   * @param {Artist[]} artists Artists.
+   * @param {Music} music  Music.
    *
    * @return {Album} Success is artist, Otherwise null.
    */
@@ -98,7 +98,7 @@ export default class Artist {
   /**
    * Get the artist albums.
    *
-   * @return {Array.<Album>} albums.
+   * @return {Album[]} albums.
    */
   get albums () {
     return this._albums
@@ -107,7 +107,7 @@ export default class Artist {
   /**
    * Get the artist name.
    *
-   * @return {String} name.
+   * @return {string} name.
    */
   get name () {
     return this._name
@@ -116,7 +116,7 @@ export default class Artist {
   /**
    * Get the artist image.
    *
-   * @return {String} Path of the image file.
+   * @return {string} Path of the image file.
    */
   get image () {
     return this._image
@@ -127,7 +127,7 @@ export default class Artist {
    *
    * @param {Album} album Album.
    *
-   * @return {Boolean} Success is true.
+   * @return {boolean} Success is true.
    */
   add (album) {
     if (album.artist !== this._name) {
@@ -147,7 +147,7 @@ export default class Artist {
    *
    * @param {Album} album Album.
    *
-   * @return {Boolean} Success is true.
+   * @return {boolean} Success is true.
    */
   remove (album) {
     const albums = this._albums.filter((a) => {

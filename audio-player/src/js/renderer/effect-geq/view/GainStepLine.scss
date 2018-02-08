@@ -1,0 +1,12 @@
+@import "../../AppVariables.scss";
+
+.line {
+  position: absolute;
+  left: 40px;
+  right: 0;
+  border-top: solid 1px $color_gray_light;
+}
+
+.highlight {
+  border-top: solid 1px $color_gray;
+}

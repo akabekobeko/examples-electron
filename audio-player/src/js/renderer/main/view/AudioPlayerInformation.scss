@@ -1,0 +1,110 @@
+@import "../../AppVariables.scss";
+
+.information {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 256px;
+  right: 256px;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-left: solid 1px color_gray;
+  border-right: solid 1px color_gray;
+  background-color: $color_gray_lightness;
+}
+
+.image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: $size_player_height;
+  height: $size_player_height;
+  object-fit: contain;
+  background-color: $color_black;
+}
+
+.title {
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  left: $size_player_height;
+  right: 0;
+  font-size: 15px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.album {
+  position: absolute;
+  text-align: center;
+  top: 18px;
+  left: $size_player_height + 34px;
+  right: 34px;
+  font-size: 12px;
+  color: $color_gray_dark;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.playbacktime {
+  position: absolute;
+  top: 19px;
+  font-size: 12px;
+  color: $color_gray_dark;
+  left: $size_player_height + 4px;
+}
+
+.duration {
+  position: absolute;
+  top: 19px;
+  font-size: 12px;
+  color: $color_gray_dark;
+  right: 4px;
+}
+
+.slider {
+  position: absolute;
+  left: $size_player_height;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  height: 16px;
+}
+
+.slider input[type="range"] {
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 16px;
+  background-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -8px;
+    width: 4px;
+    height: 11px;
+    background-color: $color_indigo_dark;
+  }
+
+  &::-webkit-slider-runnable-track {
+    margin-top: 13px;
+    height: 2px;
+    background-color: $color_gray;
+  }
+}

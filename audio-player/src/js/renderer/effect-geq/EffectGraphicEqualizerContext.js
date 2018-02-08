@@ -1,11 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import { Context } from 'material-flux'
-import Util from '../../common/Util.js'
-import LocalStorage from '../common/LocalStorage.js'
+import LocalStorage from '../LocalStorage.js'
 import EffectGraphicEqualizerStore  from './store/EffectGraphicEqualizerStore.js'
 import EffectGraphicEqualizerAction from './action/EffectGraphicEqualizerAction.js'
-import EffectGraphicEqualizer from './view/EffectGraphicEqualizer.js'
 
 /**
  * Context of the graphic equalizer window.
@@ -13,14 +9,12 @@ import EffectGraphicEqualizer from './view/EffectGraphicEqualizer.js'
 export default class EffectGraphicEqualizerContext extends Context {
   /**
    * Initialize instance.
-   *
-   * @type {Element} elm Element of the rendering target.
    */
-  constructor (elm) {
+  constructor () {
     super()
 
     if (DEBUG) {
-      Util.log('Initialize EffectGraphicEqualizerContext')
+      console.log('Initialize EffectGraphicEqualizerContext')
     }
 
     /**
@@ -46,8 +40,5 @@ export default class EffectGraphicEqualizerContext extends Context {
      * @type {EffectGraphicEqualizerAction}
      */
     this.effectGraphicEqualizerAction = new EffectGraphicEqualizerAction(this)
-
-    // Setup window
-    ReactDOM.render(<EffectGraphicEqualizer context={this} />, elm)
   }
 }

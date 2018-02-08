@@ -1,71 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { PlaybackState } from '../../../common/Constants.js'
+import Styles from './AudioPlayerToolbar.scss'
 
 /**
- * Component for audio player toolbar.
+ * Component of an audio player toolbar.
+ *
+ * @param {object} props Properties.
+ * @param {function} props.onRemove Called when the music is removed.
+ * @param {function} props.onImport Called when the music is imported.
  */
-export default class AudioPlayerToolbar extends React.Component {
-  /**
-   * Initialize instance.
-   *
-   * @param {Object} props Properties.
-   */
-  constructor (props) {
-    super(props)
-
-    this._onClickRemoveButtonBind = this._onClickRemoveButton.bind(this)
-    this._onClickImportButtonBind = this._onClickImportButton.bind(this)
-  }
-
-  /**
-   * Render for component.
-   *
-   * @return {ReactElement} Rendering data.
-   */
-  render () {
-    return (
-      <div className="audio-player__container__toolbar">
-        <div className="audio-player__container__toolbar__container">
-          <div
-            className="audio-player__container__toolbar__container__button remove"
-            onClick={this._onClickRemoveButtonBind}>
-            <i className="icon-minus" />
-          </div>
-          <div
-            className="audio-player__container__toolbar__container__button import"
-            onClick={this._onClickImportButtonBind}>
-            <i className="icon-plus" />
-          </div>
+const AudioPlayerToolbar = ({ onRemove, onImport }) => {
+  return (
+    <div className={Styles.toolbar}>
+      <div className={Styles.container}>
+        <div
+          className={`${Styles.button} ${Styles.remove}`}
+          onClick={onRemove}>
+          <i className={'icon-minus'} />
+        </div>
+        <div
+          className={`${Styles.button} ${Styles.import}`}
+          onClick={onImport}>
+          <i className={'icon-plus'} />
         </div>
       </div>
-    )
-  }
-
-  /**
-   * Occurs when the remove music button is clicked.
-   */
-  _onClickRemoveButton () {
-    if (!(this.props.music)) { return }
-
-    if (this.props.playbackState !== PlaybackState.Stopped) {
-      if (this.props.playMusic && this.props.playMusic.id === this.props.music.id) { return }
-    }
-
-    this.props.musicListAction.remove(this.props.music)
-  }
-
-  /**
-   * Occurs when the import music button is clicked.
-   */
-  _onClickImportButton () {
-    this.props.musicListAction.import()
-  }
+    </div>
+  )
 }
 
 AudioPlayerToolbar.propTypes = {
-  musicListAction: PropTypes.object,
-  playbackState: PropTypes.number,
-  playMusic: PropTypes.object,
-  music: PropTypes.object
+  onRemove: PropTypes.func,
+  onImport: PropTypes.func
 }
+
+export default AudioPlayerToolbar

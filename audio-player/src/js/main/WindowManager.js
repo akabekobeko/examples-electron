@@ -1,7 +1,6 @@
 import Electron from 'electron'
 import Path from 'path'
-import Util from '../common/Util.js'
-import { IPCKeys } from '../common/Constants.js'
+import { IPCKeys } from '../Constants.js'
 
 /**
  * Define the type of window.
@@ -144,7 +143,7 @@ export default class WindowManager {
 
     w.on('closed', () => {
       if (DEBUG) {
-        Util.log('The main window was closed.')
+        console.log('The main window was closed.')
       }
 
       // Close an other windows
@@ -184,7 +183,7 @@ export default class WindowManager {
 
     w.on('closed', () => {
       if (DEBUG) {
-        Util.log('The about application window was closed.')
+        console.log('The about application window was closed.')
       }
 
       this._windows.delete(WindowTypes.About)
@@ -207,7 +206,7 @@ export default class WindowManager {
     let w = null
     if (process.platform === 'darwin') {
       w = new Electron.BrowserWindow({
-        width: 360,
+        width: 370,
         height: 300,
         resizable: false,
         alwaysOnTop: true
@@ -215,7 +214,7 @@ export default class WindowManager {
     } else {
       // Add a heigth for menu bar
       w = new Electron.BrowserWindow({
-        width: 380,
+        width: 370,
         height: 320,
         resizable: false,
         alwaysOnTop: true
@@ -226,7 +225,7 @@ export default class WindowManager {
 
     w.on('closed', () => {
       if (DEBUG) {
-        Util.log('The graphic equalizer window was closed.')
+        console.log('The graphic equalizer window was closed.')
       }
 
       this._windows.delete(WindowTypes.GraphicEqualizer)

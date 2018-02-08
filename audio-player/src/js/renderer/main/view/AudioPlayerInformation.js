@@ -1,23 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Util from '../../../common/Util.js'
-import SpectrumAnalyzer from './SpectrumAnalyzer.js'
+import Util from '../../../Util.js'
+import SpectrumAnalyzer from './AudioPlayerSpectrumAnalyzer.js'
+import Styles from './AudioPlayerInformation.scss'
 
 /**
  * Component for audio player information display.
  */
-export default class AudioPlayerInfo extends React.Component {
+class AudioPlayerInformation extends React.Component {
   /**
    * Initialize instance.
    *
-   * @param {Object} props Properties.
+   * @param {object} props Properties.
    */
   constructor (props) {
     super(props)
 
     /**
      * State of component.
-     * @type {Object}
+     * @type {object}
      */
     this.state = {
       useSpectrumAnalyzer: false
@@ -25,16 +26,6 @@ export default class AudioPlayerInfo extends React.Component {
 
     this._onClickInfoDisplayBind       = this._onClickInfoDisplay.bind(this)
     this._onChangePlaybackPositionBind = this._onChangePlaybackPosition.bind(this)
-  }
-
-  /**
-   * occur when the component did mount.
-   */
-  componentDidMount () {
-    this._canvas = this.refs.canvas
-    if (this._canvas) {
-      this._canvasContext = this._canvas.getContext('2d')
-    }
   }
 
   /**
@@ -64,25 +55,22 @@ export default class AudioPlayerInfo extends React.Component {
     const style = {display: this.state.useSpectrumAnalyzer ? 'none' : 'block'}
 
     return (
-      <div className="audio-player__container__info">
-        <div className="audio-player__container__info__container">
-          <img
-            className="audio-player__container__info__container__image"
-            src={info.image} />
+      <div className={Styles.information}>
+        <div className={Styles.container}>
+          <img className={Styles.image} src={info.image} />
           <SpectrumAnalyzer
             audioPlayerStore={this.props.audioPlayerStore}
             useSpectrumAnalyzer={this.state.useSpectrumAnalyzer}
             onClickInfoDisplay={this._onClickInfoDisplayBind} />
           <div
-            className="audio-player__container__info__container__info"
             style={style}
             onClick={this._onClickInfoDisplayBind}>
-            <div className="audio-player__container__info__container__title">{info.title}</div>
-            <div className="audio-player__container__info__container__artist-album">{info.albumArtist}</div>
-            <div className="audio-player__container__info__container__time playbacktime">{info.currentTimeText}</div>
-            <div className="audio-player__container__info__container__time duration">{info.durationText}</div>
+            <div className={Styles.title}>{info.title}</div>
+            <div className={Styles.album}>{info.albumArtist}</div>
+            <div className={Styles.playbacktime}>{info.currentTimeText}</div>
+            <div className={Styles.duration}>{info.durationText}</div>
           </div>
-          <div className="audio-player__container__info__container__slider">
+          <div className={Styles.slider}>
             <input
               type="range"
               min={0}
@@ -112,8 +100,10 @@ export default class AudioPlayerInfo extends React.Component {
   }
 }
 
-AudioPlayerInfo.propTypes = {
+AudioPlayerInformation.propTypes = {
   audioPlayerStore: PropTypes.object,
   audioPlayerAction: PropTypes.object,
   music: PropTypes.object
 }
+
+export default AudioPlayerInformation

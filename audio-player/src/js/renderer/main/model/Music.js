@@ -21,7 +21,7 @@ export default class Music {
    * @param {Music} a The first music to compare.
    * @param {Music} b The second music to compare.
    *
-   * @return {Number} -1 = first is less than second, 0 = first equals second, first is greater than second.
+   * @return {number} -1 = first is less than second, 0 = first equals second, first is greater than second.
    */
   static compare (a, b) {
     if (a.disc !== b.disc) {
@@ -58,7 +58,7 @@ export default class Music {
   /**
    * Get the identifier assigned from MusicDatabase.
    *
-   * @return {Number} Identifier.
+   * @return {number} Identifier.
    */
   get id () {
     return this._metadata.id
@@ -67,7 +67,7 @@ export default class Music {
   /**
    * Get the music file path.
    *
-   * @return {String} File path.
+   * @return {string} File path.
    */
   get path () {
     return this._metadata.path
@@ -76,7 +76,7 @@ export default class Music {
   /**
    * Get the artist name.
    *
-   * @return {String} Artist name.
+   * @return {string} Artist name.
    */
   get artist () {
     return this._metadata.artist
@@ -85,7 +85,7 @@ export default class Music {
   /**
    * Get the album name.
    *
-   * @return {String} Album name.
+   * @return {string} Album name.
    */
   get album () {
     return this._metadata.album
@@ -94,7 +94,7 @@ export default class Music {
   /**
    * Get the title of music.
    *
-   * @return {String} Album name.
+   * @return {string} Album name.
    */
   get title () {
     return this._metadata.title
@@ -103,7 +103,7 @@ export default class Music {
   /**
    * Get the releseed year of music.
    *
-   * @return {String} Year.
+   * @return {string} Year.
    */
   get year () {
     return this._metadata.year
@@ -112,7 +112,7 @@ export default class Music {
   /**
    * Get the track number.
    *
-   * @return {Number} Track number (range: 1 - N).
+   * @return {number} Track number (range: 1 - N).
    */
   get track () {
     return this._metadata.track
@@ -121,7 +121,7 @@ export default class Music {
   /**
    * Get the disc number.
    *
-   * @return {Number} Disc number (range: 1 - N).
+   * @return {number} Disc number (range: 1 - N).
    */
   get disc () {
     return this._metadata.disc
@@ -130,7 +130,7 @@ export default class Music {
   /**
    * Get the genre name.
    *
-   * @return {String} Genre name.
+   * @return {string} Genre name.
    */
   get genre () {
     return this._metadata.genre
@@ -139,7 +139,7 @@ export default class Music {
   /**
    * Get the duration of music.
    *
-   * @return {Number} Duration of music (Seconds).
+   * @return {number} Duration of music (Seconds).
    */
   get duration () {
     return this._metadata.duration
@@ -148,7 +148,7 @@ export default class Music {
   /**
    * Get the image file path of mucis.
    *
-   * @return {String} Image file path.
+   * @return {string} Image file path.
    */
   get image () {
     return this._metadata.image

@@ -7,9 +7,9 @@ export default class Util {
    * Converts the value of the Date object to its equivalent string representation using the specified format.
    *
    * @param {Date}   date   Date and time. Default is current date and time.
-   * @param {String} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
+   * @param {string} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
    *
-   * @return {String} Formatted string.
+   * @return {string} Formatted string.
    *
    * @see http://qiita.com/osakanafish/items/c64fe8a34e7221e811d0
    */
@@ -45,9 +45,9 @@ export default class Util {
   /**
    * Convert the seconds to a string.
    *
-   * @param {Number} seconds Seconds.
+   * @param {number} seconds Seconds.
    *
-   * @return {String} Converted string.
+   * @return {string} Converted string.
    */
   static secondsToString (seconds) {
     const total = Math.round(seconds)
@@ -60,23 +60,5 @@ export default class Util {
     }
 
     return (0 < h ? h + ':' + padding(m) + ':' + padding(s) : 0 < m ? m + ':' + padding(s) : '0:' + padding(s))
-  }
-
-  /**
-   * Output console log with datetime.
-   *
-   * @param {Array} args Message arguments.
-   */
-  static log (...args) {
-    console.log('[' + Util.formatDate() + ']', ...args)
-  }
-
-  /**
-   * Output console error with datetime.
-   *
-   * @param {Array} args Message arguments.
-   */
-  static error (...args) {
-    console.error('[' + Util.formatDate() + ']', ...args)
   }
 }

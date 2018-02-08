@@ -7,37 +7,37 @@ export default class Album {
   /**
    * Initialize instance.
    *
-   * @param {String} artist Artist name.
-   * @param {String} name   Album name.
+   * @param {string} artist Artist name.
+   * @param {string} name   Album name.
    */
   constructor (artist, name) {
     /**
      * Album name.
-     * @type {String}
+     * @type {string}
      */
     this._name = name
 
     /**
      * Artist name.
-     * @type {String}
+     * @type {string}
      */
     this._artist = artist
 
     /**
      * Album albums.
-     * @type {Array.<Music>}
+     * @type {Music[]}
      */
     this._musics = []
 
     /**
      * Path of the image file.
-     * @type {String}
+     * @type {string}
      */
     this._image = null
 
     /**
      * Released Year of the album.
-     * @type {String}
+     * @type {string}
      */
     this._year = null
   }
@@ -61,8 +61,8 @@ export default class Album {
   /**
    * Find the album by music.
    *
-   * @param {Array.<Album>} albums Albums.
-   * @param {Music}         music  Music.
+   * @param {Album[]} albums Albums.
+   * @param {Music} music  Music.
    *
    * @return {Album} Success is album, Otherwise null.
    */
@@ -83,7 +83,7 @@ export default class Album {
   /**
    * Get the album musics.
    *
-   * @return {Array.<Music>} musics.
+   * @return {Music[]} musics.
    */
   get musics () {
     return this._musics
@@ -92,7 +92,7 @@ export default class Album {
   /**
    * Get the artist name.
    *
-   * @return {String} name.
+   * @return {string} name.
    */
   get artist () {
     return this._artist
@@ -101,7 +101,7 @@ export default class Album {
   /**
    * Get the album name.
    *
-   * @return {String} name.
+   * @return {string} name.
    */
   get name () {
     return this._name
@@ -110,7 +110,7 @@ export default class Album {
   /**
    * Get the album image.
    *
-   * @return {String} Path of the image file.
+   * @return {string} Path of the image file.
    */
   get image () {
     return this._image
@@ -119,7 +119,7 @@ export default class Album {
   /**
    * Get the album released year.
    *
-   * @return {String} year.
+   * @return {string} year.
    */
   get year () {
     return this._year
@@ -130,7 +130,7 @@ export default class Album {
    *
    * @param {Music} music Music.
    *
-   * @return {Boolean} Success is true.
+   * @return {boolean} Success is true.
    */
   add (music) {
     if (music.album !== this._name) {
@@ -151,7 +151,7 @@ export default class Album {
    *
    * @param {Music} music Music.
    *
-   * @return {Boolean} Success is true.
+   * @return {boolean} Success is true.
    */
   remove (music) {
     const musics = this._musics.filter((m) => {

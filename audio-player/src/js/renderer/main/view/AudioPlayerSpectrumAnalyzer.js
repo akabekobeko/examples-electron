@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { PlaybackState } from '../../../common/Constants.js'
+import Styles from './AudioPlayerSpectrumAnalyzer.scss'
+import { PlaybackState } from '../../../Constants.js'
 
-/**
- * Max spectrum value.
- * @type {Number}
- */
 const MAX_SPECTRUM = 255
 
 /**
  * Component for audio spectrum analyzer.
  */
-export default class SpectrumAnalyzer extends React.Component {
+class AudioPlayerSpectrumAnalyzer extends React.Component {
   /**
    * Initialize instance.
    *
@@ -34,7 +31,7 @@ export default class SpectrumAnalyzer extends React.Component {
 
     /**
      * Identifier obtained from requestAnimationFrame.
-     * @type {Number}
+     * @type {number}
      */
     this._animationId = null
 
@@ -83,7 +80,7 @@ export default class SpectrumAnalyzer extends React.Component {
     const style = { display: this.props.useSpectrumAnalyzer ? 'block' : 'none' }
     return (
       <div
-        className="audio-player__container__info__container__spectrum-analyzer"
+        className={Styles.analyzer}
         style={style}
         onClick={this.props.onClickInfoDisplay}>
         <canvas ref="canvas" />
@@ -94,9 +91,9 @@ export default class SpectrumAnalyzer extends React.Component {
   /**
    * Draw the spectrum backgrounds.
    *
-   * @param {Array.<Number>} spectrums Spectrum values ( range: 0 - 255 ).
-   * @param {Number}         baseX     The x-coordinate of the upper-left corner of the rectangle ( px ).
-   * @param {Number}         width     The width of the rectangle ( px ).
+   * @param {number[]} spectrums Spectrum values ( range: 0 - 255 ).
+   * @param {number} baseX The x-coordinate of the upper-left corner of the rectangle ( px ).
+   * @param {number} width The width of the rectangle ( px ).
    */
   _drawBackground (spectrums, baseX, width) {
     this._canvasContext.fillStyle = '#ecf0f1'
@@ -110,12 +107,12 @@ export default class SpectrumAnalyzer extends React.Component {
   /**
    * Draw the spectrum graphs.
    *
-   * @param {Array.<Number>} spectrums Spectrum values ( range: 0 - 255 ).
-   * @param {Number}         baseX     The x-coordinate of the upper-left corner of the rectangle ( px ).
-   * @param {Number}         width     The width of the rectangle ( px ).
+   * @param {number[]} spectrums Spectrum values ( range: 0 - 255 ).
+   * @param {number} baseX The x-coordinate of the upper-left corner of the rectangle ( px ).
+   * @param {number} width The width of the rectangle ( px ).
    */
   _drawGraph (spectrums, baseX, width) {
-    let percent = spectrums[ 0 ] / MAX_SPECTRUM
+    let percent = spectrums[0] / MAX_SPECTRUM
     let height  = this._canvas.height * percent
     let y       = this._canvas.height - height
 
@@ -123,7 +120,7 @@ export default class SpectrumAnalyzer extends React.Component {
     this._canvasContext.fillRect(0, y, width, height)
 
     for (let i = 1, max = spectrums.length; i < max; ++i) {
-      percent = spectrums[ i ] / MAX_SPECTRUM
+      percent = spectrums[i] / MAX_SPECTRUM
       height  = this._canvas.height * percent
       y       = this._canvas.height - height
 
@@ -136,7 +133,9 @@ export default class SpectrumAnalyzer extends React.Component {
    */
   _startSpectrumAnalyzer () {
     const spectrums = this.props.audioPlayerStore.spectrums
-    if (!(spectrums)) { return }
+    if (!(spectrums)) {
+      return
+    }
 
     this._adjustCanvasSize()
     this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height)
@@ -165,13 +164,21 @@ export default class SpectrumAnalyzer extends React.Component {
   _adjustCanvasSize () {
     const width  = this._canvas.offsetWidth  * window.devicePixelRatio
     const height = this._canvas.offsetHeight * window.devicePixelRatio
-    if (this._canvas.width  !== width) { this._canvas.width  = width  }
-    if (this._canvas.height !== height) { this._canvas.height = height }
+
+    if (this._canvas.width !== width) {
+      this._canvas.width  = width
+    }
+
+    if (this._canvas.height !== height) {
+      this._canvas.height = height
+    }
   }
 }
 
-SpectrumAnalyzer.propTypes = {
+AudioPlayerSpectrumAnalyzer.propTypes = {
   audioPlayerStore: PropTypes.object,
   onClickInfoDisplay: PropTypes.func,
   useSpectrumAnalyzer: PropTypes.bool
 }
+
+export default AudioPlayerSpectrumAnalyzer

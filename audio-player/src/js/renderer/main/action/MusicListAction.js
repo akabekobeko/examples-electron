@@ -2,7 +2,7 @@ import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
- * @type {Object}
+ * @type {object}
  */
 export const Keys = {
   init: 'MusicListAction.init',

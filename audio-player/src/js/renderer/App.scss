@@ -1,0 +1,99 @@
+@import "./AppVariables.scss";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: $color_text;
+  font-family: sans-serif;
+}
+
+:global {
+  .app {
+    width: 100%;
+    height: 100%;
+    background-color: $color_white;
+  }
+}
+
+@font-face {
+  font-family: "icon";
+  src:url("fonts/icon.eot?lct42d");
+  src:url("fonts/icon.eot?lct42d#iefix") format("embedded-opentype"),
+    url("fonts/icon.ttf?lct42d") format("truetype"),
+    url("fonts/icon.woff?lct42d") format("woff"),
+    url("fonts/icon.svg?lct42d#icon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  @include icon_style();
+}
+
+:global {
+  .icon-rew:before {
+    content: $icon_rew;
+  }
+  .icon-warning:before {
+    content: $icon_warning;
+  }
+  .icon-ff:before {
+    content: $icon_ff;
+  }
+  .icon-prev:before {
+    content: $icon_prev;
+  }
+  .icon-next:before {
+    content: $icon_next;
+  }
+  .icon-pause:before {
+    content: $icon_pause;
+  }
+  .icon-play:before {
+    content: $icon_play;
+  }
+  .icon-stop:before {
+    content: $icon_stop;
+  }
+  .icon-mute:before {
+    content: $icon_mute;
+  }
+  .icon-volume:before {
+    content: $icon_volume;
+  }
+  .icon-cross:before {
+    content: $icon_cross;
+  }
+  .icon-minus:before {
+    content: $icon_minus;
+  }
+  .icon-plus:before {
+    content: $icon_plus;
+  }
+  .icon-config:before {
+    content: $icon_config;
+  }
+  .icon-help:before {
+    content: $icon_help;
+  }
+  .icon-info:before {
+    content: $icon_info;
+  }
+  .icon-github:before {
+    content: $icon_github;
+  }
+  .icon-chevron_down:before {
+    content: $icon_chevron_down;
+  }
+  .icon-chevron_left:before {
+    content: $icon_chevron_left;
+  }
+  .icon-chevron_right:before {
+    content: $icon_chevron_right;
+  }
+  .icon-chevron_up:before {
+    content: $icon_chevron_up;
+  }
+}

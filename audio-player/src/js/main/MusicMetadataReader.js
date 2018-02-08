@@ -3,8 +3,7 @@ import Fs from 'fs'
 import Path from 'path'
 import Crypto from 'crypto'
 import MusicMetadata from 'musicmetadata'
-import { IPCKeys } from '../../common/Constants.js'
-import Util from '../../common/Util.js'
+import { IPCKeys } from '../Constants.js'
 import FileUtil from './FileUtil.js'
 
 /**
@@ -28,7 +27,7 @@ export default class MusicMetadataReader {
       FileUtil.mkdir(this._saveImageDirPath, (err) => {
         if (err) {
           if (DEBUG) {
-            Util.error(err)
+            console.error(err)
           }
         }
       })
@@ -132,7 +131,7 @@ export default class MusicMetadataReader {
         const newParams = params
         if (err) {
           if (DEBUG) {
-            Util.error(err)
+            console.error(err)
           }
         } else {
           newParams.image = filePath
