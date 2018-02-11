@@ -5,9 +5,9 @@ import MusicListStore from './store/MusicListStore.js'
 import MusicListAction from './action/MusicListAction.js'
 
 /**
- * Context of the main window.
+ * Context of application.
  */
-export default class MainWindowContext extends Context {
+export default class AppContext extends Context {
   /**
    * Initialize instance.
    */

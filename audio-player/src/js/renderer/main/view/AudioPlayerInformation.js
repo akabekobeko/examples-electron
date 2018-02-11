@@ -7,7 +7,7 @@ import Styles from './AudioPlayerInformation.scss'
 /**
  * Component for audio player information display.
  */
-class AudioPlayerInformation extends React.Component {
+export default class AudioPlayerInformation extends React.Component {
   /**
    * Initialize instance.
    *
@@ -105,5 +105,3 @@ AudioPlayerInformation.propTypes = {
   audioPlayerAction: PropTypes.object,
   music: PropTypes.object
 }
-
-export default AudioPlayerInformation

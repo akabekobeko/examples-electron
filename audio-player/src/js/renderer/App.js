@@ -1,10 +1,10 @@
 import './App.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import MainWindowContext from './main/MainWindowContext.js'
-import MainWindow from './main/view/MainWindow.js'
-import EffectGraphicEqualizerContext from './effect-geq/EffectGraphicEqualizerContext.js'
-import EffectGraphicEqualizer from './effect-geq/view/Effector.js'
+import AppContextMain from './main/AppContext.js'
+import AppContainerMain from './main/view/AppContainer.js'
+import AppContextEffectGraphicEqualizer from './effect-geq/AppContext.js'
+import AppContainerEffectGraphicEqualizer from './effect-geq/view/AppContainer.js'
 
 // Compile switch
 global.DEBUG = true
@@ -16,13 +16,13 @@ window.onload = () => {
   let context = null
   switch (elm.dataset.mode) {
     case 'effect-graphic-equalizer':
-      context = new EffectGraphicEqualizerContext(elm)
-      ReactDOM.render(<EffectGraphicEqualizer context={context} />, elm)
+      context = new AppContextEffectGraphicEqualizer(elm)
+      ReactDOM.render(<AppContainerEffectGraphicEqualizer context={context} />, elm)
       break
 
     default:
-      context = new MainWindowContext(elm)
-      ReactDOM.render(<MainWindow context={context} />, elm)
+      context = new AppContextMain(elm)
+      ReactDOM.render(<AppContainerMain context={context} />, elm)
       break
   }
 

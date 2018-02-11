@@ -9,7 +9,7 @@ import { PlaybackState } from '../../../Constants.js'
  * Component of the album list.
  *
  * @param {object} props Properties.
- * @param {MainWindowContext} props.context Context.
+ * @param {AppContext} props.context Context.
  */
 const AlbumListContainer = ({ context }) => {
   const playingMusic = context.audioPlayerStore.playbackState === PlaybackState.Stopped ? null : context.audioPlayerStore.currentMusic

@@ -7,7 +7,7 @@ import Item from './ArtistListItem.js'
  * Component of the artist list.
  *
  * @param {object} props Properties.
- * @param {MainWindowContext} props.context Context.
+ * @param {AppContext} props.context Context.
  */
 const ArtistListContainer = ({ context }) => {
   const current = context.musicListStore.currentArtist
