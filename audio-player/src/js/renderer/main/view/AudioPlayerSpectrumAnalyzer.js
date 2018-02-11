@@ -8,7 +8,7 @@ const MAX_SPECTRUM = 255
 /**
  * Component for audio spectrum analyzer.
  */
-class AudioPlayerSpectrumAnalyzer extends React.Component {
+export default class AudioPlayerSpectrumAnalyzer extends React.Component {
   /**
    * Initialize instance.
    *
@@ -180,5 +180,3 @@ AudioPlayerSpectrumAnalyzer.propTypes = {
   onClickInfoDisplay: PropTypes.func,
   useSpectrumAnalyzer: PropTypes.bool
 }
-
-export default AudioPlayerSpectrumAnalyzer

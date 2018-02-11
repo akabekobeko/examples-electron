@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Styles from './AppContainer.scss'
 import SplitPane from 'react-split-pane'
-import Styles from './MainWindow.scss'
 import AudioPlayer from './AudioPlayerContainer.js'
 import ArtistList from './ArtistListContainer.js'
 import AlbumList from './AlbumListContainer.js'
 
 /**
- * Component for main window.
+ * Component of application container.
  */
-class MainWindow extends React.Component {
+export default class AppContainer extends React.Component {
   /**
    * Initialize instance.
    *
@@ -63,8 +63,6 @@ class MainWindow extends React.Component {
   }
 }
 
-MainWindow.propTypes = {
+AppContainer.propTypes = {
   context: PropTypes.object
 }
-
-export default MainWindow

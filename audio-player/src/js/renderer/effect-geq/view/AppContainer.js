@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Styles from './Effector.scss'
+import Styles from './AppContainer.scss'
 import Header from './HeaderContainer.js'
 import Gain from './GainContainer.js'
 
 /**
- * A component of the audio effector's window.
+ * A component of application container..
  */
-class Effector extends React.Component {
+export default class AppContainer extends React.Component {
   /**
    * Initialize instance.
    *
@@ -66,8 +66,6 @@ class Effector extends React.Component {
   }
 }
 
-Effector.propTypes = {
+AppContainer.propTypes = {
   context: PropTypes.object
 }
-
-export default Effector

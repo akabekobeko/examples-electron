@@ -6,7 +6,7 @@ import EffectGraphicEqualizerAction from './action/EffectGraphicEqualizerAction.
 /**
  * Context of the graphic equalizer window.
  */
-export default class EffectGraphicEqualizerContext extends Context {
+export default class AppContext extends Context {
   /**
    * Initialize instance.
    */

@@ -9,7 +9,7 @@ import { PlaybackState } from '../../../Constants.js'
 /**
  * Get music that are being played or selected on the music list.
  *
- * @param {MainWindowContext} context Context.
+ * @param {AppContext} context Context.
  *
  * @return {Music} Current music.
  */
@@ -24,7 +24,7 @@ const getCurrentMusic = (context) => {
 /**
  * Play a music.
  *
- * @param {MainWindowContext} context Context.
+ * @param {AppContext} context Context.
  * @param {Music} music Music.
  */
 const playMusic = (context, music) => {
@@ -49,7 +49,7 @@ const playMusic = (context, music) => {
 /**
  * Play a next music.
  *
- * @param {MainWindowContext} context Context.
+ * @param {AppContext} context Context.
  * @param {Music} music Music.
  * @param {boolean} prev "true" if you play the previous song instead of the next one.
  */
@@ -68,7 +68,7 @@ const playNextMusic = (context, music, prev) => {
 /**
  * Remove a music.
  *
- * @param {MainWindowContext} context Context.
+ * @param {AppContext} context Context.
  * @param {Music} music Music.
  */
 const removeMusic = (context, music) => {
@@ -84,7 +84,7 @@ const removeMusic = (context, music) => {
  * Component of an audio player.
  *
  * @param {object} props Properties.
- * @param {MainWindowContext} props.context Context.
+ * @param {AppContext} props.context Context.
  */
 const AudioPlayerContainer = ({ context }) => {
   const music = getCurrentMusic(context)
