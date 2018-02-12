@@ -8,8 +8,8 @@ export default class FileUtil {
    * Asynchronous mkdir(2). No arguments other than a possible exception are given to the completion callback.
    * mode defaults to 0o777.
    *
-   * @param  {String}   path Directory path.
-   * @param  {Function} cb   Callback function.
+   * @param {string} path Directory path.
+   * @param {function} cb Callback function.
    */
   static mkdir (path, cb) {
     if (FileUtil.existsSync(path)) {
@@ -25,10 +25,10 @@ export default class FileUtil {
   /**
    * Asynchronously writes data to a file, replacing the file if it already exists. data can be a buffer.
    *
-   * @param  {String}      path      Write file path.
-   * @param  {ArrayBuffer} data      Target data.
-   * @param  {Function}    cb        Callback function.
-   * @param  {Boolean}     overwrite True if to overwrite the file. Default is false.
+   * @param {string} path Write file path.
+   * @param {ArrayBuffer} data Target data.
+   * @param {function} cb Callback function.
+   * @param {boolean} overwrite True if to overwrite the file. Default is false.
    */
   static writeFile (path, data, cb, overwrite) {
     if (!(overwrite) && FileUtil.existsSync(path)) {
@@ -44,9 +44,9 @@ export default class FileUtil {
   /**
    * Check the existence of a file or folder.
    *
-   * @param {String} path Path of the file or folder.
+   * @param {string} path Path of the file or folder.
    *
-   * @return {Boolean} True if exists. Otherwise false.
+   * @return {boolean} "true" if exists. Otherwise false.
    */
   static existsSync (path) {
     try {

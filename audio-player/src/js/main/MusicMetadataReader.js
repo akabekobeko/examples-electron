@@ -13,12 +13,12 @@ export default class MusicMetadataReader {
   /**
    * Initialize instance.
    *
-   * @param {Main} context Application context.
+   * @param {App} context Application context.
    */
   constructor (context) {
     /**
      * Path of the folder in which to save the image.
-     * @type {String}
+     * @type {string}
      */
     this._saveImageDirPath = Path.join(Electron.app.getPath('userData'), 'images')
 
@@ -39,7 +39,7 @@ export default class MusicMetadataReader {
   /**
    * Get the save image directory path.
    *
-   * @return {String} Directory path.
+   * @return {string} Directory path.
    */
   get saveImageDirPath () {
     return this._saveImageDirPath
@@ -48,7 +48,7 @@ export default class MusicMetadataReader {
   /**
    * Set the save image directory path.
    *
-   * @param {String} path Directory path.
+   * @param {string} path Directory path.
    */
   set saveImageDirPath (path) {
     this._saveImageDirPath = path
@@ -57,7 +57,7 @@ export default class MusicMetadataReader {
   /**
    * Read the metadata from music file.
    *
-   * @param {String}   filePath Music file path.
+   * @param {string} filePath Music file path.
    * @param {Function} callback Callback function.
    */
   read (filePath, callback) {
@@ -93,7 +93,7 @@ export default class MusicMetadataReader {
   /**
    * Read the metadata from music file.
    *
-   * @param {String} filePath Music file path.
+   * @param {string} filePath Music file path.
    *
    * @return {Promise} Instance of Promise.
    */
@@ -113,7 +113,7 @@ export default class MusicMetadataReader {
   /**
    * Read and save the image from music metadata.
    *
-   * @param {Object} params Music metadata.
+   * @param {object} params Music metadata.
    */
   _readImage (params) {
     return new Promise((resolve) => {
@@ -147,7 +147,7 @@ export default class MusicMetadataReader {
    *
    * @param {ArrayBuffer} data Ninary data.
    *
-   * @return {String} Hash string.
+   * @return {string} Hash string.
    */
   _getHash (data) {
     const sha = Crypto.createHash('sha1')
@@ -159,8 +159,8 @@ export default class MusicMetadataReader {
   /**
    * Occurs when the import of music files has been requested.
    *
-   * @param {Event}  ev       Event data.
-   * @param {String} filePath Music file path.
+   * @param {Event} ev Event data.
+   * @param {string} filePath Music file path.
    */
   _onRequestReadMusicMetadata (ev, filePath) {
     if (!(filePath)) {

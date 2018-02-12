@@ -4,7 +4,7 @@ import { IPCKeys } from '../Constants.js'
 
 /**
  * Define the type of window.
- * @type {Object}
+ * @type {object}
  */
 export const WindowTypes = {
   Main: 'main',
@@ -19,7 +19,7 @@ export default class WindowManager {
   /**
    * Initialize instance.
    *
-   * @param {Main} context Application context.
+   * @param {App} context Application context.
    */
   constructor (context) {
     /**
@@ -240,9 +240,9 @@ export default class WindowManager {
   /**
    * Occurs when the graphic equalizer update is requested.
    *
-   * @param {IPCEvent}       ev      Event data.
-   * @param {Boolean}        connect If true to connect the effector, Otherwise disconnect.
-   * @param {Array.<Number>} gains   Gain values.
+   * @param {IPCEvent} ev Event data.
+   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {number[]} gains Gain values.
    */
   _onRequestUpdateGraphicEqualizer (ev, connect, gains) {
     const w = this._windows.get(WindowTypes.Main)
