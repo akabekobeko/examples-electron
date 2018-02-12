@@ -1,7 +1,6 @@
 import Electron from 'electron'
 import Path from 'path'
-import Util from '../common/Util.js'
-import { IPCKeys } from '../common/Constants.js'
+import { IPCKeys } from '../Constants.js'
 
 /**
  * Manage the window.
@@ -10,18 +9,18 @@ export default class WindowManager {
   /**
    * Initialize instance.
    *
-   * @param {Main} context Application context.
+   * @param {App} context Application context.
    */
   constructor (context) {
     /**
      * Application context.
-     * @type {Main}
+     * @type {App}
      */
     this._context = context
 
     /**
      * Collection of a managed window.
-     * @type {Map.<String, BrowserWindow>}
+     * @type {Map.<string, BrowserWindow>}
      */
     this._windows = new Map()
 
@@ -74,7 +73,7 @@ export default class WindowManager {
 
     w.on('closed', () => {
       if (DEBUG) {
-        Util.log('Window was closed, id = ' + id)
+        console.log('Window was closed, id = ' + id)
       }
 
       // Unregister
@@ -112,7 +111,7 @@ export default class WindowManager {
 
     w.on('closed', () => {
       if (DEBUG) {
-        Util.log('The about application window was closed.')
+        console.log('The about application window was closed.')
       }
 
       this._aboutDialog = null
@@ -127,7 +126,7 @@ export default class WindowManager {
   /**
    * Notify that the window ID list has been updated.
    *
-   * @param {Number} excludeID Exclude ID.
+   * @param {number} excludeID Exclude ID.
    */
   _notifyUpdateWindowIDs (excludeID) {
     const windowIDs = []
@@ -160,9 +159,9 @@ export default class WindowManager {
   /**
    * Occurs when a send message requested.
    *
-   * @param {IPCEvent} ev      Event data.
-   * @param {Number}   id      Target window's identifier.
-   * @param {String}   message Message.
+   * @param {IPCEvent} ev Event data.
+   * @param {number} id Target window's identifier.
+   * @param {string} message Message.
    */
   _onRequestSendMessage (ev, id, message) {
     const w = this._windows.get(id)

@@ -2,7 +2,7 @@ import { Action } from 'material-flux'
 
 /**
  * Define keys for action.
- * @type {Object}
+ * @type {object}
  */
 export const Keys = {
   updateDatetime: 'SampleAction.updateDatetime',
@@ -23,7 +23,7 @@ export default class SampleAction extends Action {
   /**
    * Show a URL in an external web browser.
    *
-   * @param {String} url URL.
+   * @param {string} url URL.
    */
   showURL (url) {
     this.dispatch(Keys.showURL, url)

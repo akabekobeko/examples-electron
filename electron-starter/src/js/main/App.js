@@ -1,9 +1,8 @@
 import Electron from 'electron'
-import Util from '../common/Util.js'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager from './WindowManager.js'
-import { IPCKeys } from '../common/Constants.js'
+import { IPCKeys } from '../Constants.js'
 
 /**
  * Application entry point.
@@ -16,20 +15,20 @@ class App {
     // Compile switch
     global.DEBUG = true
     if (DEBUG) {
-      Util.log('Initialize Application')
+      console.log('Initialize Application')
     }
 
     /**
      * IPC module for main process.
      * @type {ipcMain}
      */
-    this._ipc = require('electron').ipcMain
+    this._ipc = Electron.ipcMain
 
     /**
      * The shell module provides functions related to desktop integration.
      * @type {shell}
      */
-    this._shell = require('electron').shell
+    this._shell = Electron.shell
 
     /**
      * Manage the window.
@@ -51,6 +50,7 @@ class App {
 
   /**
    * Get the IPC module.
+   *
    * @return {ipcMain} IPC module.
    */
   get ipc () {
@@ -59,6 +59,7 @@ class App {
 
   /**
    * Get the shell module.
+   *
    * @return {shell} IPC module.
    */
   get shell () {
@@ -89,7 +90,7 @@ class App {
    */
   onWindowAllClosed () {
     if (DEBUG) {
-      Util.log('Quit')
+      console.log('Quit')
     }
 
     Electron.app.quit()
@@ -99,7 +100,7 @@ class App {
 const app = new App()
 Electron.app.on('ready', () => {
   if (DEBUG) {
-    Util.log('Application is ready')
+    console.log('Application is ready')
   }
 
   app.onReady()
@@ -107,13 +108,13 @@ Electron.app.on('ready', () => {
 
 Electron.app.on('quit', () => {
   if (DEBUG) {
-    Util.log('Application is quit')
+    console.log('Application is quit')
   }
 })
 
 Electron.app.on('window-all-closed', () => {
   if (DEBUG) {
-    Util.log('All of the window was closed.')
+    console.log('All of the window was closed.')
   }
 
   app.onWindowAllClosed()

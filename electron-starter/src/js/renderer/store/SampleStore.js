@@ -1,7 +1,7 @@
-import { Store }   from 'material-flux'
-import { Keys }    from '../action/SampleAction.js'
-import { IPCKeys } from '../../common/Constants.js'
-import Util        from '../../common/Util.js'
+import { Store } from 'material-flux'
+import { Keys } from '../action/SampleAction.js'
+import { IPCKeys } from '../../Constants.js'
+import Util from '../../Util.js'
 
 /**
  * Sample store.
@@ -17,23 +17,33 @@ export default class SampleStore extends Store {
 
     /**
      * State of store.
-     * @type {Object}
+     * @type {object}
      */
     this.state = {
-      dateTime: Util.formatDate()
+      dateTime: Util.formatDate(),
+      url: 'https://github.com/akabekobeko/examples-electron'
     }
 
     this.register(Keys.updateDatetime, this._actionUpdateDatetime)
-    this.register(Keys.showURL,        this._actionShowURL)
+    this.register(Keys.showURL, this._actionShowURL)
   }
 
   /**
    * Get datetime.
    *
-   * @return {String} datetime.
+   * @return {string} datetime.
    */
   get datetime () {
     return this.state.dateTime
+  }
+
+  /**
+   * Get URL.
+   *
+   * @return {string} URL.
+   */
+  get url () {
+    return this.state.url
   }
 
   /**
@@ -46,7 +56,7 @@ export default class SampleStore extends Store {
   /**
    * Show a URL in an external web browser.
    *
-   * @param {String} url URL.
+   * @param {string} url URL.
    */
   _actionShowURL (url) {
     this.context.ipc.send(IPCKeys.RequestShowURL, url)
