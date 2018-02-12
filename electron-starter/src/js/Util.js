@@ -7,9 +7,9 @@ export default class Util {
    * Converts the value of the Date object to its equivalent string representation using the specified format.
    *
    * @param {Date}   date   Date and time. Default is current date and time.
-   * @param {String} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
+   * @param {string} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
    *
-   * @return {String} Formatted string.
+   * @return {string} Formatted string.
    *
    * @see http://qiita.com/osakanafish/items/c64fe8a34e7221e811d0
    */
@@ -40,14 +40,5 @@ export default class Util {
     }
 
     return format
-  }
-
-  /**
-   * Output console log with datetime.
-   *
-   * @param {String} message Message.
-   */
-  static log (message) {
-    console.log('[' + Util.formatDate() + ']', message)
   }
 }

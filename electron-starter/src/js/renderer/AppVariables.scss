@@ -1,0 +1,82 @@
+
+////////////////////////////////////////////////////////////////////////////////
+// Color
+////////////////////////////////////////////////////////////////////////////////
+
+$color_white: #fff;
+$color_black: #000;
+$color_gray_light: #ecf0f1;
+$color_gray: #bdc3c7;
+$color_gray_dark: #95a5a6;
+$color_gray_darkness: #7f8c8d;
+$color_indigo: #34495e;
+$color_indigo_dark: #2c3e50;
+$color_red: #e74c3c;
+$color_red_dark: #e74c3c;
+$color_blue: #3498db;
+$color_blue_dark: #2980b9;
+$color_green: #2ecc71;
+$color_green_dark: #27ae60;
+$color_viridian: #1abc9c;
+$color_viridian_dark: #16a085;
+$color_yellow: #f1c40f;
+$color_yellow_dark: #f39c12;
+$color_orange: #e67e22;
+$color_orange_dark: #d35400;
+$color_purple: #9b59b6;
+$color_purple_dark: #8e44ad;
+$color_text: $color_indigo_dark;
+
+////////////////////////////////////////////////////////////////////////////////
+// Icon
+////////////////////////////////////////////////////////////////////////////////
+
+$icon_down: "\e600";
+$icon_left: "\e601";
+$icon_right: "\e602";
+$icon_up: "\e603";
+$icon_home: "\e604";
+$icon_edit: "\e605";
+$icon_category: "\e606";
+$icon_tag: "\e607";
+$icon_clock: "\e608";
+$icon_comment: "\e609";
+$icon_config: "\e60a";
+$icon_web: "\e60b";
+$icon_link: "\e60e";
+$icon_bookmark: "\e60f";
+$icon_twitter: "\e60d";
+$icon_feed: "\e610";
+$icon_github: "\e60c";
+
+////////////////////////////////////////////////////////////////////////////////
+// Mix-In
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin icon_style() {
+  font-family: "icon";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin icon($content) {
+  @include icon_style();
+  content: $content;
+}
+
+@mixin unselectable() {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+}
+

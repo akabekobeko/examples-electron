@@ -1,0 +1,13 @@
+@import "../AppVariables.scss";
+
+.link {
+  a, a:link, a:visited {
+    text-decoration: none;
+    color: $color_blue;
+  }
+  
+  a:hover, a:active {
+    color: $color_red;
+  }
+}
+

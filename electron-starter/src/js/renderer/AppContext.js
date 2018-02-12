@@ -1,5 +1,4 @@
 import { Context }  from 'material-flux'
-import Util from '../common/Util.js'
 import SampleStore from './store/SampleStore.js'
 import SampleAction from './action/SampleAction.js'
 
@@ -14,7 +13,7 @@ export default class AppContext extends Context {
     super()
 
     if (DEBUG) {
-      Util.log('Initialize AppContext')
+      console.log('Initialize AppContext')
     }
 
     /**
