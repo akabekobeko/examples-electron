@@ -18,8 +18,8 @@ export default class WebStorage {
   /**
    * Get the value from storage by key.
    *
-   * @param {string} key Key of value.
-   * @param {boolean} withParseJSON Parse the obtained value if "true" as JSON. Default is "false".
+   * @param {String} key Key of value.
+   * @param {Boolean} withParseJSON Parse the obtained value if "true" as JSON. Default is "false".
    *
    * @return {object} Successful if the loaded value. Otherwise "null".
    */
@@ -41,11 +41,11 @@ export default class WebStorage {
   /**
    * Set the value to storage by key.
    *
-   * @param {string} key Key of value.
-   * @param {object} value The value to be set.
-   * @param {boolean} withStringify Set the converts the "true" if the value in the JSON string.
+   * @param {String} key Key of value.
+   * @param {Object} value The value to be set.
+   * @param {Boolean} withStringify Set the converts the "true" if the value in the JSON string.
    *
-   * @return {boolean} Successful if "true".
+   * @return {Boolean} Successful if "true".
    */
   setItem (key, value, withStringify) {
     if (!(this._storage)) {
@@ -59,9 +59,9 @@ export default class WebStorage {
   /**
    * Remove the value to storage by key.
    *
-   * @param {string} key Key of value.
+   * @param {String} key Key of value.
    *
-   * @return {boolean} Successful if "true".
+   * @return {Boolean} Successful if "true".
    */
   removeItem (key) {
     if (!(this._storage)) {
@@ -75,7 +75,7 @@ export default class WebStorage {
   /**
    * Empty all keys out of the storage.
    *
-   * @return {boolean} Successful if "true".
+   * @return {Boolean} Successful if "true".
    */
   clear () {
     if (!(this._storage)) {

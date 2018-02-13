@@ -19,7 +19,7 @@ export default class MusicDatabase {
   /**
    * Initialize database.
    *
-   * @param  {function} callback Callback function.
+   * @param  {Function} callback Callback function.
    */
   init (callback) {
     const params = {
@@ -40,7 +40,7 @@ export default class MusicDatabase {
   /**
    * Clear the database.
    *
-   * @param {function} callback Callback function.
+   * @param {Function} callback Callback function.
    */
   clear (callback) {
     this._db.clear(callback)
@@ -49,8 +49,8 @@ export default class MusicDatabase {
   /**
    * Add a music.
    *
-   * @param {object} metadata Music metadata from main process.
-   * @param {function} callback Callback function.
+   * @param {Object} metadata Music metadata from main process.
+   * @param {Function} callback Callback function.
    */
   add (metadata, callback) {
     this._db.add(metadata, callback)
@@ -59,8 +59,8 @@ export default class MusicDatabase {
   /**
    * Delete a music.
    *
-   * @param {number} musicId Target identifier.
-   * @param {function} callback Callback function.
+   * @param {Number} musicId Target identifier.
+   * @param {Function} callback Callback function.
    */
   remove (musicId, callback) {
     this._db.remove(musicId, callback)
@@ -69,7 +69,7 @@ export default class MusicDatabase {
   /**
    * Read all of the musics.
    *
-   * @param {function} callback Callback function.
+   * @param {Function} callback Callback function.
    */
   readAll (callback) {
     this._db.readAll((err, items) => {

@@ -1,16 +1,16 @@
 /**
  * It represents the number of minutes.
  *
- * @typedef {object} Fraction
- * @property {number} no Numerator.
- * @property {number} of Denominator.
+ * @typedef {Object} Fraction
+ * @property {Number} no Numerator.
+ * @property {Number} of Denominator.
  */
 
 /**
  * Picture data in muisc metadata.
  *
- * @typedef {object} Picture
- * @property {string} format Format of an image file ( "jpg" or "png" ).
+ * @typedef {Object} Picture
+ * @property {String} format Format of an image file ( "jpg" or "png" ).
  * @property {Buffer} data Image data.
  */
 
@@ -19,25 +19,25 @@
  *
  * @see https://github.com/leetreveil/musicmetadata
  *
- * @typedef {object} MusicMetadata
- * @property {string[]} artist Artist names.
- * @property {string} album Album name.
- * @property {string[]} albumartist Artist names of the album.
- * @property {string} title Title.
- * @property {string} year Release year. MP4v2 is a "YYYY-MM-DD".
+ * @typedef {Object} MusicMetadata
+ * @property {String[]} artist Artist names.
+ * @property {String} album Album name.
+ * @property {String[]} albumartist Artist names of the album.
+ * @property {String} title Title.
+ * @property {String} year Release year. MP4v2 is a "YYYY-MM-DD".
  * @property {Fraction} track Track number of a disc.
  * @property {Fraction} disk Disc number of a multiple discs.
- * @property {string[]} genre Genre names.
+ * @property {String[]} genre Genre names.
  * @property {Picture} picture Image data.
- * @property {number} duration Duration ( Seconds ).
+ * @property {Number} duration Duration ( Seconds ).
  */
 
 /**
  * Preset of a graphic equalizer.
  *
- * @typedef {object} GraphicEqualizerPreset
+ * @typedef {Object} GraphicEqualizerPreset
  * @property {String} name Preset name.
- * @property {number[]} gains Prest gains.
+ * @property {Number[]} gains Prest gains.
  */
 
 /**

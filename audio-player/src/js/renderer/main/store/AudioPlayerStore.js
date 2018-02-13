@@ -5,7 +5,7 @@ import AudioPlayer from '../model/AudioPlayer.js'
 
 /**
  * Execution interval of call back by the timer at the time of playback (milliseconds).
- * @type {number}
+ * @type {Number}
  */
 const PLAYBACK_TIMER_INTERVAL = 1000
 
@@ -29,13 +29,13 @@ export default class AudioPlayerStore extends Store {
 
     /**
      * Timer identifier that will be called at one-second intervals during playback.
-     * @type {number}
+     * @type {Number}
      */
     this._playbackTimerIntervalId = null
 
     /**
      * State of store.
-     * @type {object}
+     * @type {Object}
      */
     this.state = {
       currentMusic: null,
@@ -74,7 +74,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Get the currently music duration.
    *
-   * @return {number} duration.
+   * @return {Number} duration.
    */
   get duration () {
     const duration = this._audioPlayer.duration()
@@ -84,7 +84,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Get the currently playback time.
    *
-   * @return {number} playback time (milliseconds).
+   * @return {Number} playback time (milliseconds).
    */
   get currentTime () {
     return this._audioPlayer.currentTime
@@ -102,7 +102,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Get the audio volume.
    *
-   * @return {number} volume (range: 0 - 100).
+   * @return {Number} volume (range: 0 - 100).
    */
   get volume () {
     return this._audioPlayer.volume
@@ -112,7 +112,7 @@ export default class AudioPlayerStore extends Store {
    * Open an audio file for playback target.
    *
    * @param {Music} music Music.
-   * @param {boolean} withPlay If true to play a audio. Default is false.
+   * @param {Boolean} withPlay If true to play a audio. Default is false.
    */
   _actionOpen (music, withPlay) {
     if (!(music)) {
@@ -176,7 +176,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Stop the currently playback audio.
    *
-   * @param {number} position New position (milliseconds).
+   * @param {Number} position New position (milliseconds).
    */
   _actionSeek (position) {
     if (this.state.currentMusic) {
@@ -188,7 +188,7 @@ export default class AudioPlayerStore extends Store {
   /**
    * Change the volume fro playback audio.
    *
-   * @param {number} volume New volume (range: 0 - 100).
+   * @param {Number} volume New volume (range: 0 - 100).
    */
   _actionVolume (volume) {
     this._audioPlayer.volume = volume
@@ -226,8 +226,8 @@ export default class AudioPlayerStore extends Store {
    * Occurs when the graphic equalizer update is requested.
    *
    * @param {IPCEvent} ev Event data.
-   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
-   * @param {number[]} gains Gain values.
+   * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {Number[]} gains Gain values.
    */
   _onRequestUpdateGraphicEqualizer (ev, connect, gains) {
     if (DEBUG) {

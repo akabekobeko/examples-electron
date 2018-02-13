@@ -32,7 +32,7 @@ export default class MusicListStore extends Store {
 
     /**
      * State of store.
-     * @type {object}
+     * @type {Object}
      */
     this.state = {
       /**
@@ -93,7 +93,7 @@ export default class MusicListStore extends Store {
    * Specified music it will return null if at the last of list.
    *
    * @param {Music} target Target music.
-   * @param {boolean} prev True if get in previous of the music. Default is false
+   * @param {Boolean} prev True if get in previous of the music. Default is false
    *
    * @return {Music} Success is music. Otherwise null.
    */
@@ -134,8 +134,8 @@ export default class MusicListStore extends Store {
    *
    * @param {Artist} artist Currently artis.
    * @param {Album} album Currently album.
-   * @param {number} albumIndex Index of album in artist.albums
-   * @param {number} musicIndex Index of music in album.musics
+   * @param {Number} albumIndex Index of album in artist.albums
+   * @param {Number} musicIndex Index of music in album.musics
    *
    * @return {Music} Success is music, Otherwise null
    */
@@ -159,8 +159,8 @@ export default class MusicListStore extends Store {
    *
    * @param {Artist} artist Currently artis.
    * @param {Album} album Currently album.
-   * @param {number} albumIndex Index of album in artist.albums
-   * @param {number} musicIndex Index of music in album.musics
+   * @param {Number} albumIndex Index of album in artist.albums
+   * @param {Number} musicIndex Index of music in album.musics
    *
    * @return {Music} Success is music, Otherwise null
    */
@@ -319,8 +319,8 @@ export default class MusicListStore extends Store {
    *
    * @param {Error} err Error information. Success is undefined.
    * @param {Music} music Music.
-   * @param {number} process The processed number.
-   * @param {number} total The total number of music files.
+   * @param {Number} process The processed number.
+   * @param {Number} total The total number of music files.
    */
   _onProgressImportMusic (err, music, process, total) {
     if (err) {
@@ -361,7 +361,7 @@ export default class MusicListStore extends Store {
   /**
    * Occurs when a import music has been finished.
    *
-   * @param {boolean} canceld True if it is canceled. Default is false.
+   * @param {Boolean} canceld True if it is canceled. Default is false.
    */
   _onFinishImportMusic (canceld) {
     if (canceld) {

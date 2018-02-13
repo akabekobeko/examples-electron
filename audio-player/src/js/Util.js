@@ -7,9 +7,9 @@ export default class Util {
    * Converts the value of the Date object to its equivalent string representation using the specified format.
    *
    * @param {Date}   date   Date and time. Default is current date and time.
-   * @param {string} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
+   * @param {String} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
    *
-   * @return {string} Formatted string.
+   * @return {String} Formatted string.
    *
    * @see http://qiita.com/osakanafish/items/c64fe8a34e7221e811d0
    */
@@ -45,9 +45,9 @@ export default class Util {
   /**
    * Convert the seconds to a string.
    *
-   * @param {number} seconds Seconds.
+   * @param {Number} seconds Seconds.
    *
-   * @return {string} Converted string.
+   * @return {String} Converted string.
    */
   static secondsToString (seconds) {
     const total = Math.round(seconds)

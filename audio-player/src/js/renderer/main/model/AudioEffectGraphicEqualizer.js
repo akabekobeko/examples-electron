@@ -6,20 +6,20 @@ export default class AudioEffectGraphicEqualizer {
    * Initialize instance.
    *
    * @param {AudioContext} context Web Audio context.
-   * @param {number} gainMin The minimum value of the gain.
-   * @param {number} gainMax The maximum value of the gain.
-   * @param {number[]} bands Frequency band collection of equalizer.
+   * @param {Number} gainMin The minimum value of the gain.
+   * @param {Number} gainMax The maximum value of the gain.
+   * @param {Number[]} bands Frequency band collection of equalizer.
    */
   constructor (context, gainMin, gainMax, bands) {
     /**
      * The minimum value of the gain.
-     * @type {number}
+     * @type {Number}
      */
     this._gainMin = gainMin
 
     /**
      * The maximum value of the gain.
-     * @type {number}
+     * @type {Number}
      */
     this._gainMax = gainMax
 
@@ -31,7 +31,7 @@ export default class AudioEffectGraphicEqualizer {
 
     /**
      * Value indicating that it is connected.
-     * @type {boolean}
+     * @type {Boolean}
      */
     this._connected = false
 
@@ -41,7 +41,7 @@ export default class AudioEffectGraphicEqualizer {
   /**
    * Get the gains values.
    *
-   * @return {number[]} Gain values.
+   * @return {Number[]} Gain values.
    */
   get gains () {
     const gains = new Array(this._peakings.length)
@@ -55,7 +55,7 @@ export default class AudioEffectGraphicEqualizer {
   /**
    * Set the gain values.
    *
-   * @return {number[]} values Gain values.
+   * @return {Number[]} values Gain values.
    */
   set gains (values) {
     if (!(values && values.length === this._peakings.length)) {
@@ -110,7 +110,7 @@ export default class AudioEffectGraphicEqualizer {
    * Setup the peakings.
    *
    * @param {AudioContext} context Web Audio context.
-   * @param {number[]} bands Frequency band collection of equalizer.
+   * @param {Number[]} bands Frequency band collection of equalizer.
    */
   _setupPeakings (context, bands) {
     this._peakings = new Array(bands.length)
@@ -128,7 +128,7 @@ export default class AudioEffectGraphicEqualizer {
    * Create the peaking filter.
    *
    * @param {AudioContext} context Web Audio context.
-   * @param {number} frequency The number of frequency (kHz).
+   * @param {Number} frequency The number of frequency (kHz).
    *
    * @return {BiquadFilterNode} Peeking filter.
    */

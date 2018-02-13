@@ -13,7 +13,7 @@ export default class MainMenu {
    *
    * @param {App} context Application instance.
    *
-   * @return {object[]} Menu.
+   * @return {Object[]} Menu.
    */
   static menu (context) {
     const templates = [
@@ -33,7 +33,7 @@ export default class MainMenu {
   /**
    * Create a menu of Application (OS X only).
    *
-   * @return {object} Menu data.
+   * @return {Object} Menu data.
    */
   static _menuApp (context) {
     return {
@@ -89,7 +89,7 @@ export default class MainMenu {
    *
    * @param {App} context Application instance.
    *
-   * @return {object} Menu data.
+   * @return {Object} Menu data.
    */
   static _menuEffector (context) {
     return {
@@ -108,7 +108,7 @@ export default class MainMenu {
   /**
    * Create a menu of View.
    *
-   * @return {object} Menu data.
+   * @return {Object} Menu data.
    */
   static _menuView () {
     const templates = {

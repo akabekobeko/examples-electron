@@ -4,7 +4,7 @@ import { IPCKeys, StorageKeys, GraphicEqulizerParams } from '../../../Constants.
 
 /**
  * Preset number of the manual.
- * @type {number}
+ * @type {Number}
  */
 const PREST_INDEX_MANUAL = 0
 
@@ -36,7 +36,7 @@ export default class EffectGraphicEqualizerStore extends Store {
 
     /**
      * Preset names.
-     * @type {string[]}
+     * @type {String[]}
      */
     this._presetNames = this._presets.map((preset) => {
       return preset.name
@@ -44,7 +44,7 @@ export default class EffectGraphicEqualizerStore extends Store {
 
     /**
      * State of store.
-     * @type {object}
+     * @type {Object}
      */
     this.state = {
       connect: false,
@@ -61,7 +61,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Get the status of effector connection.
    *
-   * @return {boolean} "true" if is connected.
+   * @return {Boolean} "true" if is connected.
    */
   get connect () {
     return this.state.connect
@@ -70,7 +70,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Get the gains of graphic equalizer.
    *
-   * @return {number[]} Gains.
+   * @return {Number[]} Gains.
    */
   get gains () {
     return this._presets[this.state.presetNumber].gains
@@ -79,7 +79,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Get the index number of presets.
    *
-   * @return {number} Index number.
+   * @return {Number} Index number.
    */
   get presetNumber () {
     return this.state.presetNumber
@@ -88,7 +88,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Get the preset names of graphic equalizer.
    *
-   * @return {string[]} Presets.
+   * @return {String[]} Presets.
    */
   get presetNames () {
     return this._presetNames
@@ -97,7 +97,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Update the connection status of the effector.
    *
-   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
    */
   _actionConnect (connect) {
     this.setState({ connect: connect })
@@ -107,8 +107,8 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Update the gain.
    *
-   * @param {number} index Index of the gains.
-   * @param {number} value New value.
+   * @param {Number} index Index of the gains.
+   * @param {Number} value New value.
    */
   _actionUpdateGain (index, value) {
     let gains = this._presets[ this.state.presetNumber ].gains
@@ -130,7 +130,7 @@ export default class EffectGraphicEqualizerStore extends Store {
   /**
    * Select the preset.
    *
-   * @param {number} presetNumber Number of the new prest.
+   * @param {Number} presetNumber Number of the new prest.
    */
   _actionSelectPreset (presetNumber) {
     this.setState({ presetNumber: presetNumber })

@@ -31,7 +31,7 @@ export default class AudioPlayerSpectrumAnalyzer extends React.Component {
 
     /**
      * Identifier obtained from requestAnimationFrame.
-     * @type {number}
+     * @type {Number}
      */
     this._animationId = null
 
@@ -91,9 +91,9 @@ export default class AudioPlayerSpectrumAnalyzer extends React.Component {
   /**
    * Draw the spectrum backgrounds.
    *
-   * @param {number[]} spectrums Spectrum values ( range: 0 - 255 ).
-   * @param {number} baseX The x-coordinate of the upper-left corner of the rectangle ( px ).
-   * @param {number} width The width of the rectangle ( px ).
+   * @param {Number[]} spectrums Spectrum values ( range: 0 - 255 ).
+   * @param {Number} baseX The x-coordinate of the upper-left corner of the rectangle ( px ).
+   * @param {Number} width The width of the rectangle ( px ).
    */
   _drawBackground (spectrums, baseX, width) {
     this._canvasContext.fillStyle = '#ecf0f1'

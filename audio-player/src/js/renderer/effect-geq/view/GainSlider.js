@@ -6,9 +6,9 @@ import { GraphicEqulizerParams as Params } from '../../../Constants.js'
 /**
  * Convert frequency to a string.
  *
- * @param {number} frequecy Value of frequecy.
+ * @param {Number} frequecy Value of frequecy.
  *
- * @return {string} Converted value.
+ * @return {String} Converted value.
  */
 const frequecyToString = (frequecy) => {
   if (1000 <= frequecy) {
@@ -22,9 +22,9 @@ const frequecyToString = (frequecy) => {
 /**
  * Component of gain slider control.
  *
- * @param {object} props Properties.
- * @param {number[]} props.gains Gain values of equalizer.
- * @param {function} props.onChange Called when gain value is changed.
+ * @param {Object} props Properties.
+ * @param {Number[]} props.gains Gain values of equalizer.
+ * @param {Function} props.onChange Called when gain value is changed.
  */
 const GainSlider = ({ gains, onChange }) => {
   return gains.map((gain, index) => {

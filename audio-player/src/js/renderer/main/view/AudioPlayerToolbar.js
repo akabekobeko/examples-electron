@@ -5,9 +5,9 @@ import Styles from './AudioPlayerToolbar.scss'
 /**
  * Component of an audio player toolbar.
  *
- * @param {object} props Properties.
- * @param {function} props.onRemove Called when the music is removed.
- * @param {function} props.onImport Called when the music is imported.
+ * @param {Object} props Properties.
+ * @param {Function} props.onRemove Called when the music is removed.
+ * @param {Function} props.onImport Called when the music is imported.
  */
 const AudioPlayerToolbar = ({ onRemove, onImport }) => {
   return (

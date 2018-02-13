@@ -73,7 +73,7 @@ export default class AudioPlayer {
 
     /**
      * Indicates that the audio is playing.
-     * @type {boolean}
+     * @type {Boolean}
      */
     this._isPlaying = false
 
@@ -91,7 +91,7 @@ export default class AudioPlayer {
   /**
    * Get an audio duration.
    *
-   * @return {number} duration.
+   * @return {Number} duration.
    */
   get duration () {
     return (this._audio ? this._audio.duration : 0)
@@ -100,7 +100,7 @@ export default class AudioPlayer {
   /**
    * Get the currently playback time.
    *
-   * @return {number} playback time (milliseconds).
+   * @return {Number} playback time (milliseconds).
    */
   get currentTime () {
     return (this._audio ? this._audio.currentTime : 0)
@@ -109,7 +109,7 @@ export default class AudioPlayer {
   /**
    * Set the currently playback time.
    *
-   * @param {number} playback time (milliseconds).
+   * @param {Number} playback time (milliseconds).
    */
   set currentTime (value) {
     if (value === undefined || !(this._audio)) {
@@ -143,7 +143,7 @@ export default class AudioPlayer {
   /**
    * Get the audio volume.
    *
-   * @return {number} Volume (range: 0 - 100).
+   * @return {Number} Volume (range: 0 - 100).
    */
   get volume () {
     return (this._gainNode.gain.value * 100)
@@ -152,7 +152,7 @@ export default class AudioPlayer {
   /**
    * Set the volume fro playback audio.
    *
-   * @param {number} value New volume (range: 0 - 100).
+   * @param {Number} value New volume (range: 0 - 100).
    */
   set volume (value) {
     if (0 <= value && value <= 100) {
@@ -173,8 +173,8 @@ export default class AudioPlayer {
   /**
    * Open an audio file for playback target.
    *
-   * @param {string} filePath Audio file path.
-   * @param {function} callback Callback function that occurs when load a file.
+   * @param {String} filePath Audio file path.
+   * @param {Function} callback Callback function that occurs when load a file.
    */
   open (filePath, callback) {
     this.close()
@@ -227,8 +227,8 @@ export default class AudioPlayer {
   /**
    * Update the graphic equalizer.
    *
-   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
-   * @param {number[]} gains   Gain values.
+   * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {Number[]} gains   Gain values.
    */
   updateGraphicEqualizer (connect, gains) {
     this._effectGraphicEqualizer.gains = gains

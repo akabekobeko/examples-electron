@@ -1,7 +1,7 @@
 import WebStorage from './WebStorage.js'
 
 /**
- * Provides a sessionStorage ( Web Storage ) of operating functions.
+ * Provides a sessionStorage (Web Storage) of operating functions.
  */
 export default class SessionStorage extends WebStorage {
   /**

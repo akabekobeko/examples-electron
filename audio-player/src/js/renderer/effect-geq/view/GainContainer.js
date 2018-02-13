@@ -15,9 +15,9 @@ const CENTER_INDEX = Math.floor(LINE_COUNT / 2)
 /**
  * Component of gain controls.
  *
- * @param {object} props Properties.
- * @param {number[]} props.gains Gain values of equalizer.
- * @param {function} props.onChange Called when gain value is changed.
+ * @param {Object} props Properties.
+ * @param {Number[]} props.gains Gain values of equalizer.
+ * @param {Function} props.onChange Called when gain value is changed.
  */
 const GainContainer = ({ gains, onChange }) => {
   return (

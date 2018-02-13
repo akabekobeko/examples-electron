@@ -5,10 +5,10 @@ import Styles from './ArtistListItem.scss'
 /**
  * Component of an artist list item.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {Album} props.artist Artist.
- * @param {boolean} props.selected Indicates that an item is selected.
- * @param {function} props.onClick Called when an item is clicked.
+ * @param {Boolean} props.selected Indicates that an item is selected.
+ * @param {Function} props.onClick Called when an item is clicked.
  */
 const ArtistListItem = ({ artist, selected, onClick }) => {
   return (

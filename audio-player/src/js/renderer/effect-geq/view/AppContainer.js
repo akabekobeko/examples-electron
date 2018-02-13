@@ -11,7 +11,7 @@ export default class AppContainer extends React.Component {
   /**
    * Initialize instance.
    *
-   * @param {object} props Properties。
+   * @param {Object} props Properties。
    */
   constructor (props) {
     super(props)
