@@ -10,8 +10,8 @@ export default class MusicImporter {
    *
    * @param {RendererIPC} ipc Manage the IPC of the renderer process.
    * @param {MusicDatabase} db Music database.
-   * @param {function} onProgress Callback function that occur when one reviews import has been finished.
-   * @param {function} onFinish Callback function that occurs when all of the import has been finished.
+   * @param {Function} onProgress Callback function that occur when one reviews import has been finished.
+   * @param {Function} onFinish Callback function that occurs when all of the import has been finished.
    *
    * @throws {Error} Invalid argument.
    */
@@ -34,37 +34,37 @@ export default class MusicImporter {
 
     /**
      * Callback function that occur when one reviews import has been finished.
-     * @type {function}
+     * @type {Function}
      */
     this._onProgress = onProgress
 
     /**
      * Callback function that occurs when all of the import has been finished.
-     * @type {function}
+     * @type {Function}
      */
     this._onFinish = onFinish
 
     /**
      * The total processes number.
-     * @type {number}
+     * @type {Number}
      */
     this._total = 0
 
     /**
      * The processed number.
-     * @type {number}
+     * @type {Number}
      */
     this._process = 0
 
     /**
      * Path collection of files.
-     * @type {string[]}
+     * @type {String[]}
      */
     this._filePaths = null
 
     /**
      * Current import file path.
-     * @type {string}
+     * @type {String}
      */
     this._currentFilePath = null
 
@@ -138,7 +138,7 @@ export default class MusicImporter {
    *
    * @param {IPCEvent} ev Event data.
    * @param {Error} err Error information. Success is undefined.
-   * @param {object} metadata Music metadata from main process. (FinishReadMusicMetadata)
+   * @param {Object} metadata Music metadata from main process. (FinishReadMusicMetadata)
    */
   _onFinishReadMusicMetadata (ev, err, metadata) {
     if (err) {
@@ -160,7 +160,7 @@ export default class MusicImporter {
   /**
    * Register the metadata in the database.
    *
-   * @param {object} metadata Music metadata from main process. (FinishReadMusicMetadata)
+   * @param {Object} metadata Music metadata from main process. (FinishReadMusicMetadata)
    */
   _register (metadata) {
     this._db.add(metadata, (err, m) => {

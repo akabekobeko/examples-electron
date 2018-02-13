@@ -7,19 +7,19 @@ export default class Album {
   /**
    * Initialize instance.
    *
-   * @param {string} artist Artist name.
-   * @param {string} name   Album name.
+   * @param {String} artist Artist name.
+   * @param {String} name   Album name.
    */
   constructor (artist, name) {
     /**
      * Album name.
-     * @type {string}
+     * @type {String}
      */
     this._name = name
 
     /**
      * Artist name.
-     * @type {string}
+     * @type {String}
      */
     this._artist = artist
 
@@ -31,13 +31,13 @@ export default class Album {
 
     /**
      * Path of the image file.
-     * @type {string}
+     * @type {String}
      */
     this._image = null
 
     /**
      * Released Year of the album.
-     * @type {string}
+     * @type {String}
      */
     this._year = null
   }
@@ -92,7 +92,7 @@ export default class Album {
   /**
    * Get the artist name.
    *
-   * @return {string} name.
+   * @return {String} name.
    */
   get artist () {
     return this._artist
@@ -101,7 +101,7 @@ export default class Album {
   /**
    * Get the album name.
    *
-   * @return {string} name.
+   * @return {String} name.
    */
   get name () {
     return this._name
@@ -110,7 +110,7 @@ export default class Album {
   /**
    * Get the album image.
    *
-   * @return {string} Path of the image file.
+   * @return {String} Path of the image file.
    */
   get image () {
     return this._image
@@ -119,7 +119,7 @@ export default class Album {
   /**
    * Get the album released year.
    *
-   * @return {string} year.
+   * @return {String} year.
    */
   get year () {
     return this._year
@@ -130,7 +130,7 @@ export default class Album {
    *
    * @param {Music} music Music.
    *
-   * @return {boolean} Success is true.
+   * @return {Boolean} Success is true.
    */
   add (music) {
     if (music.album !== this._name) {
@@ -151,7 +151,7 @@ export default class Album {
    *
    * @param {Music} music Music.
    *
-   * @return {boolean} Success is true.
+   * @return {Boolean} Success is true.
    */
   remove (music) {
     const musics = this._musics.filter((m) => {

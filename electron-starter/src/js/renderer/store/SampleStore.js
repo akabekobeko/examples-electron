@@ -17,7 +17,7 @@ export default class SampleStore extends Store {
 
     /**
      * State of store.
-     * @type {object}
+     * @type {Object}
      */
     this.state = {
       dateTime: Util.formatDate(),
@@ -31,7 +31,7 @@ export default class SampleStore extends Store {
   /**
    * Get datetime.
    *
-   * @return {string} datetime.
+   * @return {String} datetime.
    */
   get datetime () {
     return this.state.dateTime
@@ -40,7 +40,7 @@ export default class SampleStore extends Store {
   /**
    * Get URL.
    *
-   * @return {string} URL.
+   * @return {String} URL.
    */
   get url () {
     return this.state.url
@@ -56,7 +56,7 @@ export default class SampleStore extends Store {
   /**
    * Show a URL in an external web browser.
    *
-   * @param {string} url URL.
+   * @param {String} url URL.
    */
   _actionShowURL (url) {
     this.context.ipc.send(IPCKeys.RequestShowURL, url)

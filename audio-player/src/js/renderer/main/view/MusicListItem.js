@@ -6,14 +6,14 @@ import Styles from './MusicListItem.scss'
 /**
  * Component of the music list item.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {Music} props.music Music.
- * @param {boolean} props.selected "true" if selected.
- * @param {boolean} props.playing "true" if playing.
- * @param {function} props.onSelect Called when the music is selected.
- * @param {function} props.onPlay Called when the music is played or paused.
+ * @param {Boolean} props.selected "true" if selected.
+ * @param {Boolean} props.playing "true" if playing.
+ * @param {Function} props.onSelect Called when the music is selected.
+ * @param {Function} props.onPlay Called when the music is played or paused.
  */
-const AlbumMusic = ({music, selected, playing, onSelect, onPlay}) => {
+const AlbumMusic = ({ music, selected, playing, onSelect, onPlay }) => {
   return (
     <div
       className={selected ? `${Styles.music} ${Styles.selected}` : Styles.music}

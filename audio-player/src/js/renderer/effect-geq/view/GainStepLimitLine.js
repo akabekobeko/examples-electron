@@ -6,12 +6,12 @@ import { GraphicEqulizerParams as Params } from '../../../Constants.js'
 /**
  * Component of gain step limit lines.
  *
- * @param {object} props Properties.
- * @param {number} props.lineCount Number of grid lines.
- * @param {number} props.centerIndex Index of center grid line.
- * @param {number} props.begin Position at which drawing of lines begin.
- * @param {number} props.step Drawing interval (padding) of lines.
- * @param {number} props.offset Drawing interval (padding) of area.
+ * @param {Object} props Properties.
+ * @param {Number} props.lineCount Number of grid lines.
+ * @param {Number} props.centerIndex Index of center grid line.
+ * @param {Number} props.begin Position at which drawing of lines begin.
+ * @param {Number} props.step Drawing interval (padding) of lines.
+ * @param {Number} props.offset Drawing interval (padding) of area.
  */
 const GainStepLimitLine = ({ lineCount, centerIndex, begin, step, offset }) => {
   return (

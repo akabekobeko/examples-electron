@@ -63,8 +63,8 @@ export default class IndexedDBWrapper {
   /**
    * Open the database.
    *
-   * @param {object} params Parameters.
-   * @param {function} callback Callback function.
+   * @param {Object} params Parameters.
+   * @param {Function} callback Callback function.
    *
    * @throws {Error} "params.create" is undefined.
    */
@@ -106,7 +106,7 @@ export default class IndexedDBWrapper {
   /**
    * Dispose the database.
    *
-   * @param {function} callback Callback function.
+   * @param {Function} callback Callback function.
    */
   dispose (callback) {
     const onFinish = (callback || this._defaultCallback)
@@ -130,7 +130,7 @@ export default class IndexedDBWrapper {
   /**
    * Clear the database.
    *
-   * @param {function} callback Callback function.
+   * @param {Function} callback Callback function.
    */
   clear (callback) {
     if (!(this._db)) {
@@ -154,7 +154,7 @@ export default class IndexedDBWrapper {
   /**
    * Read all of the items.
    *
-   * @param {function} callback Callback function.
+   * @param {Function} callback Callback function.
    */
   readAll (callback) {
     if (!(this._db)) {
@@ -185,7 +185,7 @@ export default class IndexedDBWrapper {
   /**
    * Read until stop all of the items.
    *
-   * @param {function} callback Callback function (Each item). Want to continue returns true.
+   * @param {Function} callback Callback function (Each item). Want to continue returns true.
    */
   readSome (callback) {
     if (!(this._db)) {
@@ -216,8 +216,8 @@ export default class IndexedDBWrapper {
   /**
    * Add or update an item.
    *
-   * @param {object} item Item. Updates if existing identifier is set.
-   * @param {function} callback Callback function.
+   * @param {Object} item Item. Updates if existing identifier is set.
+   * @param {Function} callback Callback function.
    */
   add (item, callback) {
     if (!(this._db)) {
@@ -243,8 +243,8 @@ export default class IndexedDBWrapper {
   /**
    * Delete an item.
    *
-   * @param {number} id Identifier of the item.
-   * @param {function} callback Callback function.
+   * @param {Number} id Identifier of the item.
+   * @param {Function} callback Callback function.
    */
   remove (id, callback) {
     if (!(this._db)) {

@@ -5,11 +5,11 @@ import Styles from './GainStepLine.scss'
 /**
  * Component of gain step lines.
  *
- * @param {object} props Properties.
- * @param {number} props.lineCount Number of grid lines.
- * @param {number} props.centerIndex Index of center grid line.
- * @param {number} props.begin Position at which drawing of lines begin.
- * @param {number} props.step Drawing interval (padding) of lines.
+ * @param {Object} props Properties.
+ * @param {Number} props.lineCount Number of grid lines.
+ * @param {Number} props.centerIndex Index of center grid line.
+ * @param {Number} props.begin Position at which drawing of lines begin.
+ * @param {Number} props.step Drawing interval (padding) of lines.
  */
 const GainStepLine = ({ lineCount, centerIndex, begin, step }) => {
   const components = []

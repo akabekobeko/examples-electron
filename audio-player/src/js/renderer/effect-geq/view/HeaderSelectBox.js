@@ -5,10 +5,10 @@ import Styles from './HeaderSelectBox.scss'
 /**
  * Component of the selectable control.
  *
- * @param {object} props Properties of component.
- * @param {string[]} props.options Selectable items.
- * @param {number} props.index The index of the selected option.
- * @param {function} props.onSelect Called when the option selection is changed.
+ * @param {Object} props Properties of component.
+ * @param {String[]} props.options Selectable items.
+ * @param {Number} props.index The index of the selected option.
+ * @param {Function} props.onSelect Called when the option selection is changed.
  */
 const HeaderSelectBox = ({ options, index, onSelect }) => {
   return (

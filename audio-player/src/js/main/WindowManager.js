@@ -241,8 +241,8 @@ export default class WindowManager {
    * Occurs when the graphic equalizer update is requested.
    *
    * @param {IPCEvent} ev Event data.
-   * @param {boolean} connect If true to connect the effector, Otherwise disconnect.
-   * @param {number[]} gains Gain values.
+   * @param {Boolean} connect If true to connect the effector, Otherwise disconnect.
+   * @param {Number[]} gains Gain values.
    */
   _onRequestUpdateGraphicEqualizer (ev, connect, gains) {
     const w = this._windows.get(WindowTypes.Main)

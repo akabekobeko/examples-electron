@@ -5,13 +5,13 @@ import Styles from './AudioPlayerControl.scss'
 /**
  * Component of an audio player controls.
  *
- * @param {object} props Properties.
- * @param {boolean} props.isPlaying "true" if the music is playing.
- * @param {number} props.volume Volume.
- * @param {function} props.onPlay Called when the music is played or stopped.
- * @param {function} props.onPrev Called when moving to the previous music.
- * @param {function} props.onNext Called when moving to the next music.
- * @param {function} props.onChangeVolume Called when the volume is changed.
+ * @param {Object} props Properties.
+ * @param {Boolean} props.isPlaying "true" if the music is playing.
+ * @param {Number} props.volume Volume.
+ * @param {Function} props.onPlay Called when the music is played or stopped.
+ * @param {Function} props.onPrev Called when moving to the previous music.
+ * @param {Function} props.onNext Called when moving to the next music.
+ * @param {Function} props.onChangeVolume Called when the volume is changed.
  */
 const AudioPlayerControl = ({ isPlaying, volume, onPlay, onPrev, onNext, onChangeVolume }) => {
   return (

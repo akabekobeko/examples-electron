@@ -1,7 +1,7 @@
 import Electron from 'electron'
 
-const AppName = 'Electron Multiple Windows'
-const HelpURL = 'https://github.com/akabekobeko/examples-electron'
+const APP_NAME = 'Electron Multiple Windows'
+const HELP_URL = 'https://github.com/akabekobeko/examples-electron'
 
 /**
  * Main menu.
@@ -10,9 +10,9 @@ export default class MainMenu {
   /**
    * Create menu.
    *
-   * @param {Main} context Application instance.
+   * @param {App} context Application instance.
    *
-   * @return {Array.<Object>} Menu.
+   * @return {Object[]} Menu.
    */
   static menu (context) {
     const templates = [
@@ -35,10 +35,10 @@ export default class MainMenu {
    */
   static _menuApp (context) {
     return {
-      label: AppName,
+      label: APP_NAME,
       submenu: [
         {
-          label: 'About ' + AppName,
+          label: 'About ' + APP_NAME,
           click: () => {
             context.windowManager.createAboutWindow()
           }
@@ -55,7 +55,7 @@ export default class MainMenu {
           type: 'separator'
         },
         {
-          label: 'Hide ' + AppName,
+          label: 'Hide ' + APP_NAME,
           accelerator: 'Command+H',
           role: 'hide'
         },
@@ -180,7 +180,7 @@ export default class MainMenu {
         {
           label: 'Learn More',
           click: () => {
-            Electron.shell.openExternal(HelpURL)
+            Electron.shell.openExternal(HELP_URL)
           }
         }
       ]

@@ -6,14 +6,14 @@ import Styles from './MusicList.scss'
 /**
  * Component of the music list.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {Music[]} props.musics Collection of music.
  * @param {Music} props.selectedMusic Selected music.
  * @param {Music} props.playingMusic Playing music.
- * @param {function} props.onSelect Called when the music is selected.
- * @param {function} props.onPlay Called when the music is played or paused.
+ * @param {Function} props.onSelect Called when the music is selected.
+ * @param {Function} props.onPlay Called when the music is played or paused.
  */
-const MusicList = ({musics, selectedMusic, playingMusic, onSelect, onPlay}) => {
+const MusicList = ({ musics, selectedMusic, playingMusic, onSelect, onPlay }) => {
   // Group by disc number
   const discs = {}
   musics.forEach((music) => {

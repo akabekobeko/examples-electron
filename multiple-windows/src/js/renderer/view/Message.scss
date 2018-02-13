@@ -1,0 +1,16 @@
+@import "../AppVariables.scss";
+
+.container {
+  margin: 1em;
+  border: solid 1px $color_gray_dark;
+}
+
+.container input[type="text"] {
+  font-size: 1em;
+  font-family: sans-serif;
+  padding: .3em;
+}
+
+.button {
+  @include button($color_green, $color_white);
+}

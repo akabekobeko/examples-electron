@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Styles from './AppContainer.scss'
-import Button from './Button.js'
-import Link from './Link.js'
+import NewWindow from './NewWindow.js'
+import Message from './Message.js'
 
 /**
  * Component for application container.
@@ -23,14 +23,14 @@ export default class AppContainer extends React.Component {
    * Occurs when a component mounted.
    */
   componentDidMount () {
-    this.props.context.sampleStore.onChange(this._onChangeBind)
+    this.props.context.mainWindowStore.onChange(this._onChangeBind)
   }
 
   /**
    * Occurs before the component unmounted.
    */
   componentWillUnmount () {
-    this.props.context.sampleStore.removeChangeListener(this._onChangeBind)
+    this.props.context.mainWindowStore.removeChangeListener(this._onChangeBind)
   }
 
   /**
@@ -39,21 +39,18 @@ export default class AppContainer extends React.Component {
    * @return {ReactElement} Rendering data.
    */
   render () {
-    const action = this.props.context.sampleAction
-    const store  = this.props.context.sampleStore
-
     return (
-      <div className={Styles.main}>
-        <Button
-          label="Click"
-          onClick={() => action.updateDatetime()}
-        />
-        <span>{store.datetime}</span>
-        <Link
-          label={store.url}
-          url={store.url}
-          onClick={() => action.showURL(store.url)}
-        />
+      <div className={Styles.container}>
+        <form>
+          <NewWindow
+            onClick={() => this.props.context.mainWindowAction.createNewWindow()}
+          />
+          <Message
+            message={this.props.context.mainWindowStore.message}
+            windowIDs={this.props.context.mainWindowStore.windowIDs}
+            onSend={(id, message) => this.props.context.mainWindowAction.sendMessage(id, message)}
+          />
+        </form>
       </div>
     )
   }
@@ -70,9 +67,7 @@ export default class AppContainer extends React.Component {
    */
   static setup (context) {
     const area = document.querySelector('.app')
-    if (!(area)) {
-      return
-    }
+    if (!(area)) { return }
 
     ReactDOM.render(<AppContainer context={context} />, area)
   }

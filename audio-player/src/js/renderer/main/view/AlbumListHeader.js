@@ -5,7 +5,7 @@ import Styles from './AlbumListHeader.scss'
 /**
  * Component of an album list header.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {Album} props.album Album.
  */
 const AlbumListHeader = ({ album }) => {

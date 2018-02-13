@@ -126,7 +126,7 @@ export default class WindowManager {
   /**
    * Notify that the window ID list has been updated.
    *
-   * @param {number} excludeID Exclude ID.
+   * @param {Number} excludeID Exclude ID.
    */
   _notifyUpdateWindowIDs (excludeID) {
     const windowIDs = []
@@ -160,8 +160,8 @@ export default class WindowManager {
    * Occurs when a send message requested.
    *
    * @param {IPCEvent} ev Event data.
-   * @param {number} id Target window's identifier.
-   * @param {string} message Message.
+   * @param {Number} id Target window's identifier.
+   * @param {String} message Message.
    */
   _onRequestSendMessage (ev, id, message) {
     const w = this._windows.get(id)

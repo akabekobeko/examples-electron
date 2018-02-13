@@ -8,7 +8,7 @@ import { PlaybackState } from '../../../Constants.js'
 /**
  * Component of the album list.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {AppContext} props.context Context.
  */
 const AlbumListContainer = ({ context }) => {

@@ -7,12 +7,12 @@ export default class Artist {
   /**
    * Initialize instance.
    *
-   * @param {string} name Artist name.
+   * @param {String} name Artist name.
    */
   constructor (name) {
     /**
      * Artist name.
-     * @type {string}
+     * @type {String}
      */
     this._name = name
 
@@ -24,7 +24,7 @@ export default class Artist {
 
     /**
      * Path of the image file.
-     * @type {string}
+     * @type {String}
      */
     this._image = null
   }
@@ -107,7 +107,7 @@ export default class Artist {
   /**
    * Get the artist name.
    *
-   * @return {string} name.
+   * @return {String} name.
    */
   get name () {
     return this._name
@@ -116,7 +116,7 @@ export default class Artist {
   /**
    * Get the artist image.
    *
-   * @return {string} Path of the image file.
+   * @return {String} Path of the image file.
    */
   get image () {
     return this._image
@@ -127,7 +127,7 @@ export default class Artist {
    *
    * @param {Album} album Album.
    *
-   * @return {boolean} Success is true.
+   * @return {Boolean} Success is true.
    */
   add (album) {
     if (album.artist !== this._name) {
@@ -147,7 +147,7 @@ export default class Artist {
    *
    * @param {Album} album Album.
    *
-   * @return {boolean} Success is true.
+   * @return {Boolean} Success is true.
    */
   remove (album) {
     const albums = this._albums.filter((a) => {

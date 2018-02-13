@@ -51,7 +51,7 @@ const playMusic = (context, music) => {
  *
  * @param {AppContext} context Context.
  * @param {Music} music Music.
- * @param {boolean} prev "true" if you play the previous song instead of the next one.
+ * @param {Boolean} prev "true" if you play the previous song instead of the next one.
  */
 const playNextMusic = (context, music, prev) => {
   const nextMusic = context.musicListStore.next(music, prev)
@@ -83,7 +83,7 @@ const removeMusic = (context, music) => {
 /**
  * Component of an audio player.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {AppContext} props.context Context.
  */
 const AudioPlayerContainer = ({ context }) => {

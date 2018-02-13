@@ -5,11 +5,11 @@ import Styles from './Button.scss'
 /**
  * Component of button.
  *
- * @param {object} props Properties of component.
- * @param {string} props.label Display text.
- * @param {function} props.onClick Called when the button is clicked.
+ * @param {Object} props Properties of component.
+ * @param {String} props.label Display text.
+ * @param {Function} props.onClick Called when the button is clicked.
  */
-const Button = ({label, onClick}) => {
+const Button = ({ label, onClick }) => {
   return (
     <span
       className={Styles.button}

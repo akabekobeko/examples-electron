@@ -11,14 +11,14 @@ export default class AudioPlayerInformation extends React.Component {
   /**
    * Initialize instance.
    *
-   * @param {object} props Properties.
+   * @param {Object} props Properties.
    */
   constructor (props) {
     super(props)
 
     /**
      * State of component.
-     * @type {object}
+     * @type {Object}
      */
     this.state = {
       useSpectrumAnalyzer: false

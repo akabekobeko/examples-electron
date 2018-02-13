@@ -6,7 +6,7 @@ import Item from './ArtistListItem.js'
 /**
  * Component of the artist list.
  *
- * @param {object} props Properties.
+ * @param {Object} props Properties.
  * @param {AppContext} props.context Context.
  */
 const ArtistListContainer = ({ context }) => {

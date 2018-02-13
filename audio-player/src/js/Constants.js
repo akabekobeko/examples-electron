@@ -1,7 +1,7 @@
 
 /**
  * IPC keys.
- * @type {object}
+ * @type {Object}
  */
 export const IPCKeys = {
   RequestShowMessage: 'requestShowMessage',
@@ -19,7 +19,7 @@ export const IPCKeys = {
 
 /**
  * Defines the key of the Web Storage.
- * @type {object}
+ * @type {Object}
  */
 export const StorageKeys = {
   GraphicEqulizerParams: 'graphicEqulizerParams'
@@ -27,7 +27,7 @@ export const StorageKeys = {
 
 /**
  * Audio playback status.
- * @type {object}
+ * @type {Object}
  */
 export const PlaybackState = {
   Stopped: 0,
@@ -37,7 +37,7 @@ export const PlaybackState = {
 
 /**
  * Define the parameters of graphic equalizer.
- * @type {object}
+ * @type {Object}
  */
 export const GraphicEqulizerParams = {
   GainMin: -40,

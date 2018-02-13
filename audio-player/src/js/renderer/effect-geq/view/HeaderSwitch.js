@@ -5,9 +5,9 @@ import Styles from './HeaderSwitch.scss'
 /**
  * Component of the ON/OFF switch control.
  *
- * @param {object} props Properties of component.
- * @param {boolean} props.checked Indicates that the switch is ON..
- * @param {function} props.onChange Called when the switch state is changed.
+ * @param {Object} props Properties of component.
+ * @param {Boolean} props.checked Indicates that the switch is ON..
+ * @param {Function} props.onChange Called when the switch state is changed.
  */
 const HeaderSwitch = ({ checked, onChange }) => {
   return (
