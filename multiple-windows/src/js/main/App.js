@@ -1,5 +1,4 @@
 import Electron from 'electron'
-import Util from '../common/Util.js'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager from './WindowManager.js'
@@ -15,7 +14,7 @@ class App {
     // Compile switch
     global.DEBUG = true
     if (DEBUG) {
-      Util.log('Initialize Application')
+      console.log('Initialize Application')
     }
 
     /**
@@ -83,7 +82,7 @@ class App {
    */
   onWindowAllClosed () {
     if (DEBUG) {
-      Util.log('Quit')
+      console.log('Quit')
     }
 
     Electron.app.quit()
@@ -93,7 +92,7 @@ class App {
 const app = new App()
 Electron.app.on('ready', () => {
   if (DEBUG) {
-    Util.log('Application is ready')
+    console.log('Application is ready')
   }
 
   app.onReady()
@@ -101,13 +100,13 @@ Electron.app.on('ready', () => {
 
 Electron.app.on('quit', () => {
   if (DEBUG) {
-    Util.log('Application is quit')
+    console.log('Application is quit')
   }
 })
 
 Electron.app.on('window-all-closed', () => {
   if (DEBUG) {
-    Util.log('All of the window was closed.')
+    console.log('All of the window was closed.')
   }
 
   app.onWindowAllClosed()

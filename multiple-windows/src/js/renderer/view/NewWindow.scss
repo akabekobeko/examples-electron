@@ -1,0 +1,10 @@
+@import "../AppVariables.scss";
+
+.container {
+  margin: 1em;
+  border: solid 1px $color_gray_dark;
+}
+
+.button {
+  @include button($color_blue, $color_white);
+}

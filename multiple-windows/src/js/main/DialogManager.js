@@ -1,5 +1,5 @@
 import Electron from 'electron'
-import { IPCKeys } from '../common/Constants.js'
+import { IPCKeys } from '../Constants.js'
 
 /**
  * Manage the dialog.
@@ -8,7 +8,7 @@ export default class DialogManager {
   /**
    * Initialize instance.
    *
-   * @param {Main} context Application context.
+   * @param {App} context Application context.
    */
   constructor (context) {
     context.ipc.on(IPCKeys.RequestShowMessage,    this._onRequestShowMessage.bind(this))
@@ -19,7 +19,7 @@ export default class DialogManager {
    * Shows a message box.
    *
    * @param {BrowserWindow} ownerWindow BrowserWindow, Not required if null.
-   * @param {Object}        options     Dialog options.
+   * @param {Object} options Dialog options.
    *
    * @return {Number} Index of the selected button on dialog.
    */
@@ -35,9 +35,9 @@ export default class DialogManager {
    * Shows an open file/folder dialog.
    *
    * @param {BrowserWindow} ownerWindow BrowserWindow, Not required if null.
-   * @param {Object}        options     Dialog options.
+   * @param {Object} options Dialog options.
    *
-   * @return {Array.<String>} On success this method returns an array of file paths chosen by the user, otherwise it returns undefined.
+   * @return {string[]} On success this method returns an array of file paths chosen by the user, otherwise it returns undefined.
    */
   showOpenDialog (ownerWindow, options) {
     if (ownerWindow) {
@@ -50,7 +50,7 @@ export default class DialogManager {
   /**
    * Occurs when the show message dialog has been requested.
    *
-   * @param {Event}  ev      Event data.
+   * @param {Event} ev Event data.
    * @param {Object} options Options of a dialog.
    */
   _onRequestShowMessage (ev, options) {
@@ -66,7 +66,7 @@ export default class DialogManager {
   /**
    * Occurs when the show file/folder open dialog has been requested.
    *
-   * @param {Event}  ev      Event data.
+   * @param {Event} ev Event data.
    * @param {Object} options Options of a dialog.
    */
   _onRequestShowOpenDialog (ev, options) {

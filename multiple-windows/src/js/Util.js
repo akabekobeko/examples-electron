@@ -6,7 +6,7 @@ export default class Util {
   /**
    * Converts the value of the Date object to its equivalent string representation using the specified format.
    *
-   * @param {Date}   date   Date and time. Default is current date and time.
+   * @param {Date} date Date and time. Default is current date and time.
    * @param {String} format Date and time format string. Default is "YYYY-MM-DD hh:mm:ss.SSS".
    *
    * @return {String} Formatted string.
@@ -40,14 +40,5 @@ export default class Util {
     }
 
     return format
-  }
-
-  /**
-   * Output console log with datetime.
-   *
-   * @param {String} message Message.
-   */
-  static log (message) {
-    console.log('[' + Util.formatDate() + ']', message)
   }
 }

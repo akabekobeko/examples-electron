@@ -23,7 +23,7 @@ export default class MainWindowAction extends Action {
   /**
    * Send a message to the other window.
    *
-   * @param {Number} id      Identifier of a target window.
+   * @param {Number} id Identifier of a target window.
    * @param {String} message Message string.
    */
   sendMessage (id, message) {

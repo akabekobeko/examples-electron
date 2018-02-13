@@ -1,7 +1,6 @@
 import { Store } from 'material-flux'
 import { Keys } from '../action/MainWindowAction.js'
-import { IPCKeys } from '../../common/Constants.js'
-import Util from '../../common/Util.js'
+import { IPCKeys } from '../../Constants.js'
 
 /**
  * Main window store.
@@ -48,7 +47,7 @@ export default class MainWindowStore extends Store {
   /**
    * Get an other window's identifiers.
    *
-   * @return {Array.<String>} Identifiers.
+   * @return {String[]} Identifiers.
    */
   get windowIDs () {
     return this.state.windowIDs
@@ -64,7 +63,7 @@ export default class MainWindowStore extends Store {
   /**
    * Send a message to the other window.
    *
-   * @param {Number} id      Identifier of a target window.
+   * @param {Number} id Identifier of a target window.
    * @param {String} message Message string.
    */
   _actionSendMessage (id, message) {
@@ -75,25 +74,29 @@ export default class MainWindowStore extends Store {
    * Occurs when the window create request has been finished.
    */
   _onFinishCreateNewWindow () {
-    if (DEBUG) { Util.log('_onFinishCreateNewWindow') }
+    if (DEBUG) {
+      console.log('_onFinishCreateNewWindow')
+    }
   }
 
   /**
    * Occurs when the message sent has been finished..
    */
   _onFinishSendMessage () {
-    if (DEBUG) { Util.log('_onFinishSendMessage') }
+    if (DEBUG) {
+      console.log('_onFinishSendMessage')
+    }
   }
 
   /**
    * Occurs when the window show request has been finished.
    *
-   * @param {IPCEvent}       ev        Event data.
-   * @param {Array.<Number>} windowIDs Window's identifiers.
+   * @param {IPCEvent} ev Event data.
+   * @param {Number[]} windowIDs Window's identifiers.
    */
   _onFinishGetWindowIDs (ev, windowIDs) {
     if (DEBUG) {
-      Util.log('_onFinishGetWindowIDs')
+      console.log('_onFinishGetWindowIDs')
     }
 
     this.setState({ windowIDs: windowIDs.filter((id) => id !== this.context.windowID) })
@@ -102,8 +105,8 @@ export default class MainWindowStore extends Store {
   /**
    * Occurs when the ID get request of the window has been finished.
    *
-   * @param {IPCEvent}       ev        Event data.
-   * @param {Array.<Number>} windowIDs Window's identifiers.
+   * @param {IPCEvent} ev Event data.
+   * @param {Number[]} windowIDs Window's identifiers.
    */
   _onUpdateWindowIDs (ev, windowIDs) {
     this.setState({ windowIDs: windowIDs.filter((id) => id !== this.context.windowID) })
@@ -112,8 +115,8 @@ export default class MainWindowStore extends Store {
   /**
    * Occurs when the window's identifiers has been updated.
    *
-   * @param {IPCEvent} ev      Event data.
-   * @param {String}   message Message.
+   * @param {IPCEvent} ev Event data.
+   * @param {String} message Message.
    */
   _onUpdateMessage (ev, message) {
     this.setState({ message: message })
