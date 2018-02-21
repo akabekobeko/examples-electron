@@ -48,35 +48,3 @@ $icon_bookmark: "\e60f";
 $icon_twitter: "\e60d";
 $icon_feed: "\e610";
 $icon_github: "\e60c";
-
-////////////////////////////////////////////////////////////////////////////////
-// Mix-In
-////////////////////////////////////////////////////////////////////////////////
-
-@mixin icon_style() {
-  font-family: "icon";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  // Better Font Rendering
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-@mixin icon($content) {
-  @include icon_style();
-  content: $content;
-}
-
-@mixin unselectable() {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-}
-

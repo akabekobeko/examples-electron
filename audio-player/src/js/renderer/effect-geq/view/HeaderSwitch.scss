@@ -3,7 +3,7 @@
 $switch_size: 24px;
 
 .switch {
-  @include unselectable();
+  user-select: none;
   position: relative;
   width: $switch_size * 2;
 }

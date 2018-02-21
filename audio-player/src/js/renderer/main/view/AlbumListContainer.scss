@@ -1,7 +1,5 @@
-@import "../../AppVariables.scss";
-
 .list {
-  @include unselectable();
+  user-select: none;
   cursor: pointer;
   position: absolute;
   top: 0;

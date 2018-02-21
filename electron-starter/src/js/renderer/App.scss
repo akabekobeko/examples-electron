@@ -32,11 +32,20 @@ html, body {
   font-style: normal;
 }
 
+[class^="icon-"], [class*=" icon-"] {
+  font-family: "icon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 :global {
-  [class^="icon-"], [class*=" icon-"] {
-    @include icon_style();
-  }
-  
   .icon-down:before {
     content: $icon_down;
   }
