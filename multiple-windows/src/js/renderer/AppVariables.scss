@@ -31,16 +31,8 @@ $color_text: $color_indigo_dark;
 // Mix-In
 ////////////////////////////////////////////////////////////////////////////////
 
-@mixin unselectable() {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-}
-
 @mixin button($back_color, $text_color) {
-  @include unselectable();
+  user-select: none;
   cursor: pointer;
   display: inline-block;
   margin: 1em 0;

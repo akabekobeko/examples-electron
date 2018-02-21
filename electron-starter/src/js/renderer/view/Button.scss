@@ -1,7 +1,7 @@
 @import "../AppVariables.scss";
 
 .button {
-  @include unselectable();
+  user-select: none;
   cursor: pointer;
   display: inline-block;
   margin: 1em;

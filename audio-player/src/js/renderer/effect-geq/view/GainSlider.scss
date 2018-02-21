@@ -29,7 +29,7 @@
 }
 
 .frequecy {
-  @include unselectable();
+  user-select: none;
   position: absolute;
   top: 225px;
   font-size: 11px;

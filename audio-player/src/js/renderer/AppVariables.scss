@@ -59,35 +59,3 @@ $icon_chevron_down: "\e900";
 $icon_chevron_left: "\e901";
 $icon_chevron_right: "\e902";
 $icon_chevron_up: "\e903";
-
-////////////////////////////////////////////////////////////////////////////////
-// Mix-In
-////////////////////////////////////////////////////////////////////////////////
-
-@mixin unselectable() {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-}
-
-@mixin appearance_none() {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-@mixin icon_style() {
-  font-family: "icon";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  // Better Font Rendering
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}

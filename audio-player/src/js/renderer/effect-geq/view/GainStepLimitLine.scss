@@ -1,7 +1,5 @@
-@import "../../AppVariables.scss";
-
 .line {
-  @include unselectable();
+  user-select: none;
   position: absolute;
   left: 0;
   width: 38px;

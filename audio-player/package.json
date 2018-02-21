@@ -92,7 +92,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-split-pane": "^0.1.76"
+    "react-split-pane": "^0.1.77"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -107,26 +107,26 @@
     "css-loader": "^0.28.9",
     "devtron": "^1.4.0",
     "electron": "^1.8.2",
-    "electron-packager": "^11.0.0",
+    "electron-packager": "^11.0.1",
     "esdoc": "^1.0.4",
     "esdoc-jsx-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^4.17.0",
-    "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-config-standard-react": "^5.0.0",
+    "eslint": "^4.18.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
-    "mocha": "^5.0.0",
+    "mocha": "^5.0.1",
     "node-sass": "^4.7.2",
     "npm-run-all": "^4.1.2",
     "power-assert": "^1.4.4",
     "resolve-url-loader": "^2.2.1",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
-    "webpack": "^3.10.0"
+    "webpack": "^3.11.0"
   }
 }

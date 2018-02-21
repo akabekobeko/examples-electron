@@ -14,23 +14,9 @@
   cursor: pointer;
 }
 
-.dropdown:after {
-  @include icon_style();
-  position: absolute;
-  box-sizing: border-box;
-  padding-top: 8px;
-  padding-left: 4px;
-  right: 4px;
-  height: 100%;
-  content: $icon_chevron_down;
-  color: $color_white;
-  font-size: 14px;
-}
-
-
 .select {
-  @include unselectable();
-  @include appearance_none();
+  user-select: none;
+  -webkit-appearance: none;
   z-index: 1;
   position: absolute;
   width: 100%;

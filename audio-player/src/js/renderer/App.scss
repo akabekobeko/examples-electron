@@ -17,19 +17,29 @@ html, body {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Icon font
+////////////////////////////////////////////////////////////////////////////////
+
 @font-face {
   font-family: "icon";
   src:url("fonts/icon.eot?lct42d");
-  src:url("fonts/icon.eot?lct42d#iefix") format("embedded-opentype"),
-    url("fonts/icon.ttf?lct42d") format("truetype"),
-    url("fonts/icon.woff?lct42d") format("woff"),
-    url("fonts/icon.svg?lct42d#icon") format("svg");
+  src:url("fonts/icon.eot?lct42d#iefix") format("embedded-opentype"), url("fonts/icon.ttf?lct42d") format("truetype"), url("fonts/icon.woff?lct42d") format("woff"), url("fonts/icon.svg?lct42d#icon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-  @include icon_style();
+  font-family: "icon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 :global {
@@ -95,5 +105,52 @@ html, body {
   }
   .icon-chevron_up:before {
     content: $icon_chevron_up;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// react-split-pane
+////////////////////////////////////////////////////////////////////////////////
+
+:global {
+  .Resizer {
+    background: $color_black;
+    opacity: .2;
+    z-index: 1;
+    box-sizing: border-box;
+    background-clip: padding-box;
+  }
+
+  .Resizer:hover {
+    transition: all 2s ease;
+  }
+  
+  .Resizer.horizontal {
+      height: 11px;
+      margin: -5px 0;
+      border-top: 5px solid rgba(255, 255, 255, 0);
+      border-bottom: 5px solid rgba(255, 255, 255, 0);
+      cursor: row-resize;
+      width: 100%;
+  }
+
+  .Resizer.horizontal:hover {
+    border-top: 5px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+  }
+    
+
+  .Resizer.vertical {
+      width: 11px;
+      margin: 0 -5px;
+      border-left: 5px solid rgba(255, 255, 255, 0);
+      border-right: 5px solid rgba(255, 255, 255, 0);
+      cursor: col-resize;
+      height: 100%;
+  }
+
+  .Resizer.vertical:hover {
+    border-left: 5px solid rgba(0, 0, 0, 0.5);
+    border-right: 5px solid rgba(0, 0, 0, 0.5);
   }
 }
