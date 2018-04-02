@@ -1,10 +1,10 @@
 import WebPack from 'webpack'
 import MinifyPlugin from 'babel-minify-webpack-plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-export default (env) => {
-  const MAIN = env && env.main
-  const PROD = !!(env && env.prod)
+export default (env, argv) => {
+  const MAIN = !!(env && env.main)
+  const PROD = !!(argv.mode && argv.mode === 'production')
 
   return {
     target: MAIN ? 'electron-main' : 'web',
@@ -29,7 +29,8 @@ export default (env) => {
         },
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract([
+          use: [
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
@@ -48,7 +49,7 @@ export default (env) => {
                 sourceMap: !(PROD)
               }
             }
-          ])
+          ]
         }
       ]
     },
@@ -69,9 +70,9 @@ export default (env) => {
       new WebPack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       }),
-      new ExtractTextPlugin({ filename: 'bundle.css' })
+      new MiniCssExtractPlugin({ filename: 'bundle.css' })
     ] : [
-      new ExtractTextPlugin({ filename: 'bundle.css' })
+      new MiniCssExtractPlugin({ filename: 'bundle.css' })
     ]
   }
 }
