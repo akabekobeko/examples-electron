@@ -1,5 +1,4 @@
 import Electron from 'electron'
-import Path from 'path'
 import { IPCKeys } from '../Constants.js'
 
 /**
@@ -158,9 +157,7 @@ export default class WindowManager {
       this._windows.delete(WindowTypes.Main)
     })
 
-    const filePath = Path.join(__dirname, 'index.html')
-    w.loadURL('file://' + filePath)
-
+    w.loadFile('assets/index.html')
     this._windows.set(WindowTypes.Main, w)
   }
 
@@ -189,9 +186,7 @@ export default class WindowManager {
       this._windows.delete(WindowTypes.About)
     })
 
-    const filePath = Path.join(__dirname, 'about.html')
-    w.loadURL('file://' + filePath)
-
+    w.loadFile('assets/about.html')
     this._windows.set(WindowTypes.About, w)
   }
 
@@ -231,9 +226,7 @@ export default class WindowManager {
       this._windows.delete(WindowTypes.GraphicEqualizer)
     })
 
-    const filePath = Path.join(__dirname, 'effect-geq.html')
-    w.loadURL('file://' + filePath)
-
+    w.loadFile('assets/effect-geq.html')
     this._windows.set(WindowTypes.GraphicEqualizer, w)
   }
 

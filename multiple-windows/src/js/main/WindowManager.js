@@ -85,8 +85,9 @@ export default class WindowManager {
       }
     })
 
+    // `win.loadFile` will escape `#` to `%23`, So use `win.loadURL`
     const filePath = Path.join(__dirname, 'index.html')
-    w.loadURL('file://' + filePath + '#' + w.id)
+    w.loadURL(`file://${filePath}#${id}`)
     this._windows.set(id, w)
 
     return w
@@ -117,9 +118,7 @@ export default class WindowManager {
       this._aboutDialog = null
     })
 
-    const filePath = Path.join(__dirname, 'about.html')
-    w.loadURL('file://' + filePath)
-
+    w.loadFile('assets/about.html')
     this._aboutDialog = w
   }
 
