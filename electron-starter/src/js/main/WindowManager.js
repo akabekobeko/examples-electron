@@ -1,5 +1,4 @@
 import Electron from 'electron'
-import Path from 'path'
 import { IPCKeys } from '../Constants.js'
 
 /**
@@ -85,8 +84,7 @@ export default class WindowManager {
       }
     })
 
-    const filePath = Path.join(__dirname, 'index.html')
-    w.loadURL('file://' + filePath + '#' + w.id)
+    w.loadFile('assets/index.html')
     this._windows.set(id, w)
 
     return w
@@ -117,9 +115,7 @@ export default class WindowManager {
       this._aboutDialog = null
     })
 
-    const filePath = Path.join(__dirname, 'about.html')
-    w.loadURL('file://' + filePath)
-
+    w.loadFile('assets/about.html')
     this._aboutDialog = w
   }
 
@@ -152,7 +148,7 @@ export default class WindowManager {
     const createdWindow = this.createNewWindow()
     ev.sender.send(IPCKeys.FinishCreateNewWindow)
 
-    // Because it may not receive the message, explicit request ( RequestGetWindowIDs ) later
+    // Because it may not receive the message, explicit request (RequestGetWindowIDs) later
     this._notifyUpdateWindowIDs(createdWindow.id)
   }
 
