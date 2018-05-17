@@ -13,7 +13,7 @@ import Styles from './Link.scss'
 const Link = ({ label, url, onClick }) => {
   return (
     <div className={Styles.link}>
-      <i className="icon-github" /> <a href="#" onClick={onClick}>{label}</a>
+      <i className="icon-github" /> <a href="#" onClick={() => onClick(url)}>{label}</a>
     </div>
   )
 }
