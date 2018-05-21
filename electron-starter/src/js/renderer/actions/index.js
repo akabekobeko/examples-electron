@@ -1,4 +1,4 @@
-import { IPCKeys } from '../../Constants.js'
+import { IPCKeys } from '../../common/Constants.js'
 
 export const UPDATE_DATETIME = 'UPDATE_DATETIME'
 export const updateDateTime = () => ({
