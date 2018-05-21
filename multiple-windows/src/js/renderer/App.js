@@ -1,11 +1,32 @@
 import './App.scss'
-import AppContainer from './view/AppContainer.js'
-import AppContext from './AppContext.js'
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import ReduxThunkMiddleware from 'redux-thunk'
+import RootReducer from './reducers'
+import { onUpdateMessage, onUpdateWindowIDs, getWindowIDs } from './actions/'
+import App from './containers/App.js'
 
-// Compile switch
-global.DEBUG = true
+window.addEventListener('load', () => {
+  // Compile switch
+  global.DEBUG = true
 
-window.onload = () => {
-  const context = new AppContext()
-  AppContainer.setup(context)
-}
+  let store = createStore(
+    RootReducer,
+    applyMiddleware(
+      ReduxThunkMiddleware
+    )
+  )
+
+  store.dispatch(onUpdateMessage())
+  store.dispatch(onUpdateWindowIDs())
+  store.dispatch(getWindowIDs())
+
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.querySelector('.app')
+  )
+})

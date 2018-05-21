@@ -2,7 +2,7 @@ import Electron from 'electron'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager from './WindowManager.js'
-import { IPCKeys } from '../Constants.js'
+import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Application entry point.
