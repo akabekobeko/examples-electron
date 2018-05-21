@@ -1,6 +1,6 @@
 import Electron from 'electron'
 import Path from 'path'
-import { IPCKeys } from '../Constants.js'
+import { IPCKeys } from '../common/Constants.js'
 
 /**
  * Manage the window.
