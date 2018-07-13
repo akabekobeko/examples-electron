@@ -3,6 +3,8 @@ import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager, { WindowTypes } from './WindowManager.js'
 import MusicMetadataReader from './MusicMetadataReader.js'
+import { IPCKeys } from '../Constants.js'
+import FileUtil from './FileUtil'
 
 /**
  * Application entry point.
@@ -41,6 +43,8 @@ class App {
      * @type {MusicMetadataReader}
      */
     this._musicMetadataReader = new MusicMetadataReader(this)
+
+    this.ipc.on(IPCKeys.RequestReadAudioFile, this._onRequestReadAudioFile.bind(this))
   }
 
   /**
@@ -71,6 +75,22 @@ class App {
     }
 
     Electron.app.quit()
+  }
+
+  /**
+   * Occurs when the import of music files has been requested.
+   *
+   * @param {Event} ev Event data.
+   * @param {String} filePath Music file path.
+   */
+  _onRequestReadAudioFile (ev, filePath) {
+    FileUtil.readFile(filePath)
+      .then(audioData => {
+        ev.sender.send(IPCKeys.FinishReadAudioFile, null, {data: audioData, path: filePath})
+      })
+      .catch(err => {
+        ev.sender.send(IPCKeys.FinishReadAudioFile, err, null)
+      })
   }
 }
 

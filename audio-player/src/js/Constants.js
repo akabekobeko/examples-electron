@@ -10,6 +10,9 @@ export const IPCKeys = {
   RequestShowOpenDialog: 'requestShowOpenDialog',
   FinishShowOpenDialog: 'finishShowOpenDialog',
 
+  RequestReadAudioFile: 'requestReadAudioFile',
+  FinishReadAudioFile: 'finishReadAudioFile',
+
   RequestReadMusicMetadata: 'requestReadMusicMetadata',
   FinishReadMusicMetadata: 'finishReadMusicMetadata',
 
