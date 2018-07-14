@@ -204,11 +204,7 @@ export default class WindowManager {
         width: 370,
         height: 300,
         resizable: false,
-        alwaysOnTop: true,
-
-        webPreferences: {
-          webSecurity: false
-        }
+        alwaysOnTop: true
       })
     } else {
       // Add a heigth for menu bar
@@ -216,11 +212,7 @@ export default class WindowManager {
         width: 370,
         height: 320,
         resizable: false,
-        alwaysOnTop: true,
-
-        webPreferences: {
-          webSecurity: false
-        }
+        alwaysOnTop: true
       })
 
       w.setMenu(null)
