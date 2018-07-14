@@ -79,7 +79,7 @@ export default class MusicImporter {
     this._ipc.send(IPCKeys.RequestShowOpenDialog, {
       title: 'Select music files',
       filters: [
-        {name: 'Musics', extensions: ['mp3', 'm4a', 'aac', 'wav']}
+        {name: 'Musics', extensions: ['mp3', 'mp2', 'm2a', 'm4a', 'aac', 'wav', 'wma', 'flac', 'opus', 'ogg']}
       ],
       properties: ['openFile', 'multiSelections']
     })
