@@ -25,7 +25,7 @@ export default class AudioPlayerStore extends Store {
      * Audio player.
      * @type {AudioPlayer}
      */
-    this._audioPlayer = new AudioPlayer()
+    this._audioPlayer = new AudioPlayer(context.ipc)
 
     /**
      * Timer identifier that will be called at one-second intervals during playback.

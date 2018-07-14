@@ -1,5 +1,7 @@
 import AudioEffectGraphicEqualizer from './AudioEffectGraphicEqualizer.js'
-import { GraphicEqulizerParams }   from '../../../Constants.js'
+import { GraphicEqulizerParams, IPCKeys }   from '../../../Constants.js'
+import * as MimeTypes from 'mime-types'
+import * as dataurl from 'dataurl'
 
 const AppAudioContext = (window.AudioContext || window.webkitAudioContext)
 
@@ -14,7 +16,13 @@ export default class AudioPlayer {
   /**
    * Initliaze instance.
    */
-  constructor () {
+  constructor (ipc) {
+    /**
+     * Manage the IPC of the renderer process.
+     * @type {RendererIPC}
+     */
+    this._ipc = ipc
+
     /**
      * Audio context.
      * @type {AudioContext|webkitAudioContext}
@@ -86,6 +94,8 @@ export default class AudioPlayer {
       GraphicEqulizerParams.GainMin,
       GraphicEqulizerParams.GainMax,
       GraphicEqulizerParams.Bands)
+
+    this._ipc.on(IPCKeys.FinishReadAudioFile, this._onFinishReadAudioFile.bind(this))
   }
 
   /**
@@ -179,11 +189,34 @@ export default class AudioPlayer {
   open (filePath, callback) {
     this.close()
 
-    this._audio = new window.Audio(filePath)
+    console.log('Open: %s....', filePath)
+
+    this._audio = new window.Audio()
+    this._audio.crossOrigin = 'anonymous'
     this._audio.addEventListener('loadstart', () => {
+      console.log('Audio-element: loadstart')
       this._sourceNode = this._audioContext.createMediaElementSource(this._audio)
       this._sourceNode.connect(this._sourceEffectNode)
+      console.log('Audio-element: loadstart callback()')
       callback()
+    })
+    this._ipc.send(IPCKeys.RequestReadAudioFile, filePath)
+  }
+
+  _onFinishReadAudioFile (ev, err, audioFile) {
+    if (err) {
+      console.error(err.message)
+      return
+    }
+
+    const mimetype = MimeTypes.lookup(audioFile.path)
+    console.log('Loaded audio file %s, type=%s', audioFile.path, mimetype)
+
+    const audioUrl = dataurl.convert({ data: audioFile.data, mimetype })
+    this._audio.src = audioUrl
+
+    this._audio.addEventListener('error', () => {
+      console.error('Error playing audio track: ' + audioFile.path)
     })
   }
 
@@ -191,6 +224,7 @@ export default class AudioPlayer {
    * Play the audio.
    */
   play () {
+    console.log('play')
     if (!(this._audio) || this._isPlaying) {
       return
     }

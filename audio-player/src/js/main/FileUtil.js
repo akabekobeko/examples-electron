@@ -56,4 +56,22 @@ export default class FileUtil {
       return false
     }
   }
+
+  /**
+   * Read file
+   * @param path Local file path
+   * @returns {Promise}
+   * @private
+   */
+  static readFile (path) {
+    return new Promise((resolve, reject) => {
+      Fs.readFile(path, (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    })
+  }
 }

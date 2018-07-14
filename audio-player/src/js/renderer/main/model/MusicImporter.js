@@ -79,7 +79,7 @@ export default class MusicImporter {
     this._ipc.send(IPCKeys.RequestShowOpenDialog, {
       title: 'Select music files',
       filters: [
-        {name: 'Musics', extensions: ['mp3', 'm4a', 'aac', 'wav']}
+        {name: 'Musics', extensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'opus', 'ogg']}
       ],
       properties: ['openFile', 'multiSelections']
     })
@@ -98,20 +98,9 @@ export default class MusicImporter {
     this._currentFilePath = this._filePaths[0]
     this._filePaths.shift()
 
-    let audio = new window.Audio(this._currentFilePath)
-    audio.addEventListener('loadedmetadata', () => {
-      audio = null
-      this._ipc.send(IPCKeys.RequestReadMusicMetadata, this._currentFilePath)
-    })
+    console.log('Loading: %s', this._currentFilePath)
 
-    audio.addEventListener('error', () => {
-      const err = new Error('Unsupported music file: ' + this._currentFilePath)
-      this._onProgress(err, null, this._process, this._total)
-
-      // Next
-      audio = null
-      this._importMusic()
-    })
+    this._ipc.send(IPCKeys.RequestReadMusicMetadata, this._currentFilePath)
   }
 
   /**
