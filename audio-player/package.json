@@ -88,7 +88,8 @@
   },
   "dependencies": {
     "material-flux": "^1.4.0",
-    "musicmetadata": "^2.0.5",
+    "mime-types": "^2.1.18",
+    "music-metadata": "^2.3.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

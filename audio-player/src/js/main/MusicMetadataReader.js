@@ -1,8 +1,8 @@
 import Electron from 'electron'
-import Fs from 'fs'
 import Path from 'path'
 import Crypto from 'crypto'
-import MusicMetadata from 'musicmetadata'
+import * as MusicMetadata from 'music-metadata'
+import * as MimeTypes from 'mime-types'
 import { IPCKeys } from '../Constants.js'
 import FileUtil from './FileUtil.js'
 
@@ -65,21 +65,21 @@ export default class MusicMetadataReader {
       .then(() => {
         return this._readMetadata(filePath)
       })
-      .then((params) => {
+      .then(params => {
         return this._readImage(params)
       })
-      .then((params) => {
-        const m     = params.metadata
+      .then(params => {
+        const common = params.metadata.common
         const music = {
           path: filePath,
-          artist: (0 < m.artist.length ? m.artist[ 0 ] : ''),
-          album: m.album || '',
-          title: m.title || '',
-          year: m.year || '',
-          track: (m.track && 0 < m.track.no ? m.track.no : 1),
-          disc: (m.disk  && 0 < m.disk.no  ? m.disk.no  : 1),
-          genre: (0 < m.genre.length ? m.genre[ 0 ] : ''),
-          duration: m.duration,
+          artist: common.artist,
+          album: common.album || '',
+          title: common.title || '',
+          year: common.year || '',
+          track: (common.track && 0 < common.track.no ? common.track.no : 1),
+          disc: (common.disk  && 0 < common.disk.no  ? common.disk.no  : 1),
+          genre: (0 < common.genre.length ? common.genre[ 0 ] : ''),
+          duration: params.metadata.format.duration,
           image: params.image
         }
 
@@ -98,16 +98,10 @@ export default class MusicMetadataReader {
    * @return {Promise} Instance of Promise.
    */
   _readMetadata (filePath) {
-    return new Promise((resolve, reject) => {
-      const stream = Fs.createReadStream(filePath)
-      MusicMetadata(stream, { duration: true }, (err, metadata) => {
-        if (err) {
-          return reject(err)
-        }
-
-        return resolve({ metadata })
+    return MusicMetadata.parseFile(filePath, { duration: true })
+      .then(metadata => {
+        return {metadata: metadata}
       })
-    })
   }
 
   /**
@@ -117,13 +111,13 @@ export default class MusicMetadataReader {
    */
   _readImage (params) {
     return new Promise((resolve) => {
-      const picture = params.metadata.picture
+      const picture = params.metadata.common.picture
       if (!(this._saveImageDirPath && picture && 0 < picture.length)) {
         resolve(params)
         return
       }
-
-      const fileName = this._getHash(picture[ 0 ].data) + '.' + picture[ 0 ].format
+      const extension = MimeTypes.extension(picture[0].format)
+      const fileName = this._getHash(picture[ 0 ].data) + '.' + extension
       const filePath = Path.join(this._saveImageDirPath, fileName)
 
       // Save image file
