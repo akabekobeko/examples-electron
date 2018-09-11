@@ -11,3 +11,4 @@ src/assets/main.js
 src/assets/bundle.css
 !.gitignore
 !.babelrc
+!.esdoc.json
