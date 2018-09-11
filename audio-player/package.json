@@ -1,7 +1,7 @@
 {
   "name": "electron-audio-player",
   "description": "Example of simple audio player in Electron.",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "author": "akabeko",
   "license": "MIT",
   "private": true,
@@ -15,46 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/akabekobeko/examples-electron.git"
   },
-  "esdoc": {
-    "source": "./src/js",
-    "destination": "./esdoc",
-    "plugins": [
-      {
-        "name": "esdoc-jsx-plugin",
-        "option": {
-          "enable": true
-        }
-      },
-      {
-        "name": "esdoc-standard-plugin",
-        "option": {
-          "test": {
-            "source": "./src/js"
-          }
-        }
-      }
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "electron": "1.8"
-          }
-        }
-      ],
-      "react"
-    ],
-    "env": {
-      "development": {
-        "presets": [
-          "power-assert"
-        ]
-      }
-    }
-  },
   "config": {
     "app": "AudioPlayer",
     "appCompanyName": "Company",
@@ -64,7 +24,7 @@
   "scripts": {
     "start": "npm run watch",
     "app": "electron --inspect=5858 src/",
-    "test": "mocha --require babel-register src/js/**/*.test.js",
+    "test": "mocha --require @babel/register src/js/**/*.test.js",
     "esdoc": "esdoc",
     "eslint": "eslint ./src/js",
     "build:js-main": "webpack --env.main --mode development",
@@ -88,47 +48,47 @@
   },
   "dependencies": {
     "material-flux": "^1.4.0",
-    "mime-types": "^2.1.18",
-    "music-metadata": "^2.3.2",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-split-pane": "^0.1.77"
+    "mime-types": "^2.1.20",
+    "music-metadata": "^2.7.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-split-pane": "^0.1.84"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-loader": "^8.0.2",
     "babel-minify-webpack-plugin": "^0.3.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-power-assert": "^2.0.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "babel-preset-power-assert": "^3.0.0",
     "cpx": "^1.5.0",
     "cross-conf-env": "^1.1.2",
-    "css-loader": "^0.28.11",
+    "css-loader": "^1.0.0",
     "devtron": "^1.4.0",
-    "electron": "^2.0.0",
-    "electron-packager": "^12.0.2",
+    "electron": "^2.0.9",
+    "electron-packager": "^12.1.1",
     "esdoc": "^1.1.0",
     "esdoc-jsx-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-config-standard-react": "^6.0.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-react": "^7.8.2",
-    "eslint-plugin-standard": "^3.1.0",
-    "mini-css-extract-plugin": "^0.4.0",
-    "mocha": "^5.1.1",
-    "node-sass": "^4.9.0",
+    "eslint": "^5.5.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-react": "^7.0.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mini-css-extract-plugin": "^0.4.2",
+    "mocha": "^5.2.0",
+    "node-sass": "^4.9.3",
     "npm-run-all": "^4.1.3",
-    "power-assert": "^1.5.0",
-    "resolve-url-loader": "^2.3.0",
+    "power-assert": "^1.6.1",
+    "resolve-url-loader": "^2.3.1",
     "rimraf": "^2.6.2",
-    "sass-loader": "^7.0.1",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.3"
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.18.0",
+    "webpack-cli": "^3.1.0"
   }
 }

@@ -1,10 +1,12 @@
-import WebPack from 'webpack'
 import MinifyPlugin from 'babel-minify-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 export default (env, argv) => {
   const MAIN = !!(env && env.main)
   const PROD = !!(argv.mode && argv.mode === 'production')
+  if (PROD) {
+    process.env.NODE_ENV = 'production'
+  }
 
   return {
     target: MAIN ? 'electron-main' : 'web',
@@ -67,9 +69,6 @@ export default (env, argv) => {
           ]
         }
       }, {}),
-      new WebPack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
       new MiniCssExtractPlugin({ filename: 'bundle.css' })
     ] : [
       new MiniCssExtractPlugin({ filename: 'bundle.css' })
