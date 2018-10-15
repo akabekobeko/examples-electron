@@ -1,4 +1,5 @@
 import Electron from 'electron'
+import Path from 'path'
 import MainMenu from './MainMenu.js'
 import DialogManager from './DialogManager.js'
 import WindowManager, { WindowTypes } from './WindowManager.js'
@@ -56,6 +57,9 @@ class App {
    * Occurs when a application launched.
    */
   onReady () {
+    // Operating userData is after application launch
+    this._musicMetadataReader.saveImageDirPath = Path.join(Electron.app.getPath('userData'), 'images')
+
     this._windowManager.show(WindowTypes.Main)
     const templates = MainMenu.menu(this)
     const menu = Electron.Menu.buildFromTemplate(templates)

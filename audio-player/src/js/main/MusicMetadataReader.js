@@ -1,5 +1,5 @@
-import Electron from 'electron'
 import Path from 'path'
+import Fs from 'fs'
 import Crypto from 'crypto'
 import * as MusicMetadata from 'music-metadata'
 import * as MimeTypes from 'mime-types'
@@ -12,33 +12,15 @@ import FileUtil from './FileUtil.js'
 export default class MusicMetadataReader {
   /**
    * Initialize instance.
-   *
    * @param {App} context Application context.
    */
   constructor (context) {
-    /**
-     * Path of the folder in which to save the image.
-     * @type {String}
-     */
-    this._saveImageDirPath = Path.join(Electron.app.getPath('userData'), 'images')
-
-    // Setup save directory
-    if (this._saveImageDirPath) {
-      FileUtil.mkdir(this._saveImageDirPath, (err) => {
-        if (err) {
-          if (DEBUG) {
-            console.error(err)
-          }
-        }
-      })
-    }
-
+    this._saveImageDirPath = ''
     context.ipc.on(IPCKeys.RequestReadMusicMetadata, this._onRequestReadMusicMetadata.bind(this))
   }
 
   /**
    * Get the save image directory path.
-   *
    * @return {String} Directory path.
    */
   get saveImageDirPath () {
@@ -47,18 +29,23 @@ export default class MusicMetadataReader {
 
   /**
    * Set the save image directory path.
-   *
    * @param {String} path Directory path.
    */
   set saveImageDirPath (path) {
-    this._saveImageDirPath = path
+    if (path && !(Fs.existsSync(path))) {
+      Fs.mkdirSync(path)
+    }
+
+    if (Fs.existsSync(path)) {
+      this._saveImageDirPath = path
+    }
   }
 
   /**
    * Read the metadata from music file.
-   *
    * @param {String} filePath Music file path.
    * @param {Function} callback Callback function.
+   * @return {Promise} Asynchronous task.
    */
   read (filePath, callback) {
     Promise.resolve()
@@ -78,7 +65,7 @@ export default class MusicMetadataReader {
           year: common.year || '',
           track: (common.track && 0 < common.track.no ? common.track.no : 1),
           disc: (common.disk  && 0 < common.disk.no  ? common.disk.no  : 1),
-          genre: (0 < common.genre.length ? common.genre[ 0 ] : ''),
+          genre: (common.genre && 0 < common.genre.length ? common.genre[0] : ''),
           duration: params.metadata.format.duration,
           image: params.image
         }
@@ -92,22 +79,20 @@ export default class MusicMetadataReader {
 
   /**
    * Read the metadata from music file.
-   *
    * @param {String} filePath Music file path.
-   *
-   * @return {Promise} Instance of Promise.
+   * @return {Promise} Asynchronous task.
    */
   _readMetadata (filePath) {
     return MusicMetadata.parseFile(filePath, { duration: true })
       .then(metadata => {
-        return {metadata: metadata}
+        return { metadata: metadata }
       })
   }
 
   /**
    * Read and save the image from music metadata.
-   *
    * @param {Object} params Music metadata.
+   * @return {Promise} Asynchronous task.
    */
   _readImage (params) {
     return new Promise((resolve) => {
@@ -116,6 +101,7 @@ export default class MusicMetadataReader {
         resolve(params)
         return
       }
+
       const extension = MimeTypes.extension(picture[0].format)
       const fileName = this._getHash(picture[ 0 ].data) + '.' + extension
       const filePath = Path.join(this._saveImageDirPath, fileName)
@@ -138,9 +124,7 @@ export default class MusicMetadataReader {
 
   /**
    * Get the SHA-1 hash from binary data.
-   *
    * @param {ArrayBuffer} data Ninary data.
-   *
    * @return {String} Hash string.
    */
   _getHash (data) {
@@ -152,7 +136,6 @@ export default class MusicMetadataReader {
 
   /**
    * Occurs when the import of music files has been requested.
-   *
    * @param {Event} ev Event data.
    * @param {String} filePath Music file path.
    */
