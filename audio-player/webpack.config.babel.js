@@ -1,5 +1,6 @@
-import MinifyPlugin from 'babel-minify-webpack-plugin'
+import BabelMinifyPlugin from 'babel-minify-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import OptimizeCssnanoPlugin from '@intervolga/optimize-cssnano-plugin'
 
 export default (env, argv) => {
   const MAIN = !!(env && env.main)
@@ -40,8 +41,7 @@ export default (env, argv) => {
                 localIdentName: PROD ? '[hash:base64]' : '[name]-[local]-[hash:base64:5]',
                 url: false,
                 importLoaders: 1,
-                sourceMap: !(PROD),
-                minimize: PROD ? { autoprefixer: false } : false
+                sourceMap: !(PROD)
               }
             },
             {
@@ -56,7 +56,7 @@ export default (env, argv) => {
       ]
     },
     plugins: PROD ? [
-      new MinifyPlugin({
+      new BabelMinifyPlugin({
         replace: {
           'replacements': [
             {
@@ -69,7 +69,8 @@ export default (env, argv) => {
           ]
         }
       }, {}),
-      new MiniCssExtractPlugin({ filename: 'bundle.css' })
+      new MiniCssExtractPlugin({ filename: 'bundle.css' }),
+      new OptimizeCssnanoPlugin()
     ] : [
       new MiniCssExtractPlugin({ filename: 'bundle.css' })
     ]
