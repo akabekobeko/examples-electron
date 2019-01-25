@@ -3,7 +3,7 @@ module.exports = (api) => {
     '@babel/preset-env',
     {
       targets: {
-        electron: '2.0'
+        electron: '4.0'
       }
     }
   ]
