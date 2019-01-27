@@ -1,0 +1,12 @@
+{
+  "name": "electron-simple-filer",
+  "description": "Electron Simple Filer.",
+  "version": "1.0.0",
+  "author": "akabeko",
+  "license": "MIT",
+  "main": "assets/main.js",
+  "keywords": [
+    "Electron",
+    "Starter"
+  ]
+}
