@@ -1,11 +1,36 @@
+import '../App.scss'
 import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import ReduxThunkMiddleware from 'redux-thunk'
+import RootReducer from '../reducers/index'
+import Toolbar from '../components/Toolbar'
 
 const App: React.SFC = () => (
   <div>
+    <Toolbar />
   </div>
 )
 
-export default App
+const RenderApp = () => {
+  let store = createStore(
+    RootReducer,
+    applyMiddleware(
+      ReduxThunkMiddleware
+    )
+  )
+
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.querySelector('.app')
+  )
+}
+
+export default RenderApp
+
 /*
 interface AppProps {
   name?: string

@@ -10,7 +10,7 @@ export default (env, argv) => {
   }
 
   return {
-    target: MAIN ? 'electron-main' : 'web',
+    target: MAIN ? 'electron-main' : 'electron-renderer',
     entry: MAIN ? './src/main/App.ts' : './src/renderer/App.ts',
     output: {
       path: PROD ? `${__dirname}/dist/src/assets` : `${__dirname}/src/assets`,

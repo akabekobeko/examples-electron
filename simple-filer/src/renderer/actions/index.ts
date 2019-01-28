@@ -1,11 +1,9 @@
-import { IPCKey } from '../../common/Constants'
+import { ipcRenderer, IpcMessageEvent } from 'electron';
 import { Dispatch } from 'redux'
-import { IpcMessageEvent } from 'electron';
+import { IPCKey } from '../../common/Constants'
 import { FileItem } from '../../common/TypeAliases';
 
-const { ipcRenderer } = require('electron')
-
-enum ActionType {
+export enum ActionType {
   RequestEnumItems = 'RequestEnumItems',
   FinishEnumItems = 'FinishEnumItems'
 }
