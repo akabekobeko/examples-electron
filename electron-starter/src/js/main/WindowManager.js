@@ -65,7 +65,10 @@ export default class WindowManager {
       height: 400,
       minWidth: 400,
       minHeight: 400,
-      resizable: true
+      resizable: true,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
 
     const id = w.id
@@ -102,7 +105,10 @@ export default class WindowManager {
       width: 400,
       height: 256,
       resizable: false,
-      alwaysOnTop: true
+      alwaysOnTop: true,
+      webPreferences: {
+        nodeIntegration: false
+      }
     })
 
     w.setMenu(null)
