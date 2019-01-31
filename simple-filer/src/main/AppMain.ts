@@ -21,9 +21,9 @@ const initializeIpcEvents = () => {
   ev.sender.send(IPCKey.FinishShowMessageBox, button)
   })
 
-  ipcMain.on(IPCKey.RequestEnumItems, (ev: IpcMessageEvent, folder: string) => {
+  ipcMain.on(IPCKey.RequestEnumItems, (ev: IpcMessageEvent, folder?: string) => {
     EnumFiles(folder)
-      .then((items: FileItem[]) => {
+      .then((items) => {
         ev.sender.send(IPCKey.FinishEnumItems, items)
       })
       .catch(() => {
@@ -34,11 +34,14 @@ const initializeIpcEvents = () => {
 
 const initializeMainWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 400,
-    height: 400,
-    minWidth: 400,
-    minHeight: 400,
-    resizable: true
+    width: 1024,
+    height: 768,
+    minWidth: 480,
+    minHeight: 320,
+    resizable: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadFile('assets/index.html')

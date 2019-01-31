@@ -1,0 +1,8 @@
+@import "../_Variables";
+
+.explorer {
+  background-color: $color_white;
+  height: 100%;
+  overflow: scroll;
+  padding: .5rem;
+}

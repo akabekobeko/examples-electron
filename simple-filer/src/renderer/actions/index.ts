@@ -1,11 +1,15 @@
-import { ipcRenderer, IpcMessageEvent } from 'electron';
+import { IpcMessageEvent } from 'electron';
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { FileItem } from '../../common/TypeAliases';
 
+const ipcRenderer = window.require('electron').ipcRenderer
+
 export enum ActionType {
   RequestEnumItems = 'RequestEnumItems',
-  FinishEnumItems = 'FinishEnumItems'
+  FinishEnumItems = 'FinishEnumItems',
+  RequestAddRootFolder = 'RequestAddRootFolder',
+  FinishAddRootFolder = 'FinishAddRootFolder'
 }
 
 const requestEnumItems = () => ({
@@ -26,4 +30,29 @@ export const enumItems = (folderPath: string) => (dispath: Dispatch) => {
   })
 
   ipcRenderer.send(IPCKey.RequestEnumItems, folderPath)
+}
+
+const requestAddRootFolder = () => ({
+  type: ActionType.RequestAddRootFolder
+})
+
+const finishAddRootFolder = (folder: FileItem) => ({
+  type: ActionType.FinishAddRootFolder,
+  payload: {
+    folder
+  }
+})
+
+export const addRootFolder = () => (dispath: Dispatch) => {
+  dispath(requestAddRootFolder())
+  ipcRenderer.once(IPCKey.FinishShowOpenDialog, (ev: IpcMessageEvent, folder: FileItem) => {
+    dispath(finishAddRootFolder(folder))
+  })
+
+  const options = {
+    title: 'Select root folder',
+    properties: ['openDirectory']
+  }
+
+  ipcRenderer.send(IPCKey.RequestShowOpenDialog, options)
 }

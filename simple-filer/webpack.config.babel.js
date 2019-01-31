@@ -11,7 +11,7 @@ export default (env, argv) => {
 
   return {
     target: MAIN ? 'electron-main' : 'electron-renderer',
-    entry: MAIN ? './src/main/App.ts' : './src/renderer/App.ts',
+    entry: MAIN ? './src/main/AppMain.ts' : './src/renderer/AppRenderer.tsx',
     output: {
       path: PROD ? `${__dirname}/dist/src/assets` : `${__dirname}/src/assets`,
       filename: MAIN ? 'main.js' : 'renderer.js'
@@ -76,6 +76,9 @@ export default (env, argv) => {
       new OptimizeCssnanoPlugin()
     ] : [
       new MiniCssExtractPlugin({ filename: 'bundle.css' })
+    ],
+    externals: MAIN ? [] : [
+      'electron'
     ]
   }
 }

@@ -1,58 +1,47 @@
-import '../App.scss'
+import './App.scss'
 import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import ReduxThunkMiddleware from 'redux-thunk'
-import RootReducer from '../reducers/index'
+import { connect, Provider } from 'react-redux'
+import { Dispatch } from 'redux'
+import { AppState } from '../../common/TypeAliases'
 import Toolbar from '../components/Toolbar'
+import Explorer from '../components/Explorer'
+import FileItemList from '../components/FileItemList'
+import SplitPane from 'react-split-pane'
+import { addRootFolder } from '../actions/index'
 
-const App: React.SFC = () => (
-  <div>
-    <Toolbar />
-  </div>
+type Props = {
+  requestAddRootFolder: () => void
+}
+
+const component: React.SFC<Props> = ({ requestAddRootFolder }) => (
+  <>
+    <Toolbar
+      onClickAddRootFolder={requestAddRootFolder}
+    />
+    <div className="content">
+      <SplitPane split="vertical" minSize={256} defaultSize={256}>
+        <Explorer />
+        <FileItemList />
+      </SplitPane>
+    </div>
+  </>
 )
 
-const RenderApp = () => {
-  let store = createStore(
-    RootReducer,
-    applyMiddleware(
-      ReduxThunkMiddleware
-    )
-  )
-
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.querySelector('.app')
-  )
+const mapStateToProps = (state: AppState) => {
+  return state
 }
 
-export default RenderApp
-
-/*
-interface AppProps {
-  name?: string
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    requestAddRootFolder: () => {
+      dispatch(addRootFolder())
+    }
+  }
 }
 
-const App: React.SFC<AppProps> = ({ name }) => {
-  return (
-    <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Welcome to {name}</h2>
-      </div>
-      <p className="App-intro">
-        To get started, edit <code>src/App.tsx</code> and save to reload.
-      </p>
-    </div>
-  );
-};
+const App = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(component)
 
-App.defaultProps = {
-  name: 'React.SFC',
-};
-
-export default App;
-*/
+export default App
