@@ -4,5 +4,6 @@ export type FileItem = {
   size: number
   mode: number
   mtime: Date
-  isDirectory: boolean
+  isDirectory: boolean,
+  children: FileItem[]
 }

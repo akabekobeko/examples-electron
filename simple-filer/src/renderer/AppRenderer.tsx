@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunkMiddleware from 'redux-thunk'
 import RootReducer from './reducers/index'
-import { addRootFolder } from './actions/index'
 import App from './containers/App'
 
 declare global {

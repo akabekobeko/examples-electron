@@ -12,11 +12,11 @@ export enum ActionType {
   FinishAddRootFolder = 'FinishAddRootFolder'
 }
 
-const requestEnumItems = () => ({
+export const requestEnumItems = () => ({
   type: ActionType.RequestEnumItems
 })
 
-const finishEnumItems = (items: FileItem[]) => ({
+export const finishEnumItems = (items: FileItem[]) => ({
   type: ActionType.FinishEnumItems,
   payload: {
     items
@@ -32,11 +32,11 @@ export const enumItems = (folderPath: string) => (dispath: Dispatch) => {
   ipcRenderer.send(IPCKey.RequestEnumItems, folderPath)
 }
 
-const requestAddRootFolder = () => ({
+export const requestAddRootFolder = () => ({
   type: ActionType.RequestAddRootFolder
 })
 
-const finishAddRootFolder = (folder: FileItem) => ({
+export const finishAddRootFolder = (folder: FileItem) => ({
   type: ActionType.FinishAddRootFolder,
   payload: {
     folder
@@ -45,14 +45,10 @@ const finishAddRootFolder = (folder: FileItem) => ({
 
 export const addRootFolder = () => (dispath: Dispatch) => {
   dispath(requestAddRootFolder())
-  ipcRenderer.once(IPCKey.FinishShowOpenDialog, (ev: IpcMessageEvent, folder: FileItem) => {
+  ipcRenderer.once(IPCKey.FinishSelectFolder, (ev: IpcMessageEvent, folder: FileItem) => {
+    console.log(folder)
     dispath(finishAddRootFolder(folder))
   })
 
-  const options = {
-    title: 'Select root folder',
-    properties: ['openDirectory']
-  }
-
-  ipcRenderer.send(IPCKey.RequestShowOpenDialog, options)
+  ipcRenderer.send(IPCKey.RequestSelectFolder)
 }

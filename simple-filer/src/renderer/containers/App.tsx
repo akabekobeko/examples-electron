@@ -2,18 +2,20 @@ import './App.scss'
 import React from 'react'
 import { connect, Provider } from 'react-redux'
 import { Dispatch } from 'redux'
-import { AppState } from '../../common/TypeAliases'
 import Toolbar from '../components/Toolbar'
 import Explorer from '../components/Explorer'
 import FileItemList from '../components/FileItemList'
 import SplitPane from 'react-split-pane'
 import { addRootFolder } from '../actions/index'
+import { AppState } from '../reducers/index'
 
 type Props = {
-  requestAddRootFolder: () => void
+  requestAddRootFolder?: () => void
 }
 
-const component: React.SFC<Props> = ({ requestAddRootFolder }) => (
+const component: React.SFC<Props> = ({
+  requestAddRootFolder = () => {}
+}) => (
   <>
     <Toolbar
       onClickAddRootFolder={requestAddRootFolder}
