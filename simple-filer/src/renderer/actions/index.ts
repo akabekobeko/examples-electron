@@ -1,7 +1,7 @@
 import { IpcMessageEvent } from 'electron';
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { FileItem } from '../../common/TypeAliases';
+import { FileItem, Folder, EnumItemsResult } from '../../common/TypeAliases';
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -16,38 +16,36 @@ export const requestEnumItems = () => ({
   type: ActionType.RequestEnumItems
 })
 
-export const finishEnumItems = (items: FileItem[]) => ({
-  type: ActionType.FinishEnumItems,
-  payload: {
-    items
-  }
+export const finishEnumItems = (result: EnumItemsResult) => ({
+  type: ActionType.FinishEnumItems as typeof ActionType.FinishEnumItems,
+  payload: result
 })
 
-export const enumItems = (folderPath: string) => (dispath: Dispatch) => {
+export const enumItems = (targetFolderPath: string) => (dispath: Dispatch) => {
   dispath(requestEnumItems())
-  ipcRenderer.once(IPCKey.FinishEnumItems, (ev: IpcMessageEvent, items: FileItem[]) => {
-    dispath(finishEnumItems(items))
+  ipcRenderer.once(IPCKey.FinishEnumItems, (ev: IpcMessageEvent, result: EnumItemsResult) => {
+    dispath(finishEnumItems(result))
   })
 
-  ipcRenderer.send(IPCKey.RequestEnumItems, folderPath)
+  ipcRenderer.send(IPCKey.RequestEnumItems, targetFolderPath)
 }
 
 export const requestAddRootFolder = () => ({
-  type: ActionType.RequestAddRootFolder
+  type: ActionType.RequestAddRootFolder as ActionType.RequestAddRootFolder
 })
 
-export const finishAddRootFolder = (folder: FileItem) => ({
-  type: ActionType.FinishAddRootFolder,
+export const finishAddRootFolder = (folder: Folder, items: FileItem[]) => ({
+  type: ActionType.FinishAddRootFolder as ActionType.FinishAddRootFolder,
   payload: {
-    folder
+    folder,
+    items
   }
 })
 
 export const addRootFolder = () => (dispath: Dispatch) => {
   dispath(requestAddRootFolder())
-  ipcRenderer.once(IPCKey.FinishSelectFolder, (ev: IpcMessageEvent, folder: FileItem) => {
-    console.log(folder)
-    dispath(finishAddRootFolder(folder))
+  ipcRenderer.once(IPCKey.FinishSelectFolder, (ev: IpcMessageEvent, folder: Folder, items: FileItem[]) => {
+    dispath(finishAddRootFolder(folder, items))
   })
 
   ipcRenderer.send(IPCKey.RequestSelectFolder)

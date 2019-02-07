@@ -1,7 +1,7 @@
 import { dialog, BrowserWindow, ipcMain, OpenDialogOptions, IpcMessageEvent, MessageBoxOptions, SaveDialogOptions } from 'electron'
 import { IPCKey } from '../common/Constants'
 import { FileItem } from '../common/TypeAliases';
-import { GetFileInfo, EnumFiles } from './FileManager'
+import { EnumFiles, FileItemToFolder, FolderFromPath } from './FileManager'
 
 /**
  * Occurs when show of a file open dialog is requested.
@@ -38,13 +38,16 @@ const onRequestShowMessageBox = (ev: IpcMessageEvent, options: MessageBoxOptions
  * @param ev Event data.
  * @param options Path of the target folder.
  */
-const onRequestEnumItems = (ev: IpcMessageEvent, folder?: string) => {
-  EnumFiles(folder)
+const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
+  EnumFiles(folderPath)
     .then((items) => {
-      ev.sender.send(IPCKey.FinishEnumItems, items)
+      const subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => FileItemToFolder(item))
+      ev.sender.send(IPCKey.FinishEnumItems, { folderPath, subFolders, items })
     })
     .catch(() => {
-      ev.sender.send(IPCKey.FinishEnumItems, [])
+      ev.sender.send(IPCKey.FinishEnumItems, { folderPath, subFolders:[], items: [] })
     })
 }
 
@@ -58,20 +61,20 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
     properties: ['openDirectory']
   })
 
-  if (paths.length === 0) {
+  if (!paths || paths.length === 0) {
     ev.sender.send(IPCKey.FinishSelectFolder)
     return
   }
 
-  let folder: FileItem
-  GetFileInfo(paths[0])
-    .then((item: FileItem) => {
-      folder = item
-      return EnumFiles(item.path)
-    })
-    .then((children: FileItem[]) => {
-      folder.children = children
-      ev.sender.send(IPCKey.FinishSelectFolder, folder)
+  let path = paths[0]
+  EnumFiles(path)
+    .then((items: FileItem[]) => {
+      const folder = FolderFromPath(path)
+      folder.subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => FileItemToFolder(item))
+
+      ev.sender.send(IPCKey.FinishSelectFolder, folder, items)
     })
     .catch(() => {
       ev.sender.send(IPCKey.FinishSelectFolder)

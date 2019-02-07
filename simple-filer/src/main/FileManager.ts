@@ -1,7 +1,35 @@
 import { promises as Fs } from 'fs'
 import Path from 'path'
 import { app } from 'electron'
-import { FileItem } from '../common/TypeAliases';
+import { Folder, FileItem } from '../common/TypeAliases';
+
+/**
+ * Convert FileItem to Folder.
+ * @param item Item
+ * @returns Converted data.
+ */
+export const FileItemToFolder = (item: FileItem): Folder => {
+  return {
+    name: Path.basename(item.path),
+    path: item.path,
+    expanded: false,
+    subFolders: []
+  }
+}
+
+/**
+ * Create a folder data from path.
+ * @param path Path of folder.
+ * @returns Created data.
+ */
+export const FolderFromPath = (path: string): Folder => {
+  return {
+    name: Path.basename(path),
+    path: path,
+    expanded: false,
+    subFolders: []
+  }
+}
 
 /**
  * Get the file or folder informations.
@@ -16,8 +44,7 @@ export const GetFileInfo = async (path: string): Promise<FileItem> => {
     size: stat.size,
     mode: stat.mode,
     mtime: stat.mtime,
-    isDirectory: stat.isDirectory(),
-    children: []
+    isDirectory: stat.isDirectory()
   }
 }
 

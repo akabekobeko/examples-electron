@@ -1,10 +1,10 @@
 import { app, BrowserWindow } from 'electron'
 import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
 
-let mainWindow
+let mainWindow: BrowserWindow | null
 
-const initializeMainWindow = () => {
-  mainWindow = new BrowserWindow({
+const createMainWindow = () => {
+  const window = new BrowserWindow({
     width: 1024,
     height: 768,
     minWidth: 480,
@@ -15,13 +15,18 @@ const initializeMainWindow = () => {
     }
   })
 
-  mainWindow.loadFile('assets/index.html')
+  window.loadFile('assets/index.html')
+  return window
 }
 
 app.on('ready', () => {
   console.log('Initialize Application')
+  mainWindow = createMainWindow()
+  mainWindow.on('closed', () => {
+    mainWindow = null
+  })
+
   InitializeIpcEvents()
-  initializeMainWindow()
 })
 
 app.on('quit', () => {
@@ -30,6 +35,7 @@ app.on('quit', () => {
 
 app.on('window-all-closed', () => {
   console.log('All of the window was closed.')
+
   ReleaseIpcEvents()
   app.quit()
 })

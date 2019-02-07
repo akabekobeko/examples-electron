@@ -1,0 +1,20 @@
+@import "../_Variables";
+
+.folderitem li {
+  list-style: none;
+}
+
+.folderitem span {
+  padding-left: .5rem;
+}
+
+.subfolder {
+  padding-left: 1rem;
+}
+
+.name {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
