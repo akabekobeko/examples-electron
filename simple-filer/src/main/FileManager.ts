@@ -1,7 +1,7 @@
 import { promises as Fs } from 'fs'
 import Path from 'path'
 import { app } from 'electron'
-import { Folder, FileItem } from '../common/TypeAliases';
+import { Folder, FileItem } from '../common/TypeAliases'
 
 /**
  * Convert FileItem to Folder.

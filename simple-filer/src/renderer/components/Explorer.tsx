@@ -1,20 +1,19 @@
 import React from 'react'
 import { explorer } from './Explorer.scss'
-import { Folder } from '../../common/TypeAliases';
-import FolderItem from './FolderItem';
+import { Folder } from '../../common/TypeAliases'
+import FolderItem from './FolderItem'
 
 type Props = {
   folders: Folder[]
+  enumSubFolders: (folderPath: string) => void
   enumItems: (folderPath: string) => void
 }
 
-const Explorer: React.FC<Props> = ({ folders, enumItems }) => (
+const Explorer: React.FC<Props> = ({ folders, enumSubFolders, enumItems }) => (
   <ul className={explorer}>
     {folders.map((folder, index) => (
-      <li key={index}>
-        <FolderItem folder={folder} enumItems={enumItems} />
-      </li>)
-    )}
+      <FolderItem key={index} folder={folder} enumSubFolders={enumSubFolders} enumItems={enumItems} />
+    ))}
   </ul>
 )
 

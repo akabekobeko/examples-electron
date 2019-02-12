@@ -8,9 +8,9 @@ type Props = {
 const Toolbar: React.SFC<Props> = ({
   onClickAddRootFolder
 }) => (
-  <div className={toolbar}>
-    <span className="icon_circle_with_plus" onClick={onClickAddRootFolder} />
-  </div>
-)
+    <div className={toolbar}>
+      <span className="icon_circle_with_plus" onClick={onClickAddRootFolder} />
+    </div>
+  )
 
 export default Toolbar

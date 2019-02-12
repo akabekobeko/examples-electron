@@ -1,6 +1,14 @@
-import { dialog, BrowserWindow, ipcMain, OpenDialogOptions, IpcMessageEvent, MessageBoxOptions, SaveDialogOptions } from 'electron'
+import {
+  dialog,
+  BrowserWindow,
+  ipcMain,
+  OpenDialogOptions,
+  IpcMessageEvent,
+  MessageBoxOptions,
+  SaveDialogOptions
+} from 'electron'
 import { IPCKey } from '../common/Constants'
-import { FileItem } from '../common/TypeAliases';
+import { FileItem } from '../common/TypeAliases'
 import { EnumFiles, FileItemToFolder, FolderFromPath } from './FileManager'
 
 /**
@@ -34,24 +42,6 @@ const onRequestShowMessageBox = (ev: IpcMessageEvent, options: MessageBoxOptions
 }
 
 /**
- * Occurs when an item enumeration in the folder is requested.
- * @param ev Event data.
- * @param options Path of the target folder.
- */
-const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
-  EnumFiles(folderPath)
-    .then((items) => {
-      const subFolders = items
-        .filter((item) => item.isDirectory)
-        .map((item) => FileItemToFolder(item))
-      ev.sender.send(IPCKey.FinishEnumItems, { folderPath, subFolders, items })
-    })
-    .catch(() => {
-      ev.sender.send(IPCKey.FinishEnumItems, { folderPath, subFolders:[], items: [] })
-    })
-}
-
-/**
  * Occurs when folder selection is requested.
  * @param ev Event data.
  */
@@ -70,14 +60,43 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
   EnumFiles(path)
     .then((items: FileItem[]) => {
       const folder = FolderFromPath(path)
-      folder.subFolders = items
-        .filter((item) => item.isDirectory)
-        .map((item) => FileItemToFolder(item))
+      folder.subFolders = items.filter((item) => item.isDirectory).map((item) => FileItemToFolder(item))
 
-      ev.sender.send(IPCKey.FinishSelectFolder, folder, items)
+      ev.sender.send(IPCKey.FinishSelectFolder, folder)
     })
     .catch(() => {
       ev.sender.send(IPCKey.FinishSelectFolder)
+    })
+}
+
+/**
+ * Occurs when an sub folder enumeration in the folder is requested.
+ * @param ev Event data.
+ * @param options Path of the target folder.
+ */
+const onRequestEnumSubFolders = (ev: IpcMessageEvent, folderPath: string) => {
+  EnumFiles(folderPath)
+    .then((items) => {
+      const subFolders = items.filter((item) => item.isDirectory).map((item) => FileItemToFolder(item))
+      ev.sender.send(IPCKey.FinishEnumSubFolders, folderPath, subFolders)
+    })
+    .catch(() => {
+      ev.sender.send(IPCKey.FinishEnumSubFolders, folderPath, [])
+    })
+}
+
+/**
+ * Occurs when an item enumeration in the folder is requested.
+ * @param ev Event data.
+ * @param options Path of the target folder.
+ */
+const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
+  EnumFiles(folderPath)
+    .then((items) => {
+      ev.sender.send(IPCKey.FinishEnumItems, items)
+    })
+    .catch(() => {
+      ev.sender.send(IPCKey.FinishEnumItems, [])
     })
 }
 
@@ -98,8 +117,9 @@ export const InitializeIpcEvents = () => {
   ipcMain.on(IPCKey.RequestShowOpenDialog, onRequestShowOpenDialog)
   ipcMain.on(IPCKey.RequestShowSaveDialog, onRequestShowSaveDialog)
   ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
-  ipcMain.on(IPCKey.RequestEnumItems, onRequestEnumItems)
   ipcMain.on(IPCKey.RequestSelectFolder, onRequestSelectFolder)
+  ipcMain.on(IPCKey.RequestEnumSubFolders, onRequestEnumSubFolders)
+  ipcMain.on(IPCKey.RequestEnumItems, onRequestEnumItems)
 }
 
 /**
@@ -110,9 +130,10 @@ export const ReleaseIpcEvents = () => {
     ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
-    ipcMain.removeAllListeners(IPCKey.RequestEnumItems)
     ipcMain.removeAllListeners(IPCKey.RequestSelectFolder)
-    }
+    ipcMain.removeAllListeners(IPCKey.RequestEnumSubFolders)
+    ipcMain.removeAllListeners(IPCKey.RequestEnumItems)
+  }
 
-    initialized = false
+  initialized = false
 }

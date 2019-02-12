@@ -39,4 +39,3 @@ app.on('window-all-closed', () => {
   ReleaseIpcEvents()
   app.quit()
 })
-

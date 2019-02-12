@@ -1,3 +1,6 @@
+/**
+ * Hierarchical structure information of folders.
+ */
 export type Folder = {
   name: string
   path: string
@@ -5,6 +8,9 @@ export type Folder = {
   subFolders: Folder[]
 }
 
+/**
+ * File or Folder information
+ */
 export type FileItem = {
   name: string
   path: string
@@ -12,6 +18,14 @@ export type FileItem = {
   mode: number
   mtime: Date
   isDirectory: boolean
+}
+
+/**
+ * Item informations per folder
+ */
+export type FolderItem = {
+  folderPath: string
+  items: FileItem[]
 }
 
 export type EnumItemsResult = {

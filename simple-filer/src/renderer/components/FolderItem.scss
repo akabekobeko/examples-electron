@@ -1,11 +1,13 @@
-@import "../_Variables";
+@import '../_Variables';
 
-.folderitem li {
+.folderitem {
   list-style: none;
+  list-style-position: inside;
+  white-space: nowrap;
 }
 
 .folderitem span {
-  padding-left: .5rem;
+  padding-left: 0.5rem;
 }
 
 .subfolder {
@@ -16,5 +18,5 @@
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap
+  white-space: nowrap;
 }
