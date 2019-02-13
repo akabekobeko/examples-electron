@@ -7,11 +7,11 @@ import Explorer from '../components/Explorer'
 import FileItemList from '../components/FileItemList'
 import SplitPane from 'react-split-pane'
 import { addRootFolder, enumSubFolders, enumItems } from '../actions/index'
-import { AppState } from '../reducers/index'
-import { Folder } from '../../common/TypeAliases'
+import { Folder, FileItem } from '../../common/TypeAliases'
 
 type Props = {
   folders?: Folder[]
+  items?: FileItem[]
   requestAddRootFolder?: () => void
   requestEnumSubFolders?: (folderPath: string) => void
   requestEnumItems?: (folderPath: string) => void
@@ -19,20 +19,21 @@ type Props = {
 
 const component: React.FC<Props> = ({
   folders = [],
-  requestAddRootFolder = () => { },
-  requestEnumSubFolders = () => { },
-  requestEnumItems = () => { }
+  items = [],
+  requestAddRootFolder = () => {},
+  requestEnumSubFolders = () => {},
+  requestEnumItems = () => {}
 }) => (
-    <>
-      <Toolbar onClickAddRootFolder={requestAddRootFolder} />
-      <div className="content">
-        <SplitPane split="vertical" minSize={256} defaultSize={256}>
-          <Explorer folders={folders} enumSubFolders={requestEnumSubFolders} enumItems={requestEnumItems} />
-          <FileItemList />
-        </SplitPane>
-      </div>
-    </>
-  )
+  <>
+    <Toolbar onClickAddRootFolder={requestAddRootFolder} />
+    <div className="content">
+      <SplitPane split="vertical" minSize={256} defaultSize={256}>
+        <Explorer folders={folders} enumSubFolders={requestEnumSubFolders} enumItems={requestEnumItems} />
+        <FileItemList items={items} />
+      </SplitPane>
+    </div>
+  </>
+)
 
 const mapStateToProps = (state = {}) => {
   return state

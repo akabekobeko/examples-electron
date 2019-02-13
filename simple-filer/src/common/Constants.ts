@@ -11,9 +11,6 @@ export enum IPCKey {
   RequestSelectFolder = 'RequestSelectFolder',
   FinishSelectFolder = 'FinishSelectFolder',
 
-  RequestEnumSubFolders = 'RequestEnumSubFolders',
-  FinishEnumSubFolders = 'FinishEnumSubFolders',
-
   RequestEnumItems = 'RequestEnumItems',
   FinishEnumItems = 'FinishEnumItems'
 }

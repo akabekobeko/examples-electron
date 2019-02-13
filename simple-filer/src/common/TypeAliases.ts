@@ -27,9 +27,3 @@ export type FolderItem = {
   folderPath: string
   items: FileItem[]
 }
-
-export type EnumItemsResult = {
-  folderPath: string
-  subFolders: Folder[]
-  items: FileItem[]
-}

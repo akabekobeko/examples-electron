@@ -16,7 +16,6 @@ const FolderItem: React.FC<Props> = ({ folder, enumItems, enumSubFolders }) => {
       <div
         onClick={() => {
           enumItems(folder.path)
-          setExpanded(!expanded)
         }}
       >
         <i

@@ -1,8 +1,8 @@
 import assert = require('assert')
 import Rewire from 'rewire'
 
-describe('checkFolders', () => {
-  const Module = Rewire('./checkFolders.ts')
+describe('enumSubFolders', () => {
+  const Module = Rewire('./enumSubFolders.ts')
 
   describe('merge', () => {
     const merge = Module.__get__('merge')

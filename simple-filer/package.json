@@ -24,7 +24,6 @@
     "start": "npm run watch",
     "app": "electron --inspect=5858 src/",
     "test": "mocha --require espower-typescript/guess src/**/*.test.ts",
-    "esdoc": "esdoc",
     "build:js-main": "webpack --env.main --mode development",
     "build:js-renderer": "webpack --mode development",
     "build": "npm-run-all -p build:*",
@@ -35,7 +34,7 @@
     "release:js-main": "webpack --env.main --mode production",
     "release:js-renderer": "webpack --mode production",
     "release:clean": "rimraf ./dist/src",
-    "release:copy": "cpx \"./src/**/!(*.js|*.css|*.scss|*.styl|*.map)\" ./dist/src/",
+    "release:copy": "cpx \"./src/assets/**/!(*.js|*.css|*.scss|*.styl|*.map)\" ./dist/src/",
     "release:build": "npm-run-all -s release:clean release:copy -p release:js-main release:js-renderer",
     "release:pack-mac": "cross-conf-env electron-packager ./dist/src npm_package_config_app --out=dist/bin --download.cache=dist/cache --platform=darwin --arch=x64 --overwrite --asar --icon=src/res/app.icns",
     "release:pack-win": "cross-conf-env electron-packager ./dist/src npm_package_config_app --out=dist/bin --download.cache=dist/cache --platform=win32 --arch=x64 --overwrite --asar --icon=src/res/app.ico --version-string.CompanyName=\"npm_package_config_appCompanyName\" --version-string.LegalCopyright=\"npm_package_config_appLegalCopyright\" --version-string.FileDescription=\"npm_package_config_appFileDescription\" --version-string.OriginalFilename=\"npm_package_config_app.exe\" --version-string.FileVersion=\"npm_package_version\" --version-string.ProductVersion=\"npm_package_version\" --version-string.ProductName=\"npm_package_config_app\" --version-string.InternalName=\"npm_package_config_app\"",
@@ -85,8 +84,8 @@
     "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
     "typed-css-modules": "^0.3.7",
-    "typescript": "^3.3.1",
-    "webpack": "^4.29.2",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3"
   }
 }

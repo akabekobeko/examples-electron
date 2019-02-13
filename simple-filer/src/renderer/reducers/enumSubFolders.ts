@@ -1,3 +1,5 @@
+import { finishEnumSubFolders } from '../actions/index'
+import { AppState } from './types'
 import { Folder } from '../../common/TypeAliases'
 
 /**
@@ -24,7 +26,7 @@ const merge = (old: Folder[], current: Folder[]): Folder[] => {
  * @param newSubFolders New sub folders.
  * @param currentFolders Current folders.
  */
-export const checkFolders = (folderPath: string, newSubFolders: Folder[], folders: Folder[]) => {
+const checkFolders = (folderPath: string, newSubFolders: Folder[], folders: Folder[]) => {
   for (let folder of folders) {
     if (folder.path === folderPath) {
       folder.subFolders = merge(folder.subFolders, newSubFolders)
@@ -39,4 +41,23 @@ export const checkFolders = (folderPath: string, newSubFolders: Folder[], folder
   return false
 }
 
-export default checkFolders
+/**
+ * Check the result of finishEnumSubFolders and generate a new state.
+ * @param state Current state.
+ * @param action Action of finishEnumSubFolders.
+ * @returns New state.
+ */
+export const enumSubFolders = (state: AppState, action: ReturnType<typeof finishEnumSubFolders>): AppState => {
+  if (!action.payload.subFolders || action.payload.subFolders.length === 0) {
+    return state
+  }
+
+  const newFolders = state.folders.concat()
+  checkFolders(action.payload.folderPath, action.payload.subFolders, newFolders)
+
+  return Object.assign({}, state, {
+    folders: newFolders
+  })
+}
+
+export default enumSubFolders
