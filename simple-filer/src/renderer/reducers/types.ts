@@ -1,6 +1,6 @@
-import { Folder, FileItem } from '../../common/TypeAliases'
+import { Folder, FileViewItem } from '../../common/TypeAliases'
 
 export type AppState = {
   folders: Folder[]
-  items: FileItem[]
+  items: FileViewItem[]
 }

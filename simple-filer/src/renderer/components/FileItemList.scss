@@ -36,12 +36,19 @@
   text-align: right;
 }
 
+.value_type {
+  text-align: center;
+}
+
 .value_size {
   text-align: right;
-  font-family: monospace, serif;
 }
 
 .value_permission {
   text-align: center;
   font-family: monospace, serif;
+}
+
+.value_modified {
+  text-align: center;
 }

@@ -43,7 +43,7 @@ export const GetFileInfo = async (path: string): Promise<FileItem> => {
     path: path,
     size: stat.size,
     mode: stat.mode,
-    mtime: stat.mtime,
+    mtime: stat.mtime.toString(),
     isDirectory: stat.isDirectory()
   }
 }

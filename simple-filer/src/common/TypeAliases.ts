@@ -1,3 +1,5 @@
+import { FileType } from './Constants'
+
 /**
  * Hierarchical structure information of folders.
  */
@@ -9,6 +11,14 @@ export type Folder = {
 }
 
 /**
+ * Item informations per folder
+ */
+export type FolderItem = {
+  folderPath: string
+  items: FileItem[]
+}
+
+/**
  * File or Folder information
  */
 export type FileItem = {
@@ -16,14 +26,17 @@ export type FileItem = {
   path: string
   size: number
   mode: number
-  mtime: Date
+  mtime: string
   isDirectory: boolean
 }
 
 /**
- * Item informations per folder
+ * File or Folder information for display.
  */
-export type FolderItem = {
-  folderPath: string
-  items: FileItem[]
+export type FileViewItem = {
+  item: FileItem
+  type: FileType
+  size: string
+  permission: string
+  date: string
 }
