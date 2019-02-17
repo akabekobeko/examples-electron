@@ -1,0 +1,54 @@
+@import '../_Variables';
+
+.list {
+  background-color: $color_white;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.list th {
+  background-color: $color_gray_light;
+  border: solid 1px $color_gray;
+  border-top: none;
+  padding: 0.3rem;
+  font-weight: normal;
+}
+
+.list th:first-child,
+.list th:last-child,
+.list td:first-child,
+.list td:last-child {
+  border-left: none;
+}
+
+.list td {
+  border: solid 1px $color_gray;
+  padding: 0.3rem;
+}
+
+.header_right {
+  text-align: right;
+}
+
+.value_type {
+  text-align: center;
+}
+
+.value_size {
+  text-align: right;
+}
+
+.value_permission {
+  text-align: center;
+  font-family: monospace, serif;
+}
+
+.value_modified {
+  text-align: center;
+}

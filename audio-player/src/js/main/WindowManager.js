@@ -137,7 +137,10 @@ export default class WindowManager {
       height: 600,
       minWidth: 800,
       minHeight: 480,
-      resizable: true
+      resizable: true,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
 
     w.on('closed', () => {
@@ -173,7 +176,10 @@ export default class WindowManager {
       width: 400,
       height: 256,
       resizable: false,
-      alwaysOnTop: true
+      alwaysOnTop: true,
+      webPreferences: {
+        nodeIntegration: false
+      }
     })
 
     w.setMenu(null)
@@ -204,7 +210,10 @@ export default class WindowManager {
         width: 370,
         height: 300,
         resizable: false,
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        webPreferences: {
+          nodeIntegration: true
+        }
       })
     } else {
       // Add a heigth for menu bar
@@ -212,7 +221,10 @@ export default class WindowManager {
         width: 370,
         height: 320,
         resizable: false,
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        webPreferences: {
+          nodeIntegration: true
+        }
       })
 
       w.setMenu(null)
