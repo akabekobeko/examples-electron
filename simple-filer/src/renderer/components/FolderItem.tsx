@@ -1,21 +1,30 @@
 import React, { useState } from 'react'
-import { Folder } from '../../common/TypeAliases'
-import { folderitem, subfolder, name } from './FolderItem.scss'
+import { Folder } from '../../common/Types'
+import { folderitem, subfolder, normal, selected } from './FolderItem.scss'
 
 type Props = {
   folder: Folder
+  currentFolderPath: string
   enumItems: (folderPath: string) => void
   enumSubFolders: (folderPath: string) => void
 }
 
-const FolderItem: React.FC<Props> = ({ folder, enumItems, enumSubFolders }) => {
+const FolderItem: React.FC<Props> = ({
+  folder,
+  currentFolderPath,
+  enumItems,
+  enumSubFolders
+}) => {
   const [expanded, setExpanded] = useState(false)
 
   return (
     <li className={folderitem}>
       <div
+        className={folder.path === currentFolderPath ? selected : normal}
         onClick={() => {
-          enumItems(folder.path)
+          if (folder.path !== currentFolderPath) {
+            enumItems(folder.path)
+          }
         }}
       >
         <i
@@ -32,12 +41,18 @@ const FolderItem: React.FC<Props> = ({ folder, enumItems, enumSubFolders }) => {
           }}
         />
         <i className="icon_folder" />
-        <span className={name}>{folder.name}</span>
+        <span>{folder.name}</span>
       </div>
       {!expanded || folder.subFolders.length === 0 ? null : (
         <ul className={subfolder}>
           {folder.subFolders.map((subFolder, index) => (
-            <FolderItem key={index} folder={subFolder} enumItems={enumItems} enumSubFolders={enumSubFolders} />
+            <FolderItem
+              key={index}
+              folder={subFolder}
+              currentFolderPath={currentFolderPath}
+              enumItems={enumItems}
+              enumSubFolders={enumSubFolders}
+            />
           ))}
         </ul>
       )}

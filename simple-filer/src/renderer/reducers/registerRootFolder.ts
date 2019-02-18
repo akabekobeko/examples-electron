@@ -1,13 +1,16 @@
-import { finishAddRootFolder } from '../actions/index'
+import { finishRegisterRootFolder } from '../actions/index'
 import { AppState } from './types'
 
 /**
- * Check the result of finishAddRootFolder and generate a new state.
+ * Check the result of finishRegisterRootFolder and generate a new state.
  * @param state Current state.
- * @param action Action of finishAddRootFolder.
+ * @param action Action of finishRegisterRootFolder.
  * @returns New state.
  */
-export const addRootFolder = (state: AppState, action: ReturnType<typeof finishAddRootFolder>): AppState => {
+export const registerRootFolder = (
+  state: AppState,
+  action: ReturnType<typeof finishRegisterRootFolder>
+): AppState => {
   if (!action.payload.folder) {
     return state
   }
@@ -24,4 +27,4 @@ export const addRootFolder = (state: AppState, action: ReturnType<typeof finishA
   })
 }
 
-export default addRootFolder
+export default registerRootFolder

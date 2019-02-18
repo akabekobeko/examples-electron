@@ -1,6 +1,7 @@
 export enum ActionType {
-  RequestAddRootFolder = 'RequestAddRootFolder',
-  FinishAddRootFolder = 'FinishAddRootFolder',
+  RequestRegisterRootFolder = 'RequestRegisterRootFolder',
+  FinishRegisterRootFolder = 'FinishRegisterRootFolder',
+  RequestUnregisterRootFolder = 'RequestUnregisterRootFolder',
   RequestEnumSubFolders = 'RequestEnumSubFolders',
   FinishEnumSubFolders = 'FinishEnumSubFolders',
   RequestEnumItems = 'RequestEnumItems',

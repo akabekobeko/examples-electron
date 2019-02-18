@@ -2,7 +2,7 @@ import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from './types'
-import { Folder, FileItem } from '../../common/TypeAliases'
+import { Folder, FileItem } from '../../common/Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -19,9 +19,10 @@ export const requestEnumItems = () => ({
  * @param items Enumerated items.
  * @returns Action result.
  */
-export const finishEnumItems = (items: FileItem[]) => ({
+export const finishEnumItems = (folderPath: string, items: FileItem[]) => ({
   type: ActionType.FinishEnumItems as typeof ActionType.FinishEnumItems,
   payload: {
+    folderPath,
     items
   }
 })
@@ -34,8 +35,13 @@ export const enumItems = (targetFolderPath: string) => (dispath: Dispatch) => {
   dispath(requestEnumItems())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
-    (ev: IpcMessageEvent, folderPath: string, items: FileItem[], subFolders: Folder[]) => {
-      dispath(finishEnumItems(items))
+    (
+      ev: IpcMessageEvent,
+      folderPath: string,
+      items: FileItem[],
+      subFolders: Folder[]
+    ) => {
+      dispath(finishEnumItems(folderPath, items))
     }
   )
 

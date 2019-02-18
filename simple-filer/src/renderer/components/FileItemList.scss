@@ -13,6 +13,7 @@
 }
 
 .list th {
+  user-select: none;
   background-color: $color_gray_light;
   border: solid 1px $color_gray;
   border-top: none;
@@ -21,10 +22,13 @@
 }
 
 .list th:first-child,
-.list th:last-child,
-.list td:first-child,
-.list td:last-child {
+.list td:first-child {
   border-left: none;
+}
+
+.list th:last-child,
+.list td:last-child {
+  border-right: none;
 }
 
 .list td {

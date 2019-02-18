@@ -1,5 +1,3 @@
-import { FileType } from './Constants'
-
 /**
  * Hierarchical structure information of folders.
  */
@@ -28,15 +26,4 @@ export type FileItem = {
   mode: number
   mtime: string
   isDirectory: boolean
-}
-
-/**
- * File or Folder information for display.
- */
-export type FileViewItem = {
-  item: FileItem
-  type: FileType
-  size: string
-  permission: string
-  date: string
 }

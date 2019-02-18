@@ -1,5 +1,6 @@
 import { FileType } from '../../common/Constants'
-import { FileItem, FileViewItem } from '../../common/TypeAliases'
+import { FileItem } from '../../common/Types'
+import { FileViewItem } from '../Types'
 import { finishEnumItems } from '../actions/index'
 import { AppState } from './types'
 
@@ -67,7 +68,9 @@ const getSizeString = (byteSize: number): string => {
 
   const k = 1024
   const units = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  const value = parseInt(Math.floor(Math.log(byteSize) / Math.log(k)).toString())
+  const value = parseInt(
+    Math.floor(Math.log(byteSize) / Math.log(k)).toString()
+  )
   const size = (byteSize / Math.pow(k, value)) * 10
 
   return Math.ceil(size) / 10 + ' ' + units[value]
@@ -119,7 +122,10 @@ const itemToViewItems = (items: FileItem[]): FileViewItem[] => {
       type: getType(item),
       size: item.isDirectory ? '' : getSizeString(item.size),
       permission: getPermissionString(item),
-      date: new Date(item.mtime).toLocaleDateString(navigator.language, dateOptions)
+      date: new Date(item.mtime).toLocaleDateString(
+        navigator.language,
+        dateOptions
+      )
     })
   })
 
@@ -149,8 +155,15 @@ const groupingItems = (items: FileItem[]): FileItem[] => {
  * @param action Action of finishEnumItems.
  * @returns New state.
  */
-export const enumItems = (state: AppState, action: ReturnType<typeof finishEnumItems>): AppState => {
+export const enumItems = (
+  state: AppState,
+  action: ReturnType<typeof finishEnumItems>
+): AppState => {
   return Object.assign({}, state, {
+    currentFolder: {
+      path: action.payload.folderPath,
+      isRoot: state.folders.some((f) => f.path === action.payload.folderPath)
+    },
     items: itemToViewItems(groupingItems(action.payload.items))
   })
 }

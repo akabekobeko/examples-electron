@@ -8,7 +8,7 @@ import {
   SaveDialogOptions
 } from 'electron'
 import { IPCKey } from '../common/Constants'
-import { FileItem } from '../common/TypeAliases'
+import { FileItem } from '../common/Types'
 import { EnumFiles, FileItemToFolder, FolderFromPath } from './FileManager'
 
 /**
@@ -16,8 +16,14 @@ import { EnumFiles, FileItemToFolder, FolderFromPath } from './FileManager'
  * @param ev Event data.
  * @param options Options of `dialog.showOpenDialog`.
  */
-const onRequestShowOpenDialog = (ev: IpcMessageEvent, options: OpenDialogOptions) => {
-  const paths = dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
+const onRequestShowOpenDialog = (
+  ev: IpcMessageEvent,
+  options: OpenDialogOptions
+) => {
+  const paths = dialog.showOpenDialog(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
   ev.sender.send(IPCKey.FinishShowOpenDialog, paths)
 }
 
@@ -26,8 +32,14 @@ const onRequestShowOpenDialog = (ev: IpcMessageEvent, options: OpenDialogOptions
  * @param ev Event data.
  * @param options Options of `dialog.showSaveDialog`.
  */
-const onRequestShowSaveDialog = (ev: IpcMessageEvent, options: SaveDialogOptions) => {
-  const path = dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
+const onRequestShowSaveDialog = (
+  ev: IpcMessageEvent,
+  options: SaveDialogOptions
+) => {
+  const path = dialog.showSaveDialog(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
   ev.sender.send(IPCKey.FinishShowSaveDialog, path)
 }
 
@@ -36,8 +48,14 @@ const onRequestShowSaveDialog = (ev: IpcMessageEvent, options: SaveDialogOptions
  * @param ev Event data.
  * @param options Options of `dialog.showMessageBox`.
  */
-const onRequestShowMessageBox = (ev: IpcMessageEvent, options: MessageBoxOptions) => {
-  const button = dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
+const onRequestShowMessageBox = (
+  ev: IpcMessageEvent,
+  options: MessageBoxOptions
+) => {
+  const button = dialog.showMessageBox(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
   ev.sender.send(IPCKey.FinishShowMessageBox, button)
 }
 
@@ -46,10 +64,13 @@ const onRequestShowMessageBox = (ev: IpcMessageEvent, options: MessageBoxOptions
  * @param ev Event data.
  */
 const onRequestSelectFolder = (ev: IpcMessageEvent) => {
-  const paths = dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), {
-    title: 'Select root folder',
-    properties: ['openDirectory']
-  })
+  const paths = dialog.showOpenDialog(
+    BrowserWindow.fromWebContents(ev.sender),
+    {
+      title: 'Select root folder',
+      properties: ['openDirectory']
+    }
+  )
 
   if (!paths || paths.length === 0) {
     ev.sender.send(IPCKey.FinishSelectFolder)
@@ -60,7 +81,9 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
   EnumFiles(path)
     .then((items: FileItem[]) => {
       const folder = FolderFromPath(path)
-      folder.subFolders = items.filter((item) => item.isDirectory).map((item) => FileItemToFolder(item))
+      folder.subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => FileItemToFolder(item))
 
       ev.sender.send(IPCKey.FinishSelectFolder, folder)
     })
@@ -77,7 +100,9 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
 const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
   EnumFiles(folderPath)
     .then((items) => {
-      const subFolders = items.filter((item) => item.isDirectory).map((item) => FileItemToFolder(item))
+      const subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => FileItemToFolder(item))
       ev.sender.send(IPCKey.FinishEnumItems, folderPath, items, subFolders)
     })
     .catch(() => {

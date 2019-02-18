@@ -1,6 +1,13 @@
 import React from 'react'
-import { list, header_right, value_type, value_size, value_permission, value_modified } from './FileItemList.scss'
-import { FileViewItem } from '../../common/TypeAliases'
+import {
+  list,
+  header_right,
+  value_type,
+  value_size,
+  value_permission,
+  value_modified
+} from './FileItemList.scss'
+import { FileViewItem } from '../Types'
 import { FileType } from '../../common/Constants'
 
 type Props = {
