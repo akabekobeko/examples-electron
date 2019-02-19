@@ -1,9 +1,13 @@
-@import "../_Variables";
+@import '../_Variables';
 
 .toolbar {
   box-sizing: border-box;
   background-color: $color_gray_light;
   height: 2rem;
-  padding: .5rem;
+  padding: 0.5rem;
   border-bottom: solid 1px $color_gray;
+}
+
+.toolbar i {
+  padding-right: 0.5rem;
 }

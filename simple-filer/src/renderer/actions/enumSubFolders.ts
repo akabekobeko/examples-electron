@@ -1,8 +1,8 @@
 import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { ActionType } from './types'
-import { Folder, FileItem } from '../../common/TypeAliases'
+import { ActionType, Folder } from '../types'
+import { FileItem } from '../../common/Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -19,7 +19,10 @@ export const requestEnumSubFolders = () => ({
  * @param items Enumerated sub folders.
  * @returns Action result.
  */
-export const finishEnumSubFolders = (folderPath: string, subFolders: Folder[]) => ({
+export const finishEnumSubFolders = (
+  folderPath: string,
+  subFolders: Folder[]
+) => ({
   type: ActionType.FinishEnumSubFolders as ActionType.FinishEnumSubFolders,
   payload: {
     folderPath,
@@ -31,11 +34,22 @@ export const finishEnumSubFolders = (folderPath: string, subFolders: Folder[]) =
  * Enumerate the sub folders in the folder.
  * @param targetFolderPath Path of the target foleder.
  */
-export const enumSubFolders = (targetFolderPath: string) => (dispath: Dispatch) => {
+export const enumSubFolders = (targetFolderPath: string) => (
+  dispath: Dispatch
+) => {
   dispath(requestEnumSubFolders())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
-    (ev: IpcMessageEvent, folderPath: string, items: FileItem[], subFolders: Folder[]) => {
+    (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
+      const subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => ({
+          treeId: 0,
+          name: item.name,
+          path: item.path,
+          subFolders: []
+        }))
+
       dispath(finishEnumSubFolders(folderPath, subFolders))
     }
   )

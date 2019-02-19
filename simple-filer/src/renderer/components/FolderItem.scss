@@ -1,8 +1,25 @@
 @import '../_Variables';
 
 .folderitem {
+  user-select: none;
   list-style: none;
   list-style-position: inside;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.normal {
+  padding: 0.2rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected {
+  background-color: $color_yellow;
+  padding: 0.2rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -12,11 +29,4 @@
 
 .subfolder {
   padding-left: 1rem;
-}
-
-.name {
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
