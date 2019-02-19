@@ -1,17 +1,17 @@
 import React from 'react'
+import { Folder, CurrentFolder } from '../Types'
 import { explorer } from './Explorer.scss'
-import { Folder } from '../../common/Types'
 import FolderItem from './FolderItem'
 
 type Props = {
   folders: Folder[]
-  currentFolderPath: string
+  currentFolder: CurrentFolder
   enumSubFolders: (folderPath: string) => void
-  enumItems: (folderPath: string) => void
+  enumItems: (folder: Folder) => void
 }
 
 const Explorer: React.FC<Props> = ({
-  currentFolderPath,
+  currentFolder,
   folders,
   enumSubFolders,
   enumItems
@@ -21,7 +21,7 @@ const Explorer: React.FC<Props> = ({
       <FolderItem
         key={index}
         folder={folder}
-        currentFolderPath={currentFolderPath}
+        currentFolder={currentFolder}
         enumSubFolders={enumSubFolders}
         enumItems={enumItems}
       />

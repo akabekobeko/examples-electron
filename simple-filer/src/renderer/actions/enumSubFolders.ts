@@ -1,8 +1,8 @@
 import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { ActionType } from './types'
-import { Folder, FileItem } from '../../common/Types'
+import { ActionType, Folder } from '../types'
+import { FileItem } from '../../common/Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -40,12 +40,16 @@ export const enumSubFolders = (targetFolderPath: string) => (
   dispath(requestEnumSubFolders())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
-    (
-      ev: IpcMessageEvent,
-      folderPath: string,
-      items: FileItem[],
-      subFolders: Folder[]
-    ) => {
+    (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
+      const subFolders = items
+        .filter((item) => item.isDirectory)
+        .map((item) => ({
+          treeId: 0,
+          name: item.name,
+          path: item.path,
+          subFolders: []
+        }))
+
       dispath(finishEnumSubFolders(folderPath, subFolders))
     }
   )

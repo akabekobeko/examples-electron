@@ -1,8 +1,6 @@
-import { FileType } from '../../common/Constants'
 import { FileItem } from '../../common/Types'
-import { FileViewItem } from '../Types'
+import { FileViewItem, FileType, AppState } from '../Types'
 import { finishEnumItems } from '../actions/index'
-import { AppState } from './types'
 
 /**
  * Get the type of file or folder.
@@ -155,17 +153,18 @@ const groupingItems = (items: FileItem[]): FileItem[] => {
  * @param action Action of finishEnumItems.
  * @returns New state.
  */
-export const enumItems = (
+export const checkEnumItems = (
   state: AppState,
   action: ReturnType<typeof finishEnumItems>
 ): AppState => {
   return Object.assign({}, state, {
     currentFolder: {
-      path: action.payload.folderPath,
-      isRoot: state.folders.some((f) => f.path === action.payload.folderPath)
+      treeId: action.payload.folder.treeId,
+      path: action.payload.folder.path,
+      isRoot: action.payload.folder.isRoot
     },
     items: itemToViewItems(groupingItems(action.payload.items))
   })
 }
 
-export default enumItems
+export default checkEnumItems

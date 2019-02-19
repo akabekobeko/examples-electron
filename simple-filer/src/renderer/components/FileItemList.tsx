@@ -7,8 +7,7 @@ import {
   value_permission,
   value_modified
 } from './FileItemList.scss'
-import { FileViewItem } from '../Types'
-import { FileType } from '../../common/Constants'
+import { FileType, FileViewItem } from '../Types'
 
 type Props = {
   items: FileViewItem[]

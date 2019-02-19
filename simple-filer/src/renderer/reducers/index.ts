@@ -1,21 +1,24 @@
 import {
-  ActionType,
   finishRegisterRootFolder,
   finishEnumSubFolders,
-  finishEnumItems
+  finishEnumItems,
+  unregisterRootFolder
 } from '../actions/index'
-import { AppState } from './types'
-import { registerRootFolder } from './registerRootFolder'
-import { enumSubFolders } from './enumSubFolders'
-import { enumItems } from './enumItems'
+import { ActionType, AppState } from '../Types'
+import { checkRegisterRootFolder } from './registerRootFolder'
+import { checkUnregisterRootFolder } from './unregisterRootFolder'
+import { checkEnumSubFolders } from './enumSubFolders'
+import { checkEnumItems } from './enumItems'
 
 type Actions =
   | ReturnType<typeof finishRegisterRootFolder>
   | ReturnType<typeof finishEnumSubFolders>
   | ReturnType<typeof finishEnumItems>
+  | ReturnType<typeof unregisterRootFolder>
 
 const InitialState: AppState = {
   currentFolder: {
+    treeId: 0,
     path: '',
     isRoot: false
   },
@@ -32,13 +35,16 @@ const InitialState: AppState = {
 const reducer = (state = InitialState, action: Actions): AppState => {
   switch (action.type) {
     case ActionType.FinishRegisterRootFolder:
-      return registerRootFolder(state, action)
+      return checkRegisterRootFolder(state, action)
+
+    case ActionType.RequestUnregisterRootFolder:
+      return checkUnregisterRootFolder(state, action)
 
     case ActionType.FinishEnumSubFolders:
-      return enumSubFolders(state, action)
+      return checkEnumSubFolders(state, action)
 
     case ActionType.FinishEnumItems:
-      return enumItems(state, action)
+      return checkEnumItems(state, action)
 
     default:
       return state

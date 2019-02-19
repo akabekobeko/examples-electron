@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { Folder } from '../../common/Types'
+import { Folder, CurrentFolder } from '../Types'
 import { folderitem, subfolder, normal, selected } from './FolderItem.scss'
 
 type Props = {
   folder: Folder
-  currentFolderPath: string
-  enumItems: (folderPath: string) => void
+  currentFolder: CurrentFolder
+  enumItems: (folder: Folder) => void
   enumSubFolders: (folderPath: string) => void
 }
 
 const FolderItem: React.FC<Props> = ({
   folder,
-  currentFolderPath,
+  currentFolder,
   enumItems,
   enumSubFolders
 }) => {
@@ -20,10 +20,18 @@ const FolderItem: React.FC<Props> = ({
   return (
     <li className={folderitem}>
       <div
-        className={folder.path === currentFolderPath ? selected : normal}
+        className={
+          folder.treeId === currentFolder.treeId &&
+          folder.path === currentFolder.path
+            ? selected
+            : normal
+        }
         onClick={() => {
-          if (folder.path !== currentFolderPath) {
-            enumItems(folder.path)
+          if (
+            folder.path !== currentFolder.path ||
+            folder.treeId !== currentFolder.treeId
+          ) {
+            enumItems(folder)
           }
         }}
       >
@@ -49,7 +57,7 @@ const FolderItem: React.FC<Props> = ({
             <FolderItem
               key={index}
               folder={subFolder}
-              currentFolderPath={currentFolderPath}
+              currentFolder={currentFolder}
               enumItems={enumItems}
               enumSubFolders={enumSubFolders}
             />

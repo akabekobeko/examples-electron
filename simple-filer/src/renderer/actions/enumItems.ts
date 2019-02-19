@@ -1,8 +1,8 @@
 import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { ActionType } from './types'
-import { Folder, FileItem } from '../../common/Types'
+import { FileItem } from '../../common/Types'
+import { ActionType, Folder } from '../Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -16,34 +16,30 @@ export const requestEnumItems = () => ({
 
 /**
  * Notify that the enumeration of the items in the folder has finished.
+ * @param folderPath Path of the target folder..
  * @param items Enumerated items.
  * @returns Action result.
  */
-export const finishEnumItems = (folderPath: string, items: FileItem[]) => ({
+export const finishEnumItems = (folder: Folder, items: FileItem[]) => ({
   type: ActionType.FinishEnumItems as typeof ActionType.FinishEnumItems,
   payload: {
-    folderPath,
+    folder,
     items
   }
 })
 
 /**
  * Enumerate the items in the folder.
- * @param targetFolderPath Path of the target foleder.
+ * @param folder Target foleder.
  */
-export const enumItems = (targetFolderPath: string) => (dispath: Dispatch) => {
+export const enumItems = (folder: Folder) => (dispath: Dispatch) => {
   dispath(requestEnumItems())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
-    (
-      ev: IpcMessageEvent,
-      folderPath: string,
-      items: FileItem[],
-      subFolders: Folder[]
-    ) => {
-      dispath(finishEnumItems(folderPath, items))
+    (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
+      dispath(finishEnumItems(folder, items))
     }
   )
 
-  ipcRenderer.send(IPCKey.RequestEnumItems, targetFolderPath)
+  ipcRenderer.send(IPCKey.RequestEnumItems, folder.path)
 }

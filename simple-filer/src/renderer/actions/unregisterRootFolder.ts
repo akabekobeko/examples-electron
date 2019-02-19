@@ -1,11 +1,9 @@
-import { ActionType } from './types'
+import { ActionType } from '../Types'
 
 /**
- * Request to unregister root folder.
- * @param folderPath Target folder path.
+ * Request to unregister current root folder.
  * @returns Action result.
  */
-export const requestUnregisterRootFolder = (folderPath: string) => ({
-  type: ActionType.RequestUnregisterRootFolder as ActionType.RequestUnregisterRootFolder,
-  folderPath
+export const unregisterRootFolder = () => ({
+  type: ActionType.RequestUnregisterRootFolder as ActionType.RequestUnregisterRootFolder
 })

@@ -8,17 +8,12 @@ import App from './containers/App'
 
 declare global {
   interface Window {
-    require: any;
+    require: any
   }
 }
 
 window.addEventListener('load', () => {
-  let store = createStore(
-    RootReducer,
-    applyMiddleware(
-      ReduxThunkMiddleware
-    )
-  )
+  let store = createStore(RootReducer, applyMiddleware(ReduxThunkMiddleware))
 
   render(
     <Provider store={store}>

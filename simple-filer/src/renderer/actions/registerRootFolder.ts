@@ -1,8 +1,8 @@
 import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { ActionType } from './types'
-import { Folder } from '../../common/Types'
+import { FileItem } from '../../common/Types'
+import { Folder, ActionType } from '../Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -16,10 +16,10 @@ export const requestRegisterRootFolder = () => ({
 
 /**
  * Notify that root folder register was finished.
- * @param folder Added folder.
+ * @param folder Folder.
  * @returns Action result.
  */
-export const finishRegisterRootFolder = (folder: Folder) => ({
+export const finishRegisterRootFolder = (folder?: Folder) => ({
   type: ActionType.FinishRegisterRootFolder as ActionType.FinishRegisterRootFolder,
   payload: {
     folder
@@ -33,7 +33,27 @@ export const registerRootFolder = () => (dispath: Dispatch) => {
   dispath(requestRegisterRootFolder())
   ipcRenderer.once(
     IPCKey.FinishSelectFolder,
-    (ev: IpcMessageEvent, folder: Folder) => {
+    (ev: IpcMessageEvent, name: string, path: string, items: FileItem[]) => {
+      if (!name) {
+        return dispath(finishRegisterRootFolder())
+      }
+
+      const folder = {
+        treeId: 0,
+        isRoot: true,
+        name,
+        path,
+        subFolders: items
+          .filter((item) => item.isDirectory)
+          .map((item) => ({
+            treeId: 0,
+            isRoot: false,
+            name: item.name,
+            path: item.path,
+            subFolders: []
+          }))
+      }
+
       dispath(finishRegisterRootFolder(folder))
     }
   )
