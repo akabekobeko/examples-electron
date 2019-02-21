@@ -620,6 +620,7 @@ body {
   }
   .icon_folder:before {
     content: '\e9aa';
+    color: $color_blue;
   }
   .icon_forward:before {
     content: '\e9ab';
@@ -671,6 +672,7 @@ body {
   }
   .icon_image:before {
     content: '\e9bb';
+    color: $color_red;
   }
   .icon_images:before {
     content: '\e9bc';
@@ -806,6 +808,7 @@ body {
   }
   .icon_music:before {
     content: '\e9e8';
+    color: $color_orange;
   }
   .icon_network:before {
     content: '\e9e9';
@@ -992,6 +995,7 @@ body {
   }
   .icon_text_document:before {
     content: '\ea26';
+    color: $color_green;
   }
   .icon_text:before {
     content: '\ea27';
@@ -1049,6 +1053,7 @@ body {
   }
   .icon_video:before {
     content: '\ea39';
+    color: $color_purple;
   }
   .icon_vinyl:before {
     content: '\ea3a';
