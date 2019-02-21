@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
+import { MainMenu } from './MainMenu'
 
 let mainWindow: BrowserWindow | null
 
@@ -25,6 +26,8 @@ app.on('ready', () => {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  Menu.setApplicationMenu(MainMenu)
 
   InitializeIpcEvents()
 })
