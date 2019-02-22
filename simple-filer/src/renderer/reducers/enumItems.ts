@@ -163,6 +163,7 @@ export const checkEnumItems = (
       path: action.payload.folder.path,
       isRoot: action.payload.folder.isRoot
     },
+    currentItem: undefined,
     items: itemToViewItems(groupingItems(action.payload.items))
   })
 }

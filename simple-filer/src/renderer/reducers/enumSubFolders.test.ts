@@ -9,7 +9,12 @@ describe('enumSubFolders', () => {
 
     it('Added', () => {
       // Check that the data is keep
-      const subFolder = { name: 'Z', path: 'Z', expanded: false, subFolders: [] }
+      const subFolder = {
+        name: 'Z',
+        path: 'Z',
+        expanded: false,
+        subFolders: []
+      }
 
       const old = [
         { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },
@@ -36,7 +41,12 @@ describe('enumSubFolders', () => {
 
     it('Removed', () => {
       // Check that the data is keep
-      const subFolder = { name: 'Z', path: 'Z', expanded: false, subFolders: [] }
+      const subFolder = {
+        name: 'Z',
+        path: 'Z',
+        expanded: false,
+        subFolders: []
+      }
 
       const old = [
         { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },

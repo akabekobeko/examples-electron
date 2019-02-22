@@ -40,6 +40,14 @@
   text-align: right;
 }
 
+.list_item:hover {
+  background-color: $color_orange_lightness;
+}
+
+.list_item_select {
+  background-color: $color_orange_light;
+}
+
 .value_type {
   text-align: center;
 }

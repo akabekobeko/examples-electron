@@ -4,7 +4,7 @@ import { MainMenu } from './MainMenu'
 
 let mainWindow: BrowserWindow | null
 
-const createMainWindow = () => {
+const createMainWindow = (): BrowserWindow => {
   const window = new BrowserWindow({
     width: 1024,
     height: 768,

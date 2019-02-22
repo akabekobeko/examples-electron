@@ -32,12 +32,12 @@ export const finishEnumItems = (folder: Folder, items: FileItem[]) => ({
  * Enumerate the items in the folder.
  * @param folder Target foleder.
  */
-export const enumItems = (folder: Folder) => (dispath: Dispatch) => {
-  dispath(requestEnumItems())
+export const enumItems = (folder: Folder) => (dispatch: Dispatch) => {
+  dispatch(requestEnumItems())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
     (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
-      dispath(finishEnumItems(folder, items))
+      dispatch(finishEnumItems(folder, items))
     }
   )
 
