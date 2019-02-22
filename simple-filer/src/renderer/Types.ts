@@ -1,17 +1,6 @@
 import { FileItem } from '../common/Types'
 
 /**
- * File or Folder information for display.
- */
-export type FileViewItem = {
-  item: FileItem
-  type: FileType
-  size: string
-  permission: string
-  date: string
-}
-
-/**
  * Type of file.
  */
 export enum FileType {
@@ -21,6 +10,17 @@ export enum FileType {
   Video = 'Video',
   File = 'File',
   Folder = 'Folder'
+}
+
+/**
+ * File or Folder information for display.
+ */
+export type FileViewItem = {
+  item: FileItem
+  type: FileType
+  size: string
+  permission: string
+  date: string
 }
 
 /**
@@ -48,6 +48,7 @@ export type CurrentFolder = {
  */
 export type AppState = {
   currentFolder: CurrentFolder
+  currentItem?: FileViewItem
   folders: Folder[]
   items: FileViewItem[]
 }
@@ -62,5 +63,7 @@ export enum ActionType {
   RequestEnumSubFolders = 'RequestEnumSubFolders',
   FinishEnumSubFolders = 'FinishEnumSubFolders',
   RequestEnumItems = 'RequestEnumItems',
-  FinishEnumItems = 'FinishEnumItems'
+  FinishEnumItems = 'FinishEnumItems',
+  RequestSelectItem = 'RequestSelectItem',
+  RequestOpenItem = 'RequestOpenItem'
 }

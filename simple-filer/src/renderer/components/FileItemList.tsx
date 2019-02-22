@@ -2,15 +2,21 @@ import React from 'react'
 import {
   list,
   header_right,
+  list_item,
+  list_item_select,
   value_type,
   value_size,
   value_permission,
   value_modified
 } from './FileItemList.scss'
 import { FileType, FileViewItem } from '../Types'
+import { selectItem } from '../actions'
 
 type Props = {
   items: FileViewItem[]
+  currentItem?: FileViewItem
+  selectItem: (item: FileViewItem) => void
+  openItem: (itemPath: string) => void
 }
 
 /**
@@ -40,7 +46,12 @@ const getIcon = (type: FileType) => {
   }
 }
 
-const FileItemList: React.FC<Props> = ({ items }) => (
+const FileItemList: React.FC<Props> = ({
+  items,
+  currentItem,
+  selectItem,
+  openItem
+}) => (
   <div className={list}>
     <table>
       <thead>
@@ -54,7 +65,21 @@ const FileItemList: React.FC<Props> = ({ items }) => (
       </thead>
       <tbody>
         {items.map((item, index) => (
-          <tr key={index}>
+          <tr
+            key={index}
+            className={
+              currentItem && currentItem.item.path === item.item.path
+                ? list_item_select
+                : list_item
+            }
+            onClick={() => {
+              selectItem(item)
+            }}
+            onDoubleClick={() => {
+              selectItem(item)
+              openItem(item.item.path)
+            }}
+          >
             <td>
               {getIcon(item.type)} {item.item.name}
             </td>

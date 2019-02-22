@@ -35,22 +35,25 @@ export const finishEnumSubFolders = (
  * @param targetFolderPath Path of the target foleder.
  */
 export const enumSubFolders = (targetFolderPath: string) => (
-  dispath: Dispatch
+  dispatch: Dispatch
 ) => {
-  dispath(requestEnumSubFolders())
+  dispatch(requestEnumSubFolders())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
     (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
       const subFolders = items
         .filter((item) => item.isDirectory)
-        .map((item) => ({
-          treeId: 0,
-          name: item.name,
-          path: item.path,
-          subFolders: []
-        }))
+        .map(
+          (item): Folder => ({
+            treeId: 0,
+            isRoot: false,
+            name: item.name,
+            path: item.path,
+            subFolders: []
+          })
+        )
 
-      dispath(finishEnumSubFolders(folderPath, subFolders))
+      dispatch(finishEnumSubFolders(folderPath, subFolders))
     }
   )
 

@@ -15,5 +15,8 @@ export enum IPCKey {
   FinishSelectFolder = 'FinishSelectFolder',
 
   RequestEnumItems = 'RequestEnumItems',
-  FinishEnumItems = 'FinishEnumItems'
+  FinishEnumItems = 'FinishEnumItems',
+
+  RequestOepnItem = 'RequestOepnItem',
+  FinishOpenItem = 'FinishOpenItem'
 }

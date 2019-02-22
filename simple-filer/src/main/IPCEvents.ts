@@ -2,6 +2,7 @@ import {
   dialog,
   BrowserWindow,
   ipcMain,
+  shell,
   OpenDialogOptions,
   IpcMessageEvent,
   MessageBoxOptions,
@@ -109,6 +110,16 @@ const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
 }
 
 /**
+ *Occurs in a request to open a file or folder in a shell
+ * @param ev Event data.
+ * @param itemPath Path of the target folder.
+ */
+const onRequestOpenItem = (ev: IpcMessageEvent, itemPath: string) => {
+  const succeeded = shell.openItem(itemPath)
+  ev.sender.send(IPCKey.FinishOpenItem, succeeded)
+}
+
+/**
  * A value indicating that an IPC events has been initialized.
  */
 let initialized = false
@@ -127,6 +138,7 @@ export const InitializeIpcEvents = () => {
   ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
   ipcMain.on(IPCKey.RequestSelectFolder, onRequestSelectFolder)
   ipcMain.on(IPCKey.RequestEnumItems, onRequestEnumItems)
+  ipcMain.on(IPCKey.RequestOepnItem, onRequestOpenItem)
 }
 
 /**
@@ -139,6 +151,7 @@ export const ReleaseIpcEvents = () => {
     ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
     ipcMain.removeAllListeners(IPCKey.RequestSelectFolder)
     ipcMain.removeAllListeners(IPCKey.RequestEnumItems)
+    ipcMain.removeAllListeners(IPCKey.RequestOepnItem)
   }
 
   initialized = false

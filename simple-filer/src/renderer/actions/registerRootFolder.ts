@@ -29,13 +29,13 @@ export const finishRegisterRootFolder = (folder?: Folder) => ({
 /**
  * Add a folder to the root of the folder tree.
  */
-export const registerRootFolder = () => (dispath: Dispatch) => {
-  dispath(requestRegisterRootFolder())
+export const registerRootFolder = () => (dispatch: Dispatch) => {
+  dispatch(requestRegisterRootFolder())
   ipcRenderer.once(
     IPCKey.FinishSelectFolder,
     (ev: IpcMessageEvent, name: string, path: string, items: FileItem[]) => {
       if (!name) {
-        return dispath(finishRegisterRootFolder())
+        return dispatch(finishRegisterRootFolder())
       }
 
       const folder = {
@@ -45,16 +45,18 @@ export const registerRootFolder = () => (dispath: Dispatch) => {
         path,
         subFolders: items
           .filter((item) => item.isDirectory)
-          .map((item) => ({
-            treeId: 0,
-            isRoot: false,
-            name: item.name,
-            path: item.path,
-            subFolders: []
-          }))
+          .map(
+            (item): Folder => ({
+              treeId: 0,
+              isRoot: false,
+              name: item.name,
+              path: item.path,
+              subFolders: []
+            })
+          )
       }
 
-      dispath(finishRegisterRootFolder(folder))
+      dispatch(finishRegisterRootFolder(folder))
     }
   )
 
