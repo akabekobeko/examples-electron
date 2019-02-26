@@ -1,12 +1,12 @@
-@import "../AppVariables.scss";
+@import '../_Variables.scss';
 
 .button {
   user-select: none;
   cursor: pointer;
   display: inline-block;
   margin: 1em;
-  padding: .3em .5em;
-  border-radius: .2em;
+  padding: 0.3em 0.5em;
+  border-radius: 0.2em;
   border: solid 1px $color_blue;
   color: $color_white;
   background-color: $color_blue;
