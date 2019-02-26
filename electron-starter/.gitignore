@@ -5,6 +5,7 @@ esdoc/
 *.
 *.log
 *.map
+*.d.ts
 package-lock.json
 src/assets/renderer.js
 src/assets/main.js

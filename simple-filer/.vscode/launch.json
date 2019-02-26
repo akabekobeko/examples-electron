@@ -12,7 +12,7 @@
       "windows": {
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
       },
-      "program": "${workspaceRoot}/src/main/App.ts",
+      "program": "${workspaceRoot}/src/main/AppMain.ts",
       "outFiles": [
         "${workspaceRoot}/src/assets/main.js"
       ]

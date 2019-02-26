@@ -1,0 +1,16 @@
+@import '../_Variables.scss';
+
+.link {
+  a,
+  a:link,
+  a:visited {
+    margin-left: 0.3rem;
+    text-decoration: none;
+    color: $color_blue;
+  }
+
+  a:hover,
+  a:active {
+    color: $color_red;
+  }
+}
