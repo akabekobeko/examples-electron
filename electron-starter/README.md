@@ -1,6 +1,6 @@
 # Electron Starter Kit
 
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 This is a starter kit of the [Electron](http://electron.atom.io/) application development.
 
