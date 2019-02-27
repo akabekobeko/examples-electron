@@ -1,4 +1,11 @@
-import { updateDateTime, requestShowURL, finishShowURL } from '../actions/index'
+import {
+  updateDateTime,
+  requestShowURL,
+  finishShowURL,
+  finishShowOpenDialog,
+  finishShowSaveDialog,
+  finishShowMessageBox
+} from '../actions/index'
 import { ActionType, AppState } from '../Types'
 import { checkUpdateDateTime, formatDate } from './updateDateTime'
 
@@ -6,6 +13,9 @@ type Actions =
   | ReturnType<typeof updateDateTime>
   | ReturnType<typeof requestShowURL>
   | ReturnType<typeof finishShowURL>
+  | ReturnType<typeof finishShowOpenDialog>
+  | ReturnType<typeof finishShowSaveDialog>
+  | ReturnType<typeof finishShowMessageBox>
 
 const InitialState: AppState = {
   url: 'https://github.com/akabekobeko/examples-electron',
@@ -33,6 +43,18 @@ const reducer = (state = InitialState, action: Actions): AppState => {
       return Object.assign({}, state, {
         requestingShowURL: false
       })
+
+    case ActionType.FinishShowOpenDialog:
+      console.log(action.payload.paths)
+      return state
+
+    case ActionType.FinishShowSaveDialog:
+      console.log(action.payload.path)
+      return state
+
+    case ActionType.FinishShowMessageBox:
+      console.log(action.payload.button)
+      return state
 
     default:
       return state

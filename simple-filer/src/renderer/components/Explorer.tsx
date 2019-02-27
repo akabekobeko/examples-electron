@@ -6,15 +6,15 @@ import FolderItem from './FolderItem'
 type Props = {
   folders: Folder[]
   currentFolder: CurrentFolder
-  enumSubFolders: (folderPath: string) => void
-  enumItems: (folder: Folder) => void
+  enumSubFolders?: (folderPath: string) => void
+  enumItems?: (folder: Folder) => void
 }
 
 const Explorer: React.FC<Props> = ({
   currentFolder,
   folders,
-  enumSubFolders,
-  enumItems
+  enumSubFolders = () => {},
+  enumItems = () => {}
 }) => (
   <ul className={explorer}>
     {folders.map((folder, index) => (

@@ -1,6 +1,15 @@
 import { FileItem } from '../common/Types'
 
 /**
+ * Declare a type that depends on the renderer process of Electron.
+ */
+declare global {
+  interface Window {
+    require: any
+  }
+}
+
+/**
  * Type of file.
  */
 export enum FileType {

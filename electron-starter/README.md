@@ -1,6 +1,6 @@
 # Electron Starter Kit
 
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 This is a starter kit of the [Electron](http://electron.atom.io/) application development.
 
@@ -24,8 +24,7 @@ npm start
 
 ## Launch application
 
-Launch the Electron app on [electron-prebuilt](https://www.npmjs.com/package/electron-prebuilt).
-Target for the src dir.
+Launch the Electron app on [electron](https://www.npmjs.com/package/electron). Target for the src dir.
 
 ```bash
 npm run app
@@ -41,8 +40,7 @@ npm test
 
 ## Release build
 
-Build the app for production.
-Please build individually because there is a platform-specific processing.
+Build the app for production. Please build individually because there is a platform-specific processing.
 
 ```bash
 npm run release:mac
@@ -59,7 +57,7 @@ npm run release:pack-win
 npm run release:pack-linux
 ```
 
-* It is also will be skipped by running the `release:mac` or `release:pack-osx` in the Windows environment.
+It is also will be skipped by running the `release:mac` or `release:pack-mac` in the Windows environment.
 
 ### Package for Windows in macOS
 

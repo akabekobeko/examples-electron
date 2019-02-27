@@ -1,0 +1,10 @@
+@import '../_Variables.scss';
+
+.area {
+  padding: 1rem;
+  text-align: center;
+}
+
+.area fieldset {
+  border: solid 1px $color_gray_dark;
+}

@@ -8,8 +8,7 @@ import {
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
-import Path from 'path'
-import { IPCKey } from '../common/Constatnts'
+import { IPCKey } from '../common/Constants'
 
 /**
  * Occurs when show of a file open dialog is requested.
@@ -20,11 +19,10 @@ const onRequestShowOpenDialog = (
   ev: IpcMessageEvent,
   options: OpenDialogOptions
 ) => {
-  const paths = dialog.showOpenDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
+  ev.sender.send(
+    IPCKey.FinishShowOpenDialog,
+    dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
   )
-  ev.sender.send(IPCKey.FinishShowOpenDialog, paths)
 }
 
 /**
@@ -36,11 +34,10 @@ const onRequestShowSaveDialog = (
   ev: IpcMessageEvent,
   options: SaveDialogOptions
 ) => {
-  const path = dialog.showSaveDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
+  ev.sender.send(
+    IPCKey.FinishShowSaveDialog,
+    dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
   )
-  ev.sender.send(IPCKey.FinishShowSaveDialog, path)
 }
 
 /**
@@ -52,11 +49,10 @@ const onRequestShowMessageBox = (
   ev: IpcMessageEvent,
   options: MessageBoxOptions
 ) => {
-  const button = dialog.showMessageBox(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
+  ev.sender.send(
+    IPCKey.FinishShowMessageBox,
+    dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
   )
-  ev.sender.send(IPCKey.FinishShowMessageBox, button)
 }
 
 /**
@@ -65,8 +61,7 @@ const onRequestShowMessageBox = (
  * @param itemPath Path of the target folder.
  */
 const onRequestShowURL = (ev: IpcMessageEvent, url: string) => {
-  const succeeded = shell.openExternal(url)
-  ev.sender.send(IPCKey.FinishShowURL, succeeded)
+  ev.sender.send(IPCKey.FinishShowURL, shell.openExternal(url))
 }
 
 /**
