@@ -3,19 +3,19 @@ import { toolbar } from './Toolbar.scss'
 import { FileViewItem } from '../Types'
 
 type Props = {
+  currentItem: FileViewItem
+  canUnregisterRootFolder: boolean
   registerRootFolder: () => void
   unregisterRootFolder: () => void
   openItem: (itemPath: string) => void
-  canUnregisterRootFolder: boolean
-  currentItem?: FileViewItem
 }
 
 const Toolbar: React.SFC<Props> = ({
+  currentItem,
+  canUnregisterRootFolder,
   registerRootFolder,
   unregisterRootFolder,
-  openItem,
-  canUnregisterRootFolder,
-  currentItem
+  openItem
 }) => (
   <div className={toolbar}>
     <i

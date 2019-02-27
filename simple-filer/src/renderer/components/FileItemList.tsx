@@ -10,14 +10,6 @@ import {
   value_modified
 } from './FileItemList.scss'
 import { FileType, FileViewItem } from '../Types'
-import { selectItem } from '../actions'
-
-type Props = {
-  items: FileViewItem[]
-  currentItem?: FileViewItem
-  selectItem: (item: FileViewItem) => void
-  openItem: (itemPath: string) => void
-}
 
 /**
  * Get icon from type of the file.
@@ -44,6 +36,13 @@ const getIcon = (type: FileType) => {
     default:
       return <i className=" icon_document" />
   }
+}
+
+type Props = {
+  items: FileViewItem[]
+  currentItem: FileViewItem
+  selectItem: (item: FileViewItem) => void
+  openItem: (itemPath: string) => void
 }
 
 const FileItemList: React.FC<Props> = ({
