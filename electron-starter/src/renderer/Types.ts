@@ -13,7 +13,14 @@ declare global {
 export enum ActionType {
   RequestShowURL = 'RequestShowURL',
   FinishShowURL = 'FinishShowURL',
-  UpdateTime = 'UpdateTime'
+  UpdateTime = 'UpdateTime',
+
+  RequestShowOpenDialog = 'RequestShowOpenDialog',
+  FinishShowOpenDialog = 'FinishShowOpenDialog',
+  RequestShowSaveDialog = 'RequestShowSaveDialog',
+  FinishShowSaveDialog = 'FinishShowSaveDialog',
+  RequestShowMessageBox = 'RequestShowMessageBox',
+  FinishShowMessageBox = 'FinishShowMessageBox'
 }
 
 /**

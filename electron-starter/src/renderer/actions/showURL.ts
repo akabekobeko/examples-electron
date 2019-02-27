@@ -1,6 +1,6 @@
 import { IpcMessageEvent } from 'electron'
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../common/Constatnts'
+import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
 const ipcRenderer = window.require('electron').ipcRenderer
