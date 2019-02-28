@@ -1,6 +1,6 @@
 # Electron Multi Window
 
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Example to manage multiple windows in [Electron](http://electron.atom.io/).
 
@@ -16,7 +16,7 @@ Example to manage multiple windows in [Electron](http://electron.atom.io/).
 
 ### Watch
 
-Run the watch files, background complie JavaScript/CSS.
+Run the watch files, background complie JavaScript/TypeScript/CSS.
 
 ```bash
 npm start
@@ -24,8 +24,7 @@ npm start
 
 ## Launch application
 
-Launch the Electron app on [electron-prebuilt](https://www.npmjs.com/package/electron-prebuilt).
-Target for the src dir.
+Launch the Electron app on [electron-prebuilt](https://www.npmjs.com/package/electron-prebuilt). Target for the src dir.
 
 ```bash
 npm run app
@@ -33,27 +32,18 @@ npm run app
 
 ### Unit test
 
-Run the ES6 code of unit tests on [mocha](https://www.npmjs.com/package/mocha) ( with [power-assert](https://www.npmjs.com/package/power-assert) and [espower-babel](https://www.npmjs.com/package/espower-babel) ).
+Run the ES6 code of unit tests on [mocha](https://www.npmjs.com/package/mocha) with [power-assert](https://www.npmjs.com/package/power-assert) and [espower-typescript](https://www.npmjs.com/package/espower-typescript).
 
 ```bash
 npm test
 ```
 
-## Code document
-
-Run the code document generation by [esdoc](https://www.npmjs.com/package/esdoc).
-
-```bash
-npm run esdoc
-```
-
 ## Release build
 
-Build the app for production.
-Please build individually because there is a platform-specific processing.
+Build the app for production. Please build individually because there is a platform-specific processing.
 
 ```bash
-npm run release:osx
+npm run release:mac
 npm run release:win
 npm run release:linux
 ```
@@ -62,12 +52,12 @@ or
 
 ```bash
 npm run release:build
-npm run release:pack-osx
+npm run release:pack-mac
 npm run release:pack-win
 npm run release:pack-linux
 ```
 
-* It is also will be skipped by running the `release:osx` or `release:pack-osx` in the Windows environment.
+It is also will be skipped by running the `release:mac` or `release:pack-mac` in the Windows environment.
 
 ### Package for Windows in macOS
 
@@ -91,14 +81,14 @@ npm run release
 
 `release` is a package for all platforms.
 
-## DEBUG variable
+## ifdef DEBUG
 
-It is available `DEBUG` variable for debugging dedicated processing.
+Supports preprocessing with [ifdef-loader](https://www.npmjs.com/package/ifdef-loader).
 
 ```js
-if (DEBUG) {
-  // Debug only...
-}
+/// #if env == 'DEBUG'
+console.log('DEBUG!!!')
+/// #endif
 ```
 
 This process will be removed in a release version.

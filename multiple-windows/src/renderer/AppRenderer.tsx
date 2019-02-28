@@ -5,23 +5,19 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunkMiddleware from 'redux-thunk'
 import RootReducer from './reducers'
-import { onUpdateMessage, onUpdateWindowIDs, getWindowIDs } from './actions/'
-import App from './containers/App.js'
+import {
+  handleUpdateMessage,
+  handleUpdateWindowIds,
+  getWindowIds
+} from './actions/'
+import App from './containers/App'
 
 window.addEventListener('load', () => {
-  // Compile switch
-  global.DEBUG = true
+  let store = createStore(RootReducer, applyMiddleware(ReduxThunkMiddleware))
 
-  let store = createStore(
-    RootReducer,
-    applyMiddleware(
-      ReduxThunkMiddleware
-    )
-  )
-
-  store.dispatch(onUpdateMessage())
-  store.dispatch(onUpdateWindowIDs())
-  store.dispatch(getWindowIDs())
+  store.dispatch(handleUpdateMessage() as any)
+  store.dispatch(handleUpdateWindowIds() as any)
+  store.dispatch(getWindowIds() as any)
 
   render(
     <Provider store={store}>
