@@ -3,12 +3,17 @@ import Link from '../components/Link'
 import Button from '../components/Button'
 import { area } from './BasicFunction.scss'
 
-type Props = {
+export type StateByProps = {
   url: string
   dateTime: string
+}
+
+export type DispatchByProps = {
   updateTime?: () => void
   showURL?: (url: string) => void
 }
+
+type Props = StateByProps & DispatchByProps
 
 const BasicFunction: React.FC<Props> = ({
   url,

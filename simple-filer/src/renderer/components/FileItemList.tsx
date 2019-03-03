@@ -38,18 +38,23 @@ const getIcon = (type: FileType) => {
   }
 }
 
-type Props = {
+export type StateByProps = {
   items: FileViewItem[]
-  currentItem: FileViewItem
-  selectItem: (item: FileViewItem) => void
-  openItem: (itemPath: string) => void
+  currentItem?: FileViewItem
 }
+
+export type DispatchByProps = {
+  selectItem?: (item: FileViewItem) => void
+  openItem?: (itemPath: string) => void
+}
+
+type Props = StateByProps & DispatchByProps
 
 const FileItemList: React.FC<Props> = ({
   items,
   currentItem,
-  selectItem,
-  openItem
+  selectItem = () => {},
+  openItem = () => {}
 }) => (
   <div className={list}>
     <table>

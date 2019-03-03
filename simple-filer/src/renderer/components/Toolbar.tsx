@@ -2,20 +2,25 @@ import React from 'react'
 import { toolbar } from './Toolbar.scss'
 import { FileViewItem } from '../Types'
 
-type Props = {
-  currentItem: FileViewItem
+export type StateByProps = {
+  currentItem?: FileViewItem
   canUnregisterRootFolder: boolean
-  registerRootFolder: () => void
-  unregisterRootFolder: () => void
-  openItem: (itemPath: string) => void
 }
+
+export type DispatchByProps = {
+  registerRootFolder?: () => void
+  unregisterRootFolder?: () => void
+  openItem?: (itemPath: string) => void
+}
+
+export type Props = StateByProps & DispatchByProps
 
 const Toolbar: React.SFC<Props> = ({
   currentItem,
   canUnregisterRootFolder,
-  registerRootFolder,
-  unregisterRootFolder,
-  openItem
+  registerRootFolder = () => {},
+  unregisterRootFolder = () => {},
+  openItem = () => {}
 }) => (
   <div className={toolbar}>
     <i

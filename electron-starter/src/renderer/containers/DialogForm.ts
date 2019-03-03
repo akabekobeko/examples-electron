@@ -2,13 +2,14 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { showOpenDialog, showSaveDialog, showMessageBox } from '../actions'
 import { AppState } from '../Types'
-import DialogForm from '../components/DialogForm'
+import DialogForm, {
+  StateByProps,
+  DispatchByProps
+} from '../components/DialogForm'
 
-const mapStateToProps = (state: AppState) => {
-  return state
-}
+const mapStateToProps = (state: AppState): StateByProps => ({})
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
   showOpenDialog: () => {
     dispatch(showOpenDialog())
   },

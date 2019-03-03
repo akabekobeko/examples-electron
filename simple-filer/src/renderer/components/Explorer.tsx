@@ -3,12 +3,17 @@ import { Folder, CurrentFolder } from '../Types'
 import { explorer } from './Explorer.scss'
 import FolderItem from './FolderItem'
 
-type Props = {
+export type StateByProps = {
   folders: Folder[]
   currentFolder: CurrentFolder
+}
+
+export type DispatchByProps = {
   enumSubFolders?: (folderPath: string) => void
   enumItems?: (folder: Folder) => void
 }
+
+type Props = StateByProps & DispatchByProps
 
 const Explorer: React.FC<Props> = ({
   currentFolder,
