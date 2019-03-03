@@ -2,11 +2,15 @@ import React from 'react'
 import Button from './Button'
 import { area } from './DialogForm.scss'
 
-type Porps = {
+export type StateByProps = {}
+
+export type DispatchByProps = {
   showOpenDialog?: () => void
   showSaveDialog?: () => void
   showMessageBox?: () => void
 }
+
+type Porps = StateByProps & DispatchByProps
 
 const DialogForm: React.FC<Porps> = ({
   showOpenDialog = () => {},

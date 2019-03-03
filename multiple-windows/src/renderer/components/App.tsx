@@ -2,12 +2,17 @@ import React from 'react'
 import Message from './Message'
 import NewWindow from './NewWindow'
 
-type Props = {
-  message?: string
-  windowIds?: number[]
+export type StateByProps = {
+  message: string
+  windowIds: number[]
+}
+
+export type DispatchByProps = {
   onRequestSend?: (targetWindowId: number, message: string) => void
   onRequestCreateNewWindow?: () => void
 }
+
+type Props = StateByProps & DispatchByProps
 
 const App: React.FC<Props> = ({
   message = '',
