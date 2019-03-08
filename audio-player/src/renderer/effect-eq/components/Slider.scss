@@ -1,0 +1,37 @@
+@import '../../_Variables.scss';
+
+.slider {
+  position: absolute;
+  top: 110px;
+  width: 200px;
+  background-color: transparent;
+  cursor: pointer;
+  transform: rotate(270deg);
+  -webkit-appearance: none;
+}
+
+.slider:focus {
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -9px;
+  width: 10px;
+  height: 20px;
+  background-color: $color_indigo_dark;
+}
+
+.slider::-webkit-slider-runnable-track {
+  margin-top: 6px;
+  height: 3px;
+  background-color: $color_gray_darkness;
+}
+
+.frequecy {
+  user-select: none;
+  position: absolute;
+  top: 225px;
+  font-size: 11px;
+  cursor: default;
+}

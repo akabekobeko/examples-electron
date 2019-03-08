@@ -9,13 +9,8 @@ module.exports = (api) => {
   ]
 
   return {
-    presets: api.env('development') ? [
-      presetEnv,
-      '@babel/preset-react',
-      'power-assert'
-    ] : [
-      presetEnv,
-      '@babel/preset-react'
-    ]
+    presets: api.env('development')
+      ? [presetEnv, '@babel/typescript', '@babel/preset-react', 'power-assert']
+      : [presetEnv, '@babel/typescript', '@babel/preset-react', 'minify']
   }
 }
