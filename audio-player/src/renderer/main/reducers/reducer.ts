@@ -1,13 +1,12 @@
 import { ActionType, AppState } from '../Types'
-import { openWithPlay, play, pause, stop, seek, changeVolume } from '../actions'
+import audioPlayerReducer, {
+  Actions as AudioPlayerActions
+} from './audioPlayerReducer'
+import musicListReducer, {
+  Actions as MusicPlayerActions
+} from './musicListReducer'
 
-export type Actions =
-  | ReturnType<typeof openWithPlay>
-  | ReturnType<typeof play>
-  | ReturnType<typeof pause>
-  | ReturnType<typeof stop>
-  | ReturnType<typeof seek>
-  | ReturnType<typeof changeVolume>
+type Actions = AudioPlayerActions | MusicPlayerActions
 
 /**
  * Adjust the state of the application according to the action.
@@ -18,22 +17,19 @@ export type Actions =
 const reducer = (state = {}, action: Actions): AppState => {
   switch (action.type) {
     case ActionType.OpenMusicWithPlay:
-      return state
-
     case ActionType.Play:
-      return state
-
     case ActionType.Pause:
-      return state
-
     case ActionType.Stop:
-      return state
-
     case ActionType.Seek:
-      return state
-
     case ActionType.ChangeVolume:
-      return state
+      return audioPlayerReducer(state, action)
+
+    case ActionType.SelectMusic:
+    case ActionType.SelectArtist:
+    case ActionType.SelectMusic:
+    case ActionType.FinishImportMusic:
+    case ActionType.RemoveMusic:
+      return musicListReducer(state, action)
 
     default:
       return state

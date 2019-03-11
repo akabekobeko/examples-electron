@@ -1,0 +1,75 @@
+@import '../../_Variables.scss';
+
+.player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 256px;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.prev {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 28px;
+  left: 4px;
+  top: 10px;
+}
+
+.play {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 36px;
+  left: 40px;
+  top: 5px;
+}
+
+.next {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 28px;
+  left: 80px;
+  top: 10px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  position: absolute;
+  left: 130px;
+  top: 8px;
+  width: 100px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.slider:focus {
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  margin-top: -5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: solid 1px $color_gray;
+  background-color: $color_white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.slider::-webkit-slider-runnable-track {
+  margin-top: 6px;
+  height: 3px;
+  background-color: $color_gray;
+}

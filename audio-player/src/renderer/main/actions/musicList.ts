@@ -1,7 +1,9 @@
 import { IpcMessageEvent, OpenDialogOptions } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../../common/Constants'
-import { ActionType, Music, Artist } from '../Types'
+import { ActionType } from '../Types'
+import Music from '../models/Music'
+import Artist from '../models/Artist'
 
 const ipcRenderer = window.require('electron').ipcRenderer
 
@@ -21,7 +23,7 @@ export const selectMusic = (music: Music) => ({
  * @param artist Target artist.
  */
 export const selectArtist = (artist: Artist) => ({
-  type: ActionType.SlectArtist as ActionType.SlectArtist,
+  type: ActionType.SelectArtist as ActionType.SelectArtist,
   payload: {
     artist
   }

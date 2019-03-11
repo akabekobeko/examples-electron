@@ -1,4 +1,5 @@
-import { number } from 'prop-types'
+import Artist from './models/Artist'
+import Music from './models/Music'
 
 /** Flux action type is defined. */
 export enum ActionType {
@@ -10,61 +11,23 @@ export enum ActionType {
   ChangeVolume = 'ChangeVolume',
 
   SelectMusic = 'SelectMusic',
-  SlectArtist = 'SlectArtist',
+  SelectArtist = 'SlectArtist',
   RequestImportMusic = 'RequestImportMusic',
   FinishImportMusic = 'FinishImportMusic',
   RemoveMusic = 'RemoveMusic'
 }
 
-/** Music data. */
-export type Music = {
-  /** Identifier assigned from music database. */
-  id: number
-  /** Path of music file. */
-  filePath: string
-  /** Artist name of music. */
-  artist: string
-  /** Album name of music. */
-  album: string
-  /** Title of music. */
-  title: string
-  /** Release year of music. */
-  year: string
-  /** Track number in album. */
-  track: number
-  /** Disc number in album. */
-  disc: number
-  /** Genre of music. */
-  genre: string
-  /** Duration of music (Milliseconds). */
-  duration: number
-  /** File path of image file. */
-  imageFilePath: string
-}
-
-/** Album data. */
-export type Album = {
-  /** Name of album. */
-  name: string
-  /** Artist name of album. */
-  artist: string
-  /** Release year of album.  */
-  year: string
-  /** Path of image file. */
-  imageFilePath: string
-  /** Musics in album. */
-  musics: Music[]
-}
-
-/** Artist data. */
-export type Artist = {
-  /** Name of artist. */
-  name: string
-  /** Path of image file. */
-  imageFilePath: string
-  /** Albums of artist. */
-  Albums: Album[]
+/** Audio playback status. */
+export enum PlaybackState {
+  Stopped = 0,
+  Paused = 1,
+  Playing = 2
 }
 
 /** State of the application. */
-export type AppState = {}
+export type AppState = {
+  artists: Artist[]
+  currentArtist: Artist
+  currentMusic: Music
+  playbackState: PlaybackState
+}
