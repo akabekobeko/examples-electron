@@ -25,7 +25,7 @@ type Props = {
   /** Collection of music. */
   musics: Music[]
   /** Selected music. */
-  selectedMusic: Music
+  selectedMusic: Music | null
   /** Playing music. */
   playingMusic: Music | null
   /** Called when the music is selected. */

@@ -1,11 +1,14 @@
 import { GraphicEqulizerParams as GEQ } from '../../Constants'
+import { PlaybackState, PlayerState } from '../Types'
 import EffectEqualizer from './EffectEqualizer'
+
+//class Sample implements PlayerInformation {}
 
 /**
  * Provides audio playback function.
  * @see referred: http://github.com/eipark/buffaudio
  */
-class AudioPlayer {
+class AudioPlayer implements PlayerState {
   /** Audio context. */
   private _context: AudioContext = new AudioContext()
 
@@ -55,6 +58,18 @@ class AudioPlayer {
       GEQ.GainMin,
       GEQ.GainMax
     )
+  }
+
+  /**
+   * Get an playback state.
+   * @returns State.
+   */
+  get playbackState(): PlaybackState {
+    return this._audio
+      ? this._isPlaying
+        ? PlaybackState.Playing
+        : PlaybackState.Paused
+      : PlaybackState.Stopped
   }
 
   /**

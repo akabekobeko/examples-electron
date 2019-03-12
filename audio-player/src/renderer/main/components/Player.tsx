@@ -4,12 +4,11 @@ import PlayerInformation from './PlayerInformation'
 import PlayerToolbar from './PlayerToolbar'
 import Styles from './Player.scss'
 import Music from '../models/Music'
+import { PlayerState, PlaybackState } from '../Types'
 
 export type StateByProps = {
-  isPlaying: boolean
-  volume: number
+  playerState: PlayerState
   playingMusic: Music | null
-  currentTime: number
 }
 
 export type DispatchByProps = {
@@ -25,10 +24,8 @@ export type DispatchByProps = {
 type Props = StateByProps & DispatchByProps
 
 const Player: React.FC<Props> = ({
-  isPlaying,
-  volume,
+  playerState,
   playingMusic,
-  currentTime,
   onPlay = () => {},
   onPrev = () => {},
   onNext = () => {},
@@ -40,8 +37,8 @@ const Player: React.FC<Props> = ({
   <div className={Styles.container}>
     <div className={Styles.panel}>
       <PlayerConsole
-        isPlaying={isPlaying}
-        volume={volume}
+        isPlaying={playerState.playbackState === PlaybackState.Playing}
+        volume={playerState.volume}
         onPlay={onPlay}
         onPrev={onPrev}
         onNext={() => onNext}
@@ -49,7 +46,7 @@ const Player: React.FC<Props> = ({
       />
       <PlayerInformation
         playingMusic={playingMusic}
-        currentTime={currentTime}
+        currentTime={playerState.currentTime}
         onSeek={seek}
       />
       <PlayerToolbar removeMusic={removeMusic} importMusic={importMusic} />

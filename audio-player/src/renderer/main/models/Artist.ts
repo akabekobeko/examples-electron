@@ -7,7 +7,10 @@ import Music from './Music.js'
  * @param artists List of artist.
  * @returns Success is artist, Otherwise `null`.
  */
-const matchArsitByMusic = (music: Music, artists: Artist[]): Artist | null => {
+export const matchArsitByMusic = (
+  music: Music,
+  artists: Artist[]
+): Artist | null => {
   for (let artist of artists) {
     if (artist.name === music.artist) {
       return artist
@@ -23,7 +26,10 @@ const matchArsitByMusic = (music: Music, artists: Artist[]): Artist | null => {
  * @param albums List of album.
  * @returns Success is album, Otherwise `null`.
  */
-const matchAlbumByMusic = (music: Music, albums: Album[]): Album | null => {
+export const matchAlbumByMusic = (
+  music: Music,
+  albums: Album[]
+): Album | null => {
   for (let album of albums) {
     if (album.name === music.album) {
       return album

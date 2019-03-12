@@ -51,30 +51,18 @@ class Music {
    * @param duration Duration of music (Milliseconds).
    * @param imageFilePath File path of image file.
    */
-  constructor(
-    id: number,
-    filePath: string,
-    artist: string,
-    album: string,
-    title: string,
-    year: string,
-    track: number,
-    disc: number,
-    genre: string,
-    duration: number,
-    imageFilePath: string
-  ) {
+  constructor(id: number, metadata: MusicMetadata) {
     this.id = id
-    this.filePath = filePath
-    this.artist = artist
-    this.album = album
-    this.title = title
-    this.year = year
-    this.track = track
-    this.disc = disc
-    this.genre = genre
-    this.duration = duration
-    this.imageFilePath = imageFilePath
+    this.filePath = metadata.filePath
+    this.artist = metadata.artist
+    this.album = metadata.album
+    this.title = metadata.title
+    this.year = metadata.year
+    this.track = metadata.track
+    this.disc = metadata.disc
+    this.genre = metadata.genre
+    this.duration = metadata.duration
+    this.imageFilePath = metadata.imageFilePath
   }
 
   /**
@@ -93,28 +81,6 @@ class Music {
     }
 
     return a.track === b.track ? 0 : a.track < b.track ? -1 : 1
-  }
-
-  /**
-   * Create a music data from metadata.
-   * @param id Identifier assigned from music database.
-   * @param metadata Metadata.
-   * @returns Music data.
-   */
-  static fromMusicMetadata(id: number, metadata: MusicMetadata): Music {
-    return new Music(
-      id,
-      metadata.filePath,
-      metadata.artist,
-      metadata.album,
-      metadata.title,
-      metadata.year,
-      metadata.track,
-      metadata.disc,
-      metadata.genre,
-      metadata.duration,
-      metadata.imageFilePath
-    )
   }
 }
 

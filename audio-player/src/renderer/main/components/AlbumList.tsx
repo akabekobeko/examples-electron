@@ -5,8 +5,8 @@ import MusicList from './MusicList.js'
 import Artist from '../models/Artist'
 
 export type StateByProps = {
-  currentArtist: Artist
-  currentMusic: Music
+  currentArtist: Artist | null
+  currentMusic: Music | null
   playingMusic: Music | null
 }
 

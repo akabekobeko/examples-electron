@@ -5,7 +5,7 @@ import Artist from '../models/Artist'
 
 export type StateByProps = {
   artists: Artist[]
-  currentArtist: Artist
+  currentArtist: Artist | null
 }
 
 export type DispatchByProps = {
@@ -21,7 +21,7 @@ const ArtistList: React.FC<Props> = ({
 }) => (
   <div className={Styles.container}>
     {artists.map((artist, index) => {
-      const selected = currentArtist && currentArtist.name === artist.name
+      const selected = !!(currentArtist && currentArtist.name === artist.name)
       return (
         <ArtistListItem
           key={index}
