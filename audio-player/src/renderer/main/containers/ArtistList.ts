@@ -9,8 +9,8 @@ import ArtistList, {
 import Artist from '../models/Artist'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
-  artists: state.musicState.artists,
-  currentArtist: state.musicState.currentArtist
+  artists: state.artists,
+  currentArtist: state.currentArtist
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({

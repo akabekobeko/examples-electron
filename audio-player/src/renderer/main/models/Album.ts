@@ -33,7 +33,7 @@ class Album {
    * @param b The second album to compare.
    * @returns `-1` = first is less than second, `0` = first equals second, `1` = first is greater than second.
    */
-  static compare(a: Album, b: Album) {
+  static compare(a: Album, b: Album): number {
     if (a.name === b.name) {
       return a.year === b.year ? 0 : a.year < b.year ? -1 : 1
     }

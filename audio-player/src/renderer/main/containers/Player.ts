@@ -5,11 +5,12 @@ import Player, { StateByProps, DispatchByProps } from '../components/Player'
 import { play, changeVolume, selectMusic } from '../actions'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
-  playerState: state.playerState,
+  playbackState: state.playbackState,
+  currentTime: state.currentTime,
+  volume: state.volume,
+  spectrums: state.spectrums,
   playingMusic:
-    state.playerState.playbackState === PlaybackState.Stopped
-      ? null
-      : state.musicState.currentMusic
+    state.playbackState === PlaybackState.Stopped ? null : state.currentMusic
 })
 
 const mapDispatchToProps = (
@@ -20,13 +21,13 @@ const mapDispatchToProps = (
     dispatch(play())
   },
   onPrev: () => {
-    const music = getState().musicState.currentMusic
+    const music = getState().currentMusic
     if (music) {
       dispatch(selectMusic(music, MusicSelectPosition.Prev))
     }
   },
   onNext: () => {
-    const music = getState().musicState.currentMusic
+    const music = getState().currentMusic
     if (music) {
       dispatch(selectMusic(music, MusicSelectPosition.Next))
     }

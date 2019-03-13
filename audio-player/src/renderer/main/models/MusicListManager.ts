@@ -1,12 +1,12 @@
-import { MusicState, MusicSelectPosition } from '../Types'
-import Artist, { matchArsitByMusic, matchAlbumByMusic } from './Artist'
+import { MusicSelectPosition } from '../Types'
+import * as MusicDatabase from './MusicDatabase'
+import Artist, { matchAlbumByMusic, matchArsitByMusic } from './Artist'
 import Music from './Music'
-import MusicDatabase from './MusicDatabase'
 
 /**
  * Manage for music list.
  */
-class MusicListManager implements MusicState {
+class MusicListManager {
   /** Artists. */
   private _artists: Artist[] = []
 
@@ -17,7 +17,7 @@ class MusicListManager implements MusicState {
   private _currentMusic: Music | null = null
 
   /** Manage for the music database. */
-  private _db = new MusicDatabase()
+  private _db: IDBDatabase | null = null
 
   /**
    * Get the all artist.
@@ -48,7 +48,12 @@ class MusicListManager implements MusicState {
    * @returns Asynchronous task.
    */
   async load() {
-    this._artists = Artist.fromMusics(await this._db.load())
+    if (this._db) {
+      return
+    }
+
+    this._db = await MusicDatabase.open()
+    this._artists = Artist.fromMusics(await MusicDatabase.load(this._db))
     if (0 < this._artists.length) {
       this._currentArtist = this._artists[0]
       this._currentMusic = this._artists[0].albums[0].musics[0]

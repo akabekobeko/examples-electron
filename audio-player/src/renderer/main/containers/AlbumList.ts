@@ -9,12 +9,10 @@ import AlbumList, {
 import Music from '../models/Music'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
-  currentArtist: state.musicState.currentArtist,
-  currentMusic: state.musicState.currentMusic,
+  currentArtist: state.currentArtist,
+  currentMusic: state.currentMusic,
   playingMusic:
-    state.playerState.playbackState === PlaybackState.Stopped
-      ? null
-      : state.musicState.currentMusic
+    state.playbackState === PlaybackState.Stopped ? null : state.currentMusic
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({

@@ -1,5 +1,5 @@
 import { GraphicEqulizerParams as GEQ } from '../../Constants'
-import { PlaybackState, PlayerState } from '../Types'
+import { PlaybackState } from '../Types'
 import EffectEqualizer from './EffectEqualizer'
 
 //class Sample implements PlayerInformation {}
@@ -8,7 +8,7 @@ import EffectEqualizer from './EffectEqualizer'
  * Provides audio playback function.
  * @see referred: http://github.com/eipark/buffaudio
  */
-class AudioPlayer implements PlayerState {
+class AudioPlayer {
   /** Audio context. */
   private _context: AudioContext = new AudioContext()
 
@@ -99,7 +99,7 @@ class AudioPlayer implements PlayerState {
 
   /**
    * Get the frequency spectrum of an audio.
-   * @returns Spectrums If an audio during playback. Otherwise null.
+   * @returns Spectrums If an audio during playback. Otherwise `null`.
    */
   get spectrums(): Uint8Array | null {
     if (this._audioSourceNode && this._isPlaying) {
@@ -144,54 +144,77 @@ class AudioPlayer implements PlayerState {
    * @param filePath Audio file path.
    * @param callback Callback function that occurs when load a file.
    */
-  open(filePath: string, callback: () => void) {
-    this.close()
+  open(filePath: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.close()
 
-    this._audio = new Audio(filePath)
-    this._audio.addEventListener('loadstart', () => {
-      this._audioSourceNode = this._context.createMediaElementSource(
-        this._audio!
+      this._audio = new Audio(filePath)
+      this._audio.addEventListener(
+        'loadstart',
+        () => {
+          if (!this._audio) {
+            return reject(new Error(`Can't load music file`))
+          }
+
+          this._audioSourceNode = this._context.createMediaElementSource(
+            this._audio
+          )
+          this._audioSourceNode.connect(this._effectSourceNode)
+          resolve()
+        },
+        { once: true }
       )
-      this._audioSourceNode.connect(this._effectSourceNode)
-      callback()
+      this._audio.addEventListener(
+        'error',
+        (ev) => {
+          reject(`Can't open music files, ${ev.message}`)
+        },
+        { once: true }
+      )
     })
   }
 
   /**
    * Play the audio.
+   * @returns `true` on success.
    */
-  play() {
+  play(): boolean {
     if (!this._audio || this._isPlaying) {
-      return
+      return false
     }
 
     this._audio.play()
     this._isPlaying = true
+    return true
   }
 
   /**
    * Pause the currently playback audio.
+   * @returns `true` on success.
    */
-  pause() {
+  pause(): boolean {
     if (!(this._audio && this._isPlaying)) {
-      return
+      return false
     }
 
     this._audio.pause()
     this._isPlaying = false
+    return true
   }
 
   /**
    * Stop the currently playback audio.
+   * @returns `true` on success.
    */
   stop() {
     if (!(this._audio && this._audioSourceNode && this._isPlaying)) {
-      return
+      return false
     }
 
     this._audio.pause()
     this._audio.currentTime = 0
     this._isPlaying = false
+    return true
   }
 
   /**

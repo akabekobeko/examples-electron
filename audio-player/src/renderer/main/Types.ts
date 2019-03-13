@@ -1,22 +1,6 @@
 import Artist from './models/Artist'
 import Music from './models/Music'
 
-/** Flux action type is defined. */
-export enum ActionType {
-  OpenMusicWithPlay = 'OpenMusicWithPlay',
-  Play = 'Play',
-  Pause = 'Pause',
-  Stop = 'Stop',
-  Seek = 'Seek',
-  ChangeVolume = 'ChangeVolume',
-
-  SelectMusic = 'SelectMusic',
-  SelectArtist = 'SlectArtist',
-  RequestImportMusic = 'RequestImportMusic',
-  FinishImportMusic = 'FinishImportMusic',
-  RemoveMusic = 'RemoveMusic'
-}
-
 /** Audio playback status. */
 export enum PlaybackState {
   Stopped = 0,
@@ -34,23 +18,31 @@ export enum MusicSelectPosition {
   Next = 2
 }
 
-/** State of the audio player. */
-export interface PlayerState {
-  readonly playbackState: PlaybackState
-  readonly currentTime: number
-  readonly volume: number
-  readonly spectrums: Uint8Array | null
-}
+/** Flux action type is defined. */
+export enum ActionType {
+  OpenMusicWithPlay = 'OpenMusicWithPlay',
+  Play = 'Play',
+  Pause = 'Pause',
+  Stop = 'Stop',
+  Seek = 'Seek',
+  ChangeVolume = 'ChangeVolume',
+  GetPlayerState = 'GetPlayerState',
 
-/** State of the musics. */
-export interface MusicState {
-  readonly artists: Artist[]
-  readonly currentArtist: Artist | null
-  readonly currentMusic: Music | null
+  SelectMusic = 'SelectMusic',
+  SelectArtist = 'SlectArtist',
+  RequestImportMusic = 'RequestImportMusic',
+  FinishImportMusic = 'FinishImportMusic',
+  RemoveMusic = 'RemoveMusic'
 }
 
 /** State of the application. */
 export type AppState = {
-  musicState: MusicState
-  playerState: PlayerState
+  artists: Artist[]
+  currentArtist: Artist | null
+  currentMusic: Music | null
+
+  playbackState: PlaybackState
+  currentTime: number
+  volume: number
+  spectrums: Uint8Array | null
 }

@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import { PlaybackState } from '../Types'
+import React, { useRef, useEffect } from 'react'
 import Styles from './PlayerSpectrumAnalyzer.scss'
 
 const MaxSpectrum = 255
@@ -32,7 +31,7 @@ const adjustCanvasSize = (canvas: HTMLCanvasElement) => {
 const drawBackground = (
   canvas: HTMLCanvasElement,
   canvasContext: CanvasRenderingContext2D,
-  spectrums: number[],
+  spectrums: Uint8Array,
   baseX: number,
   width: number
 ) => {
@@ -55,7 +54,7 @@ const drawBackground = (
 const drawGraph = (
   canvas: HTMLCanvasElement,
   canvasContext: CanvasRenderingContext2D,
-  spectrums: number[],
+  spectrums: Uint8Array,
   baseX: number,
   width: number
 ) => {
@@ -75,19 +74,17 @@ const drawGraph = (
 }
 
 /**
- * Start the spectrum analyzer.
+ * Draw the spectrum analyzer.
  * @param canvas Target canvas.
  * @param canvasContext: CanvasRenderingContext2D,
  * @param spectrums Spectrum values, range: `0` to `255`.
  */
-const startSpectrumAnalyzer = (
+const draw = (
   canvas: HTMLCanvasElement,
   canvasContext: CanvasRenderingContext2D,
-  spectrums: number[]
-): number => {
-  if (!spectrums) {
-    return 0
-  }
+  spectrums: Uint8Array
+) => {
+  canvasContext.scale(window.devicePixelRatio, window.devicePixelRatio)
 
   adjustCanvasSize(canvas)
   canvasContext.clearRect(0, 0, canvas.width, canvas.height)
@@ -98,49 +95,43 @@ const startSpectrumAnalyzer = (
 
   drawBackground(canvas, canvasContext, spectrums, baseX, width)
   drawGraph(canvas, canvasContext, spectrums, baseX, width)
-
-  return window.requestAnimationFrame(() => {
-    startSpectrumAnalyzer(canvas, canvasContext, spectrums)
-  })
-}
-
-/**
- * Stop the spectrum analyzer.
- * @param canvas Target canvas.
- * @param canvasContext: CanvasRenderingContext2D,
- * @param animationId: Identifier of animation on targert canvas.
- */
-const stopSpectrumAnalyzer = (
-  canvas: HTMLCanvasElement,
-  canvasContext: CanvasRenderingContext2D,
-  animationId: number
-) => {
-  canvasContext.clearRect(0, 0, canvas.width, canvas.height)
-  window.cancelAnimationFrame(animationId)
 }
 
 type Props = {
-  useSpectrumAnalyzer: boolean
-  playbackState: PlaybackState
+  spectrums: Uint8Array | null
   onClick: () => void
 }
 
-const PlayerSpectrumAnalyzer: React.FC<Props> = ({
-  useSpectrumAnalyzer,
-  playbackState,
-  onClick
-}) => {
-  const canvas = useRef<HTMLCanvasElement>(null)
-  const canvasContext = canvas.current!.getContext('2d')
-  if (!canvasContext) {
+const PlayerSpectrumAnalyzer: React.FC<Props> = ({ spectrums, onClick }) => {
+  if (!spectrums) {
     return null
   }
 
-  canvasContext.scale(window.devicePixelRatio, window.devicePixelRatio)
+  const canvas = useRef<HTMLCanvasElement>(null)
 
-  const style = { display: useSpectrumAnalyzer ? 'block' : 'none' }
+  useEffect(() => {
+    if (!canvas.current) {
+      return
+    }
+
+    const canvasContext = canvas.current!.getContext('2d')
+    if (!canvasContext) {
+      return
+    }
+
+    draw(canvas.current, canvasContext, spectrums)
+
+    return () => {
+      if (!canvas.current) {
+        return
+      }
+
+      canvasContext.clearRect(0, 0, canvas.current.width, canvas.current.height)
+    }
+  }, [canvas])
+
   return (
-    <div className={Styles.analyzer} style={style} onClick={onClick}>
+    <div className={Styles.analyzer} onClick={onClick}>
       <canvas ref={canvas} />
     </div>
   )

@@ -2,12 +2,16 @@ import React from 'react'
 import PlayerConsole from './PlayerConsole'
 import PlayerInformation from './PlayerInformation'
 import PlayerToolbar from './PlayerToolbar'
-import Styles from './Player.scss'
+import PlayerSpectrumAnalyzer from './PlayerSpectrumAnalyzer'
 import Music from '../models/Music'
-import { PlayerState, PlaybackState } from '../Types'
+import { PlaybackState } from '../Types'
+import Styles from './Player.scss'
 
 export type StateByProps = {
-  playerState: PlayerState
+  playbackState: PlaybackState
+  currentTime: number
+  volume: number
+  spectrums: Uint8Array | null
   playingMusic: Music | null
 }
 
@@ -24,7 +28,10 @@ export type DispatchByProps = {
 type Props = StateByProps & DispatchByProps
 
 const Player: React.FC<Props> = ({
-  playerState,
+  playbackState,
+  currentTime,
+  volume,
+  spectrums,
   playingMusic,
   onPlay = () => {},
   onPrev = () => {},
@@ -37,8 +44,8 @@ const Player: React.FC<Props> = ({
   <div className={Styles.container}>
     <div className={Styles.panel}>
       <PlayerConsole
-        isPlaying={playerState.playbackState === PlaybackState.Playing}
-        volume={playerState.volume}
+        isPlaying={playbackState === PlaybackState.Playing}
+        volume={volume}
         onPlay={onPlay}
         onPrev={onPrev}
         onNext={() => onNext}
@@ -46,9 +53,10 @@ const Player: React.FC<Props> = ({
       />
       <PlayerInformation
         playingMusic={playingMusic}
-        currentTime={playerState.currentTime}
+        currentTime={currentTime}
         onSeek={seek}
       />
+      <PlayerSpectrumAnalyzer spectrums={spectrums} onClick={() => {}} />
       <PlayerToolbar removeMusic={removeMusic} importMusic={importMusic} />
     </div>
   </div>
