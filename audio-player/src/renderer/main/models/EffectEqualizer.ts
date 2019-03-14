@@ -45,7 +45,7 @@ const createPeakings = (
  */
 class EffectEqualizer {
   /** Value indicating that it is connected. */
-  private _connected = false
+  private _connected: boolean
 
   /** Peakings. */
   private _peakings: BiquadFilterNode[]
@@ -69,6 +69,7 @@ class EffectEqualizer {
     min: number,
     max: number
   ) {
+    this._connected = false
     this._peakings = createPeakings(context, bands)
     this._min = min
     this._max = max

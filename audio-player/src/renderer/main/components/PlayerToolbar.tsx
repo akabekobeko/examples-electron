@@ -15,13 +15,13 @@ const PlayerToolbar: React.FC<Props> = ({ removeMusic, importMusic }) => (
         className={`${Styles.button} ${Styles.remove}`}
         onClick={removeMusic}
       >
-        <i className={'icon-minus'} />
+        <i className={'icon_circle_with_minus'} />
       </div>
       <div
         className={`${Styles.button} ${Styles.import}`}
         onClick={importMusic}
       >
-        <i className={'icon-plus'} />
+        <i className={'icon_circle_with_plus'} />
       </div>
     </div>
   </div>

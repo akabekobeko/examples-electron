@@ -2,36 +2,34 @@ import { GraphicEqulizerParams as GEQ } from '../../Constants'
 import { PlaybackState } from '../Types'
 import EffectEqualizer from './EffectEqualizer'
 
-//class Sample implements PlayerInformation {}
-
 /**
  * Provides audio playback function.
  * @see referred: http://github.com/eipark/buffaudio
  */
 class AudioPlayer {
   /** Audio context. */
-  private _context: AudioContext = new AudioContext()
+  private _context: AudioContext
 
   /** Node for audio volume adjustment. */
-  private _gainNode: GainNode = this._context.createGain()
+  private _gainNode: GainNode
 
   /** Node for audio analyze. */
-  private _analyserNode: AnalyserNode = this._context.createAnalyser()
+  private _analyserNode: AnalyserNode
 
   /** Node for effector. */
-  private _effectNode: GainNode = this._context.createGain()
+  private _effectNode: GainNode
 
   /**  Node that connects the source and the effector. */
-  private _effectSourceNode: GainNode = this._context.createGain()
+  private _effectSourceNode: GainNode
 
   /** Audio element. */
-  private _audio: HTMLAudioElement | null = null
+  private _audio: HTMLAudioElement | null
 
   /** Node for audio source. */
-  private _audioSourceNode: MediaElementAudioSourceNode | null = null
+  private _audioSourceNode: MediaElementAudioSourceNode | null
 
   /** Indicates that the audio is playing. */
-  private _isPlaying = false
+  private _isPlaying: boolean
 
   /** Effect of the graphic equalizer. */
   private _effectEqualizer: EffectEqualizer
@@ -40,15 +38,21 @@ class AudioPlayer {
    * Initliaze instance.
    */
   constructor() {
+    this._context = new AudioContext()
+
+    this._gainNode = this._context.createGain()
     this._gainNode.gain.value = 1.0
     this._gainNode.connect(this._context.destination)
 
+    this._analyserNode = this._context.createAnalyser()
     this._analyserNode.fftSize = 64
     this._analyserNode.connect(this._gainNode)
 
+    this._effectNode = this._context.createGain()
     this._effectNode.gain.value = 1.0
     this._effectNode.connect(this._analyserNode)
 
+    this._effectSourceNode = this._context.createGain()
     this._effectSourceNode.gain.value = 1.0
     this._effectSourceNode.connect(this._effectNode)
 
@@ -58,6 +62,10 @@ class AudioPlayer {
       GEQ.GainMin,
       GEQ.GainMax
     )
+
+    this._audio = null
+    this._audioSourceNode = null
+    this._isPlaying = false
   }
 
   /**

@@ -1,6 +1,6 @@
 import React from 'react'
 import Music from '../models/Music'
-import MusicListItem from './MusicListItem.js'
+import MusicListItem from './MusicListItem'
 import Styles from './MusicList.scss'
 
 /**

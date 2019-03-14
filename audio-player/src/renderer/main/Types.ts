@@ -20,19 +20,8 @@ export enum MusicSelectPosition {
 
 /** Flux action type is defined. */
 export enum ActionType {
-  OpenMusicWithPlay = 'OpenMusicWithPlay',
-  Play = 'Play',
-  Pause = 'Pause',
-  Stop = 'Stop',
-  Seek = 'Seek',
-  ChangeVolume = 'ChangeVolume',
-  GetPlayerState = 'GetPlayerState',
-
-  SelectMusic = 'SelectMusic',
-  SelectArtist = 'SlectArtist',
-  RequestImportMusic = 'RequestImportMusic',
-  FinishImportMusic = 'FinishImportMusic',
-  RemoveMusic = 'RemoveMusic'
+  UpdateMusicList = 'UpdateMusicList',
+  UpdatePlayerState = 'UpdatePlayerState'
 }
 
 /** State of the application. */
@@ -41,6 +30,7 @@ export type AppState = {
   currentArtist: Artist | null
   currentMusic: Music | null
 
+  playingMusic: Music | null
   playbackState: PlaybackState
   currentTime: number
   volume: number

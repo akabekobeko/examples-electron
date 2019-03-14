@@ -9,13 +9,13 @@ class Album {
   readonly name: string
 
   /** Musics in album. */
-  private _musics: Music[] = []
+  private _musics: Music[]
 
   /** Release year of album.  */
-  private _year: string = ''
+  private _year: string
 
   /** Path of image file. */
-  private _imageFilePath: string = ''
+  private _imageFilePath: string
 
   /**
    * Initialize instance.
@@ -25,6 +25,9 @@ class Album {
   constructor(artistName: string, albumName: string) {
     this.artist = artistName
     this.name = albumName
+    this._musics = []
+    this._year = ''
+    this._imageFilePath = ''
   }
 
   /**
@@ -75,9 +78,7 @@ class Album {
       return false
     }
 
-    this._musics.push(music)
-    this._musics = this._musics.sort(Music.compare)
-
+    this._musics = this._musics.concat(music).sort(Music.compare)
     this._updateImage()
     this._updateYear()
 

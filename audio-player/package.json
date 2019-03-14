@@ -54,7 +54,9 @@
     "music-metadata": "^3.5.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
     "react-split-pane": "^0.1.85",
+    "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
@@ -65,7 +67,7 @@
     "@babel/register": "^7.0.0",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/mocha": "^5.2.6",
-    "@types/react": "^16.8.7",
+    "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
     "@types/react-redux": "^7.0.3",
     "@types/rewire": "^2.5.28",
@@ -76,7 +78,7 @@
     "cross-conf-env": "^1.1.2",
     "css-loader": "^2.1.1",
     "devtron": "^1.4.0",
-    "electron": "^4.0.8",
+    "electron": "^4.1.0",
     "electron-packager": "^13.1.1",
     "espower-typescript": "^9.0.1",
     "ifdef-loader": "^2.1.1",

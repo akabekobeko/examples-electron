@@ -27,13 +27,17 @@ const PlayerConsole: React.FC<Props> = ({
   <div className={Styles.player}>
     <div className={Styles.container}>
       <div className={Styles.prev} onClick={onPrev}>
-        <i className={'icon-prev'} />
+        <i className={'icon_controller_jump_to_start'} />
       </div>
       <div className={Styles.play} onClick={onPlay}>
-        <i className={isPlaying ? 'icon-pause' : 'icon-play'} />
+        <i
+          className={
+            isPlaying ? 'icon_controller_pause' : 'icon_controller_play'
+          }
+        />
       </div>
       <div className={Styles.next} onClick={onNext}>
-        <i className={'icon-next'} />
+        <i className={'icon_controller_next'} />
       </div>
       <input
         type="range"

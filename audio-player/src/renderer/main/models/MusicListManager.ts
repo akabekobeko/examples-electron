@@ -1,23 +1,55 @@
 import { MusicSelectPosition } from '../Types'
 import * as MusicDatabase from './MusicDatabase'
-import Artist, { matchAlbumByMusic, matchArsitByMusic } from './Artist'
+import Artist, { artistByMusic, albumByMusic } from './Artist'
 import Music from './Music'
+import { importMusicMetadata } from './MusicImporter'
+import Album from './Album'
+
+/**
+ * Import musics from files of user selection.
+ * @param db Database connection.
+ * @returns Asynchronous task.
+ */
+const importMusic = async (db: IDBDatabase | null): Promise<Music[]> => {
+  if (!db) {
+    return []
+  }
+
+  const musics: Music[] = []
+  const metadata = await importMusicMetadata()
+
+  for (let data of metadata) {
+    musics.push(await MusicDatabase.add(db, data))
+  }
+
+  return musics
+}
 
 /**
  * Manage for music list.
  */
 class MusicListManager {
   /** Artists. */
-  private _artists: Artist[] = []
+  private _artists: Artist[]
 
   /** Currently artist. */
-  private _currentArtist: Artist | null = null
+  private _currentArtist: Artist | null
 
   /** Currently music. */
-  private _currentMusic: Music | null = null
+  private _currentMusic: Music | null
 
   /** Manage for the music database. */
-  private _db: IDBDatabase | null = null
+  private _db: IDBDatabase | null
+
+  /**
+   * Initialize instance.
+   */
+  constructor() {
+    this._artists = []
+    this._currentArtist = null
+    this._currentMusic = null
+    this._db = null
+  }
 
   /**
    * Get the all artist.
@@ -54,9 +86,69 @@ class MusicListManager {
 
     this._db = await MusicDatabase.open()
     this._artists = Artist.fromMusics(await MusicDatabase.load(this._db))
+    this._artists = this._artists.sort(Artist.compare)
+
     if (0 < this._artists.length) {
       this._currentArtist = this._artists[0]
       this._currentMusic = this._artists[0].albums[0].musics[0]
+    }
+  }
+
+  /**
+   * Import the musics from files of user selection.
+   * @returns Asynchronous task.
+   */
+  async import(): Promise<void> {
+    if (!this._db) {
+      return
+    }
+
+    const metadata = await importMusicMetadata()
+    for (let data of metadata) {
+      const music = await MusicDatabase.add(this._db, data)
+      this.add(music)
+    }
+  }
+
+  /**
+   * Remove the music from instance and database.
+   * @param music Target music.
+   * @returns Asynchronous task.
+   */
+  async remove(music: Music): Promise<void> {
+    if (!this._db) {
+      return
+    }
+
+    const artist = artistByMusic(music, this._artists)
+    if (!artist) {
+      return
+    }
+
+    const album = albumByMusic(music, artist.albums)
+    if (!album) {
+      return
+    }
+
+    await MusicDatabase.remove(this._db, music.id)
+    if (this._currentMusic && this._currentMusic.id === music.id) {
+      this._currentMusic = this.nextMusic(music)
+    }
+
+    album.remove(music)
+    if (0 < album.musics.length) {
+      // There are songs left, so no album and artist processing is required
+      return
+    }
+
+    artist.remove(album)
+    if (0 < artist.albums.length) {
+      // There are album left, so no artist processing is required
+      return
+    }
+
+    if (this._currentArtist && this._currentArtist.name === artist.name) {
+      this._currentArtist = null
     }
   }
 
@@ -86,13 +178,13 @@ class MusicListManager {
    * @param isPrev It is `true` if it sees from the base before. `false` if next.
    * @returns Music if successful. Otherwise `null`.
    */
-  private nextMusic(baseMusic: Music, isPrev: boolean): Music | null {
-    const artist = matchArsitByMusic(baseMusic, this._artists)
+  private nextMusic(baseMusic: Music, isPrev: boolean = false): Music | null {
+    const artist = artistByMusic(baseMusic, this._artists)
     if (!artist) {
       return null
     }
 
-    const album = matchAlbumByMusic(baseMusic, artist.albums)
+    const album = albumByMusic(baseMusic, artist.albums)
     if (!album) {
       return null
     }
@@ -111,6 +203,31 @@ class MusicListManager {
     }
 
     return null
+  }
+
+  /**
+   * Add the music.
+   * @param music Music.
+   */
+  private add(music: Music) {
+    let artist = artistByMusic(music, this._artists)
+    if (artist) {
+      let album = albumByMusic(music, artist.albums)
+      if (album) {
+        album.add(music)
+      } else {
+        album = new Album(artist.name, music.album)
+        album.add(music)
+        artist.add(album)
+      }
+    } else {
+      // New artist and album, with setting an image and year from music.
+      artist = new Artist(music.artist)
+      const album = new Album(artist.name, music.album)
+      album.add(music)
+      artist.add(album)
+      this._artists = this._artists.concat(artist).sort(Artist.compare)
+    }
   }
 }
 

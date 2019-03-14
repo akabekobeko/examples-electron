@@ -1,5 +1,5 @@
-import Album from './Album.js'
-import Music from './Music.js'
+import Album from './Album'
+import Music from './Music'
 
 /**
  * Search for artists matching with music. If not found.
@@ -7,7 +7,7 @@ import Music from './Music.js'
  * @param artists List of artist.
  * @returns Success is artist, Otherwise `null`.
  */
-export const matchArsitByMusic = (
+export const artistByMusic = (
   music: Music,
   artists: Artist[]
 ): Artist | null => {
@@ -26,10 +26,7 @@ export const matchArsitByMusic = (
  * @param albums List of album.
  * @returns Success is album, Otherwise `null`.
  */
-export const matchAlbumByMusic = (
-  music: Music,
-  albums: Album[]
-): Album | null => {
+export const albumByMusic = (music: Music, albums: Album[]): Album | null => {
   for (let album of albums) {
     if (album.name === music.album) {
       return album
@@ -47,10 +44,10 @@ export default class Artist {
   readonly name: string
 
   /** Albums */
-  private _albums: Album[] = []
+  private _albums: Album[]
 
   /** Path of the image file. */
-  private _imageFilePath: string = ''
+  private _imageFilePath: string
 
   /**
    * Initialize instance.
@@ -58,6 +55,8 @@ export default class Artist {
    */
   constructor(name: string) {
     this.name = name
+    this._albums = []
+    this._imageFilePath = ''
   }
 
   /**
@@ -81,13 +80,13 @@ export default class Artist {
   static fromMusics(musics: Music[]) {
     const artists: Artist[] = []
     musics.forEach((music) => {
-      let artist = matchArsitByMusic(music, artists)
+      let artist = artistByMusic(music, artists)
       if (!artist) {
         artist = new Artist(music.artist)
         artists.push(artist)
       }
 
-      let album = matchAlbumByMusic(music, artist.albums)
+      let album = albumByMusic(music, artist.albums)
       if (album) {
         album.add(music)
       } else {
@@ -126,8 +125,7 @@ export default class Artist {
       return false
     }
 
-    this._albums.push(album)
-    this._albums = this._albums.sort(Album.compare)
+    this._albums = this._albums.concat(album).sort(Album.compare)
     this._updateImage()
 
     return true

@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphicEqulizerParams as Params } from '../Constants'
+import { GraphicEqulizerParams as Params } from '../../Constants'
 import * as Styles from './Slider.scss'
 
 /**

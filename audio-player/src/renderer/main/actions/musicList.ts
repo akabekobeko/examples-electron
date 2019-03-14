@@ -1,12 +1,65 @@
-import { IpcMessageEvent, OpenDialogOptions } from 'electron'
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../../common/Constants'
-import { ActionType, MusicSelectPosition } from '../Types'
+import { ActionType, MusicSelectPosition, AppState } from '../Types'
 import Music from '../models/Music'
 import Artist from '../models/Artist'
 import MusicListManager from '../models/MusicListManager'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+/** Music ist. */
+const musicList = new MusicListManager()
+
+/**
+ * Update the state of music list.
+ * @param error Error information.
+ */
+export const updateMusicList = (error?: Error) => ({
+  type: ActionType.UpdateMusicList as ActionType.UpdateMusicList,
+  payload: {
+    artists: musicList.artists,
+    currentArtist: musicList.currentArtist,
+    currentMusic: musicList.currentMusic
+  },
+  error
+})
+
+/**
+ * Load the music list from database.
+ */
+export const loadMusicList = () => (dispatch: Dispatch) => {
+  musicList
+    .load()
+    .then(() => dispatch(updateMusicList()))
+    .catch((err) => dispatch(updateMusicList(err)))
+}
+
+/**
+ * Import a music files to list and database.
+ */
+export const importMusic = () => (dispatch: Dispatch) => {
+  musicList
+    .import()
+    .then(() => dispatch(updateMusicList()))
+    .catch((err) => dispatch(updateMusicList(err)))
+}
+
+/**
+ * Remove a music from list and database.
+ * @param music Target music.
+ */
+export const removeMusic = (music: Music) => (
+  dispatch: Dispatch,
+  getState: () => AppState
+) => {
+  // Ignore the currently playing music
+  const playingMusic = getState().playingMusic
+  if (playingMusic && playingMusic.id === music.id) {
+    return updateMusicList()
+  }
+
+  musicList
+    .remove(music)
+    .then(() => dispatch(updateMusicList()))
+    .catch((err) => dispatch(updateMusicList(err)))
+}
 
 /**
  * Select a music.
@@ -14,89 +67,17 @@ const ipcRenderer = window.require('electron').ipcRenderer
  */
 export const selectMusic = (
   music: Music,
-  selectPosition: MusicSelectPosition = MusicSelectPosition.Current
-) => ({
-  type: ActionType.SelectMusic as ActionType.SelectMusic,
-  payload: {
-    music,
-    selectPosition
-  }
-})
+  position: MusicSelectPosition = MusicSelectPosition.Current
+) => {
+  musicList.selectMusic(music, position)
+  return updateMusicList()
+}
 
 /**
  * Select an artist.
  * @param artist Target artist.
  */
-export const selectArtist = (artist: Artist) => ({
-  type: ActionType.SelectArtist as ActionType.SelectArtist,
-  payload: {
-    artist
-  }
-})
-
-/**
- * Request to import a music files
- */
-export const requestImportMusic = () => ({
-  type: ActionType.RequestImportMusic as ActionType.RequestImportMusic
-})
-
-/**
- * Notify that the request for importing music files has been completed.
- * @param paths Paths of imported file.
- */
-export const finishImportMusic = (paths: string[]) => ({
-  type: ActionType.FinishImportMusic as ActionType.FinishImportMusic,
-  payload: {
-    paths
-  }
-})
-
-/**
- * Import a music files to list and database.
- */
-export const importMusic = () => (dispatch: Dispatch) => {
-  dispatch(requestImportMusic())
-
-  ipcRenderer.on(
-    IPCKey.FinishShowOpenDialog,
-    (ev: IpcMessageEvent, paths: string[]) => {
-      dispatch(finishImportMusic(paths))
-    }
-  )
-
-  const options: OpenDialogOptions = {
-    title: 'Select music files',
-    filters: [
-      {
-        name: 'Musics',
-        extensions: [
-          'mp3',
-          'mp2',
-          'm2a',
-          'm4a',
-          'aac',
-          'wav',
-          'wma',
-          'flac',
-          'opus',
-          'ogg'
-        ]
-      }
-    ],
-    properties: ['openFile', 'multiSelections']
-  }
-
-  ipcRenderer.send(IPCKey.RequestShowOpenDialog, options)
+export const selectArtist = (artist: Artist) => {
+  musicList.selectArtist(artist)
+  return updateMusicList()
 }
-
-/**
- * Remove a music from list and database.
- * @param music Target music.
- */
-export const removeMusic = (music: Music) => ({
-  type: ActionType.RemoveMusic as ActionType.RemoveMusic,
-  payload: {
-    music
-  }
-})

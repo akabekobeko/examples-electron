@@ -1,6 +1,6 @@
 import React from 'react'
 import Styles from './ArtistList.scss'
-import ArtistListItem from './ArtistListItem.js'
+import ArtistListItem from './ArtistListItem'
 import Artist from '../models/Artist'
 
 export type StateByProps = {

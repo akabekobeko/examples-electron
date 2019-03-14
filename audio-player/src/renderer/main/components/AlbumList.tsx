@@ -1,7 +1,7 @@
 import React from 'react'
 import Music from '../models/Music'
 import Styles from './AlbumList.scss'
-import MusicList from './MusicList.js'
+import MusicList from './MusicList'
 import Artist from '../models/Artist'
 
 export type StateByProps = {

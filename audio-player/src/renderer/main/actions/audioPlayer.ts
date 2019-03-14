@@ -6,20 +6,24 @@ import AudioPlayer from '../models/AudioPlayer'
 /** Audio player. */
 const player = new AudioPlayer()
 
+/** Currently playing music. */
+let playingMusic: Music | null = null
+
 /** Timer identifier for notifying the player status. */
 let timerId = 0
 
 /**
- * Get the state of audio player.
+ * Update the state of audio player.
  * @param error Error information.
  */
-export const getPlayerState = (error?: Error) => ({
-  type: ActionType.GetPlayerState as ActionType.GetPlayerState,
+export const updatePlayerState = (error?: Error) => ({
+  type: ActionType.UpdatePlayerState as ActionType.UpdatePlayerState,
   payload: {
     playbackState: player.playbackState,
     currentTime: player.currentTime,
     volume: player.volume,
-    spectrums: player.spectrums
+    spectrums: player.spectrums,
+    playingMusic
   },
   error
 })
@@ -33,13 +37,14 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
     .open(music.filePath)
     .then(() => {
       if (player.play()) {
-        timerId = window.requestAnimationFrame(() => getPlayerState())
-        dispatch(getPlayerState())
+        playingMusic = music
+        timerId = window.requestAnimationFrame(() => updatePlayerState())
+        dispatch(updatePlayerState())
       } else {
-        dispatch(getPlayerState(new Error('Failed to play music.')))
+        dispatch(updatePlayerState(new Error('Failed to play music.')))
       }
     })
-    .catch((err) => dispatch(getPlayerState(err)))
+    .catch((err) => dispatch(updatePlayerState(err)))
 }
 
 /**
@@ -47,10 +52,10 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
  */
 export const play = () => (dispatch: Dispatch) => {
   if (player.play()) {
-    timerId = window.requestAnimationFrame(() => getPlayerState())
-    dispatch(getPlayerState())
+    timerId = window.requestAnimationFrame(() => updatePlayerState())
+    dispatch(updatePlayerState())
   } else {
-    dispatch(getPlayerState(new Error('Failed to play music.')))
+    dispatch(updatePlayerState(new Error('Failed to play music.')))
   }
 }
 
@@ -60,10 +65,10 @@ export const play = () => (dispatch: Dispatch) => {
 export const pause = () => {
   if (player.pause()) {
     window.cancelAnimationFrame(timerId)
-    return getPlayerState()
+    return updatePlayerState()
   }
 
-  return getPlayerState(new Error('Failed to pause music.'))
+  return updatePlayerState(new Error('Failed to pause music.'))
 }
 
 /**
@@ -72,10 +77,11 @@ export const pause = () => {
 export const stop = () => {
   if (player.stop()) {
     window.cancelAnimationFrame(timerId)
-    return getPlayerState()
+    playingMusic = null
+    return updatePlayerState()
   }
 
-  return getPlayerState(new Error('Failed to stop music.'))
+  return updatePlayerState(new Error('Failed to stop music.'))
 }
 
 /**
@@ -84,7 +90,7 @@ export const stop = () => {
  */
 export const seek = (position: number) => {
   player.currentTime = position
-  return getPlayerState()
+  return updatePlayerState()
 }
 
 /**
@@ -93,5 +99,5 @@ export const seek = (position: number) => {
  */
 export const changeVolume = (value: number) => {
   player.volume = value
-  return getPlayerState()
+  return updatePlayerState()
 }
