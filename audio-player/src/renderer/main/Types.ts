@@ -8,20 +8,22 @@ export enum PlaybackState {
   Playing = 2
 }
 
-/** Music selection position. */
-export enum MusicSelectPosition {
-  /** Current specified music. */
-  Current = 0,
-  /** Next to the specified music. */
-  Prev = 1,
-  /** Previous specified music */
-  Next = 2
-}
-
 /** Flux action type is defined. */
 export enum ActionType {
-  UpdateMusicList = 'UpdateMusicList',
-  UpdatePlayerState = 'UpdatePlayerState'
+  LoadMusicList = 'LoadMusicList',
+  ImportMusic = 'ImportMusic',
+  SeletcArtist = 'SeletcArtist',
+  SeletcMusic = 'SeletcMusic',
+  RemoveMusic = 'RemoveMusic',
+
+  OpenWithPlay = 'OpenWithPlay',
+  Play = 'Play',
+  Prev = 'Prev',
+  Next = 'Next',
+  Pause = 'Pause',
+  Stop = 'Stop',
+  ChangeVolume = 'ChangeVolume',
+  GetPlayTimeAndSpectrums = 'GetPlayTimeAndSpectrums'
 }
 
 /** State of the application. */
@@ -33,6 +35,6 @@ export type AppState = {
   playingMusic: Music | null
   playbackState: PlaybackState
   currentTime: number
-  volume: number
   spectrums: Uint8Array | null
+  volume: number
 }

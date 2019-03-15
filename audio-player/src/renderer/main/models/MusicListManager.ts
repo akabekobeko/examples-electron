@@ -1,4 +1,3 @@
-import { MusicSelectPosition } from '../Types'
 import * as MusicDatabase from './MusicDatabase'
 import Artist, { artistByMusic, albumByMusic } from './Artist'
 import Music from './Music'
@@ -132,7 +131,7 @@ class MusicListManager {
 
     await MusicDatabase.remove(this._db, music.id)
     if (this._currentMusic && this._currentMusic.id === music.id) {
-      this._currentMusic = this.nextMusic(music)
+      this._currentMusic = this.getNextMusic(music)
     }
 
     album.remove(music)
@@ -163,22 +162,18 @@ class MusicListManager {
   /**
    * Selects the specified music.
    * @param music Music.
-   * @param position The position of the selection relative to the specified music.
    */
-  selectMusic(music: Music, position: MusicSelectPosition) {
-    this._currentMusic =
-      position === MusicSelectPosition.Current
-        ? music
-        : this.nextMusic(music, position === MusicSelectPosition.Prev)
+  selectMusic(music: Music) {
+    this._currentMusic = music
   }
 
   /**
    * Get the next or previous music in carrently artist's albums.
    * @param baseMusic Music to become a base position.
-   * @param isPrev It is `true` if it sees from the base before. `false` if next.
-   * @returns Music if successful. Otherwise `null`.
+   * @param isNext It is `true` if it sees from the base next. `false` if previous.
+   * @returns Music instance if successful. Otherwise `null`.
    */
-  private nextMusic(baseMusic: Music, isPrev: boolean = false): Music | null {
+  getNextMusic(baseMusic: Music, isNext: boolean = true): Music | null {
     const artist = artistByMusic(baseMusic, this._artists)
     if (!artist) {
       return null
@@ -195,10 +190,10 @@ class MusicListManager {
         continue
       }
 
-      if (isPrev) {
-        return index === 0 ? null : album.musics[index - 1]
-      } else {
+      if (isNext) {
         return index === max - 1 ? null : album.musics[index + 1]
+      } else {
+        return index === 0 ? null : album.musics[index - 1]
       }
     }
 

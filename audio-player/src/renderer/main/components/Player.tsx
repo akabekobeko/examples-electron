@@ -16,10 +16,13 @@ export type StateByProps = {
 }
 
 export type DispatchByProps = {
-  onPlay?: () => void
-  onPrev?: () => void
-  onNext?: () => void
-  onChangeVolume?: (value: number) => void
+  play?: () => void
+  pause?: () => void
+  prev?: () => void
+  next?: () => void
+
+  changeVolume?: (value: number) => void
+  getPlayTimeAndSpectrums?: () => void
   seek?: (position: number) => void
   removeMusic?: () => void
   importMusic?: () => void
@@ -33,10 +36,12 @@ const Player: React.FC<Props> = ({
   volume,
   spectrums,
   playingMusic,
-  onPlay = () => {},
-  onPrev = () => {},
-  onNext = () => {},
-  onChangeVolume = () => {},
+  play = () => {},
+  pause = () => {},
+  prev = () => {},
+  next = () => {},
+  changeVolume = () => {},
+  getPlayTimeAndSpectrums = () => {},
   seek = () => {},
   removeMusic = () => {},
   importMusic = () => {}
@@ -46,10 +51,11 @@ const Player: React.FC<Props> = ({
       <PlayerConsole
         isPlaying={playbackState === PlaybackState.Playing}
         volume={volume}
-        onPlay={onPlay}
-        onPrev={onPrev}
-        onNext={() => onNext}
-        onChangeVolume={onChangeVolume}
+        onPlay={play}
+        onPause={pause}
+        onPrev={prev}
+        onNext={next}
+        onChangeVolume={changeVolume}
       />
       <PlayerInformation
         playingMusic={playingMusic}

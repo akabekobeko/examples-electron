@@ -3,6 +3,32 @@ import Music from '../models/Music'
 import { secondsToString } from './MusicListItem'
 import Styles from './PlayerInformation.scss'
 
+/**
+ * Create a information for display.
+ * @param music Currently playback music.
+ * @param currentTime Currently playback time.
+ * @returns Created information.
+ */
+const createInformation = (music: Music | null, currentTime: number) => {
+  return music
+    ? {
+        title: music.title,
+        albumArtist: music.artist + ' - ' + music.album,
+        duration: Math.round(music.duration),
+        durationText: secondsToString(music.duration),
+        imageFilePath: music.imageFilePath
+      }
+    : {
+        title: 'Title',
+        albumArtist: 'Album - Artist',
+        currentTime: Math.round(currentTime),
+        currentTimeText: secondsToString(currentTime),
+        duration: 0,
+        durationText: '  0:00',
+        imageFilePath: ''
+      }
+}
+
 type Props = {
   playingMusic: Music | null
   currentTime: number
@@ -14,24 +40,7 @@ const PlayerInformation: React.FC<Props> = ({
   currentTime,
   onSeek
 }) => {
-  const info = {
-    title: 'Title',
-    albumArtist: 'Album - Artist',
-    currentTime: Math.round(currentTime),
-    currentTimeText: secondsToString(currentTime),
-    duration: 0,
-    durationText: '  0:00',
-    imageFilePath: ''
-  }
-
-  if (playingMusic) {
-    info.title = playingMusic.title
-    info.albumArtist = playingMusic.artist + ' - ' + playingMusic.album
-    info.duration = Math.round(playingMusic.duration)
-    info.durationText = secondsToString(playingMusic.duration)
-    info.imageFilePath = playingMusic.imageFilePath
-  }
-
+  const info = createInformation(playingMusic, currentTime)
   return (
     <div className={Styles.information}>
       <div className={Styles.container}>

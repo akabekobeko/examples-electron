@@ -1,8 +1,16 @@
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { AppState, PlaybackState, MusicSelectPosition } from '../Types'
+import { AppState, PlaybackState } from '../Types'
 import Player, { StateByProps, DispatchByProps } from '../components/Player'
-import { play, changeVolume, importMusic } from '../actions'
+import {
+  play,
+  pause,
+  next,
+  changeVolume,
+  getPlayTimeAndSpectrums,
+  importMusic,
+  removeMusic
+} from '../actions'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   playbackState: state.playbackState,
@@ -14,39 +22,14 @@ const mapStateToProps = (state: AppState): StateByProps => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
-  onPlay: () => {
-    dispatch(play())
-  },
-  onPrev: () => {
-    /*
-    const music = getState().currentMusic
-    if (music) {
-      dispatch(selectMusic(music, MusicSelectPosition.Prev))
-    }
-    */
-  },
-  onNext: () => {
-    /*
-    const music = getState().currentMusic
-    if (music) {
-      dispatch(selectMusic(music, MusicSelectPosition.Next))
-    }
-    */
-  },
-  onChangeVolume: (value) => {
-    dispatch(changeVolume(value))
-  },
-  importMusic: () => {
-    dispatch(importMusic())
-  },
-  removeMusic: () => {
-    /*
-    const music = getState().currentMusic
-    if (music) {
-      removeMusic(music)
-    }
-    */
-  }
+  play: () => dispatch(play()),
+  pause: () => dispatch(pause()),
+  prev: () => dispatch(next(false)),
+  next: () => dispatch(next()),
+  changeVolume: (value) => dispatch(changeVolume(value)),
+  getPlayTimeAndSpectrums: () => dispatch(getPlayTimeAndSpectrums()),
+  importMusic: () => dispatch(importMusic()),
+  removeMusic: () => dispatch(removeMusic())
 })
 
 const Container = connect(

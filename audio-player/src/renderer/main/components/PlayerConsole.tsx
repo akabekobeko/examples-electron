@@ -8,6 +8,8 @@ type Props = {
   volume: number
   /** Called when the music is played or stopped. */
   onPlay: () => void
+  /** Called when the music is paused. */
+  onPause: () => void
   /** Called when moving to the previous music. */
   onPrev: () => void
   /** Called when moving to the next music. */
@@ -20,6 +22,7 @@ const PlayerConsole: React.FC<Props> = ({
   isPlaying,
   volume,
   onPlay,
+  onPause,
   onPrev,
   onNext,
   onChangeVolume
@@ -29,7 +32,10 @@ const PlayerConsole: React.FC<Props> = ({
       <div className={Styles.prev} onClick={onPrev}>
         <i className={'icon_controller_jump_to_start'} />
       </div>
-      <div className={Styles.play} onClick={onPlay}>
+      <div
+        className={Styles.play}
+        onClick={() => (isPlaying ? onPause() : onPlay())}
+      >
         <i
           className={
             isPlaying ? 'icon_controller_pause' : 'icon_controller_play'
