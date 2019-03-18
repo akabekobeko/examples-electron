@@ -14,6 +14,8 @@ const createInformation = (music: Music | null, currentTime: number) => {
     ? {
         title: music.title,
         albumArtist: music.artist + ' - ' + music.album,
+        currentTime: 0,
+        currentTimeText: '0:00',
         duration: Math.round(music.duration),
         durationText: secondsToString(music.duration),
         imageFilePath: music.imageFilePath
@@ -44,7 +46,7 @@ const PlayerInformation: React.FC<Props> = ({
   return (
     <div className={Styles.information}>
       <div className={Styles.container}>
-        <img className={Styles.image} src={info.imageFilePath} />
+        <img className={Styles.image} src={info.imageFilePath} alt="" />
         <div>
           <div className={Styles.title}>{info.title}</div>
           <div className={Styles.album}>{info.albumArtist}</div>

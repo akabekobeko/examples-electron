@@ -9,16 +9,25 @@ import Styles from './MusicList.scss'
  * @returns Grouped musics.
  */
 const groupByDisc = (musics: Music[]): Array<Music[]> => {
-  const groups = new Array<Music[]>()
+  const groups: { [key: string]: Music[] } = {}
   musics.forEach((music) => {
-    if (groups[music.disc]) {
-      groups[music.disc].push(music)
+    const key = String(music.disc)
+    if (groups[key]) {
+      groups[key].push(music)
     } else {
-      groups[music.disc] = []
+      groups[key] = [music]
     }
   })
 
-  return groups
+  const result = Array<Music[]>()
+  for (let key of Object.keys(groups)) {
+    const group = groups[key]
+    if (group && 0 < group.length) {
+      result.push(group)
+    }
+  }
+
+  return result
 }
 
 type Props = {
@@ -42,8 +51,9 @@ const Musics: React.FC<Props> = ({
   onPlay
 }) => (
   <>
-    {musics.map((music) => (
+    {musics.map((music, index) => (
       <MusicListItem
+        key={index}
         music={music}
         selected={music === selectedMusic}
         playing={music === playingMusic}
@@ -74,10 +84,8 @@ const MusicList: React.FC<Props> = ({
         />
       ) : (
         discs.map((musicsByDisc, index) => (
-          <>
-            <div key={index} className={Styles.disc}>
-              Disc {index + 1}
-            </div>
+          <React.Fragment key={index}>
+            <div className={Styles.disc}>Disc {index + 1}</div>
             <Musics
               musics={musicsByDisc}
               selectedMusic={selectedMusic}
@@ -85,7 +93,7 @@ const MusicList: React.FC<Props> = ({
               onSelect={onSelect}
               onPlay={onPlay}
             />
-          </>
+          </React.Fragment>
         ))
       )}
     </div>

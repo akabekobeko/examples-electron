@@ -34,17 +34,6 @@ const createTemplate = (): MenuItemConstructorOptions[] => {
       ]
     },
     {
-      label: 'Effector',
-      submenu: [
-        {
-          label: 'Graphic Equalizer',
-          click: () => {
-            ToggleShowGraphicEqualizerWindow()
-          }
-        }
-      ]
-    },
-    {
       role: 'window',
       submenu: [{ role: 'minimize' }, { role: 'close' }]
     },

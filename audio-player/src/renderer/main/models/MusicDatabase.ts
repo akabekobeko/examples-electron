@@ -41,7 +41,7 @@ export const open = (): Promise<IDBDatabase> => {
  */
 export const load = (db: IDBDatabase): Promise<Music[]> => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(DatabaseName, 'readonly')
+    const transaction = db.transaction(DatabaseStoreName, 'readonly')
     const store = transaction.objectStore(DatabaseStoreName)
     const request = store.openCursor()
     const musics: Music[] = []
@@ -71,7 +71,7 @@ export const add = (
   metadata: MusicMetadata
 ): Promise<Music> => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(DatabaseName, 'readwrite')
+    const transaction = db.transaction(DatabaseStoreName, 'readwrite')
     const store = transaction.objectStore(DatabaseStoreName)
     const request = store.put(metadata)
 
@@ -92,7 +92,7 @@ export const add = (
  */
 export const remove = (db: IDBDatabase, id: number): Promise<number> => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(DatabaseName, 'readwrite')
+    const transaction = db.transaction(DatabaseStoreName, 'readwrite')
     const store = transaction.objectStore(DatabaseStoreName)
     const request = store.delete(id)
 
@@ -108,7 +108,7 @@ export const remove = (db: IDBDatabase, id: number): Promise<number> => {
  */
 export const clear = (db: IDBDatabase): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(DatabaseName, 'readwrite')
+    const transaction = db.transaction(DatabaseStoreName, 'readwrite')
     const store = transaction.objectStore(DatabaseStoreName)
     const request = store.clear()
 

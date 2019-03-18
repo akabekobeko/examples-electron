@@ -10,20 +10,7 @@ export enum PlaybackState {
 
 /** Flux action type is defined. */
 export enum ActionType {
-  LoadMusicList = 'LoadMusicList',
-  ImportMusic = 'ImportMusic',
-  SeletcArtist = 'SeletcArtist',
-  SeletcMusic = 'SeletcMusic',
-  RemoveMusic = 'RemoveMusic',
-
-  OpenWithPlay = 'OpenWithPlay',
-  Play = 'Play',
-  Prev = 'Prev',
-  Next = 'Next',
-  Pause = 'Pause',
-  Stop = 'Stop',
-  ChangeVolume = 'ChangeVolume',
-  GetPlayTimeAndSpectrums = 'GetPlayTimeAndSpectrums'
+  UpdateAppState = 'UpdateAppState'
 }
 
 /** State of the application. */

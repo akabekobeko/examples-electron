@@ -5,26 +5,6 @@ import { importMusicMetadata } from './MusicImporter'
 import Album from './Album'
 
 /**
- * Import musics from files of user selection.
- * @param db Database connection.
- * @returns Asynchronous task.
- */
-const importMusic = async (db: IDBDatabase | null): Promise<Music[]> => {
-  if (!db) {
-    return []
-  }
-
-  const musics: Music[] = []
-  const metadata = await importMusicMetadata()
-
-  for (let data of metadata) {
-    musics.push(await MusicDatabase.add(db, data))
-  }
-
-  return musics
-}
-
-/**
  * Manage for music list.
  */
 class MusicListManager {

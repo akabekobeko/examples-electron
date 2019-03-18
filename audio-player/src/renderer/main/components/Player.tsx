@@ -22,7 +22,6 @@ export type DispatchByProps = {
   next?: () => void
 
   changeVolume?: (value: number) => void
-  getPlayTimeAndSpectrums?: () => void
   seek?: (position: number) => void
   removeMusic?: () => void
   importMusic?: () => void
@@ -41,7 +40,6 @@ const Player: React.FC<Props> = ({
   prev = () => {},
   next = () => {},
   changeVolume = () => {},
-  getPlayTimeAndSpectrums = () => {},
   seek = () => {},
   removeMusic = () => {},
   importMusic = () => {}
@@ -62,7 +60,6 @@ const Player: React.FC<Props> = ({
         currentTime={currentTime}
         onSeek={seek}
       />
-      <PlayerSpectrumAnalyzer spectrums={spectrums} onClick={() => {}} />
       <PlayerToolbar removeMusic={removeMusic} importMusic={importMusic} />
     </div>
   </div>

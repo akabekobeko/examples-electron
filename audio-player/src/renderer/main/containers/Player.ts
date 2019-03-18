@@ -7,7 +7,6 @@ import {
   pause,
   next,
   changeVolume,
-  getPlayTimeAndSpectrums,
   importMusic,
   removeMusic
 } from '../actions'
@@ -18,7 +17,9 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   volume: state.volume,
   spectrums: state.spectrums,
   playingMusic:
-    state.playbackState === PlaybackState.Stopped ? null : state.currentMusic
+    state.playbackState === PlaybackState.Stopped
+      ? state.currentMusic
+      : state.playingMusic
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
@@ -27,7 +28,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
   prev: () => dispatch(next(false)),
   next: () => dispatch(next()),
   changeVolume: (value) => dispatch(changeVolume(value)),
-  getPlayTimeAndSpectrums: () => dispatch(getPlayTimeAndSpectrums()),
   importMusic: () => dispatch(importMusic()),
   removeMusic: () => dispatch(removeMusic())
 })

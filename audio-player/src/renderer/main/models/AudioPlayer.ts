@@ -184,16 +184,22 @@ class AudioPlayer {
 
   /**
    * Play the audio.
-   * @returns `true` on success.
+   * @returns Asynchronous task.
    */
-  play(): boolean {
-    if (!this._audio || this._isPlaying) {
-      return false
-    }
+  play(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this._audio || this._isPlaying) {
+        return resolve()
+      }
 
-    this._audio.play()
-    this._isPlaying = true
-    return true
+      this._audio
+        .play()
+        .then(() => {
+          this._isPlaying = true
+          resolve()
+        })
+        .catch((error) => reject(error))
+    })
   }
 
   /**

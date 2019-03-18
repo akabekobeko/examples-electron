@@ -63,6 +63,7 @@ export const importMusicMetadata = async (): Promise<MusicMetadata[]> => {
   const results: MusicMetadata[] = []
   const paths = await showImportDialog()
   for (let path of paths) {
+    const supported = await isSupportedAudioFile(path)
     if (!(await isSupportedAudioFile(path))) {
       continue
     }

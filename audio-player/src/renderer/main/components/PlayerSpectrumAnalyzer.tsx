@@ -103,7 +103,7 @@ type Props = {
 }
 
 const PlayerSpectrumAnalyzer: React.FC<Props> = ({ spectrums, onClick }) => {
-  if (!spectrums) {
+  if (!spectrums || spectrums.length === 0) {
     return null
   }
 

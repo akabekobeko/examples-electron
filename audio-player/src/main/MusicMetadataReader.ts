@@ -30,8 +30,12 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
 
   try {
     const picture = pictures[0]
-    const fileName = `${hash(picture.data)}.${picture.format}`
+    const extention = picture.format.replace('image/', '')
+    const fileName = `${hash(picture.data)}.${extention}`
     const filePath = Path.resolve(imageSaveDirPath, fileName)
+    if (Fs.existsSync(filePath)) {
+      return filePath
+    }
 
     Fs.writeFileSync(filePath, picture.data)
     return filePath
@@ -64,7 +68,7 @@ export const SetImageSaveDir = (dirPath: string) => {
  * @returns Asynchronous task.
  */
 export const ReadMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     return mm
       .parseFile(filePath, { duration: true })
       .then((metadata: IAudioMetadata) => {
@@ -83,5 +87,6 @@ export const ReadMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
           imageFilePath
         })
       })
+      .catch((error) => reject(error))
   })
 }

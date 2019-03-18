@@ -2,6 +2,8 @@ import { app, BrowserWindow, Menu } from 'electron'
 import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
 import { MainMenu } from './MainMenu'
 import { CreateMainWindow } from './WindowManager'
+import { SetImageSaveDir } from './MusicMetadataReader'
+import Path from 'path'
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'
@@ -10,6 +12,7 @@ app.on('ready', () => {
 
   CreateMainWindow()
   Menu.setApplicationMenu(MainMenu)
+  SetImageSaveDir(Path.join(app.getPath('userData'), 'images'))
 
   InitializeIpcEvents()
 })

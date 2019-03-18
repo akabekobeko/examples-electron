@@ -6,28 +6,68 @@ import Music from '../models/Music'
 import Artist from '../models/Artist'
 
 /** Music ist. */
-export const musicList = new MusicListManager()
+const musicList = new MusicListManager()
 
 /** Audio player. */
-export const audioPlayer = new AudioPlayer()
+const audioPlayer = new AudioPlayer()
 
 /** Currently playing music. */
 let playingMusic: Music | null = null
 
-/**
- * Returns the result of `loadMusicList`.
- * @param error Error information.
- * @returns Results.
- */
-export const loadMusicListResult = (error?: Error) => ({
-  type: ActionType.LoadMusicList as ActionType.LoadMusicList,
+/** The player's playback time and the identifier for the spectrum notification timer. */
+let timerId = 0
+
+export const updateAppState = (error?: Error) => ({
+  type: ActionType.UpdateAppState as ActionType.UpdateAppState,
   payload: {
     artists: musicList.artists,
     currentArtist: musicList.currentArtist,
-    currentMusic: musicList.currentMusic
+    currentMusic: musicList.currentMusic,
+    playingMusic,
+    playbackState: audioPlayer.playbackState,
+    currentTime: audioPlayer.currentTime,
+    spectrums: audioPlayer.spectrums,
+    volume: audioPlayer.volume
   },
   error
 })
+
+/**
+ * Start the player's playback time and timer for spectrum notification.
+ * @param dispatch Dispatcher.
+ */
+const timerStart = (dispatch: Dispatch<any>) => {
+  timerId = window.setInterval(() => {
+    if (!playingMusic) {
+      timerStop()
+      return
+    }
+
+    if (audioPlayer.currentTime < audioPlayer.duration) {
+      dispatch(updateAppState())
+      return
+    }
+
+    audioPlayer.stop()
+    const nextMusic = musicList.getNextMusic(playingMusic)
+    if (nextMusic) {
+      musicList.selectMusic(nextMusic)
+      dispatch(openWithPlay(nextMusic))
+    } else {
+      playingMusic = null
+      timerStop()
+      dispatch(updateAppState())
+    }
+  }, 200)
+}
+
+/**
+ * Stop the player's playback time and the timer for spectrum notification.
+ */
+const timerStop = () => {
+  window.clearInterval(timerId)
+  timerId = 0
+}
 
 /**
  * Load the music list from database.
@@ -35,24 +75,9 @@ export const loadMusicListResult = (error?: Error) => ({
 export const loadMusicList = () => (dispatch: Dispatch) => {
   musicList
     .load()
-    .then(() => dispatch(loadMusicListResult()))
-    .catch((error) => dispatch(loadMusicListResult(error)))
+    .then(() => dispatch(updateAppState()))
+    .catch((error) => dispatch(updateAppState(error)))
 }
-
-/**
- * Returns the result of `importMusic`.
- * @param error Error information.
- * @returns Results.
- */
-export const importMusicResult = (error?: Error) => ({
-  type: ActionType.ImportMusic as ActionType.ImportMusic,
-  payload: {
-    artists: musicList.artists,
-    currentArtist: musicList.currentArtist,
-    currentMusic: musicList.currentMusic
-  },
-  error
-})
 
 /**
  * Import a music files to list and database.
@@ -60,8 +85,8 @@ export const importMusicResult = (error?: Error) => ({
 export const importMusic = () => (dispatch: Dispatch) => {
   musicList
     .import()
-    .then(() => dispatch(importMusicResult()))
-    .catch((error) => dispatch(importMusicResult(error)))
+    .then(() => dispatch(updateAppState()))
+    .catch((error) => dispatch(updateAppState(error)))
 }
 
 /**
@@ -70,12 +95,7 @@ export const importMusic = () => (dispatch: Dispatch) => {
  */
 export const selectArtist = (artist: Artist) => {
   musicList.selectArtist(artist)
-  return {
-    type: ActionType.SeletcMusic as ActionType.SeletcMusic,
-    payload: {
-      currentArtist: artist
-    }
-  }
+  return updateAppState()
 }
 
 /**
@@ -84,12 +104,7 @@ export const selectArtist = (artist: Artist) => {
  */
 export const selectMusic = (music: Music) => {
   musicList.selectMusic(music)
-  return {
-    type: ActionType.SeletcMusic as ActionType.SeletcMusic,
-    payload: {
-      currentMusic: music
-    }
-  }
+  return updateAppState()
 }
 
 /**
@@ -107,33 +122,8 @@ export const removeMusic = () => {
     musicList.remove(music)
   }
 
-  return {
-    type: ActionType.RemoveMusic as ActionType.RemoveMusic,
-    payload: {
-      playingMusic,
-      artists: musicList.artists,
-      currentArtist: musicList.currentArtist,
-      currentMusic: musicList.currentMusic
-    }
-  }
+  return updateAppState()
 }
-
-/**
- * Returns the result of `openWithPlay`.
- * @param error Error information.
- * @returns Results.
- */
-export const openWithPlayResult = (error?: Error) => ({
-  type: ActionType.OpenWithPlay as ActionType.OpenWithPlay,
-  payload: {
-    playbackState: audioPlayer.playbackState,
-    playingMusic,
-    currentTime: audioPlayer.currentTime,
-    spectrums: audioPlayer.spectrums,
-    volume: audioPlayer.volume
-  },
-  error
-})
 
 /**
  * Open and play music.
@@ -143,15 +133,15 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
   audioPlayer
     .open(music.filePath)
     .then(() => {
-      if (audioPlayer.play()) {
-        playingMusic = music
-        dispatch(openWithPlayResult())
-      } else {
-        dispatch(openWithPlayResult(new Error('Failed to play music.')))
-      }
+      return audioPlayer.play()
+    })
+    .then(() => {
+      playingMusic = music
+      timerStart(dispatch)
+      dispatch(updateAppState())
     })
     .catch((error) => {
-      dispatch(openWithPlayResult(error))
+      dispatch(updateAppState(error))
     })
 }
 
@@ -159,17 +149,17 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
  * Select the previous or next music.
  * If music is playing, it will play new things again.
  */
-export const next = (isNext: boolean = true) => {
+export const next = (isNext: boolean = true) => (dispatch: Dispatch<any>) => {
   if (playingMusic) {
     const music = musicList.getNextMusic(playingMusic, isNext)
     if (music) {
       audioPlayer.stop()
-      openWithPlay(music)
+      dispatch(openWithPlay(music))
     }
   } else if (musicList.currentMusic) {
     const music = musicList.getNextMusic(musicList.currentMusic, isNext)
     if (music) {
-      selectMusic(music)
+      dispatch(selectMusic(music))
     }
   }
 }
@@ -177,16 +167,11 @@ export const next = (isNext: boolean = true) => {
 /**
  * Play the music.
  */
-export const play = () => {
-  audioPlayer.play()
-  return {
-    type: ActionType.Play as ActionType.Play,
-    payload: {
-      playbackState: audioPlayer.playbackState,
-      currentTime: audioPlayer.currentTime,
-      spectrums: audioPlayer.spectrums
-    }
-  }
+export const play = () => (dispatch: Dispatch<any>) => {
+  audioPlayer.play().then(() => {
+    timerStart(dispatch)
+    dispatch(updateAppState())
+  })
 }
 
 /**
@@ -194,14 +179,8 @@ export const play = () => {
  */
 export const pause = () => {
   audioPlayer.pause()
-  return {
-    type: ActionType.Pause as ActionType.Pause,
-    payload: {
-      playbackState: audioPlayer.playbackState,
-      currentTime: audioPlayer.currentTime,
-      spectrums: null
-    }
-  }
+  timerStop()
+  return updateAppState()
 }
 
 /**
@@ -209,14 +188,8 @@ export const pause = () => {
  */
 export const stop = () => {
   audioPlayer.stop()
-  return {
-    type: ActionType.Stop as ActionType.Stop,
-    payload: {
-      playbackState: audioPlayer.playbackState,
-      currentTime: audioPlayer.currentTime,
-      spectrums: null
-    }
-  }
+  timerStop()
+  return updateAppState()
 }
 
 /**
@@ -225,21 +198,5 @@ export const stop = () => {
  */
 export const changeVolume = (value: number) => {
   audioPlayer.volume = value
-  return {
-    type: ActionType.ChangeVolume as ActionType.ChangeVolume,
-    payload: {
-      volume: audioPlayer.volume
-    }
-  }
+  return updateAppState()
 }
-
-/**
- * Get a currently playback time and audio spectrums.
- */
-export const getPlayTimeAndSpectrums = () => ({
-  type: ActionType.GetPlayTimeAndSpectrums as ActionType.GetPlayTimeAndSpectrums,
-  payload: {
-    currentTime: audioPlayer.currentTime,
-    spectrums: audioPlayer.spectrums
-  }
-})

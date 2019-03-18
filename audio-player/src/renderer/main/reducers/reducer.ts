@@ -1,9 +1,7 @@
 import { ActionType, AppState, PlaybackState } from '../Types'
-import { updateMusicList, updatePlayerState } from '../actions/'
+import { updateAppState } from '../actions/'
 
-type Actions =
-  | ReturnType<typeof updateMusicList>
-  | ReturnType<typeof updatePlayerState>
+type Actions = ReturnType<typeof updateAppState>
 
 const InitialState: AppState = {
   artists: [],
@@ -24,10 +22,12 @@ const InitialState: AppState = {
  */
 const reducer = (state: AppState = InitialState, action: Actions): AppState => {
   switch (action.type) {
-    case ActionType.UpdateMusicList:
-      return { ...state, ...action.payload }
+    case ActionType.UpdateAppState:
+      if (action.error) {
+        console.error(action.error)
+        return state
+      }
 
-    case ActionType.UpdatePlayerState:
       return { ...state, ...action.payload }
 
     default:
