@@ -59,7 +59,7 @@ const createGraphicEqualizerWindow = () => {
 
   let newWindow = null
   if (process.platform === 'darwin') {
-    newWindow = new Electron.BrowserWindow({
+    newWindow = new BrowserWindow({
       width: 370,
       height: 300,
       resizable: false,
@@ -70,7 +70,7 @@ const createGraphicEqualizerWindow = () => {
     })
   } else {
     // Add a heigth for menu bar
-    newWindow = new Electron.BrowserWindow({
+    newWindow = new BrowserWindow({
       width: 370,
       height: 320,
       resizable: false,
@@ -78,6 +78,10 @@ const createGraphicEqualizerWindow = () => {
       webPreferences: {
         nodeIntegration: true
       }
+    })
+
+    newWindow.on('close', () => {
+      currentWindows.delete(WindowTypes.GraphicEqualizer)
     })
 
     newWindow.setMenu(null)

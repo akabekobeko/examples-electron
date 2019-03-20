@@ -14,6 +14,9 @@ export enum IPCKey {
   RequestReadMusicMetadata = 'RequestReadMusicMetadata',
   FinishReadMusicMetadata = 'FinishReadMusicMetadata',
 
+  RequestShowEffector = 'RequestShowEffector',
+  FinishShowEffector = 'FinishShowEffector',
+
   RequestApplyEqualizerState = 'RequestApplyEqualizerState',
   FinishApplyEqualizerState = 'FinishApplyEqualizerState'
 }

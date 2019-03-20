@@ -20,12 +20,12 @@ export const loadAppState = (): AppState => {
     return DefaultAppState
   }
 
-  const parasms = window.localStorage.getItem(StorageKey) as AppState | null
+  const parasms = window.localStorage.getItem(StorageKey)
   if (!parasms) {
     return DefaultAppState
   }
 
-  return parasms
+  return JSON.parse(parasms) as AppState
 }
 
 /**

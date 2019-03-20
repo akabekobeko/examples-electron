@@ -14,8 +14,8 @@ const createInformation = (music: Music | null, currentTime: number) => {
     ? {
         title: music.title,
         albumArtist: music.artist + ' - ' + music.album,
-        currentTime: 0,
-        currentTimeText: '0:00',
+        currentTime: Math.round(currentTime),
+        currentTimeText: secondsToString(currentTime),
         duration: Math.round(music.duration),
         durationText: secondsToString(music.duration),
         imageFilePath: music.imageFilePath
@@ -23,8 +23,8 @@ const createInformation = (music: Music | null, currentTime: number) => {
     : {
         title: 'Title',
         albumArtist: 'Album - Artist',
-        currentTime: Math.round(currentTime),
-        currentTimeText: secondsToString(currentTime),
+        currentTime: 0,
+        currentTimeText: '0:00',
         duration: 0,
         durationText: '  0:00',
         imageFilePath: ''

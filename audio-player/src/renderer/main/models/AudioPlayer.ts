@@ -28,11 +28,11 @@ class AudioPlayer {
   /** Node for audio source. */
   private _audioSourceNode: MediaElementAudioSourceNode | null
 
-  /** Indicates that the audio is playing. */
-  private _isPlaying: boolean
-
   /** Effect of the graphic equalizer. */
   private _effectEqualizer: EffectEqualizer
+
+  /** Playback state. */
+  private _playbackState: PlaybackState
 
   /**
    * Initliaze instance.
@@ -65,7 +65,7 @@ class AudioPlayer {
 
     this._audio = null
     this._audioSourceNode = null
-    this._isPlaying = false
+    this._playbackState = PlaybackState.Stopped
   }
 
   /**
@@ -73,11 +73,7 @@ class AudioPlayer {
    * @returns State.
    */
   get playbackState(): PlaybackState {
-    return this._audio
-      ? this._isPlaying
-        ? PlaybackState.Playing
-        : PlaybackState.Paused
-      : PlaybackState.Stopped
+    return this._playbackState
   }
 
   /**
@@ -110,7 +106,10 @@ class AudioPlayer {
    * @returns Spectrums If an audio during playback. Otherwise `null`.
    */
   get spectrums(): Uint8Array | null {
-    if (this._audioSourceNode && this._isPlaying) {
+    if (
+      this._audioSourceNode &&
+      this._playbackState !== PlaybackState.Stopped
+    ) {
       const spectrums = new Uint8Array(this._analyserNode.frequencyBinCount)
       this._analyserNode.getByteFrequencyData(spectrums)
       return spectrums
@@ -188,14 +187,14 @@ class AudioPlayer {
    */
   play(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (!this._audio || this._isPlaying) {
+      if (!this._audio || this._playbackState === PlaybackState.Playing) {
         return resolve()
       }
 
       this._audio
         .play()
         .then(() => {
-          this._isPlaying = true
+          this._playbackState = PlaybackState.Playing
           resolve()
         })
         .catch((error) => reject(error))
@@ -207,12 +206,12 @@ class AudioPlayer {
    * @returns `true` on success.
    */
   pause(): boolean {
-    if (!(this._audio && this._isPlaying)) {
+    if (!this._audio || this._playbackState !== PlaybackState.Playing) {
       return false
     }
 
     this._audio.pause()
-    this._isPlaying = false
+    this._playbackState = PlaybackState.Paused
     return true
   }
 
@@ -221,13 +220,13 @@ class AudioPlayer {
    * @returns `true` on success.
    */
   stop() {
-    if (!(this._audio && this._audioSourceNode && this._isPlaying)) {
+    if (!this._audio || this._playbackState === PlaybackState.Stopped) {
       return false
     }
 
     this._audio.pause()
     this._audio.currentTime = 0
-    this._isPlaying = false
+    this._playbackState = PlaybackState.Stopped
     return true
   }
 

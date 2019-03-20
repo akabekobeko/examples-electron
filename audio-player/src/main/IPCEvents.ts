@@ -9,7 +9,10 @@ import {
 } from 'electron'
 import { IPCKey } from '../common/Constants'
 import { ReadMusicMetadata } from './MusicMetadataReader'
-import { GetMainWindow } from './WindowManager'
+import {
+  GetMainWindow,
+  ToggleShowGraphicEqualizerWindow
+} from './WindowManager'
 
 /**
  * Occurs when show of a file open dialog is requested.
@@ -72,6 +75,15 @@ const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
 }
 
 /**
+ * Occurs when show effector window is requested.
+ * @param ev Event data.
+ */
+const onRequestShowEffector = (ev: IpcMessageEvent) => {
+  ToggleShowGraphicEqualizerWindow()
+  ev.sender.send(IPCKey.FinishShowEffector)
+}
+
+/**
  * Occurs when the status of the equalizer is requested to apply on the main window.
  * @param ev Event data.
  * @param connect If true to connect the effector, Otherwise disconnect.
@@ -112,6 +124,7 @@ export const InitializeIpcEvents = () => {
   ipcMain.on(IPCKey.RequestShowSaveDialog, onRequestShowSaveDialog)
   ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
   ipcMain.on(IPCKey.RequestReadMusicMetadata, onRequestReadMusicMetadata)
+  ipcMain.on(IPCKey.RequestShowEffector, onRequestShowEffector)
   ipcMain.on(IPCKey.RequestApplyEqualizerState, onRequestApplyEqualizerState)
 }
 
@@ -124,6 +137,7 @@ export const ReleaseIpcEvents = () => {
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
     ipcMain.removeAllListeners(IPCKey.RequestReadMusicMetadata)
+    ipcMain.removeAllListeners(IPCKey.RequestShowEffector)
     ipcMain.removeAllListeners(IPCKey.RequestApplyEqualizerState)
   }
 

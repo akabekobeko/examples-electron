@@ -3,6 +3,7 @@ import { IPCKey } from '../../../common/Constants'
 import { ImportMusicDialogOption } from '../Constants'
 import { MusicMetadata } from '../../../common/Types'
 
+/** Sends and receives messages with the main process. */
 const ipcRenderer = window.require('electron').ipcRenderer
 
 /**

@@ -10,7 +10,8 @@ export enum PlaybackState {
 
 /** Flux action type is defined. */
 export enum ActionType {
-  UpdateAppState = 'UpdateAppState'
+  UpdateAppState = 'UpdateAppState',
+  ShowEffector = 'ShowEffector'
 }
 
 /** State of the application. */

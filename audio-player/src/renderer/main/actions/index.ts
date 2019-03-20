@@ -1,9 +1,13 @@
 import { Dispatch } from 'redux'
-import { ActionType } from '../Types'
+import { ActionType, PlaybackState } from '../Types'
 import MusicListManager from '../models/MusicListManager'
 import AudioPlayer from '../models/AudioPlayer'
 import Music from '../models/Music'
 import Artist from '../models/Artist'
+import { IPCKey } from '../../../common/Constants'
+
+/** Sends and receives messages with the main process. */
+const ipcRenderer = window.require('electron').ipcRenderer
 
 /** Music ist. */
 const musicList = new MusicListManager()
@@ -168,6 +172,9 @@ export const next = (isNext: boolean = true) => (dispatch: Dispatch<any>) => {
  * Play the music.
  */
 export const play = () => (dispatch: Dispatch<any>) => {
+  if (audioPlayer.playbackState === PlaybackState.Stopped) {
+  }
+
   audioPlayer.play().then(() => {
     timerStart(dispatch)
     dispatch(updateAppState())
@@ -193,10 +200,29 @@ export const stop = () => {
 }
 
 /**
+ * Seek the audio playback position.
+ * @param position New position.
+ */
+export const seek = (position: number) => {
+  audioPlayer.currentTime = position
+  return updateAppState()
+}
+
+/**
  * Change the audio volume.
  * @param value Value of volume.
  */
 export const changeVolume = (value: number) => {
   audioPlayer.volume = value
   return updateAppState()
+}
+
+/**
+ * Show effector window.
+ */
+export const showEffector = () => {
+  ipcRenderer.send(IPCKey.RequestShowEffector)
+  return {
+    type: ActionType.ShowEffector
+  }
 }

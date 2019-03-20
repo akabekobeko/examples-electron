@@ -9,13 +9,14 @@ import Styles from './Player.scss'
 
 export type StateByProps = {
   playbackState: PlaybackState
+  currentMusic: Music | null
   currentTime: number
   volume: number
   spectrums: Uint8Array | null
-  playingMusic: Music | null
 }
 
 export type DispatchByProps = {
+  openWithPlay?: (music: Music) => void
   play?: () => void
   pause?: () => void
   prev?: () => void
@@ -25,16 +26,18 @@ export type DispatchByProps = {
   seek?: (position: number) => void
   removeMusic?: () => void
   importMusic?: () => void
+  showEffector?: () => void
 }
 
 type Props = StateByProps & DispatchByProps
 
 const Player: React.FC<Props> = ({
   playbackState,
+  currentMusic,
   currentTime,
   volume,
   spectrums,
-  playingMusic,
+  openWithPlay = () => {},
   play = () => {},
   pause = () => {},
   prev = () => {},
@@ -42,25 +45,38 @@ const Player: React.FC<Props> = ({
   changeVolume = () => {},
   seek = () => {},
   removeMusic = () => {},
-  importMusic = () => {}
+  importMusic = () => {},
+  showEffector = () => {}
 }) => (
   <div className={Styles.container}>
     <div className={Styles.panel}>
       <PlayerConsole
         isPlaying={playbackState === PlaybackState.Playing}
         volume={volume}
-        onPlay={play}
+        onPlay={() => {
+          if (playbackState === PlaybackState.Stopped) {
+            if (currentMusic) {
+              openWithPlay(currentMusic)
+            }
+          } else {
+            play()
+          }
+        }}
         onPause={pause}
         onPrev={prev}
         onNext={next}
         onChangeVolume={changeVolume}
       />
       <PlayerInformation
-        playingMusic={playingMusic}
+        playingMusic={currentMusic}
         currentTime={currentTime}
         onSeek={seek}
       />
-      <PlayerToolbar removeMusic={removeMusic} importMusic={importMusic} />
+      <PlayerToolbar
+        removeMusic={removeMusic}
+        importMusic={importMusic}
+        showEffector={showEffector}
+      />
     </div>
   </div>
 )
