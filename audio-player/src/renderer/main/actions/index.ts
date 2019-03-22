@@ -115,18 +115,22 @@ export const selectMusic = (music: Music) => {
  * Remove music
  * @param music Target music.
  */
-export const removeMusic = () => {
-  const music = musicList.currentMusic
-  if (music) {
-    if (playingMusic && playingMusic.id === music.id) {
-      audioPlayer.stop()
-      playingMusic = null
-    }
-
-    musicList.remove(music)
+export const removeMusic = () => (dispatch: Dispatch) => {
+  if (!musicList.currentMusic) {
+    return
   }
 
-  return updateAppState()
+  if (playingMusic && playingMusic.id === musicList.currentMusic.id) {
+    return
+  }
+
+  musicList
+    .remove(musicList.currentMusic)
+    .then(() => dispatch(updateAppState()))
+    .catch((error) => {
+      console.error(error)
+      dispatch(updateAppState())
+    })
 }
 
 /**
