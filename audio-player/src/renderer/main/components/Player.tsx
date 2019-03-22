@@ -70,6 +70,7 @@ const Player: React.FC<Props> = ({
       <PlayerInformation
         playingMusic={currentMusic}
         currentTime={currentTime}
+        spectrums={spectrums}
         onSeek={seek}
       />
       <PlayerToolbar

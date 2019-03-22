@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Music from '../models/Music'
 import { secondsToString } from './MusicListItem'
 import Styles from './PlayerInformation.scss'
+import PlayerSpectrumAnalyzer from './PlayerSpectrumAnalyzer'
 
 /**
  * Create a information for display.
@@ -34,20 +35,32 @@ const createInformation = (music: Music | null, currentTime: number) => {
 type Props = {
   playingMusic: Music | null
   currentTime: number
+  spectrums: Uint8Array | null
   onSeek: (position: number) => void
 }
 
 const PlayerInformation: React.FC<Props> = ({
   playingMusic,
   currentTime,
+  spectrums,
   onSeek
 }) => {
   const info = createInformation(playingMusic, currentTime)
+  const [enabledAnalizer, setEnabledAnalizer] = useState(false)
+
   return (
     <div className={Styles.information}>
       <div className={Styles.container}>
         <img className={Styles.image} src={info.imageFilePath} alt="" />
-        <div>
+        <PlayerSpectrumAnalyzer
+          enabled={enabledAnalizer}
+          spectrums={spectrums}
+          onClick={() => setEnabledAnalizer(!enabledAnalizer)}
+        />
+        <div
+          style={{ display: enabledAnalizer ? 'none' : 'block' }}
+          onClick={() => setEnabledAnalizer(!enabledAnalizer)}
+        >
           <div className={Styles.title}>{info.title}</div>
           <div className={Styles.album}>{info.albumArtist}</div>
           <div className={Styles.playbacktime}>{info.currentTimeText}</div>

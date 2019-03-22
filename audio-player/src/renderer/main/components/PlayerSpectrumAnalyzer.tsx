@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import Styles from './PlayerSpectrumAnalyzer.scss'
 
+/**This is the maximum value of the spectrum. */
 const MaxSpectrum = 255
 
 /**
@@ -76,18 +77,28 @@ const drawGraph = (
 /**
  * Draw the spectrum analyzer.
  * @param canvas Target canvas.
- * @param canvasContext: CanvasRenderingContext2D,
  * @param spectrums Spectrum values, range: `0` to `255`.
  */
 const draw = (
-  canvas: HTMLCanvasElement,
-  canvasContext: CanvasRenderingContext2D,
-  spectrums: Uint8Array
+  canvas: HTMLCanvasElement | null,
+  spectrums: Uint8Array | null
 ) => {
-  canvasContext.scale(window.devicePixelRatio, window.devicePixelRatio)
+  if (!canvas) {
+    return
+  }
 
+  const canvasContext = canvas.getContext('2d')
+  if (!canvasContext) {
+    return
+  }
+
+  canvasContext.scale(window.devicePixelRatio, window.devicePixelRatio)
   adjustCanvasSize(canvas)
   canvasContext.clearRect(0, 0, canvas.width, canvas.height)
+
+  if (!spectrums || spectrums.length === 0) {
+    return
+  }
 
   const max = spectrums.length
   const width = canvas.width / max / 2
@@ -98,40 +109,28 @@ const draw = (
 }
 
 type Props = {
+  /** `true` if analyzer display is enabled. */
+  enabled: boolean
+  /** Spectrums from current audio data. */
   spectrums: Uint8Array | null
+  /** Occurs when a component is clicked. */
   onClick: () => void
 }
 
-const PlayerSpectrumAnalyzer: React.FC<Props> = ({ spectrums, onClick }) => {
-  if (!spectrums || spectrums.length === 0) {
-    return null
-  }
-
+const PlayerSpectrumAnalyzer: React.FC<Props> = ({
+  enabled,
+  spectrums,
+  onClick
+}) => {
   const canvas = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    if (!canvas.current) {
-      return
-    }
-
-    const canvasContext = canvas.current!.getContext('2d')
-    if (!canvasContext) {
-      return
-    }
-
-    draw(canvas.current, canvasContext, spectrums)
-
-    return () => {
-      if (!canvas.current) {
-        return
-      }
-
-      canvasContext.clearRect(0, 0, canvas.current.width, canvas.current.height)
-    }
-  }, [canvas])
+  draw(canvas.current, spectrums)
 
   return (
-    <div className={Styles.analyzer} onClick={onClick}>
+    <div
+      className={Styles.analyzer}
+      style={{ display: enabled ? 'block' : 'none' }}
+      onClick={onClick}
+    >
       <canvas ref={canvas} />
     </div>
   )
