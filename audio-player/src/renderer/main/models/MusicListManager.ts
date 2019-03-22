@@ -126,6 +126,8 @@ class MusicListManager {
       return
     }
 
+    this._artists = this._artists.filter((a) => a.name !== artist.name)
+
     if (this._currentArtist && this._currentArtist.name === artist.name) {
       this._currentArtist = null
     }
