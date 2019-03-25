@@ -1,0 +1,31 @@
+@import '../../_Variables.scss';
+
+.selectbox {
+  position: relative;
+  height: 28px;
+  background-color: $color_indigo_dark;
+  border: solid 1px $color_indigo_dark;
+  border-radius: 2px;
+}
+
+.dropdown {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.select {
+  user-select: none;
+  -webkit-appearance: none;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  padding: 0.3em 24px 0.3em 0.5em;
+  outline: none;
+  border: none;
+  background-color: $color_indigo_dark;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: $color_white;
+  cursor: pointer;
+}
