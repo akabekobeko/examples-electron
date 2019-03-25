@@ -1,10 +1,11 @@
 import Path from 'path'
 import Fs from 'fs'
 import Crypto from 'crypto'
-import * as mm from 'music-metadata'
+import * as MetadataParser from 'music-metadata'
 import { IAudioMetadata, IPicture } from 'music-metadata/lib/type'
 import { MusicMetadata } from '../common/Types'
 
+/** Save destination directory for image files acquired from music files. */
 let imageSaveDirPath: string = ''
 
 /**
@@ -52,7 +53,7 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
  * Set a path of an image save destination direcgtory.
  * @param dirPath Path of an image save destination direcgtory.
  */
-export const SetImageSaveDir = (dirPath: string) => {
+export const setImageSaveDir = (dirPath: string) => {
   if (dirPath && !Fs.existsSync(dirPath)) {
     Fs.mkdirSync(dirPath)
   }
@@ -67,10 +68,9 @@ export const SetImageSaveDir = (dirPath: string) => {
  * @param filePath Path of the music file.
  * @returns Asynchronous task.
  */
-export const ReadMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
+export const readMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
   return new Promise((resolve, reject) => {
-    return mm
-      .parseFile(filePath, { duration: true })
+    return MetadataParser.parseFile(filePath, { duration: true })
       .then((metadata: IAudioMetadata) => {
         const imageFilePath = saveImageFile(metadata.common.picture)
         const common = metadata.common

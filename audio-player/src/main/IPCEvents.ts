@@ -8,10 +8,10 @@ import {
   SaveDialogOptions
 } from 'electron'
 import { IPCKey } from '../common/Constants'
-import { ReadMusicMetadata } from './MusicMetadataReader'
+import { readMusicMetadata } from './MusicMetadataReader'
 import {
-  GetMainWindow,
-  ToggleShowGraphicEqualizerWindow
+  getMainWindow,
+  toggleShowGraphicEqualizerWindow
 } from './WindowManager'
 
 /**
@@ -65,7 +65,7 @@ const onRequestShowMessageBox = (
  * @param filePath Path of the music file.
  */
 const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
-  ReadMusicMetadata(filePath)
+  readMusicMetadata(filePath)
     .then((metadata) => {
       ev.sender.send(IPCKey.FinishReadMusicMetadata, metadata)
     })
@@ -79,7 +79,7 @@ const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
  * @param ev Event data.
  */
 const onRequestShowEffector = (ev: IpcMessageEvent) => {
-  ToggleShowGraphicEqualizerWindow()
+  toggleShowGraphicEqualizerWindow()
   ev.sender.send(IPCKey.FinishShowEffector)
 }
 
@@ -94,7 +94,7 @@ const onRequestApplyEqualizerState = (
   connect: boolean,
   gains: number[]
 ) => {
-  const mainWindow = GetMainWindow()
+  const mainWindow = getMainWindow()
   if (mainWindow) {
     mainWindow.webContents.send(
       IPCKey.RequestApplyEqualizerState,
@@ -114,7 +114,7 @@ let initialized = false
 /**
  * Initialize IPC events.
  */
-export const InitializeIpcEvents = () => {
+export const initializeIpcEvents = () => {
   if (initialized) {
     return
   }
@@ -131,7 +131,7 @@ export const InitializeIpcEvents = () => {
 /**
  * Release IPC events.
  */
-export const ReleaseIpcEvents = () => {
+export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)

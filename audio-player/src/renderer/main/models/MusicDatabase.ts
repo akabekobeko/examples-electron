@@ -25,7 +25,7 @@ export const open = (): Promise<IDBDatabase> => {
         autoIncrement: true
       })
 
-      store.createIndex('path', 'path', { unique: true })
+      store.createIndex('filePath', 'filePath', { unique: true })
       store.transaction.oncomplete = () => resolve(db)
     }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Music from '../models/Music'
-import { secondsToString } from './MusicListItem'
+import * as Util from '../Util'
 import Styles from './PlayerInformation.scss'
 import PlayerSpectrumAnalyzer from './PlayerSpectrumAnalyzer'
 
@@ -16,9 +16,9 @@ const createInformation = (music: Music | null, currentTime: number) => {
         title: music.title,
         albumArtist: music.artist + ' - ' + music.album,
         currentTime: Math.round(currentTime),
-        currentTimeText: secondsToString(currentTime),
+        currentTimeText: Util.secondsToString(currentTime),
         duration: Math.round(music.duration),
-        durationText: secondsToString(music.duration),
+        durationText: Util.secondsToString(music.duration),
         imageFilePath: music.imageFilePath
       }
     : {

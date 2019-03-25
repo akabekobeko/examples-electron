@@ -1,8 +1,8 @@
-import { app, BrowserWindow, Menu } from 'electron'
-import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
-import { MainMenu } from './MainMenu'
-import { CreateMainWindow } from './WindowManager'
-import { SetImageSaveDir } from './MusicMetadataReader'
+import { app, Menu } from 'electron'
+import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
+import { mainMenu } from './MainMenu'
+import { createMainWindow } from './WindowManager'
+import { setImageSaveDir } from './MusicMetadataReader'
 import Path from 'path'
 
 app.on('ready', () => {
@@ -10,11 +10,11 @@ app.on('ready', () => {
   console.log('Initialize Application')
   /// #endif
 
-  CreateMainWindow()
-  Menu.setApplicationMenu(MainMenu)
-  SetImageSaveDir(Path.join(app.getPath('userData'), 'images'))
+  createMainWindow()
+  Menu.setApplicationMenu(mainMenu)
+  setImageSaveDir(Path.join(app.getPath('userData'), 'images'))
 
-  InitializeIpcEvents()
+  initializeIpcEvents()
 })
 
 /// #if env == 'DEBUG'
@@ -28,6 +28,6 @@ app.on('window-all-closed', () => {
   console.log('All of the window was closed.')
   /// #endif
 
-  ReleaseIpcEvents()
+  releaseIpcEvents()
   app.quit()
 })

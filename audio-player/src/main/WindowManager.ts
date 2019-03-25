@@ -1,53 +1,13 @@
 import { BrowserWindow } from 'electron'
 
-/**
- * Type of window.
- */
+/** Type of window. */
 enum WindowTypes {
   MainWindow = 1,
   GraphicEqualizer = 2
 }
 
-/**
- * Current windows.
- */
+/** Current windows. */
 const currentWindows: Map<WindowTypes, BrowserWindow> = new Map()
-
-/**
- * Create a main window.
- */
-export const CreateMainWindow = () => {
-  if (currentWindows.get(WindowTypes.MainWindow)) {
-    return
-  }
-
-  const newWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 480,
-    minHeight: 320,
-    resizable: true,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-
-  newWindow.on('closed', () => {
-    /// #if env == 'DEBUG'
-    console.log('The main window was closed.')
-    /// #endif
-
-    const eq = currentWindows.get(WindowTypes.GraphicEqualizer)
-    if (eq) {
-      eq.close()
-    }
-
-    currentWindows.delete(WindowTypes.MainWindow)
-  })
-
-  newWindow.loadFile('assets/index.html')
-  currentWindows.set(WindowTypes.MainWindow, newWindow)
-}
 
 /**
  * Create a graphic equalizer window.
@@ -100,10 +60,46 @@ const createGraphicEqualizerWindow = () => {
 }
 
 /**
+ * Create a main window.
+ */
+export const createMainWindow = () => {
+  if (currentWindows.get(WindowTypes.MainWindow)) {
+    return
+  }
+
+  const newWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minWidth: 480,
+    minHeight: 320,
+    resizable: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+
+  newWindow.on('closed', () => {
+    /// #if env == 'DEBUG'
+    console.log('The main window was closed.')
+    /// #endif
+
+    const eq = currentWindows.get(WindowTypes.GraphicEqualizer)
+    if (eq) {
+      eq.close()
+    }
+
+    currentWindows.delete(WindowTypes.MainWindow)
+  })
+
+  newWindow.loadFile('assets/index.html')
+  currentWindows.set(WindowTypes.MainWindow, newWindow)
+}
+
+/**
  * Toggle visible/hidden of graphic equalizer window.
  * If the window does not exist, it will be created newly.
  */
-export const ToggleShowGraphicEqualizerWindow = () => {
+export const toggleShowGraphicEqualizerWindow = () => {
   const eqWindow = currentWindows.get(WindowTypes.GraphicEqualizer)
   if (eqWindow) {
     if (eqWindow.isVisible()) {
@@ -120,6 +116,6 @@ export const ToggleShowGraphicEqualizerWindow = () => {
  * Get an instance of main window.
  * @returns instance.
  */
-export const GetMainWindow = (): BrowserWindow | undefined => {
+export const getMainWindow = (): BrowserWindow | undefined => {
   return currentWindows.get(WindowTypes.MainWindow)
 }

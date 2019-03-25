@@ -1,6 +1,9 @@
 import { app, Menu, MenuItemConstructorOptions } from 'electron'
-import { ToggleShowGraphicEqualizerWindow } from './WindowManager'
 
+/**
+ * Create a template for the menu.
+ * @returns Template.
+ */
 const createTemplate = (): MenuItemConstructorOptions[] => {
   const template: MenuItemConstructorOptions[] = [
     {
@@ -90,6 +93,5 @@ const createTemplate = (): MenuItemConstructorOptions[] => {
   return template
 }
 
-export const MainMenu = Menu.buildFromTemplate(createTemplate())
-
-export default MainMenu
+export const mainMenu = Menu.buildFromTemplate(createTemplate())
+export default mainMenu

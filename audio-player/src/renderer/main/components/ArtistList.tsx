@@ -20,17 +20,14 @@ const ArtistList: React.FC<Props> = ({
   selectArtist = () => {}
 }) => (
   <div className={Styles.container}>
-    {artists.map((artist, index) => {
-      const selected = !!(currentArtist && currentArtist.name === artist.name)
-      return (
-        <ArtistListItem
-          key={index}
-          artist={artist}
-          selected={selected}
-          onSelect={selectArtist}
-        />
-      )
-    })}
+    {artists.map((artist, index) => (
+      <ArtistListItem
+        key={index}
+        artist={artist}
+        selected={!!(currentArtist && currentArtist.name === artist.name)}
+        onSelect={selectArtist}
+      />
+    ))}
   </div>
 )
 

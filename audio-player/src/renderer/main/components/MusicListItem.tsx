@@ -1,28 +1,7 @@
 import React from 'react'
 import Music from '../models/Music'
+import * as Util from '../Util'
 import * as Styles from './MusicListItem.scss'
-
-/**
- * Convert the seconds to a string.
- * @param seconds Seconds.
- * @returns Converted string.
- */
-export const secondsToString = (seconds: number): string => {
-  const total = Math.round(seconds)
-  const h = (total / 3600) | 0
-  const m = ((total % 3600) / 60) | 0
-  const s = total % 60
-
-  function padding(value: number) {
-    return ('0' + value).slice(-2)
-  }
-
-  return 0 < h
-    ? h + ':' + padding(m) + ':' + padding(s)
-    : 0 < m
-    ? m + ':' + padding(s)
-    : '0:' + padding(s)
-}
 
 type Props = {
   /** Target music. */
@@ -56,7 +35,9 @@ const MusicListItem: React.FC<Props> = ({
     <div className={Styles.title} title={music.title}>
       {music.title}
     </div>
-    <div className={Styles.duration}>{secondsToString(music.duration)}</div>
+    <div className={Styles.duration}>
+      {Util.secondsToString(music.duration)}
+    </div>
   </div>
 )
 
