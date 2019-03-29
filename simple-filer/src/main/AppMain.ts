@@ -1,44 +1,31 @@
-import { app, BrowserWindow, Menu } from 'electron'
-import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
-import { MainMenu } from './MainMenu'
+import { app } from 'electron'
+import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
+import { createMainWindow } from './WindowManager'
+import { createMainMenu } from './MainMenu'
 
-let mainWindow: BrowserWindow | null
-
-const createMainWindow = (): BrowserWindow => {
-  const window = new BrowserWindow({
-    width: 1024,
-    height: 768,
-    minWidth: 480,
-    minHeight: 320,
-    resizable: true,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-
-  window.loadFile('assets/index.html')
-  return window
-}
+app.setName('SimpleFiler')
 
 app.on('ready', () => {
+  /// #if env == 'DEBUG'
   console.log('Initialize Application')
-  mainWindow = createMainWindow()
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  /// #endif
 
-  Menu.setApplicationMenu(MainMenu)
-
-  InitializeIpcEvents()
+  createMainWindow()
+  createMainMenu()
+  initializeIpcEvents()
 })
 
+/// #if env == 'DEBUG'
 app.on('quit', () => {
   console.log('Application is quit')
 })
+/// #endif
 
 app.on('window-all-closed', () => {
+  /// #if env == 'DEBUG'
   console.log('All of the window was closed.')
+  /// #endif
 
-  ReleaseIpcEvents()
+  releaseIpcEvents()
   app.quit()
 })

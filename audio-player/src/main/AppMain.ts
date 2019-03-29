@@ -1,9 +1,11 @@
-import { app, Menu } from 'electron'
+import { app } from 'electron'
 import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
-import { mainMenu } from './MainMenu'
 import { createMainWindow } from './WindowManager'
+import { createMainMenu } from './MainMenu'
 import { setImageSaveDir } from './MusicMetadataReader'
 import Path from 'path'
+
+app.setName('AudioPlayer')
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'
@@ -11,9 +13,8 @@ app.on('ready', () => {
   /// #endif
 
   createMainWindow()
-  Menu.setApplicationMenu(mainMenu)
+  createMainMenu()
   setImageSaveDir(Path.join(app.getPath('userData'), 'images'))
-
   initializeIpcEvents()
 })
 

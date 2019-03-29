@@ -11,7 +11,7 @@ import {
 import Path from 'path'
 import { IPCKey } from '../common/Constants'
 import { FileItem } from '../common/Types'
-import { EnumFiles } from './FileManager'
+import { enumFiles } from './FileManager'
 
 /**
  * Occurs when show of a file open dialog is requested.
@@ -80,7 +80,7 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
   }
 
   let folderPath = paths[0]
-  EnumFiles(folderPath)
+  enumFiles(folderPath)
     .then((items: FileItem[]) => {
       ev.sender.send(
         IPCKey.FinishSelectFolder,
@@ -100,7 +100,7 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
  * @param options Path of the target folder.
  */
 const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
-  EnumFiles(folderPath)
+  enumFiles(folderPath)
     .then((items) => {
       ev.sender.send(IPCKey.FinishEnumItems, folderPath, items)
     })
@@ -127,7 +127,7 @@ let initialized = false
 /**
  * Initialize IPC events.
  */
-export const InitializeIpcEvents = () => {
+export const initializeIpcEvents = () => {
   if (initialized) {
     return
   }
@@ -144,7 +144,7 @@ export const InitializeIpcEvents = () => {
 /**
  * Release IPC events.
  */
-export const ReleaseIpcEvents = () => {
+export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
