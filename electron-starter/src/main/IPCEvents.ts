@@ -72,7 +72,7 @@ let initialized = false
 /**
  * Initialize IPC events.
  */
-export const InitializeIpcEvents = () => {
+export const initializeIpcEvents = () => {
   if (initialized) {
     return
   }
@@ -87,7 +87,7 @@ export const InitializeIpcEvents = () => {
 /**
  * Release IPC events.
  */
-export const ReleaseIpcEvents = () => {
+export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)

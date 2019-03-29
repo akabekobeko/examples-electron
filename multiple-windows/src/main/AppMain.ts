@@ -1,16 +1,18 @@
 import { app, Menu } from 'electron'
-import { InitializeIpcEvents, ReleaseIpcEvents } from './IPCEvents'
-import { MainMenu } from './MainMenu'
-import { CreateNewWindow } from './WindowManager'
+import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
+import { createMainMenu } from './MainMenu'
+import { createNewWindow } from './WindowManager'
+
+app.setName('MultipleWindows')
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'
   console.log('Initialize Application')
   /// #endif
 
-  CreateNewWindow()
-  Menu.setApplicationMenu(MainMenu)
-  InitializeIpcEvents()
+  createNewWindow()
+  createMainMenu()
+  initializeIpcEvents()
 })
 
 /// #if env == 'DEBUG'
@@ -24,6 +26,6 @@ app.on('window-all-closed', () => {
   console.log('All of the window was closed.')
   /// #endif
 
-  ReleaseIpcEvents()
+  releaseIpcEvents()
   app.quit()
 })

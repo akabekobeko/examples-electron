@@ -26,7 +26,7 @@ const getFileInfo = async (path: string): Promise<FileItem> => {
  * @param folder The path of the target folder.
  * @returns Asyncronized task.
  */
-export const EnumFiles = async (folder?: string): Promise<FileItem[]> => {
+export const enumFiles = async (folder?: string): Promise<FileItem[]> => {
   const items: FileItem[] = []
   if (!folder) {
     folder = app.getPath('home')

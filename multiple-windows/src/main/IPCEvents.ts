@@ -8,7 +8,7 @@ import {
   SaveDialogOptions
 } from 'electron'
 import { IPCKey } from '../common/Constants'
-import { CreateNewWindow, GetWindowIds, SendMessege } from './WindowManager'
+import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
 
 /**
  * Occurs when show of a file open dialog is requested.
@@ -63,7 +63,7 @@ const onRequestShowMessageBox = (
  * @param ev Event data.
  */
 const onRequestCreateNewWindow = (ev: IpcMessageEvent) => {
-  CreateNewWindow()
+  createNewWindow()
 }
 
 /**
@@ -77,7 +77,7 @@ const onRequestSendMessage = (
   targetWindowId: number,
   message: string
 ) => {
-  ev.sender.send(IPCKey.FinishSendMessage, SendMessege(targetWindowId, message))
+  ev.sender.send(IPCKey.FinishSendMessage, sendMessege(targetWindowId, message))
 }
 
 /**
@@ -85,7 +85,7 @@ const onRequestSendMessage = (
  * @param ev Event data.
  */
 const onRequestGetWindowIds = (ev: IpcMessageEvent) => {
-  ev.sender.send(IPCKey.UpdateWindowIds, GetWindowIds())
+  ev.sender.send(IPCKey.UpdateWindowIds, getWindowIds())
 }
 
 /**
@@ -96,7 +96,7 @@ let initialized = false
 /**
  * Initialize IPC events.
  */
-export const InitializeIpcEvents = () => {
+export const initializeIpcEvents = () => {
   if (initialized) {
     return
   }
@@ -114,7 +114,7 @@ export const InitializeIpcEvents = () => {
 /**
  * Release IPC events.
  */
-export const ReleaseIpcEvents = () => {
+export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
     ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)

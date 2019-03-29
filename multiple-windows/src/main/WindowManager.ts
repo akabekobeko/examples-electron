@@ -25,7 +25,7 @@ const notifyUpdateWindowIDs = (excludeId: number) => {
 /**
  * Create a window and add it to the list.
  */
-export const CreateNewWindow = () => {
+export const createNewWindow = () => {
   const newWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -62,7 +62,7 @@ export const CreateNewWindow = () => {
  * @param message Message to be sent
  * @returns `true` on success. `false` if the target window can't be found.
  */
-export const SendMessege = (
+export const sendMessege = (
   targetWindowId: number,
   message: string
 ): boolean => {
@@ -78,6 +78,6 @@ export const SendMessege = (
 /**
  * Get a current window identifiers.
  */
-export const GetWindowIds = (): number[] => {
+export const getWindowIds = (): number[] => {
   return Array.from(currentWindows.keys())
 }

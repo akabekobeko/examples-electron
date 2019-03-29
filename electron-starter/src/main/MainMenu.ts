@@ -1,7 +1,30 @@
 import { app, Menu, MenuItemConstructorOptions } from 'electron'
 
+/**
+ * Create a template for the menu.
+ * @returns Template.
+ */
 const createTemplate = (): MenuItemConstructorOptions[] => {
-  const template: MenuItemConstructorOptions[] = [
+  const isMac = process.platform === 'darwin'
+  return [
+    ...(isMac
+      ? [
+          {
+            label: app.getName(),
+            submenu: [
+              { role: 'about' },
+              { type: 'separator' },
+              { role: 'services' },
+              { type: 'separator' },
+              { role: 'hide' },
+              { role: 'hideothers' },
+              { role: 'unhide' },
+              { type: 'separator' },
+              { role: 'quit' }
+            ]
+          }
+        ]
+      : []),
     {
       label: 'Edit',
       submenu: [
@@ -13,7 +36,16 @@ const createTemplate = (): MenuItemConstructorOptions[] => {
         { role: 'paste' },
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
-        { role: 'selectall' }
+        { role: 'selectall' },
+        ...(isMac
+          ? [
+              { type: 'separator' },
+              {
+                label: 'Speech',
+                submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }]
+              }
+            ]
+          : [])
       ]
     },
     {
@@ -34,7 +66,17 @@ const createTemplate = (): MenuItemConstructorOptions[] => {
     },
     {
       role: 'window',
-      submenu: [{ role: 'minimize' }, { role: 'close' }]
+      submenu: [
+        ...(isMac
+          ? [
+              { role: 'close' },
+              { role: 'minimize' },
+              { role: 'zoom' },
+              { type: 'separator' },
+              { role: 'front' }
+            ]
+          : [{ role: 'minimize' }, { role: 'close' }])
+      ]
     },
     {
       role: 'help',
@@ -47,48 +89,15 @@ const createTemplate = (): MenuItemConstructorOptions[] => {
         }
       ]
     }
-  ]
-
-  if (process.platform === 'darwin') {
-    template.unshift({
-      label: app.getName(),
-      submenu: [
-        { role: 'about' },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' }
-      ]
-    })
-
-    const submenu = template[1].submenu as MenuItemConstructorOptions[]
-
-    // Edit menu
-    submenu.push(
-      { type: 'separator' },
-      {
-        label: 'Speech',
-        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }]
-      }
-    )
-
-    // Window menu
-    template[3].submenu = [
-      { role: 'close' },
-      { role: 'minimize' },
-      { role: 'zoom' },
-      { type: 'separator' },
-      { role: 'front' }
-    ]
-  }
-
-  return template
+  ] as MenuItemConstructorOptions[]
 }
 
-export const MainMenu = Menu.buildFromTemplate(createTemplate())
+/**
+ * Create and set main menu.
+ */
+export const createMainMenu = () => {
+  const template = Menu.buildFromTemplate(createTemplate())
+  Menu.setApplicationMenu(template)
+}
 
-export default MainMenu
+export default createMainMenu
