@@ -1,72 +1,69 @@
-import assert = require('assert')
-import Rewire from 'rewire'
+import { merge } from './enumSubFolders'
+import { Folder } from '../Types'
+
+const makeFolder = (
+  name: string,
+  path: string,
+  subFolders: Folder[]
+): Folder => {
+  return {
+    treeId: 0,
+    isRoot: false,
+    name,
+    path,
+    subFolders
+  }
+}
 
 describe('enumSubFolders', () => {
-  const Module = Rewire('./enumSubFolders.ts')
-
   describe('merge', () => {
-    const merge = Module.__get__('merge')
-
-    it('Added', () => {
+    test('Added', () => {
       // Check that the data is keep
-      const subFolder = {
-        name: 'Z',
-        path: 'Z',
-        expanded: false,
-        subFolders: []
-      }
+      const subFolder = makeFolder('Z', 'Z', [])
 
       const old = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },
-        { name: 'b', path: 'b', expanded: false, subFolders: [subFolder] }
+        makeFolder('a', 'a', [subFolder]),
+        makeFolder('b', 'b', [subFolder])
       ]
 
       const current = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [] },
-        { name: 'b', path: 'b', expanded: false, subFolders: [] },
-        { name: 'c', path: 'c', expanded: false, subFolders: [] },
-        { name: 'd', path: 'd', expanded: false, subFolders: [] }
+        makeFolder('a', 'a', []),
+        makeFolder('b', 'b', []),
+        makeFolder('c', 'c', []),
+        makeFolder('d', 'd', [])
       ]
 
       const actual = merge(old, current)
       const expected = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },
-        { name: 'b', path: 'b', expanded: false, subFolders: [subFolder] },
-        { name: 'c', path: 'c', expanded: false, subFolders: [] },
-        { name: 'd', path: 'd', expanded: false, subFolders: [] }
+        makeFolder('a', 'a', [subFolder]),
+        makeFolder('b', 'b', [subFolder]),
+        makeFolder('c', 'c', []),
+        makeFolder('d', 'd', [])
       ].sort((a, b) => (a.name < b.name ? -1 : 1))
 
-      assert.deepStrictEqual(actual, expected)
+      expect(actual).toEqual(expected)
     })
 
-    it('Removed', () => {
+    test('Removed', () => {
       // Check that the data is keep
-      const subFolder = {
-        name: 'Z',
-        path: 'Z',
-        expanded: false,
-        subFolders: []
-      }
+      const subFolder = makeFolder('Z', 'Z', [])
 
-      const old = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },
-        { name: 'b', path: 'b', expanded: false, subFolders: [] }
-      ]
+      const old = [makeFolder('a', 'a', [subFolder]), makeFolder('b', 'b', [])]
 
       const current = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [] },
-        { name: 'c', path: 'c', expanded: false, subFolders: [] },
-        { name: 'd', path: 'd', expanded: false, subFolders: [] }
+        makeFolder('a', 'a', []),
+        makeFolder('c', 'c', []),
+        makeFolder('d', 'd', [])
       ]
 
       const actual = merge(old, current)
       const expected = [
-        { name: 'a', path: 'a', expanded: false, subFolders: [subFolder] },
-        { name: 'c', path: 'c', expanded: false, subFolders: [] },
-        { name: 'd', path: 'd', expanded: false, subFolders: [] }
+        makeFolder('a', 'a', [subFolder]),
+        makeFolder('c', 'c', []),
+        makeFolder('d', 'd', [])
       ].sort((a, b) => (a.name < b.name ? -1 : 1))
 
-      assert.deepStrictEqual(actual, expected)
+      expect(actual).toEqual(expected)
     })
   })
 })
