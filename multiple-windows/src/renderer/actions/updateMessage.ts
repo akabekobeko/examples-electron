@@ -1,9 +1,9 @@
-import { IpcMessageEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 let handled = false
 
 export const updateMessage = (message: string) => ({
@@ -22,7 +22,7 @@ export const handleUpdateMessage = () => (dispatch: Dispatch) => {
 
   ipcRenderer.on(
     IPCKey.UpdateMessage,
-    (ev: IpcMessageEvent, message: string) => {
+    (ev: IpcRendererEvent, message: string) => {
       dispatch(updateMessage(message))
     }
   )

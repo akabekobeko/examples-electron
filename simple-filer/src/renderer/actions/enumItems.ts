@@ -1,10 +1,10 @@
-import { IpcMessageEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { FileItem } from '../../common/Types'
 import { ActionType, Folder } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /**
  * Request item enumeration in the folder.
@@ -36,7 +36,7 @@ export const enumItems = (folder: Folder) => (dispatch: Dispatch) => {
   dispatch(requestEnumItems())
   ipcRenderer.once(
     IPCKey.FinishEnumItems,
-    (ev: IpcMessageEvent, folderPath: string, items: FileItem[]) => {
+    (ev: IpcRendererEvent, folderPath: string, items: FileItem[]) => {
       dispatch(finishEnumItems(folder, items))
     }
   )

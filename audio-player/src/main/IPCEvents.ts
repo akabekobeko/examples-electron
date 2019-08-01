@@ -1,9 +1,9 @@
 import {
-  dialog,
   BrowserWindow,
+  dialog,
   ipcMain,
+  IpcMainEvent,
   OpenDialogOptions,
-  IpcMessageEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -20,7 +20,7 @@ import {
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
   ev.sender.send(
@@ -35,7 +35,7 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
   ev.sender.send(
@@ -50,7 +50,7 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
   ev.sender.send(
@@ -64,7 +64,7 @@ const onRequestShowMessageBox = (
  * @param ev Event data.
  * @param filePath Path of the music file.
  */
-const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
+const onRequestReadMusicMetadata = (ev: IpcMainEvent, filePath: string) => {
   readMusicMetadata(filePath)
     .then((metadata) => {
       ev.sender.send(IPCKey.FinishReadMusicMetadata, metadata)
@@ -78,7 +78,7 @@ const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
  * Occurs when show effector window is requested.
  * @param ev Event data.
  */
-const onRequestShowEffector = (ev: IpcMessageEvent) => {
+const onRequestShowEffector = (ev: IpcMainEvent) => {
   toggleShowGraphicEqualizerWindow()
   ev.sender.send(IPCKey.FinishShowEffector)
 }
@@ -90,7 +90,7 @@ const onRequestShowEffector = (ev: IpcMessageEvent) => {
  * @param gains Gain values.
  */
 const onRequestApplyEqualizerState = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   connect: boolean,
   gains: number[]
 ) => {

@@ -5,9 +5,10 @@ import MusicListManager from '../models/MusicListManager'
 import AudioPlayer from '../models/AudioPlayer'
 import Artist from '../models/Artist'
 import Music from '../models/Music'
+import { IpcRenderer } from 'electron'
 
 /** Sends and receives messages with the main process. */
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /** Music ist. */
 const musicList = new MusicListManager()

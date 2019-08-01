@@ -3,7 +3,7 @@ import {
   BrowserWindow,
   ipcMain,
   OpenDialogOptions,
-  IpcMessageEvent,
+  IpcMainEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -16,7 +16,7 @@ import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
   const paths = dialog.showOpenDialog(
@@ -32,7 +32,7 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
   const path = dialog.showSaveDialog(
@@ -48,7 +48,7 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
   const button = dialog.showMessageBox(
@@ -62,7 +62,7 @@ const onRequestShowMessageBox = (
  * Occurs when create window is requested.
  * @param ev Event data.
  */
-const onRequestCreateNewWindow = (ev: IpcMessageEvent) => {
+const onRequestCreateNewWindow = (ev: IpcMainEvent) => {
   createNewWindow()
 }
 
@@ -73,7 +73,7 @@ const onRequestCreateNewWindow = (ev: IpcMessageEvent) => {
  * @param message Message to be sent
  */
 const onRequestSendMessage = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   targetWindowId: number,
   message: string
 ) => {
@@ -84,7 +84,7 @@ const onRequestSendMessage = (
  * Occurs when get window identifiers is requested.
  * @param ev Event data.
  */
-const onRequestGetWindowIds = (ev: IpcMessageEvent) => {
+const onRequestGetWindowIds = (ev: IpcMainEvent) => {
   ev.sender.send(IPCKey.UpdateWindowIds, getWindowIds())
 }
 

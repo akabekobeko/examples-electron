@@ -1,9 +1,9 @@
-import { IpcMessageEvent, SaveDialogOptions } from 'electron'
+import { IpcRenderer, IpcRendererEvent, SaveDialogOptions } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const requestShowSaveDialog = () => ({
   type: ActionType.RequestShowSaveDialog as ActionType.RequestShowSaveDialog
@@ -20,7 +20,7 @@ export const showSaveDialog = () => (dispatch: Dispatch) => {
   dispatch(requestShowSaveDialog())
   ipcRenderer.on(
     IPCKey.FinishShowSaveDialog,
-    (ev: IpcMessageEvent, path: string) => {
+    (ev: IpcRendererEvent, path: string) => {
       dispatch(finishShowSaveDialog(path))
     }
   )

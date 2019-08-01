@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
+import { IpcRenderer } from 'electron'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const getWindowIds = () => (dispatch: Dispatch) => {
   // Finish handler is UpdateWindowIds

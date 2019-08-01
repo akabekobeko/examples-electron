@@ -1,10 +1,10 @@
-import { IpcMessageEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { IPCKey } from '../../../common/Constants'
 import { ImportMusicDialogOption } from '../Constants'
 import { MusicMetadata } from '../../../common/Types'
 
 /** Sends and receives messages with the main process. */
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /**
  * Show the import dialog.
@@ -14,7 +14,7 @@ const showImportDialog = (): Promise<string[]> => {
   return new Promise((resolve) => {
     ipcRenderer.on(
       IPCKey.FinishShowOpenDialog,
-      (ev: IpcMessageEvent, paths: string[]) => {
+      (ev: IpcRendererEvent, paths: string[]) => {
         resolve(paths)
       }
     )
@@ -34,7 +34,7 @@ const readMusicMetadata = (
   return new Promise((resolve) => {
     ipcRenderer.on(
       IPCKey.FinishReadMusicMetadata,
-      (ev: IpcMessageEvent, metadata: MusicMetadata | undefined) => {
+      (ev: IpcRendererEvent, metadata: MusicMetadata | undefined) => {
         resolve(metadata)
       }
     )

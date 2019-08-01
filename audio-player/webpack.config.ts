@@ -1,7 +1,8 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import OptimizeCssnanoPlugin from '@intervolga/optimize-cssnano-plugin'
+import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
+import { Configuration } from 'webpack'
 
-export default (env, argv) => {
+export default (env: any, argv: Configuration) => {
   const MAIN = !!(env && env.main)
   const PROD = !!(argv.mode && argv.mode === 'production')
   if (PROD) {
@@ -29,7 +30,7 @@ export default (env, argv) => {
           test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'babel-loader' },
+            { loader: 'ts-loader' },
             {
               loader: 'ifdef-loader',
               options: {
@@ -45,10 +46,11 @@ export default (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: PROD
-                  ? '[hash:base64]'
-                  : '[name]-[local]-[hash:base64:5]',
+                modules: {
+                  localIdentName: PROD
+                    ? '[hash:base64]'
+                    : '[name]-[local]-[hash:base64:5]'
+                },
                 url: false,
                 importLoaders: 1,
                 sourceMap: !PROD
@@ -68,7 +70,7 @@ export default (env, argv) => {
     plugins: PROD
       ? [
           new MiniCssExtractPlugin({ filename: 'bundle.css' }),
-          new OptimizeCssnanoPlugin()
+          new OptimizeCssAssetsWebpackPlugin()
         ]
       : [new MiniCssExtractPlugin({ filename: 'bundle.css' })],
     externals: MAIN ? [] : ['electron']

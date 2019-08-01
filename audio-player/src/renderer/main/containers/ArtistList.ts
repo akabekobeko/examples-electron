@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { selectArtist } from '../actions'
 import { AppState } from '../Types'
 import ArtistList, {
@@ -13,7 +12,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   currentArtist: state.currentArtist
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   selectArtist: (artist: Artist) => {
     dispatch(selectArtist(artist))
   }

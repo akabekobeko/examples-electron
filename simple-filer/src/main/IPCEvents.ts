@@ -1,10 +1,10 @@
 import {
-  dialog,
   BrowserWindow,
-  ipcMain,
+  dialog,
   shell,
+  ipcMain,
+  IpcMainEvent,
   OpenDialogOptions,
-  IpcMessageEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -19,7 +19,7 @@ import { enumFiles } from './FileManager'
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
   const paths = dialog.showOpenDialog(
@@ -35,7 +35,7 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
   const path = dialog.showSaveDialog(
@@ -51,7 +51,7 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
   const button = dialog.showMessageBox(
@@ -65,8 +65,8 @@ const onRequestShowMessageBox = (
  * Occurs when folder selection is requested.
  * @param ev Event data.
  */
-const onRequestSelectFolder = (ev: IpcMessageEvent) => {
-  const paths = dialog.showOpenDialog(
+const onRequestSelectFolder = async (ev: IpcMainEvent) => {
+  const result = await dialog.showOpenDialog(
     BrowserWindow.fromWebContents(ev.sender),
     {
       title: 'Select root folder',
@@ -74,12 +74,12 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
     }
   )
 
-  if (!paths || paths.length === 0) {
+  if (!result || !result.filePaths || result.filePaths.length === 0) {
     ev.sender.send(IPCKey.FinishSelectFolder)
     return
   }
 
-  let folderPath = paths[0]
+  let folderPath = result.filePaths[0]
   enumFiles(folderPath)
     .then((items: FileItem[]) => {
       ev.sender.send(
@@ -99,7 +99,7 @@ const onRequestSelectFolder = (ev: IpcMessageEvent) => {
  * @param ev Event data.
  * @param options Path of the target folder.
  */
-const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
+const onRequestEnumItems = (ev: IpcMainEvent, folderPath?: string) => {
   enumFiles(folderPath)
     .then((items) => {
       ev.sender.send(IPCKey.FinishEnumItems, folderPath, items)
@@ -114,7 +114,7 @@ const onRequestEnumItems = (ev: IpcMessageEvent, folderPath?: string) => {
  * @param ev Event data.
  * @param itemPath Path of the target folder.
  */
-const onRequestOpenItem = (ev: IpcMessageEvent, itemPath: string) => {
+const onRequestOpenItem = (ev: IpcMainEvent, itemPath: string) => {
   const succeeded = shell.openItem(itemPath)
   ev.sender.send(IPCKey.FinishOpenItem, succeeded)
 }

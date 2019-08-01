@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import {
   connect as connectEffector,
   selectPreset,
@@ -14,7 +13,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   gains: state.gains
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   selectPreset: (presetIndex) => {
     dispatch(selectPreset(presetIndex))
   },

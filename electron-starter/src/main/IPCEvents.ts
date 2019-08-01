@@ -1,10 +1,10 @@
 import {
-  dialog,
   BrowserWindow,
-  ipcMain,
+  dialog,
   shell,
+  ipcMain,
+  IpcMainEvent,
   OpenDialogOptions,
-  IpcMessageEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -16,7 +16,7 @@ import { IPCKey } from '../common/Constants'
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
   ev.sender.send(
@@ -31,7 +31,7 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
   ev.sender.send(
@@ -46,7 +46,7 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
   ev.sender.send(
@@ -56,17 +56,15 @@ const onRequestShowMessageBox = (
 }
 
 /**
- *Occurs in a request to open URL in a shell
+ * Occurs in a request to open URL in a shell
  * @param ev Event data.
  * @param itemPath Path of the target folder.
  */
-const onRequestShowURL = (ev: IpcMessageEvent, url: string) => {
+const onRequestShowURL = (ev: IpcMainEvent, url: string) => {
   ev.sender.send(IPCKey.FinishShowURL, shell.openExternal(url))
 }
 
-/**
- * A value indicating that an IPC events has been initialized.
- */
+/** A value indicating that an IPC events has been initialized. */
 let initialized = false
 
 /**

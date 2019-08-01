@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import {
   registerRootFolder,
   unregisterRootFolder,
@@ -13,7 +12,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   canUnregisterRootFolder: state.currentFolder.isRoot
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   registerRootFolder: () => {
     dispatch(registerRootFolder())
   },
