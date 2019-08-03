@@ -1,10 +1,10 @@
 import {
-  dialog,
   BrowserWindow,
-  ipcMain,
+  dialog,
   shell,
+  ipcMain,
+  IpcMainEvent,
   OpenDialogOptions,
-  IpcMessageEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -16,13 +16,13 @@ import { IPCKey } from '../common/Constants'
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowOpenDialog,
-    dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowOpenDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowOpenDialog, err))
 }
 
 /**
@@ -31,13 +31,13 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowSaveDialog,
-    dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowSaveDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowSaveDialog, err))
 }
 
 /**
@@ -46,27 +46,28 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowMessageBox,
-    dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowMessageBox, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowMessageBox, err))
 }
 
 /**
- *Occurs in a request to open URL in a shell
+ * Occurs in a request to open URL in a shell
  * @param ev Event data.
  * @param itemPath Path of the target folder.
  */
-const onRequestShowURL = (ev: IpcMessageEvent, url: string) => {
-  ev.sender.send(IPCKey.FinishShowURL, shell.openExternal(url))
+const onRequestShowURL = (ev: IpcMainEvent, url: string) => {
+  shell
+    .openExternal(url)
+    .then(() => ev.sender.send(IPCKey.FinishShowURL, null))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowURL, err))
 }
 
-/**
- * A value indicating that an IPC events has been initialized.
- */
+/** A value indicating that an IPC events has been initialized. */
 let initialized = false
 
 /**

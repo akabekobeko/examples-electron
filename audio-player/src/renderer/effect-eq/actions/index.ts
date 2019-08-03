@@ -2,8 +2,9 @@ import { Dispatch } from 'redux'
 import { IPCKey } from '../../../common/Constants'
 import { ActionType, AppState } from '../Types'
 import { Presets, PresetIndexManual } from '../Constants'
+import { IpcRenderer } from 'electron'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const finishConnect = (connected: boolean) => ({
   type: ActionType.FinishConnect as ActionType.FinishConnect,

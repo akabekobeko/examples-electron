@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { selectMusic, openWithPlay } from '../actions'
 import { AppState, PlaybackState } from '../Types'
 import AlbumList, {
@@ -15,7 +14,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
     state.playbackState === PlaybackState.Stopped ? null : state.currentMusic
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   selectMusic: (music: Music) => {
     dispatch(selectMusic(music))
   },

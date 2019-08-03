@@ -8,7 +8,7 @@ import { Folder, AppState } from '../Types'
  * @param current Current folders
  * @returns Merged folders.
  */
-const merge = (old: Folder[], current: Folder[]): Folder[] => {
+export const merge = (old: Folder[], current: Folder[]): Folder[] => {
   if (old.length === 0 || current.length === 0) {
     return current
   }

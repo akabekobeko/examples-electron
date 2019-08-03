@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { AppState, PlaybackState } from '../Types'
 import Player, { StateByProps, DispatchByProps } from '../components/Player'
 import {
@@ -26,7 +25,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
       : state.playingMusic
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   openWithPlay: (music: Music) => dispatch(openWithPlay(music)),
   play: () => dispatch(play()),
   pause: () => dispatch(pause()),

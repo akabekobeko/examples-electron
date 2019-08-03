@@ -1,9 +1,9 @@
-import { IpcMessageEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const requestShowURL = () => ({
   type: ActionType.RequestShowURL as ActionType.RequestShowURL
@@ -20,8 +20,8 @@ export const showURL = (url: string) => (dispatch: Dispatch) => {
   dispatch(requestShowURL())
   ipcRenderer.on(
     IPCKey.FinishShowURL,
-    (ev: IpcMessageEvent, succeeded: boolean) => {
-      dispatch(finishShowURL(succeeded))
+    (ev: IpcRendererEvent, err: Error | null) => {
+      dispatch(finishShowURL(!!err))
     }
   )
 

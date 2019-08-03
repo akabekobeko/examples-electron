@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { sendMessage, createNewWindow } from '../actions/'
-import { Dispatch } from 'redux'
 import { AppState } from '../Types'
 import App, { StateByProps, DispatchByProps } from '../components/App'
 
@@ -9,7 +8,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   windowIds: state.windowIds
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   onRequestSend: (targetWindowId: number, message: string) => {
     dispatch(sendMessage(targetWindowId, message))
   },

@@ -1,9 +1,9 @@
 import {
-  dialog,
   BrowserWindow,
+  dialog,
   ipcMain,
+  IpcMainEvent,
   OpenDialogOptions,
-  IpcMessageEvent,
   MessageBoxOptions,
   SaveDialogOptions
 } from 'electron'
@@ -20,13 +20,13 @@ import {
  * @param options Options of `dialog.showOpenDialog`.
  */
 const onRequestShowOpenDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowOpenDialog,
-    dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowOpenDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowOpenDialog, err))
 }
 
 /**
@@ -35,13 +35,13 @@ const onRequestShowOpenDialog = (
  * @param options Options of `dialog.showSaveDialog`.
  */
 const onRequestShowSaveDialog = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowSaveDialog,
-    dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowSaveDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowSaveDialog, err))
 }
 
 /**
@@ -50,13 +50,13 @@ const onRequestShowSaveDialog = (
  * @param options Options of `dialog.showMessageBox`.
  */
 const onRequestShowMessageBox = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowMessageBox,
-    dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowMessageBox, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowMessageBox, err))
 }
 
 /**
@@ -64,21 +64,17 @@ const onRequestShowMessageBox = (
  * @param ev Event data.
  * @param filePath Path of the music file.
  */
-const onRequestReadMusicMetadata = (ev: IpcMessageEvent, filePath: string) => {
+const onRequestReadMusicMetadata = (ev: IpcMainEvent, filePath: string) => {
   readMusicMetadata(filePath)
-    .then((metadata) => {
-      ev.sender.send(IPCKey.FinishReadMusicMetadata, metadata)
-    })
-    .catch((err) => {
-      ev.sender.send(IPCKey.FinishReadMusicMetadata)
-    })
+    .then((data) => ev.sender.send(IPCKey.FinishReadMusicMetadata, null, data))
+    .catch((err) => ev.sender.send(IPCKey.FinishReadMusicMetadata, err))
 }
 
 /**
  * Occurs when show effector window is requested.
  * @param ev Event data.
  */
-const onRequestShowEffector = (ev: IpcMessageEvent) => {
+const onRequestShowEffector = (ev: IpcMainEvent) => {
   toggleShowGraphicEqualizerWindow()
   ev.sender.send(IPCKey.FinishShowEffector)
 }
@@ -90,7 +86,7 @@ const onRequestShowEffector = (ev: IpcMessageEvent) => {
  * @param gains Gain values.
  */
 const onRequestApplyEqualizerState = (
-  ev: IpcMessageEvent,
+  ev: IpcMainEvent,
   connect: boolean,
   gains: number[]
 ) => {

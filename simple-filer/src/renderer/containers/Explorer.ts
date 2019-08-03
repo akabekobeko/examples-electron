@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { enumSubFolders, enumItems } from '../actions/index'
 import { Folder, AppState } from '../Types'
 import Explorer, { StateByProps, DispatchByProps } from '../components/Explorer'
@@ -9,7 +8,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   currentFolder: state.currentFolder
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   enumSubFolders: (folderPath: string) => {
     dispatch(enumSubFolders(folderPath))
   },

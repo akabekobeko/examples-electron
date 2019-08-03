@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { selectItem, openItem } from '../actions/index'
 import { FileViewItem, AppState } from '../Types'
 import FileItemList, {
@@ -12,7 +11,7 @@ const mapStateToProps = (state: AppState): StateByProps => ({
   currentItem: state.currentItem
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchByProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   selectItem: (item: FileViewItem) => {
     dispatch(selectItem(item))
   },

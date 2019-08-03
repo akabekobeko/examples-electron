@@ -1,9 +1,14 @@
-import { IpcMessageEvent, OpenDialogOptions } from 'electron'
+import {
+  IpcRenderer,
+  IpcRendererEvent,
+  OpenDialogOptions,
+  OpenDialogReturnValue
+} from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const requestShowOpenDialog = () => ({
   type: ActionType.RequestShowOpenDialog as ActionType.RequestShowOpenDialog
@@ -20,8 +25,12 @@ export const showOpenDialog = () => (dispatch: Dispatch) => {
   dispatch(requestShowOpenDialog())
   ipcRenderer.on(
     IPCKey.FinishShowOpenDialog,
-    (ev: IpcMessageEvent, paths: string[]) => {
-      dispatch(finishShowOpenDialog(paths))
+    (
+      ev: IpcRendererEvent,
+      err: Error | null,
+      result: OpenDialogReturnValue
+    ) => {
+      dispatch(finishShowOpenDialog(result.filePaths || []))
     }
   )
 

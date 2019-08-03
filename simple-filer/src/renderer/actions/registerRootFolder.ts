@@ -1,10 +1,10 @@
-import { IpcMessageEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { FileItem } from '../../common/Types'
 import { Folder, ActionType } from '../Types'
 
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /**
  * Request to register root folder.
@@ -33,7 +33,7 @@ export const registerRootFolder = () => (dispatch: Dispatch) => {
   dispatch(requestRegisterRootFolder())
   ipcRenderer.once(
     IPCKey.FinishSelectFolder,
-    (ev: IpcMessageEvent, name: string, path: string, items: FileItem[]) => {
+    (ev: IpcRendererEvent, name: string, path: string, items: FileItem[]) => {
       if (!name) {
         return dispatch(finishRegisterRootFolder())
       }

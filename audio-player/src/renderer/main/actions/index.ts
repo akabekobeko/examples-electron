@@ -5,9 +5,10 @@ import MusicListManager from '../models/MusicListManager'
 import AudioPlayer from '../models/AudioPlayer'
 import Artist from '../models/Artist'
 import Music from '../models/Music'
+import { IpcRenderer } from 'electron'
 
 /** Sends and receives messages with the main process. */
-const ipcRenderer = window.require('electron').ipcRenderer
+const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /** Music ist. */
 const musicList = new MusicListManager()
@@ -90,7 +91,7 @@ export const importMusic = () => (dispatch: Dispatch) => {
   musicList
     .import()
     .then(() => dispatch(updateAppState()))
-    .catch((error) => dispatch(updateAppState(error)))
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**
@@ -127,10 +128,7 @@ export const removeMusic = () => (dispatch: Dispatch) => {
   musicList
     .remove(musicList.currentMusic)
     .then(() => dispatch(updateAppState()))
-    .catch((error) => {
-      console.error(error)
-      dispatch(updateAppState())
-    })
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**
@@ -148,9 +146,7 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
       timerStart(dispatch)
       dispatch(updateAppState())
     })
-    .catch((error) => {
-      dispatch(updateAppState(error))
-    })
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**
