@@ -1,62 +1,6 @@
-import {
-  dialog,
-  BrowserWindow,
-  ipcMain,
-  OpenDialogOptions,
-  IpcMainEvent,
-  MessageBoxOptions,
-  SaveDialogOptions
-} from 'electron'
+import { ipcMain, IpcMainEvent } from 'electron'
 import { IPCKey } from '../common/Constants'
 import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
-
-/**
- * Occurs when show of a file open dialog is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showOpenDialog`.
- */
-const onRequestShowOpenDialog = (
-  ev: IpcMainEvent,
-  options: OpenDialogOptions
-) => {
-  const paths = dialog.showOpenDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowOpenDialog, paths)
-}
-
-/**
- * Occurs when show of a save dialog is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showSaveDialog`.
- */
-const onRequestShowSaveDialog = (
-  ev: IpcMainEvent,
-  options: SaveDialogOptions
-) => {
-  const path = dialog.showSaveDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowSaveDialog, path)
-}
-
-/**
- * Occurs when show of a message box is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showMessageBox`.
- */
-const onRequestShowMessageBox = (
-  ev: IpcMainEvent,
-  options: MessageBoxOptions
-) => {
-  const button = dialog.showMessageBox(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowMessageBox, button)
-}
 
 /**
  * Occurs when create window is requested.
@@ -102,10 +46,6 @@ export const initializeIpcEvents = () => {
   }
   initialized = true
 
-  ipcMain.on(IPCKey.RequestShowOpenDialog, onRequestShowOpenDialog)
-  ipcMain.on(IPCKey.RequestShowSaveDialog, onRequestShowSaveDialog)
-  ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
-
   ipcMain.on(IPCKey.RequestCreateNewWindow, onRequestCreateNewWindow)
   ipcMain.on(IPCKey.RequestSendMessage, onRequestSendMessage)
   ipcMain.on(IPCKey.RequestGetWindowIds, onRequestGetWindowIds)
@@ -116,10 +56,6 @@ export const initializeIpcEvents = () => {
  */
 export const releaseIpcEvents = () => {
   if (initialized) {
-    ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
-
     ipcMain.removeAllListeners(IPCKey.RequestCreateNewWindow)
     ipcMain.removeAllListeners(IPCKey.RequestSendMessage)
     ipcMain.removeAllListeners(IPCKey.RequestGetWindowIds)

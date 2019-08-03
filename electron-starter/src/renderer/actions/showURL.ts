@@ -20,8 +20,8 @@ export const showURL = (url: string) => (dispatch: Dispatch) => {
   dispatch(requestShowURL())
   ipcRenderer.on(
     IPCKey.FinishShowURL,
-    (ev: IpcRendererEvent, succeeded: boolean) => {
-      dispatch(finishShowURL(succeeded))
+    (ev: IpcRendererEvent, err: Error | null) => {
+      dispatch(finishShowURL(!!err))
     }
   )
 

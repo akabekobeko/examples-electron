@@ -23,10 +23,10 @@ const onRequestShowOpenDialog = (
   ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowOpenDialog,
-    dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowOpenDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowOpenDialog, err))
 }
 
 /**
@@ -38,10 +38,10 @@ const onRequestShowSaveDialog = (
   ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowSaveDialog,
-    dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowSaveDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowSaveDialog, err))
 }
 
 /**
@@ -53,10 +53,10 @@ const onRequestShowMessageBox = (
   ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowMessageBox,
-    dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowMessageBox, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowMessageBox, err))
 }
 
 /**
@@ -66,12 +66,8 @@ const onRequestShowMessageBox = (
  */
 const onRequestReadMusicMetadata = (ev: IpcMainEvent, filePath: string) => {
   readMusicMetadata(filePath)
-    .then((metadata) => {
-      ev.sender.send(IPCKey.FinishReadMusicMetadata, metadata)
-    })
-    .catch((err) => {
-      ev.sender.send(IPCKey.FinishReadMusicMetadata)
-    })
+    .then((data) => ev.sender.send(IPCKey.FinishReadMusicMetadata, null, data))
+    .catch((err) => ev.sender.send(IPCKey.FinishReadMusicMetadata, err))
 }
 
 /**

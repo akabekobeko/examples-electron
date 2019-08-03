@@ -1,4 +1,4 @@
-import { IpcRenderer, IpcRendererEvent } from 'electron'
+import { IpcRenderer, IpcRendererEvent, OpenDialogReturnValue } from 'electron'
 import { IPCKey } from '../../../common/Constants'
 import { ImportMusicDialogOption } from '../Constants'
 import { MusicMetadata } from '../../../common/Types'
@@ -11,11 +11,19 @@ const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
  * @returns Asynchronous task, retuen the path of user selection.
  */
 const showImportDialog = (): Promise<string[]> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ipcRenderer.on(
       IPCKey.FinishShowOpenDialog,
-      (ev: IpcRendererEvent, paths: string[]) => {
-        resolve(paths)
+      (
+        ev: IpcRendererEvent,
+        err: Error | null,
+        result: OpenDialogReturnValue
+      ) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(result.filePaths)
+        }
       }
     )
 
@@ -31,11 +39,19 @@ const showImportDialog = (): Promise<string[]> => {
 const readMusicMetadata = (
   filePath: string
 ): Promise<MusicMetadata | undefined> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ipcRenderer.on(
       IPCKey.FinishReadMusicMetadata,
-      (ev: IpcRendererEvent, metadata: MusicMetadata | undefined) => {
-        resolve(metadata)
+      (
+        ev: IpcRendererEvent,
+        err: Error | null,
+        metadata: MusicMetadata | undefined
+      ) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(metadata)
+        }
       }
     )
 

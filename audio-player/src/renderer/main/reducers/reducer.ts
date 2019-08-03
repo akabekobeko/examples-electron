@@ -24,7 +24,6 @@ const reducer = (state: AppState = InitialState, action: Actions): AppState => {
   switch (action.type) {
     case ActionType.UpdateAppState:
       if (action.error) {
-        console.error(action.error)
         return state
       }
 

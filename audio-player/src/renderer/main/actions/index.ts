@@ -91,7 +91,7 @@ export const importMusic = () => (dispatch: Dispatch) => {
   musicList
     .import()
     .then(() => dispatch(updateAppState()))
-    .catch((error) => dispatch(updateAppState(error)))
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**
@@ -128,10 +128,7 @@ export const removeMusic = () => (dispatch: Dispatch) => {
   musicList
     .remove(musicList.currentMusic)
     .then(() => dispatch(updateAppState()))
-    .catch((error) => {
-      console.error(error)
-      dispatch(updateAppState())
-    })
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**
@@ -149,9 +146,7 @@ export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
       timerStart(dispatch)
       dispatch(updateAppState())
     })
-    .catch((error) => {
-      dispatch(updateAppState(error))
-    })
+    .catch((err) => dispatch(updateAppState(err)))
 }
 
 /**

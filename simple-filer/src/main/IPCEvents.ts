@@ -1,65 +1,8 @@
-import {
-  BrowserWindow,
-  dialog,
-  shell,
-  ipcMain,
-  IpcMainEvent,
-  OpenDialogOptions,
-  MessageBoxOptions,
-  SaveDialogOptions
-} from 'electron'
+import { BrowserWindow, dialog, shell, ipcMain, IpcMainEvent } from 'electron'
 import Path from 'path'
 import { IPCKey } from '../common/Constants'
 import { FileItem } from '../common/Types'
 import { enumFiles } from './FileManager'
-
-/**
- * Occurs when show of a file open dialog is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showOpenDialog`.
- */
-const onRequestShowOpenDialog = (
-  ev: IpcMainEvent,
-  options: OpenDialogOptions
-) => {
-  const paths = dialog.showOpenDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowOpenDialog, paths)
-}
-
-/**
- * Occurs when show of a save dialog is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showSaveDialog`.
- */
-const onRequestShowSaveDialog = (
-  ev: IpcMainEvent,
-  options: SaveDialogOptions
-) => {
-  const path = dialog.showSaveDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowSaveDialog, path)
-}
-
-/**
- * Occurs when show of a message box is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showMessageBox`.
- */
-const onRequestShowMessageBox = (
-  ev: IpcMainEvent,
-  options: MessageBoxOptions
-) => {
-  const button = dialog.showMessageBox(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
-  ev.sender.send(IPCKey.FinishShowMessageBox, button)
-}
 
 /**
  * Occurs when folder selection is requested.
@@ -133,9 +76,6 @@ export const initializeIpcEvents = () => {
   }
   initialized = true
 
-  ipcMain.on(IPCKey.RequestShowOpenDialog, onRequestShowOpenDialog)
-  ipcMain.on(IPCKey.RequestShowSaveDialog, onRequestShowSaveDialog)
-  ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
   ipcMain.on(IPCKey.RequestSelectFolder, onRequestSelectFolder)
   ipcMain.on(IPCKey.RequestEnumItems, onRequestEnumItems)
   ipcMain.on(IPCKey.RequestOepnItem, onRequestOpenItem)
@@ -146,9 +86,6 @@ export const initializeIpcEvents = () => {
  */
 export const releaseIpcEvents = () => {
   if (initialized) {
-    ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
     ipcMain.removeAllListeners(IPCKey.RequestSelectFolder)
     ipcMain.removeAllListeners(IPCKey.RequestEnumItems)
     ipcMain.removeAllListeners(IPCKey.RequestOepnItem)

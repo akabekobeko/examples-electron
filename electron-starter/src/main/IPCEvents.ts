@@ -19,10 +19,10 @@ const onRequestShowOpenDialog = (
   ev: IpcMainEvent,
   options: OpenDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowOpenDialog,
-    dialog.showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowOpenDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowOpenDialog, err))
 }
 
 /**
@@ -34,10 +34,10 @@ const onRequestShowSaveDialog = (
   ev: IpcMainEvent,
   options: SaveDialogOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowSaveDialog,
-    dialog.showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowSaveDialog, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowSaveDialog, err))
 }
 
 /**
@@ -49,10 +49,10 @@ const onRequestShowMessageBox = (
   ev: IpcMainEvent,
   options: MessageBoxOptions
 ) => {
-  ev.sender.send(
-    IPCKey.FinishShowMessageBox,
-    dialog.showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
-  )
+  dialog
+    .showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
+    .then((result) => ev.sender.send(IPCKey.FinishShowMessageBox, null, result))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowMessageBox, err))
 }
 
 /**
@@ -61,7 +61,10 @@ const onRequestShowMessageBox = (
  * @param itemPath Path of the target folder.
  */
 const onRequestShowURL = (ev: IpcMainEvent, url: string) => {
-  ev.sender.send(IPCKey.FinishShowURL, shell.openExternal(url))
+  shell
+    .openExternal(url)
+    .then(() => ev.sender.send(IPCKey.FinishShowURL, null))
+    .catch((err) => ev.sender.send(IPCKey.FinishShowURL, err))
 }
 
 /** A value indicating that an IPC events has been initialized. */

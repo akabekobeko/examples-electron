@@ -1,4 +1,9 @@
-import { IpcRenderer, IpcRendererEvent, MessageBoxOptions } from 'electron'
+import {
+  IpcRenderer,
+  IpcRendererEvent,
+  MessageBoxOptions,
+  MessageBoxReturnValue
+} from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
@@ -20,8 +25,12 @@ export const showMessageBox = () => (dispatch: Dispatch) => {
   dispatch(requestShowMessageBox())
   ipcRenderer.on(
     IPCKey.FinishShowMessageBox,
-    (ev: IpcRendererEvent, button: number) => {
-      dispatch(finishShowMessageBox(button))
+    (
+      ev: IpcRendererEvent,
+      err: Error | null,
+      result: MessageBoxReturnValue
+    ) => {
+      dispatch(finishShowMessageBox(result.response))
     }
   )
 

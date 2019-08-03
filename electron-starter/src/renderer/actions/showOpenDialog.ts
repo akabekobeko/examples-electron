@@ -1,4 +1,9 @@
-import { IpcRenderer, IpcRendererEvent, OpenDialogOptions } from 'electron'
+import {
+  IpcRenderer,
+  IpcRendererEvent,
+  OpenDialogOptions,
+  OpenDialogReturnValue
+} from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
@@ -20,8 +25,12 @@ export const showOpenDialog = () => (dispatch: Dispatch) => {
   dispatch(requestShowOpenDialog())
   ipcRenderer.on(
     IPCKey.FinishShowOpenDialog,
-    (ev: IpcRendererEvent, paths: string[]) => {
-      dispatch(finishShowOpenDialog(paths))
+    (
+      ev: IpcRendererEvent,
+      err: Error | null,
+      result: OpenDialogReturnValue
+    ) => {
+      dispatch(finishShowOpenDialog(result.filePaths || []))
     }
   )
 
