@@ -16,14 +16,13 @@ export const finishShowURL = (succeeded: boolean) => ({
   }
 })
 
-export const showURL = (url: string) => (dispatch: Dispatch) => {
+export const showURL = (url: string) => async (dispatch: Dispatch) => {
   dispatch(requestShowURL())
-  ipcRenderer.on(
-    IPCKey.FinishShowURL,
-    (ev: IpcRendererEvent, err: Error | null) => {
-      dispatch(finishShowURL(!!err))
-    }
-  )
-
-  ipcRenderer.send(IPCKey.RequestShowURL, url)
+  try {
+    await ipcRenderer.invoke(IPCKey.ShowURL, url)
+    dispatch(finishShowURL(true))
+  } catch (err) {
+    console.error(err)
+    dispatch(finishShowURL(false))
+  }
 }

@@ -21,18 +21,11 @@ export const finishShowMessageBox = (button: number) => ({
   }
 })
 
-export const showMessageBox = () => (dispatch: Dispatch) => {
+/**
+ * Show the message box.
+ */
+export const showMessageBox = () => async (dispatch: Dispatch) => {
   dispatch(requestShowMessageBox())
-  ipcRenderer.on(
-    IPCKey.FinishShowMessageBox,
-    (
-      ev: IpcRendererEvent,
-      err: Error | null,
-      result: MessageBoxReturnValue
-    ) => {
-      dispatch(finishShowMessageBox(result.response))
-    }
-  )
 
   const options: MessageBoxOptions = {
     type: 'info',
@@ -41,5 +34,10 @@ export const showMessageBox = () => (dispatch: Dispatch) => {
     detail: 'The quick brown fox jumps over the lazy dog.'
   }
 
-  ipcRenderer.send(IPCKey.RequestShowMessageBox, options)
+  const result: MessageBoxReturnValue = await ipcRenderer.invoke(
+    IPCKey.ShowMessageBox,
+    options
+  )
+
+  dispatch(finishShowMessageBox(result.response))
 }
