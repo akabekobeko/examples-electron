@@ -1,7 +1,7 @@
 import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
-import { FileItem } from '../../common/Types'
+import { SelectFolderResult } from '../../common/Types'
 import { Folder, ActionType } from '../Types'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
@@ -29,36 +29,31 @@ export const finishRegisterRootFolder = (folder?: Folder) => ({
 /**
  * Add a folder to the root of the folder tree.
  */
-export const registerRootFolder = () => (dispatch: Dispatch) => {
+export const registerRootFolder = () => async (dispatch: Dispatch) => {
   dispatch(requestRegisterRootFolder())
-  ipcRenderer.once(
-    IPCKey.FinishSelectFolder,
-    (ev: IpcRendererEvent, name: string, path: string, items: FileItem[]) => {
-      if (!name) {
-        return dispatch(finishRegisterRootFolder())
-      }
-
-      const folder = {
-        treeId: 0,
-        isRoot: true,
-        name,
-        path,
-        subFolders: items
-          .filter((item) => item.isDirectory)
-          .map(
-            (item): Folder => ({
-              treeId: 0,
-              isRoot: false,
-              name: item.name,
-              path: item.path,
-              subFolders: []
-            })
-          )
-      }
-
-      dispatch(finishRegisterRootFolder(folder))
-    }
+  const result: SelectFolderResult | undefined = await ipcRenderer.invoke(
+    IPCKey.SelectFolder
   )
+  if (!result) {
+    return dispatch(finishRegisterRootFolder())
+  }
 
-  ipcRenderer.send(IPCKey.RequestSelectFolder)
+  const folder: Folder = {
+    treeId: 0,
+    isRoot: true,
+    name: result.name,
+    path: result.folderPath,
+    subFolders: result.items
+      .filter((item) => item.isDirectory)
+      .map(
+        (item): Folder => ({
+          treeId: 0,
+          isRoot: false,
+          name: item.name,
+          path: item.path,
+          subFolders: []
+        })
+      )
+  }
+  dispatch(finishRegisterRootFolder(folder))
 }

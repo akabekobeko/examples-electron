@@ -10,33 +10,14 @@ const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
  * @returns Action result.
  */
 export const requestOpenItem = () => ({
-  type: ActionType.RequestEnumItems
-})
-
-/**
- * Notify that open the selected item with an operating system (shell).
- * @param succeeded `true` if the operation succeeded.
- * @returns Action result.
- */
-export const finishOpenItem = (succeeded: boolean) => ({
-  type: ActionType.FinishEnumItems,
-  payload: {
-    succeeded
-  }
+  type: ActionType.RequestOpenItem
 })
 
 /**
  * Open the selected item with an operating system (shell).
  * @returns Action result.
  */
-export const openItem = (itemPath: string) => (dispatch: Dispatch) => {
+export const openItem = (itemPath: string) => async (dispatch: Dispatch) => {
   dispatch(requestOpenItem())
-  ipcRenderer.once(
-    IPCKey.FinishOpenItem,
-    (ev: IpcRendererEvent, succeeded: boolean) => {
-      dispatch(finishOpenItem(succeeded))
-    }
-  )
-
-  ipcRenderer.send(IPCKey.RequestOepnItem, itemPath)
+  const succeeded = await ipcRenderer.invoke(IPCKey.OepnItem, itemPath)
 }

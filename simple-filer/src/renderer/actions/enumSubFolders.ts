@@ -32,30 +32,28 @@ export const finishEnumSubFolders = (
 
 /**
  * Enumerate the sub folders in the folder.
- * @param targetFolderPath Path of the target foleder.
+ * @param folderPath Path of the target foleder.
  */
-export const enumSubFolders = (targetFolderPath: string) => (
+export const enumSubFolders = (folderPath: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(requestEnumSubFolders())
-  ipcRenderer.once(
-    IPCKey.FinishEnumItems,
-    (ev: IpcRendererEvent, folderPath: string, items: FileItem[]) => {
-      const subFolders = items
-        .filter((item) => item.isDirectory)
-        .map(
-          (item): Folder => ({
-            treeId: 0,
-            isRoot: false,
-            name: item.name,
-            path: item.path,
-            subFolders: []
-          })
-        )
-
-      dispatch(finishEnumSubFolders(folderPath, subFolders))
-    }
+  const items: FileItem[] = await ipcRenderer.invoke(
+    IPCKey.EnumItems,
+    folderPath
   )
 
-  ipcRenderer.send(IPCKey.RequestEnumItems, targetFolderPath)
+  const folders = items
+    .filter((item) => item.isDirectory)
+    .map(
+      (item): Folder => ({
+        treeId: 0,
+        isRoot: false,
+        name: item.name,
+        path: item.path,
+        subFolders: []
+      })
+    )
+
+  dispatch(finishEnumSubFolders(folderPath, folders))
 }

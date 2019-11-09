@@ -1,14 +1,22 @@
-import { BrowserWindow, dialog, shell, ipcMain, IpcMainEvent } from 'electron'
+import {
+  BrowserWindow,
+  dialog,
+  shell,
+  ipcMain,
+  IpcMainInvokeEvent
+} from 'electron'
 import Path from 'path'
 import { IPCKey } from '../common/Constants'
-import { FileItem } from '../common/Types'
+import { FileItem, SelectFolderResult } from '../common/Types'
 import { enumFiles } from './FileManager'
 
 /**
  * Occurs when folder selection is requested.
  * @param ev Event data.
  */
-const onRequestSelectFolder = async (ev: IpcMainEvent) => {
+const onSelectFolder = async (
+  ev: IpcMainInvokeEvent
+): Promise<SelectFolderResult | undefined> => {
   const result = await dialog.showOpenDialog(
     BrowserWindow.fromWebContents(ev.sender),
     {
@@ -18,38 +26,24 @@ const onRequestSelectFolder = async (ev: IpcMainEvent) => {
   )
 
   if (!result || !result.filePaths || result.filePaths.length === 0) {
-    ev.sender.send(IPCKey.FinishSelectFolder)
     return
   }
 
-  let folderPath = result.filePaths[0]
-  enumFiles(folderPath)
-    .then((items: FileItem[]) => {
-      ev.sender.send(
-        IPCKey.FinishSelectFolder,
-        Path.basename(folderPath),
-        folderPath,
-        items
-      )
-    })
-    .catch(() => {
-      ev.sender.send(IPCKey.FinishSelectFolder)
-    })
+  const folderPath = result.filePaths[0]
+  const items = await enumFiles(folderPath)
+  return { name: Path.basename(folderPath), folderPath, items }
 }
 
 /**
  * Occurs when an item enumeration in the folder is requested.
  * @param ev Event data.
- * @param options Path of the target folder.
+ * @param folderPath Path of the target folder.
  */
-const onRequestEnumItems = (ev: IpcMainEvent, folderPath?: string) => {
-  enumFiles(folderPath)
-    .then((items) => {
-      ev.sender.send(IPCKey.FinishEnumItems, folderPath, items)
-    })
-    .catch(() => {
-      ev.sender.send(IPCKey.FinishEnumItems, folderPath, [])
-    })
+const onEnumItems = async (
+  ev: IpcMainInvokeEvent,
+  folderPath: string
+): Promise<FileItem[]> => {
+  return await enumFiles(folderPath)
 }
 
 /**
@@ -57,9 +51,11 @@ const onRequestEnumItems = (ev: IpcMainEvent, folderPath?: string) => {
  * @param ev Event data.
  * @param itemPath Path of the target folder.
  */
-const onRequestOpenItem = (ev: IpcMainEvent, itemPath: string) => {
-  const succeeded = shell.openItem(itemPath)
-  ev.sender.send(IPCKey.FinishOpenItem, succeeded)
+const onOpenItem = async (
+  ev: IpcMainInvokeEvent,
+  itemPath: string
+): Promise<boolean> => {
+  return shell.openItem(itemPath)
 }
 
 /**
@@ -76,9 +72,9 @@ export const initializeIpcEvents = () => {
   }
   initialized = true
 
-  ipcMain.on(IPCKey.RequestSelectFolder, onRequestSelectFolder)
-  ipcMain.on(IPCKey.RequestEnumItems, onRequestEnumItems)
-  ipcMain.on(IPCKey.RequestOepnItem, onRequestOpenItem)
+  ipcMain.handle(IPCKey.SelectFolder, onSelectFolder)
+  ipcMain.handle(IPCKey.EnumItems, onEnumItems)
+  ipcMain.handle(IPCKey.OepnItem, onOpenItem)
 }
 
 /**
@@ -86,9 +82,9 @@ export const initializeIpcEvents = () => {
  */
 export const releaseIpcEvents = () => {
   if (initialized) {
-    ipcMain.removeAllListeners(IPCKey.RequestSelectFolder)
-    ipcMain.removeAllListeners(IPCKey.RequestEnumItems)
-    ipcMain.removeAllListeners(IPCKey.RequestOepnItem)
+    ipcMain.removeAllListeners(IPCKey.SelectFolder)
+    ipcMain.removeAllListeners(IPCKey.EnumItems)
+    ipcMain.removeAllListeners(IPCKey.OepnItem)
   }
 
   initialized = false
