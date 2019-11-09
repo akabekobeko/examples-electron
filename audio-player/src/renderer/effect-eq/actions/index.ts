@@ -17,15 +17,16 @@ export const finishConnect = (connected: boolean) => ({
  * Switches the connection status of the effector.
  * @param connected `true` if the effector is connected, `false` if disconnected.
  */
-export const connect = (connected: boolean) => (
+export const connect = (connected: boolean) => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  ipcRenderer.on(IPCKey.FinishApplyEqualizerState, () => {
-    dispatch(finishConnect(connected))
-  })
-
-  ipcRenderer.send(IPCKey.RequestApplyEqualizerState, connect, getState().gains)
+  await ipcRenderer.invoke(
+    IPCKey.ApplyEqualizerState,
+    connect,
+    getState().gains
+  )
+  dispatch(finishConnect(connected))
 }
 
 export const finishSelectPreset = (presetIndex: number) => ({
@@ -39,19 +40,15 @@ export const finishSelectPreset = (presetIndex: number) => ({
  * Select an equalizer preset.
  * @param presetIndex Index number of presets.
  */
-export const selectPreset = (presetIndex: number) => (
+export const selectPreset = (presetIndex: number) => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  ipcRenderer.on(IPCKey.FinishApplyEqualizerState, () => {
-    dispatch(finishSelectPreset(presetIndex))
-  })
-
   const connected = getState().connected
   const gains =
     presetIndex === PresetIndexManual ? getState().gains : Presets[presetIndex]
-
-  ipcRenderer.send(IPCKey.RequestApplyEqualizerState, connected, gains)
+  await ipcRenderer.invoke(IPCKey.ApplyEqualizerState, connected, gains)
+  dispatch(finishSelectPreset(presetIndex))
 }
 
 export const finishUpdateGain = (index: number, value: number) => ({
@@ -67,17 +64,14 @@ export const finishUpdateGain = (index: number, value: number) => ({
  * @param index Index number of gains.
  * @param value Value of gain.
  */
-export const updateGain = (index: number, value: number) => (
+export const updateGain = (index: number, value: number) => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  ipcRenderer.on(IPCKey.FinishApplyEqualizerState, () => {
-    dispatch(finishUpdateGain(index, value))
-  })
-
   const connected = getState().connected
   const gains = getState().gains.concat()
   gains[index] = value
 
-  ipcRenderer.send(IPCKey.RequestApplyEqualizerState, connected, gains)
+  await ipcRenderer.invoke(IPCKey.ApplyEqualizerState, connected, gains)
+  dispatch(finishUpdateGain(index, value))
 }
