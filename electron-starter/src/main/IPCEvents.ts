@@ -3,10 +3,10 @@ import {
   dialog,
   shell,
   ipcMain,
-  IpcMainEvent,
   OpenDialogOptions,
   MessageBoxOptions,
-  SaveDialogOptions
+  SaveDialogOptions,
+  IpcMainInvokeEvent
 } from 'electron'
 import { IPCKey } from '../common/Constants'
 
@@ -15,14 +15,14 @@ import { IPCKey } from '../common/Constants'
  * @param ev Event data.
  * @param options Options of `dialog.showOpenDialog`.
  */
-const onRequestShowOpenDialog = (
-  ev: IpcMainEvent,
+const onShowOpenDialog = async (
+  ev: IpcMainInvokeEvent,
   options: OpenDialogOptions
 ) => {
-  dialog
-    .showOpenDialog(BrowserWindow.fromWebContents(ev.sender), options)
-    .then((result) => ev.sender.send(IPCKey.FinishShowOpenDialog, null, result))
-    .catch((err) => ev.sender.send(IPCKey.FinishShowOpenDialog, err))
+  return dialog.showOpenDialog(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
 }
 
 /**
@@ -30,14 +30,14 @@ const onRequestShowOpenDialog = (
  * @param ev Event data.
  * @param options Options of `dialog.showSaveDialog`.
  */
-const onRequestShowSaveDialog = (
-  ev: IpcMainEvent,
+const onShowSaveDialog = async (
+  ev: IpcMainInvokeEvent,
   options: SaveDialogOptions
 ) => {
-  dialog
-    .showSaveDialog(BrowserWindow.fromWebContents(ev.sender), options)
-    .then((result) => ev.sender.send(IPCKey.FinishShowSaveDialog, null, result))
-    .catch((err) => ev.sender.send(IPCKey.FinishShowSaveDialog, err))
+  return dialog.showSaveDialog(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
 }
 
 /**
@@ -45,14 +45,14 @@ const onRequestShowSaveDialog = (
  * @param ev Event data.
  * @param options Options of `dialog.showMessageBox`.
  */
-const onRequestShowMessageBox = (
-  ev: IpcMainEvent,
+const onShowMessageBox = async (
+  ev: IpcMainInvokeEvent,
   options: MessageBoxOptions
 ) => {
-  dialog
-    .showMessageBox(BrowserWindow.fromWebContents(ev.sender), options)
-    .then((result) => ev.sender.send(IPCKey.FinishShowMessageBox, null, result))
-    .catch((err) => ev.sender.send(IPCKey.FinishShowMessageBox, err))
+  return dialog.showMessageBox(
+    BrowserWindow.fromWebContents(ev.sender),
+    options
+  )
 }
 
 /**
@@ -60,11 +60,11 @@ const onRequestShowMessageBox = (
  * @param ev Event data.
  * @param itemPath Path of the target folder.
  */
-const onRequestShowURL = (ev: IpcMainEvent, url: string) => {
-  shell
-    .openExternal(url)
-    .then(() => ev.sender.send(IPCKey.FinishShowURL, null))
-    .catch((err) => ev.sender.send(IPCKey.FinishShowURL, err))
+const onShowURL = async (
+  ev: IpcMainInvokeEvent,
+  url: string
+): Promise<void> => {
+  return shell.openExternal(url)
 }
 
 /** A value indicating that an IPC events has been initialized. */
@@ -79,10 +79,10 @@ export const initializeIpcEvents = () => {
   }
   initialized = true
 
-  ipcMain.on(IPCKey.RequestShowOpenDialog, onRequestShowOpenDialog)
-  ipcMain.on(IPCKey.RequestShowSaveDialog, onRequestShowSaveDialog)
-  ipcMain.on(IPCKey.RequestShowMessageBox, onRequestShowMessageBox)
-  ipcMain.on(IPCKey.RequestShowURL, onRequestShowURL)
+  ipcMain.handle(IPCKey.ShowOpenDialog, onShowOpenDialog)
+  ipcMain.handle(IPCKey.ShowSaveDialog, onShowSaveDialog)
+  ipcMain.handle(IPCKey.ShowMessageBox, onShowMessageBox)
+  ipcMain.handle(IPCKey.ShowURL, onShowURL)
 }
 
 /**
@@ -90,10 +90,10 @@ export const initializeIpcEvents = () => {
  */
 export const releaseIpcEvents = () => {
   if (initialized) {
-    ipcMain.removeAllListeners(IPCKey.RequestShowOpenDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowSaveDialog)
-    ipcMain.removeAllListeners(IPCKey.RequestShowMessageBox)
-    ipcMain.removeAllListeners(IPCKey.RequestShowURL)
+    ipcMain.removeAllListeners(IPCKey.ShowOpenDialog)
+    ipcMain.removeAllListeners(IPCKey.ShowSaveDialog)
+    ipcMain.removeAllListeners(IPCKey.ShowMessageBox)
+    ipcMain.removeAllListeners(IPCKey.ShowURL)
   }
 
   initialized = false

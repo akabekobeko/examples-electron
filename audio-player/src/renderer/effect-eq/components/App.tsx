@@ -50,7 +50,7 @@ const App: React.FC<Props> = ({
       <StepLineLimit />
       <StepLine />
       {gains.map((gain, index) => (
-        <Slider index={index} value={gain} onChange={updateGain} />
+        <Slider key={index} index={index} value={gain} onChange={updateGain} />
       ))}
     </div>
   </div>

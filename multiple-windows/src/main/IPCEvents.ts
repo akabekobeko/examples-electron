@@ -1,4 +1,4 @@
-import { ipcMain, IpcMainEvent } from 'electron'
+import { ipcMain, IpcMainInvokeEvent } from 'electron'
 import { IPCKey } from '../common/Constants'
 import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
 
@@ -6,7 +6,7 @@ import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
  * Occurs when create window is requested.
  * @param ev Event data.
  */
-const onRequestCreateNewWindow = (ev: IpcMainEvent) => {
+const onCreateNewWindow = (ev: IpcMainInvokeEvent) => {
   createNewWindow()
 }
 
@@ -16,19 +16,19 @@ const onRequestCreateNewWindow = (ev: IpcMainEvent) => {
  * @param targetWindowId The identifier of target window.
  * @param message Message to be sent
  */
-const onRequestSendMessage = (
-  ev: IpcMainEvent,
+const onSendMessage = (
+  ev: IpcMainInvokeEvent,
   targetWindowId: number,
   message: string
 ) => {
-  ev.sender.send(IPCKey.FinishSendMessage, sendMessege(targetWindowId, message))
+  ev.sender.send(IPCKey.SendMessage, sendMessege(targetWindowId, message))
 }
 
 /**
  * Occurs when get window identifiers is requested.
  * @param ev Event data.
  */
-const onRequestGetWindowIds = (ev: IpcMainEvent) => {
+const onGetWindowIds = (ev: IpcMainInvokeEvent) => {
   ev.sender.send(IPCKey.UpdateWindowIds, getWindowIds())
 }
 
@@ -46,9 +46,9 @@ export const initializeIpcEvents = () => {
   }
   initialized = true
 
-  ipcMain.on(IPCKey.RequestCreateNewWindow, onRequestCreateNewWindow)
-  ipcMain.on(IPCKey.RequestSendMessage, onRequestSendMessage)
-  ipcMain.on(IPCKey.RequestGetWindowIds, onRequestGetWindowIds)
+  ipcMain.handle(IPCKey.CreateNewWindow, onCreateNewWindow)
+  ipcMain.handle(IPCKey.SendMessage, onSendMessage)
+  ipcMain.handle(IPCKey.GetWindowIds, onGetWindowIds)
 }
 
 /**
@@ -56,9 +56,9 @@ export const initializeIpcEvents = () => {
  */
 export const releaseIpcEvents = () => {
   if (initialized) {
-    ipcMain.removeAllListeners(IPCKey.RequestCreateNewWindow)
-    ipcMain.removeAllListeners(IPCKey.RequestSendMessage)
-    ipcMain.removeAllListeners(IPCKey.RequestGetWindowIds)
+    ipcMain.removeAllListeners(IPCKey.CreateNewWindow)
+    ipcMain.removeAllListeners(IPCKey.SendMessage)
+    ipcMain.removeAllListeners(IPCKey.GetWindowIds)
   }
 
   initialized = false

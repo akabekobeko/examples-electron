@@ -5,7 +5,7 @@ import { createMainMenu } from './MainMenu'
 import { setImageSaveDir } from './MusicMetadataReader'
 import Path from 'path'
 
-app.setName('AudioPlayer')
+app.name = 'AudioPlayer'
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'

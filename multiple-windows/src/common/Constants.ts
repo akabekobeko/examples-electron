@@ -2,12 +2,9 @@
  * IPC keys.
  */
 export enum IPCKey {
-  RequestSendMessage = 'RequestSendMessage',
-  FinishSendMessage = 'FinishSendMessage',
-
-  RequestCreateNewWindow = 'RequestCreateNewWindow',
-  RequestGetWindowIds = 'RequestGetWindowIds',
-
+  SendMessage = 'SendMessage',
+  CreateNewWindow = 'CreateNewWindow',
+  GetWindowIds = 'GetWindowIds',
   UpdateWindowIds = 'UpdateWindowIds',
   UpdateMessage = 'UpdateMessage'
 }

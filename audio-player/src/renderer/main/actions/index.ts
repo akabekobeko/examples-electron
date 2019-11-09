@@ -217,12 +217,14 @@ export const changeVolume = (value: number) => {
   return updateAppState()
 }
 
+export const finishShowEffector = () => ({
+  type: ActionType.ShowEffector
+})
+
 /**
  * Show effector window.
  */
-export const showEffector = () => {
-  ipcRenderer.send(IPCKey.RequestShowEffector)
-  return {
-    type: ActionType.ShowEffector
-  }
+export const showEffector = () => async (dispatch: Dispatch<any>) => {
+  await ipcRenderer.invoke(IPCKey.ShowEffector)
+  dispatch(finishShowEffector())
 }

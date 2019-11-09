@@ -3,7 +3,7 @@ import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
 import { createMainWindow } from './WindowManager'
 import { createMainMenu } from './MainMenu'
 
-app.setName('SimpleFiler')
+app.name = 'SimpleFiler'
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'

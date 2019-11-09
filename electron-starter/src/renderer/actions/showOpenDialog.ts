@@ -21,18 +21,8 @@ export const finishShowOpenDialog = (paths: string[]) => ({
   }
 })
 
-export const showOpenDialog = () => (dispatch: Dispatch) => {
+export const showOpenDialog = () => async (dispatch: Dispatch) => {
   dispatch(requestShowOpenDialog())
-  ipcRenderer.on(
-    IPCKey.FinishShowOpenDialog,
-    (
-      ev: IpcRendererEvent,
-      err: Error | null,
-      result: OpenDialogReturnValue
-    ) => {
-      dispatch(finishShowOpenDialog(result.filePaths || []))
-    }
-  )
 
   const options: OpenDialogOptions = {
     title: 'Open',
@@ -40,5 +30,9 @@ export const showOpenDialog = () => (dispatch: Dispatch) => {
     properties: ['openDirectory', 'multiSelections']
   }
 
-  ipcRenderer.send(IPCKey.RequestShowOpenDialog, options)
+  const result: OpenDialogReturnValue = await ipcRenderer.invoke(
+    IPCKey.ShowOpenDialog,
+    options
+  )
+  dispatch(finishShowOpenDialog(result.filePaths || []))
 }
