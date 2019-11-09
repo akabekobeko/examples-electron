@@ -6,5 +6,5 @@ const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const getWindowIds = () => (dispatch: Dispatch) => {
   // Finish handler is UpdateWindowIds
-  ipcRenderer.send(IPCKey.RequestGetWindowIds)
+  ipcRenderer.invoke(IPCKey.GetWindowIds)
 }

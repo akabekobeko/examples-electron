@@ -7,5 +7,5 @@ const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 export const sendMessage = (targetWindowId: number, message: string) => (
   dispatch: Dispatch
 ) => {
-  ipcRenderer.send(IPCKey.RequestSendMessage, targetWindowId, message)
+  ipcRenderer.invoke(IPCKey.SendMessage, targetWindowId, message)
 }

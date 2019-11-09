@@ -3,7 +3,7 @@ import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
 import { createMainMenu } from './MainMenu'
 import { createNewWindow } from './WindowManager'
 
-app.setName('MultipleWindows')
+app.name = 'MultipleWindows'
 
 app.on('ready', () => {
   /// #if env == 'DEBUG'

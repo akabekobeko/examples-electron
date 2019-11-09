@@ -16,7 +16,7 @@ export default (env: any, argv: Configuration) => {
       path: PROD ? `${__dirname}/dist/src/assets` : `${__dirname}/src/assets`,
       filename: MAIN ? 'main.js' : 'renderer.js'
     },
-    devtool: PROD ? '' : 'source-map',
+    devtool: PROD ? '' : 'inline-source-map',
     node: {
       __dirname: false,
       __filename: false
@@ -59,8 +59,10 @@ export default (env: any, argv: Configuration) => {
             {
               loader: 'sass-loader',
               options: {
-                outputStyle: PROD ? 'compressed' : 'expanded',
-                sourceMap: !PROD
+                sourceMap: !PROD,
+                sassOptions: {
+                  outputStyle: PROD ? 'compressed' : 'expanded'
+                }
               }
             }
           ]
