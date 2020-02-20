@@ -17,13 +17,15 @@ import { enumFiles } from './FileManager'
 const onSelectFolder = async (
   ev: IpcMainInvokeEvent
 ): Promise<SelectFolderResult | undefined> => {
-  const result = await dialog.showOpenDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    {
-      title: 'Select root folder',
-      properties: ['openDirectory']
-    }
-  )
+  const win = BrowserWindow.fromWebContents(ev.sender)
+  if (!win) {
+    throw new Error('Message sender window does not exist')
+  }
+
+  const result = await dialog.showOpenDialog(win, {
+    title: 'Select root folder',
+    properties: ['openDirectory']
+  })
 
   if (!result || !result.filePaths || result.filePaths.length === 0) {
     return

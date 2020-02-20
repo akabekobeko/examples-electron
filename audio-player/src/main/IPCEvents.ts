@@ -27,10 +27,12 @@ const onShowOpenDialog = (
   ev: IpcMainInvokeEvent,
   options: OpenDialogOptions
 ): Promise<OpenDialogReturnValue> => {
-  return dialog.showOpenDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
+  const win = BrowserWindow.fromWebContents(ev.sender)
+  if (win) {
+    return dialog.showOpenDialog(win, options)
+  } else {
+    throw new Error('Message sender window does not exist')
+  }
 }
 
 /**
@@ -42,10 +44,12 @@ const onShowSaveDialog = (
   ev: IpcMainInvokeEvent,
   options: SaveDialogOptions
 ): Promise<SaveDialogReturnValue> => {
-  return dialog.showSaveDialog(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
+  const win = BrowserWindow.fromWebContents(ev.sender)
+  if (win) {
+    return dialog.showSaveDialog(win, options)
+  } else {
+    throw new Error('Message sender window does not exist')
+  }
 }
 
 /**
@@ -57,10 +61,12 @@ const onShowMessageBox = (
   ev: IpcMainInvokeEvent,
   options: MessageBoxOptions
 ): Promise<MessageBoxReturnValue> => {
-  return dialog.showMessageBox(
-    BrowserWindow.fromWebContents(ev.sender),
-    options
-  )
+  const win = BrowserWindow.fromWebContents(ev.sender)
+  if (win) {
+    return dialog.showMessageBox(win, options)
+  } else {
+    throw new Error('Message sender window does not exist')
+  }
 }
 
 /**
