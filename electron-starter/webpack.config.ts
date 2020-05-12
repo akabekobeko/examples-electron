@@ -14,15 +14,15 @@ export default (env: any, argv: Configuration) => {
     entry: MAIN ? './src/main/AppMain.ts' : './src/renderer/AppRenderer.tsx',
     output: {
       path: PROD ? `${__dirname}/dist/src/assets` : `${__dirname}/src/assets`,
-      filename: MAIN ? 'main.js' : 'renderer.js'
+      filename: MAIN ? 'main.js' : 'renderer.js',
     },
     devtool: PROD ? '' : 'inline-source-map',
     node: {
       __dirname: false,
-      __filename: false
+      __filename: false,
     },
     resolve: {
-      extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
+      extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
       rules: [
@@ -30,14 +30,19 @@ export default (env: any, argv: Configuration) => {
           test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'ts-loader' },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+              },
+            },
             {
               loader: 'ifdef-loader',
               options: {
-                env: PROD ? 'PRODUCTION' : 'DEBUG'
-              }
-            }
-          ]
+                env: PROD ? 'PRODUCTION' : 'DEBUG',
+              },
+            },
+          ],
         },
         {
           test: /\.scss$/,
@@ -49,32 +54,32 @@ export default (env: any, argv: Configuration) => {
                 modules: {
                   localIdentName: PROD
                     ? '[hash:base64]'
-                    : '[name]-[local]-[hash:base64:5]'
+                    : '[name]-[local]-[hash:base64:5]',
                 },
                 url: false,
                 importLoaders: 1,
-                sourceMap: !PROD
-              }
+                sourceMap: !PROD,
+              },
             },
             {
               loader: 'sass-loader',
               options: {
                 sourceMap: !PROD,
                 sassOptions: {
-                  outputStyle: PROD ? 'compressed' : 'expanded'
-                }
-              }
-            }
-          ]
-        }
-      ]
+                  outputStyle: PROD ? 'compressed' : 'expanded',
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: PROD
       ? [
           new MiniCssExtractPlugin({ filename: 'bundle.css' }),
-          new OptimizeCssAssetsWebpackPlugin()
+          new OptimizeCssAssetsWebpackPlugin(),
         ]
       : [new MiniCssExtractPlugin({ filename: 'bundle.css' })],
-    externals: MAIN ? [] : ['electron']
+    externals: MAIN ? [] : ['electron'],
   }
 }

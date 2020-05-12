@@ -30,7 +30,12 @@ export default (env: any, argv: Configuration) => {
           test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'ts-loader' },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true
+              }
+            },
             {
               loader: 'ifdef-loader',
               options: {
