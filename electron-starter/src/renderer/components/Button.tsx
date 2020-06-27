@@ -6,10 +6,11 @@ type Props = {
   onClick: () => void
 }
 
-const Button: React.FC<Props> = ({ label, onClick }) => (
+/**
+ * Component of a button control.
+ */
+export const Button: React.FC<Props> = ({ label, onClick }) => (
   <span className={button} onClick={onClick}>
     {label}
   </span>
 )
-
-export default Button

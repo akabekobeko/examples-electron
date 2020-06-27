@@ -1,6 +1,6 @@
 import React from 'react'
-import Link from '../components/Link'
-import Button from '../components/Button'
+import { Link } from '../components/Link'
+import { Button } from '../components/Button'
 import { area } from './BasicFunction.scss'
 
 export type StateByProps = {
@@ -15,7 +15,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const BasicFunction: React.FC<Props> = ({
+/**
+ * Component of the basic functions.
+ */
+export const BasicFunction: React.FC<Props> = ({
   url,
   dateTime,
   updateTime = () => {},
@@ -27,5 +30,3 @@ const BasicFunction: React.FC<Props> = ({
     <Link label={url} url={url} icon="icon_github" onClick={showURL} />
   </div>
 )
-
-export default BasicFunction

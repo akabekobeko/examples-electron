@@ -1,28 +1,27 @@
-import { connect } from "react-redux";
-import { showOpenDialog, showSaveDialog, showMessageBox } from "../actions";
-import { AppState } from "../Types";
-import DialogForm, {
+import { connect } from 'react-redux'
+import { showOpenDialog, showSaveDialog, showMessageBox } from '../actions'
+import { AppState } from '../Types'
+import {
+  DialogForm,
   StateByProps,
   DispatchByProps
-} from "../components/DialogForm";
+} from '../components/DialogForm'
 
-const mapStateToProps = (state: AppState): StateByProps => ({});
+const mapStateToProps = (state: AppState): StateByProps => ({})
 
 const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   showOpenDialog: () => {
-    dispatch(showOpenDialog());
+    dispatch(showOpenDialog())
   },
   showSaveDialog: () => {
-    dispatch(showSaveDialog());
+    dispatch(showSaveDialog())
   },
   showMessageBox: () => {
-    dispatch(showMessageBox());
+    dispatch(showMessageBox())
   }
-});
+})
 
-const Container = connect(
+export const Container = connect(
   mapStateToProps,
   mapDispatchToProps
-)(DialogForm);
-
-export default Container;
+)(DialogForm)

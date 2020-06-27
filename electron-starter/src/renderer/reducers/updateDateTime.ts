@@ -50,5 +50,3 @@ export const checkUpdateDateTime = (
   Object.assign({}, state, {
     dateTime: formatDate()
   })
-
-export default checkUpdateDateTime
