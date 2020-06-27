@@ -1,13 +1,13 @@
 import * as MusicDatabase from './MusicDatabase'
-import Artist, { artistByMusic, albumByMusic } from './Artist'
-import Music from './Music'
+import { Artist, artistByMusic, albumByMusic } from './Artist'
+import { Music } from './Music'
 import { importMusicMetadata } from './MusicImporter'
-import Album from './Album'
+import { Album } from './Album'
 
 /**
  * Manage for music list.
  */
-class MusicListManager {
+export class MusicListManager {
   /** Artists. */
   private _artists: Artist[]
 
@@ -207,5 +207,3 @@ class MusicListManager {
     }
   }
 }
-
-export default MusicListManager

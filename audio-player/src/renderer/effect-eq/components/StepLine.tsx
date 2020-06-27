@@ -19,7 +19,10 @@ const createStyle = (
 
 type Props = {}
 
-const StepLine: React.FC<Props> = ({}) => {
+/**
+ * Line of step on slider control.
+ */
+export const StepLine: React.FC<Props> = ({}) => {
   const components: JSX.Element[] = []
   for (let index = 0; index < Line.Count; ++index) {
     components.push(
@@ -33,5 +36,3 @@ const StepLine: React.FC<Props> = ({}) => {
 
   return <>{components}</>
 }
-
-export default StepLine

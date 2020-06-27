@@ -80,7 +80,7 @@ const checkUpdateGain = (
  * @param action Action data.
  * @returns New State.
  */
-const reducer = (state = loadAppState(), action: Actions): AppState => {
+export const reducer = (state = loadAppState(), action: Actions): AppState => {
   switch (action.type) {
     case ActionType.FinishConnect:
       return checkConnect(state, action)
@@ -95,5 +95,3 @@ const reducer = (state = loadAppState(), action: Actions): AppState => {
       return state
   }
 }
-
-export default reducer

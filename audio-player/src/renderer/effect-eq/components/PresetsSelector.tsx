@@ -9,7 +9,7 @@ type Props = {
   onSelect: (presetIndex: number) => void
 }
 
-const PresetsSelector: React.FC<Props> = ({ presetIndex, onSelect }) => (
+export const PresetsSelector: React.FC<Props> = ({ presetIndex, onSelect }) => (
   <div className={Styles.selectbox}>
     <div className={Styles.dropdown}>
       <select
@@ -26,5 +26,3 @@ const PresetsSelector: React.FC<Props> = ({ presetIndex, onSelect }) => (
     </div>
   </div>
 )
-
-export default PresetsSelector

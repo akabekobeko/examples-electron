@@ -18,7 +18,10 @@ type Props = {
   onChangeVolume: (value: number) => void
 }
 
-const PlayerConsole: React.FC<Props> = ({
+/**
+ * Component of a console on music player.
+ */
+export const PlayerConsole: React.FC<Props> = ({
   isPlaying,
   volume,
   onPlay,
@@ -56,5 +59,3 @@ const PlayerConsole: React.FC<Props> = ({
     </div>
   </div>
 )
-
-export default PlayerConsole

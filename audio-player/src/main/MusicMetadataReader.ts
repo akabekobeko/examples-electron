@@ -1,7 +1,7 @@
-import Path from 'path'
-import Fs from 'fs'
-import Crypto from 'crypto'
-import * as MetadataParser from 'music-metadata'
+import path from 'path'
+import fs from 'fs'
+import crypto from 'crypto'
+import * as mm from 'music-metadata'
 import { IAudioMetadata, IPicture } from 'music-metadata/lib/type'
 import { MusicMetadata } from '../common/Types'
 
@@ -14,7 +14,7 @@ let imageSaveDirPath: string = ''
  * @returns Hash string.
  */
 const hash = (data: Buffer) => {
-  const sha = Crypto.createHash('sha1')
+  const sha = crypto.createHash('sha1')
   sha.update(data)
   return sha.digest('hex')
 }
@@ -33,12 +33,12 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
     const picture = pictures[0]
     const extention = picture.format.replace('image/', '')
     const fileName = `${hash(picture.data)}.${extention}`
-    const filePath = Path.resolve(imageSaveDirPath, fileName)
-    if (Fs.existsSync(filePath)) {
+    const filePath = path.resolve(imageSaveDirPath, fileName)
+    if (fs.existsSync(filePath)) {
       return filePath
     }
 
-    Fs.writeFileSync(filePath, picture.data)
+    fs.writeFileSync(filePath, picture.data)
     return filePath
   } catch (err) {
     /// #if env == 'DEBUG'
@@ -54,11 +54,11 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
  * @param dirPath Path of an image save destination direcgtory.
  */
 export const setImageSaveDir = (dirPath: string) => {
-  if (dirPath && !Fs.existsSync(dirPath)) {
-    Fs.mkdirSync(dirPath)
+  if (dirPath && !fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath)
   }
 
-  if (Fs.existsSync(dirPath)) {
+  if (fs.existsSync(dirPath)) {
     imageSaveDirPath = dirPath
   }
 }
@@ -70,7 +70,8 @@ export const setImageSaveDir = (dirPath: string) => {
  */
 export const readMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
   return new Promise((resolve, reject) => {
-    return MetadataParser.parseFile(filePath, { duration: true })
+    return mm
+      .parseFile(filePath, { duration: true })
       .then((metadata: IAudioMetadata) => {
         const imageFilePath = saveImageFile(metadata.common.picture)
         const common = metadata.common

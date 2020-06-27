@@ -1,7 +1,7 @@
 import React from 'react'
 import Styles from './ArtistList.scss'
-import ArtistListItem from './ArtistListItem'
-import Artist from '../models/Artist'
+import { ArtistListItem } from './ArtistListItem'
+import { Artist } from '../models/Artist'
 
 export type StateByProps = {
   artists: Artist[]
@@ -14,7 +14,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const ArtistList: React.FC<Props> = ({
+/**
+ * Component of an artist list.
+ */
+export const ArtistList: React.FC<Props> = ({
   artists,
   currentArtist,
   selectArtist = () => {}
@@ -30,5 +33,3 @@ const ArtistList: React.FC<Props> = ({
     ))}
   </div>
 )
-
-export default ArtistList

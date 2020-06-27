@@ -117,7 +117,10 @@ type Props = {
   onClick: () => void
 }
 
-const PlayerSpectrumAnalyzer: React.FC<Props> = ({
+/**
+ * Component of Spectrum analyzer to the current playing music.
+ */
+export const PlayerSpectrumAnalyzer: React.FC<Props> = ({
   enabled,
   spectrums,
   onClick
@@ -135,5 +138,3 @@ const PlayerSpectrumAnalyzer: React.FC<Props> = ({
     </div>
   )
 }
-
-export default PlayerSpectrumAnalyzer

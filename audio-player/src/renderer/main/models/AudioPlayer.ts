@@ -1,12 +1,12 @@
 import { GraphicEqulizerParams as GEQ } from '../../Constants'
 import { PlaybackState } from '../Types'
-import EffectEqualizer from './EffectEqualizer'
+import { EffectEqualizer } from './EffectEqualizer'
 
 /**
  * Provides audio playback function.
  * @see referred: http://github.com/eipark/buffaudio
  */
-class AudioPlayer {
+export class AudioPlayer {
   /** Audio context. */
   private _context: AudioContext
 
@@ -247,5 +247,3 @@ class AudioPlayer {
     }
   }
 }
-
-export default AudioPlayer

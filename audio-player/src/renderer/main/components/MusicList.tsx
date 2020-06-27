@@ -1,6 +1,6 @@
 import React from 'react'
-import Music from '../models/Music'
-import MusicListItem from './MusicListItem'
+import { Music } from '../models/Music'
+import { MusicListItem } from './MusicListItem'
 import Styles from './MusicList.scss'
 
 /**
@@ -64,7 +64,10 @@ const Musics: React.FC<Props> = ({
   </>
 )
 
-const MusicList: React.FC<Props> = ({
+/**
+ * Component of a music list.
+ */
+export const MusicList: React.FC<Props> = ({
   musics,
   selectedMusic,
   playingMusic,
@@ -99,5 +102,3 @@ const MusicList: React.FC<Props> = ({
     </div>
   )
 }
-
-export default MusicList
