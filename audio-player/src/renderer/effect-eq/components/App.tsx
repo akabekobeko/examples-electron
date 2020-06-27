@@ -1,10 +1,10 @@
 import React from 'react'
 import * as Styles from './App.scss'
-import PresetsSelector from './PresetsSelector'
-import ConnectorSwitch from './ConnectorSwitch'
-import StepLine from './StepLine'
-import StepLineLimit from './StepLineLimit'
-import Slider from './Slider'
+import { PresetsSelector } from './PresetsSelector'
+import { ConnectorSwitch } from './ConnectorSwitch'
+import { StepLine } from './StepLine'
+import { StepLineLimit } from './StepLineLimit'
+import { Slider } from './Slider'
 
 export type StateByProps = {
   /** Indicates that the connector is ON. */
@@ -26,7 +26,7 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const App: React.FC<Props> = ({
+export const App: React.FC<Props> = ({
   connected,
   presetIndex,
   gains,
@@ -55,5 +55,3 @@ const App: React.FC<Props> = ({
     </div>
   </div>
 )
-
-export default App

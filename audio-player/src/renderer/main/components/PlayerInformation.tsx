@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Music from '../models/Music'
-import * as Util from '../Util'
+import { Music } from '../models/Music'
+import { secondsToString } from '../Util'
+import { PlayerSpectrumAnalyzer } from './PlayerSpectrumAnalyzer'
 import Styles from './PlayerInformation.scss'
-import PlayerSpectrumAnalyzer from './PlayerSpectrumAnalyzer'
 
 /**
  * Create a information for display.
@@ -16,9 +16,9 @@ const createInformation = (music: Music | null, currentTime: number) => {
         title: music.title,
         albumArtist: music.artist + ' - ' + music.album,
         currentTime: Math.round(currentTime),
-        currentTimeText: Util.secondsToString(currentTime),
+        currentTimeText: secondsToString(currentTime),
         duration: Math.round(music.duration),
-        durationText: Util.secondsToString(music.duration),
+        durationText: secondsToString(music.duration),
         imageFilePath: music.imageFilePath
       }
     : {
@@ -39,7 +39,10 @@ type Props = {
   onSeek: (position: number) => void
 }
 
-const PlayerInformation: React.FC<Props> = ({
+/**
+ * Component of the playing music information.
+ */
+export const PlayerInformation: React.FC<Props> = ({
   playingMusic,
   currentTime,
   spectrums,
@@ -79,5 +82,3 @@ const PlayerInformation: React.FC<Props> = ({
     </div>
   )
 }
-
-export default PlayerInformation

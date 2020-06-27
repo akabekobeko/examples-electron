@@ -29,7 +29,7 @@ const InitialState: AppState = {
  * @param action Action data.
  * @returns New State.
  */
-const reducer = (state = InitialState, action: Actions): AppState => {
+export const reducer = (state = InitialState, action: Actions): AppState => {
   switch (action.type) {
     case ActionType.UpdateTime:
       return checkUpdateDateTime(state, action)
@@ -60,5 +60,3 @@ const reducer = (state = InitialState, action: Actions): AppState => {
       return state
   }
 }
-
-export default reducer

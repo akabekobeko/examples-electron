@@ -25,7 +25,10 @@ type Props = {
   onChange: (index: number, value: number) => void
 }
 
-const Slider: React.FC<Props> = ({ index, value, onChange }) => (
+/**
+ * Component of a slider on the equalizer.
+ */
+export const Slider: React.FC<Props> = ({ index, value, onChange }) => (
   <div key={index}>
     <input
       className={Styles.slider}
@@ -42,5 +45,3 @@ const Slider: React.FC<Props> = ({ index, value, onChange }) => (
     </div>
   </div>
 )
-
-export default Slider

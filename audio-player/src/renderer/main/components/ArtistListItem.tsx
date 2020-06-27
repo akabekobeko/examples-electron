@@ -1,5 +1,5 @@
 import React from 'react'
-import Artist from '../models/Artist'
+import { Artist } from '../models/Artist'
 import Styles from './ArtistListItem.scss'
 
 type Props = {
@@ -11,7 +11,14 @@ type Props = {
   onSelect: (artist: Artist) => void
 }
 
-const ArtistListItem: React.FC<Props> = ({ artist, selected, onSelect }) => (
+/**
+ * Component of an item on artist list.
+ */
+export const ArtistListItem: React.FC<Props> = ({
+  artist,
+  selected,
+  onSelect
+}) => (
   <div
     className={selected ? `${Styles.item} ${Styles.selected}` : Styles.item}
     onClick={() => onSelect(artist)}
@@ -23,5 +30,3 @@ const ArtistListItem: React.FC<Props> = ({ artist, selected, onSelect }) => (
     <div className={Styles.albums}>{artist.albums.length} album (s)</div>
   </div>
 )
-
-export default ArtistListItem

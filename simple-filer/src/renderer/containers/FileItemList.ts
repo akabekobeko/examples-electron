@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import { selectItem, openItem } from '../actions/index'
 import { FileViewItem, AppState } from '../Types'
-import FileItemList, {
+import {
+  FileItemList,
   StateByProps,
   DispatchByProps
 } from '../components/FileItemList'
@@ -20,9 +21,7 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   }
 })
 
-const Container = connect(
+export const Container = connect(
   mapStateToProps,
   mapDispatchToProps
 )(FileItemList)
-
-export default Container

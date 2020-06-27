@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { enumSubFolders, enumItems } from '../actions/index'
 import { Folder, AppState } from '../Types'
-import Explorer, { StateByProps, DispatchByProps } from '../components/Explorer'
+import { Explorer, StateByProps, DispatchByProps } from '../components/Explorer'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   folders: state.folders,
@@ -17,9 +17,4 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   }
 })
 
-const Container = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Explorer)
-
-export default Container
+export const Container = connect(mapStateToProps, mapDispatchToProps)(Explorer)

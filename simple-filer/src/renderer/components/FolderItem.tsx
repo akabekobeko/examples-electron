@@ -9,7 +9,10 @@ type Props = {
   enumSubFolders: (folderPath: string) => void
 }
 
-const FolderItem: React.FC<Props> = ({
+/**
+ * Component of an item on folder explorer.
+ */
+export const FolderItem: React.FC<Props> = ({
   folder,
   currentFolder,
   enumItems,
@@ -67,5 +70,3 @@ const FolderItem: React.FC<Props> = ({
     </li>
   )
 }
-
-export default FolderItem

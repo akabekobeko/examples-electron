@@ -1,9 +1,8 @@
 import React from 'react'
-import PlayerConsole from './PlayerConsole'
-import PlayerInformation from './PlayerInformation'
-import PlayerToolbar from './PlayerToolbar'
-import PlayerSpectrumAnalyzer from './PlayerSpectrumAnalyzer'
-import Music from '../models/Music'
+import { PlayerConsole } from './PlayerConsole'
+import { PlayerInformation } from './PlayerInformation'
+import { PlayerToolbar } from './PlayerToolbar'
+import { Music } from '../models/Music'
 import { PlaybackState } from '../Types'
 import Styles from './Player.scss'
 
@@ -31,7 +30,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const Player: React.FC<Props> = ({
+/**
+ * Component of a music player control.
+ */
+export const Player: React.FC<Props> = ({
   playbackState,
   currentMusic,
   currentTime,
@@ -81,5 +83,3 @@ const Player: React.FC<Props> = ({
     </div>
   </div>
 )
-
-export default Player

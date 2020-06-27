@@ -1,9 +1,8 @@
 import React from 'react'
-import Music from '../models/Music'
+import { Music } from '../models/Music'
 import Styles from './AlbumList.scss'
-import MusicList from './MusicList'
-import Artist from '../models/Artist'
-import Album from '../models/Album'
+import { MusicList } from './MusicList'
+import { Album } from '../models/Album'
 
 export type StateByProps = {
   albums: Album[]
@@ -18,7 +17,7 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const AlbumList: React.FC<Props> = ({
+export const AlbumList: React.FC<Props> = ({
   albums,
   currentMusic,
   playingMusic,
@@ -46,5 +45,3 @@ const AlbumList: React.FC<Props> = ({
     ))}
   </div>
 )
-
-export default AlbumList

@@ -1,5 +1,5 @@
-import Album from './Album'
-import Music from './Music'
+import { Album } from './Album'
+import { Music } from './Music'
 
 /**
  * Search for artists matching with music. If not found.
@@ -39,7 +39,7 @@ export const albumByMusic = (music: Music, albums: Album[]): Album | null => {
 /**
  * Container of an artist infromation.
  */
-export default class Artist {
+export class Artist {
   /** Artist name. */
   readonly name: string
 

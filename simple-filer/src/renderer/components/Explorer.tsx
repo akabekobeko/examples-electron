@@ -1,7 +1,7 @@
 import React from 'react'
 import { Folder, CurrentFolder } from '../Types'
 import { explorer } from './Explorer.scss'
-import FolderItem from './FolderItem'
+import { FolderItem } from './FolderItem'
 
 export type StateByProps = {
   folders: Folder[]
@@ -15,7 +15,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const Explorer: React.FC<Props> = ({
+/**
+ * Component of a folder explorer.
+ */
+export const Explorer: React.FC<Props> = ({
   currentFolder,
   folders,
   enumSubFolders = () => {},
@@ -33,5 +36,3 @@ const Explorer: React.FC<Props> = ({
     ))}
   </ul>
 )
-
-export default Explorer

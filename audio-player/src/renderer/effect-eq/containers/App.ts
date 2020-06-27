@@ -5,7 +5,7 @@ import {
   updateGain
 } from '../actions'
 import { AppState } from '../Types'
-import App, { StateByProps, DispatchByProps } from '../components/App'
+import { App, StateByProps, DispatchByProps } from '../components/App'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   connected: state.connected,
@@ -25,9 +25,4 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   }
 })
 
-const Container = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
-
-export default Container
+export const Container = connect(mapStateToProps, mapDispatchToProps)(App)

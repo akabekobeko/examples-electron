@@ -31,5 +31,3 @@ export const checkUnregisterRootFolder = (
     items: []
   })
 }
-
-export default checkUnregisterRootFolder

@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './Button'
+import { Button } from './Button'
 import { area } from './DialogForm.scss'
 
 export type StateByProps = {}
@@ -12,7 +12,10 @@ export type DispatchByProps = {
 
 type Porps = StateByProps & DispatchByProps
 
-const DialogForm: React.FC<Porps> = ({
+/**
+ * Component of a dialog api tester.
+ */
+export const DialogForm: React.FC<Porps> = ({
   showOpenDialog = () => {},
   showSaveDialog = () => {},
   showMessageBox = () => {}
@@ -28,5 +31,3 @@ const DialogForm: React.FC<Porps> = ({
     </form>
   </div>
 )
-
-export default DialogForm

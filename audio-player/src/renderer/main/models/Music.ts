@@ -3,7 +3,7 @@ import { MusicMetadata } from '../../../common/Types'
 /**
  * Music data.
  */
-class Music {
+export class Music {
   /** Identifier assigned from music database. */
   readonly id: number
 
@@ -83,5 +83,3 @@ class Music {
     return a.track === b.track ? 0 : a.track < b.track ? -1 : 1
   }
 }
-
-export default Music

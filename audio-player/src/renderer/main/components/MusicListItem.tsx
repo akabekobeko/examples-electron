@@ -1,6 +1,6 @@
 import React from 'react'
-import Music from '../models/Music'
-import * as Util from '../Util'
+import { Music } from '../models/Music'
+import { secondsToString } from '../Util'
 import * as Styles from './MusicListItem.scss'
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
   onPlay: (music: Music) => void
 }
 
-const MusicListItem: React.FC<Props> = ({
+export const MusicListItem: React.FC<Props> = ({
   music,
   selected,
   playing,
@@ -35,10 +35,6 @@ const MusicListItem: React.FC<Props> = ({
     <div className={Styles.title} title={music.title}>
       {music.title}
     </div>
-    <div className={Styles.duration}>
-      {Util.secondsToString(music.duration)}
-    </div>
+    <div className={Styles.duration}>{secondsToString(music.duration)}</div>
   </div>
 )
-
-export default MusicListItem

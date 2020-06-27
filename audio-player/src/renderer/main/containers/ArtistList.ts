@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
 import { selectArtist } from '../actions'
 import { AppState } from '../Types'
-import ArtistList, {
+import {
+  ArtistList,
   StateByProps,
   DispatchByProps
 } from '../components/ArtistList'
-import Artist from '../models/Artist'
+import { Artist } from '../models/Artist'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   artists: state.artists,
@@ -18,9 +19,7 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   }
 })
 
-const Container = connect(
+export const Container = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ArtistList)
-
-export default Container

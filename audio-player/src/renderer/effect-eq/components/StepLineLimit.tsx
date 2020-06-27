@@ -5,7 +5,10 @@ import { StepLineParams as Line } from '../Constants'
 
 type Props = {}
 
-const StepLineLimit: React.FC<Props> = () => (
+/**
+ * Limit line of step on slider control.
+ */
+export const StepLineLimit: React.FC<Props> = () => (
   <>
     <div
       key={0}
@@ -32,5 +35,3 @@ const StepLineLimit: React.FC<Props> = () => (
     </div>
   </>
 )
-
-export default StepLineLimit

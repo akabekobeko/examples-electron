@@ -10,7 +10,10 @@ type Props = {
   showEffector: () => void
 }
 
-const PlayerToolbar: React.FC<Props> = ({
+/**
+ * Component of toolbar on the music player.
+ */
+export const PlayerToolbar: React.FC<Props> = ({
   removeMusic,
   importMusic,
   showEffector
@@ -35,5 +38,3 @@ const PlayerToolbar: React.FC<Props> = ({
     </div>
   </div>
 )
-
-export default PlayerToolbar

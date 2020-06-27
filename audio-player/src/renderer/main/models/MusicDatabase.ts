@@ -1,5 +1,5 @@
 import { MusicMetadata } from '../../../common/Types'
-import Music from './Music'
+import { Music } from './Music'
 
 /** Name of database. */
 const DatabaseName = 'music_db'

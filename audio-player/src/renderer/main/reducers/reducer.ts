@@ -20,7 +20,10 @@ const InitialState: AppState = {
  * @param action Action data.
  * @returns New State.
  */
-const reducer = (state: AppState = InitialState, action: Actions): AppState => {
+export const reducer = (
+  state: AppState = InitialState,
+  action: Actions
+): AppState => {
   switch (action.type) {
     case ActionType.UpdateAppState:
       if (action.error) {
@@ -33,5 +36,3 @@ const reducer = (state: AppState = InitialState, action: Actions): AppState => {
       return state
   }
 }
-
-export default reducer

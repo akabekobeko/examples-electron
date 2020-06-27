@@ -50,7 +50,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const FileItemList: React.FC<Props> = ({
+/**
+ * Component of a file item list on current folder.
+ */
+export const FileItemList: React.FC<Props> = ({
   items,
   currentItem,
   selectItem = () => {},
@@ -97,5 +100,3 @@ const FileItemList: React.FC<Props> = ({
     </table>
   </div>
 )
-
-export default FileItemList

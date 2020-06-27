@@ -5,7 +5,7 @@ import {
   openItem
 } from '../actions/index'
 import { AppState } from '../Types'
-import Toolbar, { StateByProps, DispatchByProps } from '../components/Toolbar'
+import { Toolbar, StateByProps, DispatchByProps } from '../components/Toolbar'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   currentItem: state.currentItem,
@@ -24,9 +24,4 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   }
 })
 
-const Container = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Toolbar)
-
-export default Container
+export const Container = connect(mapStateToProps, mapDispatchToProps)(Toolbar)

@@ -1,10 +1,10 @@
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../../common/Constants'
 import { ActionType, PlaybackState } from '../Types'
-import MusicListManager from '../models/MusicListManager'
-import AudioPlayer from '../models/AudioPlayer'
-import Artist from '../models/Artist'
-import Music from '../models/Music'
+import { MusicListManager } from '../models/MusicListManager'
+import { AudioPlayer } from '../models/AudioPlayer'
+import { Artist } from '../models/Artist'
+import { Music } from '../models/Music'
 import { IpcRenderer } from 'electron'
 
 /** Sends and receives messages with the main process. */

@@ -41,5 +41,3 @@ export const checkRegisterRootFolder = (
     folders: state.folders.concat(newRootFolder)
   })
 }
-
-export default checkRegisterRootFolder

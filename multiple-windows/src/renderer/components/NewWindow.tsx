@@ -5,7 +5,10 @@ type Props = {
   onClick: () => void
 }
 
-const NewWindow: React.FC<Props> = ({ onClick }) => {
+/**
+ * Component of a contorol for create new window.
+ */
+export const NewWindow: React.FC<Props> = ({ onClick }) => {
   return (
     <fieldset className={Styles.container}>
       <legend>Window</legend>
@@ -15,5 +18,3 @@ const NewWindow: React.FC<Props> = ({ onClick }) => {
     </fieldset>
   )
 }
-
-export default NewWindow

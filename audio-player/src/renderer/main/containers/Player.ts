@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { AppState, PlaybackState } from '../Types'
-import Player, { StateByProps, DispatchByProps } from '../components/Player'
+import { Player, StateByProps, DispatchByProps } from '../components/Player'
 import {
   openWithPlay,
   play,
@@ -12,7 +12,7 @@ import {
   removeMusic,
   showEffector
 } from '../actions'
-import Music from '../models/Music'
+import { Music } from '../models/Music'
 
 const mapStateToProps = (state: AppState): StateByProps => ({
   playbackState: state.playbackState,
@@ -38,9 +38,4 @@ const mapDispatchToProps = (dispatch: any): DispatchByProps => ({
   showEffector: () => dispatch(showEffector())
 })
 
-const Container = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Player)
-
-export default Container
+export const Container = connect(mapStateToProps, mapDispatchToProps)(Player)

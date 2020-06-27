@@ -1,5 +1,5 @@
-import Artist from './models/Artist'
-import Music from './models/Music'
+import { Artist } from './models/Artist'
+import { Music } from './models/Music'
 
 /** Audio playback status. */
 export enum PlaybackState {

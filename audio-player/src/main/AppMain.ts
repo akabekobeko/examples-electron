@@ -3,7 +3,7 @@ import { initializeIpcEvents, releaseIpcEvents } from './IPCEvents'
 import { createMainWindow } from './WindowManager'
 import { createMainMenu } from './MainMenu'
 import { setImageSaveDir } from './MusicMetadataReader'
-import Path from 'path'
+import path from 'path'
 
 app.name = 'AudioPlayer'
 
@@ -14,7 +14,7 @@ app.on('ready', () => {
 
   createMainWindow()
   createMainMenu()
-  setImageSaveDir(Path.join(app.getPath('userData'), 'images'))
+  setImageSaveDir(path.join(app.getPath('userData'), 'images'))
   initializeIpcEvents()
 })
 

@@ -7,7 +7,10 @@ type Props = {
   onSend: (targetWindowId: number, message: string) => void
 }
 
-const Message: React.FC<Props> = ({ message, windowIds, onSend }) => {
+/**
+ * Component of a message viewer.
+ */
+export const Message: React.FC<Props> = ({ message, windowIds, onSend }) => {
   let select: HTMLSelectElement
   let input: HTMLInputElement
 
@@ -51,5 +54,3 @@ const Message: React.FC<Props> = ({ message, windowIds, onSend }) => {
     </fieldset>
   )
 }
-
-export default Message

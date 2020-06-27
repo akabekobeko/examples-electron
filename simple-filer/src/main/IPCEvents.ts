@@ -52,12 +52,13 @@ const onEnumItems = async (
  *Occurs in a request to open a file or folder in a shell
  * @param ev Event data.
  * @param itemPath Path of the target folder.
+ * @returns Resolves with an string containing the error message corresponding to the failure if a failure occurred, otherwise `""`.
  */
 const onOpenItem = async (
   ev: IpcMainInvokeEvent,
   itemPath: string
-): Promise<boolean> => {
-  return shell.openItem(itemPath)
+): Promise<string> => {
+  return shell.openPath(itemPath)
 }
 
 /**

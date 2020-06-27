@@ -167,5 +167,3 @@ export const checkEnumItems = (
     items: itemToViewItems(groupingItems(action.payload.items))
   })
 }
-
-export default checkEnumItems

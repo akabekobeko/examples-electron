@@ -8,7 +8,10 @@ type Props = {
   onChange: (connected: boolean) => void
 }
 
-const Connector: React.FC<Props> = ({ connected, onChange }) => (
+/**
+ * Conponent of a connector switch.
+ */
+export const ConnectorSwitch: React.FC<Props> = ({ connected, onChange }) => (
   <div className={Styles.connector} onClick={() => onChange(!connected)}>
     <input
       id="switch"
@@ -23,5 +26,3 @@ const Connector: React.FC<Props> = ({ connected, onChange }) => (
     <label className={Styles.label} />
   </div>
 )
-
-export default Connector

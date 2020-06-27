@@ -1,7 +1,7 @@
-import Music from './Music'
+import { Music } from './Music'
 
 /** Album data. */
-class Album {
+export class Album {
   /** Artist name of album. */
   readonly artist: string
 
@@ -134,5 +134,3 @@ class Album {
     })
   }
 }
-
-export default Album

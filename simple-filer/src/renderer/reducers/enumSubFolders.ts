@@ -84,5 +84,3 @@ export const checkEnumSubFolders = (
     folders: updateTargetFolders
   })
 }
-
-export default checkEnumSubFolders

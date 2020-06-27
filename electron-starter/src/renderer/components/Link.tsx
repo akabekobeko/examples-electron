@@ -8,7 +8,10 @@ type Props = {
   onClick: (url: string) => void
 }
 
-const Link: React.FC<Props> = ({ label, url, icon, onClick }) => (
+/**
+ * Component of a hyper link of web page.
+ */
+export const Link: React.FC<Props> = ({ label, url, icon, onClick }) => (
   <div className={link}>
     <i className={icon} />
     <a
@@ -21,5 +24,3 @@ const Link: React.FC<Props> = ({ label, url, icon, onClick }) => (
     </a>
   </div>
 )
-
-export default Link

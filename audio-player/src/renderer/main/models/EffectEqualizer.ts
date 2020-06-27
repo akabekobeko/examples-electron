@@ -43,7 +43,7 @@ const createPeakings = (
 /**
  * Provides the graphic equalizer.
  */
-class EffectEqualizer {
+export class EffectEqualizer {
   /** Value indicating that it is connected. */
   private _connected: boolean
 
@@ -144,5 +144,3 @@ class EffectEqualizer {
     this._peakings[last - 1].connect(this._peakings[last])
   }
 }
-
-export default EffectEqualizer
