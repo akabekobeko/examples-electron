@@ -1,6 +1,6 @@
 import React from 'react'
-import Message from './Message'
-import NewWindow from './NewWindow'
+import { Message } from './Message'
+import { NewWindow } from './NewWindow'
 
 export type StateByProps = {
   message: string
@@ -14,7 +14,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
-const App: React.FC<Props> = ({
+/**
+ * Component of the entry point on application.
+ */
+export const App: React.FC<Props> = ({
   message = '',
   windowIds = [],
   onRequestSend = () => {},
@@ -27,5 +30,3 @@ const App: React.FC<Props> = ({
     </form>
   </>
 )
-
-export default App

@@ -3,17 +3,17 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import ReduxThunkMiddleware from 'redux-thunk'
-import RootReducer from './reducers'
+import reduxThunk from 'redux-thunk'
+import { reducer as RootReducer } from './reducers'
 import {
   handleUpdateMessage,
   handleUpdateWindowIds,
   getWindowIds
 } from './actions/'
-import App from './containers/App'
+import { Container as App } from './containers/App'
 
 window.addEventListener('load', () => {
-  let store = createStore(RootReducer, applyMiddleware(ReduxThunkMiddleware))
+  let store = createStore(RootReducer, applyMiddleware(reduxThunk))
 
   store.dispatch(handleUpdateMessage() as any)
   store.dispatch(handleUpdateWindowIds() as any)

@@ -22,7 +22,7 @@ if (InitialState.id) {
  * @param action Action data.
  * @returns New State.
  */
-const reducer = (state: AppState = InitialState, action: Actions) => {
+export const reducer = (state: AppState = InitialState, action: Actions) => {
   switch (action.type) {
     case ActionType.UpdateMessage:
       return Object.assign({}, state, {
@@ -38,5 +38,3 @@ const reducer = (state: AppState = InitialState, action: Actions) => {
       return state
   }
 }
-
-export default reducer
