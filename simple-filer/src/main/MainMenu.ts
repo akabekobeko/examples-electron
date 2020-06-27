@@ -99,5 +99,3 @@ export const createMainMenu = () => {
   const template = Menu.buildFromTemplate(createTemplate())
   Menu.setApplicationMenu(template)
 }
-
-export default createMainMenu

@@ -15,7 +15,10 @@ export type DispatchByProps = {
 
 export type Props = StateByProps & DispatchByProps
 
-const Toolbar: React.SFC<Props> = ({
+/**
+ * Component of the toolbar.
+ */
+export const Toolbar: React.SFC<Props> = ({
   currentItem,
   canUnregisterRootFolder,
   registerRootFolder = () => {},
@@ -54,5 +57,3 @@ const Toolbar: React.SFC<Props> = ({
     />
   </div>
 )
-
-export default Toolbar
