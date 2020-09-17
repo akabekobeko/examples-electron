@@ -1,5 +1,6 @@
 import React from 'react'
-import { link } from './Link.scss'
+import styled from 'styled-components'
+import { Icon } from './Icon'
 
 type Props = {
   label: string
@@ -8,12 +9,27 @@ type Props = {
   onClick: (url: string) => void
 }
 
+const StyledLink = styled.div`
+  a,
+  a:link,
+  a:visited {
+    margin-left: 0.3rem;
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.blue};
+  }
+
+  a:hover,
+  a:active {
+    color: ${(props) => props.theme.colors.red};
+  }
+`
+
 /**
  * Component of a hyper link of web page.
  */
 export const Link: React.FC<Props> = ({ label, url, icon, onClick }) => (
-  <div className={link}>
-    <i className={icon} />
+  <StyledLink>
+    {icon ? <Icon icon={icon} /> : null}
     <a
       href="#"
       onClick={() => {
@@ -22,5 +38,5 @@ export const Link: React.FC<Props> = ({ label, url, icon, onClick }) => (
     >
       {label}
     </a>
-  </div>
+  </StyledLink>
 )

@@ -1,6 +1,6 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Button } from './Button'
-import { area } from './DialogForm.scss'
 
 export type StateByProps = {}
 
@@ -12,6 +12,15 @@ export type DispatchByProps = {
 
 type Porps = StateByProps & DispatchByProps
 
+const StyledDialogForm = styled.div`
+  padding: 1rem;
+  text-align: center;
+
+  fieldset {
+    border: solid 1px ${(props) => props.theme.colors.grayDark};
+  }
+`
+
 /**
  * Component of a dialog api tester.
  */
@@ -20,7 +29,7 @@ export const DialogForm: React.FC<Porps> = ({
   showSaveDialog = () => {},
   showMessageBox = () => {}
 }) => (
-  <div className={area}>
+  <StyledDialogForm>
     <form>
       <fieldset>
         <legend>Dialog &amp; MessageBox</legend>
@@ -29,5 +38,5 @@ export const DialogForm: React.FC<Porps> = ({
         <Button label="MessageBox" onClick={showMessageBox} />
       </fieldset>
     </form>
-  </div>
+  </StyledDialogForm>
 )
