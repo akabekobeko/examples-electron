@@ -77,21 +77,25 @@ const timerStop = () => {
 /**
  * Load the music list from database.
  */
-export const loadMusicList = () => (dispatch: Dispatch) => {
-  musicList
-    .load()
-    .then(() => dispatch(updateAppState()))
-    .catch((error) => dispatch(updateAppState(error)))
+export const loadMusicList = () => async (dispatch: Dispatch) => {
+  try {
+    await musicList.load()
+    dispatch(updateAppState())
+  } catch (error) {
+    dispatch(updateAppState(error))
+  }
 }
 
 /**
  * Import a music files to list and database.
  */
-export const importMusic = () => (dispatch: Dispatch) => {
-  musicList
-    .import()
-    .then(() => dispatch(updateAppState()))
-    .catch((err) => dispatch(updateAppState(err)))
+export const importMusic = () => async (dispatch: Dispatch) => {
+  try {
+    await musicList.import()
+    dispatch(updateAppState())
+  } catch (error) {
+    dispatch(updateAppState(error))
+  }
 }
 
 /**
@@ -116,7 +120,7 @@ export const selectMusic = (music: Music) => {
  * Remove music
  * @param music Target music.
  */
-export const removeMusic = () => (dispatch: Dispatch) => {
+export const removeMusic = () => async (dispatch: Dispatch) => {
   if (!musicList.currentMusic) {
     return
   }
@@ -125,28 +129,28 @@ export const removeMusic = () => (dispatch: Dispatch) => {
     return
   }
 
-  musicList
-    .remove(musicList.currentMusic)
-    .then(() => dispatch(updateAppState()))
-    .catch((err) => dispatch(updateAppState(err)))
+  try {
+    await musicList.remove(musicList.currentMusic)
+    dispatch(updateAppState())
+  } catch (error) {
+    dispatch(updateAppState(error))
+  }
 }
 
 /**
  * Open and play music.
  * @param music Target music.
  */
-export const openWithPlay = (music: Music) => (dispatch: Dispatch) => {
-  audioPlayer
-    .open(music.filePath)
-    .then(() => {
-      return audioPlayer.play()
-    })
-    .then(() => {
-      playingMusic = music
-      timerStart(dispatch)
-      dispatch(updateAppState())
-    })
-    .catch((err) => dispatch(updateAppState(err)))
+export const openWithPlay = (music: Music) => async (dispatch: Dispatch) => {
+  try {
+    await audioPlayer.open(music.filePath)
+    await audioPlayer.play()
+    playingMusic = music
+    timerStart(dispatch)
+    dispatch(updateAppState())
+  } catch (error) {
+    dispatch(updateAppState(error))
+  }
 }
 
 /**
@@ -171,14 +175,10 @@ export const next = (isNext: boolean = true) => (dispatch: Dispatch<any>) => {
 /**
  * Play the music.
  */
-export const play = () => (dispatch: Dispatch<any>) => {
-  if (audioPlayer.playbackState === PlaybackState.Stopped) {
-  }
-
-  audioPlayer.play().then(() => {
-    timerStart(dispatch)
-    dispatch(updateAppState())
-  })
+export const play = () => async (dispatch: Dispatch<any>) => {
+  await audioPlayer.play()
+  timerStart(dispatch)
+  dispatch(updateAppState())
 }
 
 /**

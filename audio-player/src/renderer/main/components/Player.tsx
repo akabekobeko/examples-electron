@@ -1,10 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import { PlayerConsole } from './PlayerConsole'
 import { PlayerInformation } from './PlayerInformation'
 import { PlayerToolbar } from './PlayerToolbar'
 import { Music } from '../models/Music'
 import { PlaybackState } from '../Types'
-import Styles from './Player.scss'
 
 export type StateByProps = {
   playbackState: PlaybackState
@@ -30,6 +30,25 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
+const StyledPlayer = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: ${(props) => props.theme.layout.playerHeight};
+  border-bottom: solid 1px ${(props) => props.theme.colors.gray};
+  background-color: ${(props) => props.theme.colors.grayLight};
+  -webkit-user-select: none;
+  user-select: node;
+  box-shadow: 0px 2px 3px -3px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+`
+
+const StyledContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`
+
 /**
  * Component of a music player control.
  */
@@ -50,8 +69,8 @@ export const Player: React.FC<Props> = ({
   importMusic = () => {},
   showEffector = () => {}
 }) => (
-  <div className={Styles.container}>
-    <div className={Styles.panel}>
+  <StyledPlayer>
+    <StyledContainer>
       <PlayerConsole
         isPlaying={playbackState === PlaybackState.Playing}
         volume={volume}
@@ -80,6 +99,6 @@ export const Player: React.FC<Props> = ({
         importMusic={importMusic}
         showEffector={showEffector}
       />
-    </div>
-  </div>
+    </StyledContainer>
+  </StyledPlayer>
 )

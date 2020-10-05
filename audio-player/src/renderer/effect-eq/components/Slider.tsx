@@ -1,6 +1,6 @@
 import React from 'react'
+import styled from 'styled-components'
 import { GraphicEqulizerParams as Params } from '../../Constants'
-import * as Styles from './Slider.scss'
 
 /**
  * Convert frequency to a string.
@@ -25,13 +25,48 @@ type Props = {
   onChange: (index: number, value: number) => void
 }
 
+const StyledSlider = styled.input`
+  position: absolute;
+  top: 110px;
+  width: 200px;
+  background-color: transparent;
+  cursor: pointer;
+  transform: rotate(270deg);
+  -webkit-appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -9px;
+    width: 10px;
+    height: 20px;
+    background-color: ${(props) => props.theme.colors.indigoDark};
+  }
+
+  &::-webkit-slider-runnable-track {
+    margin-top: 6px;
+    height: 3px;
+    background-color: ${(props) => props.theme.colors.grayDarkness};
+  }
+`
+
+const StyledFrequecy = styled.div`
+  user-select: none;
+  position: absolute;
+  top: 225px;
+  font-size: 11px;
+  cursor: default;
+`
+
 /**
  * Component of a slider on the equalizer.
  */
 export const Slider: React.FC<Props> = ({ index, value, onChange }) => (
   <div key={index}>
-    <input
-      className={Styles.slider}
+    <StyledSlider
       style={{ left: -44 + index * 31 }}
       type="range"
       value={value}
@@ -40,8 +75,8 @@ export const Slider: React.FC<Props> = ({ index, value, onChange }) => (
       step={Params.GainStep}
       onChange={(ev) => onChange(index, Number(ev.target.value))}
     />
-    <div className={Styles.frequecy} style={{ left: index * 32 + 46 }}>
+    <StyledFrequecy style={{ left: index * 32 + 46 }}>
       {frequecyToString(Params.Bands[index])}
-    </div>
+    </StyledFrequecy>
   </div>
 )

@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Styles from './App.scss'
+import styled from 'styled-components'
 import { PresetsSelector } from './PresetsSelector'
 import { ConnectorSwitch } from './ConnectorSwitch'
 import { StepLine } from './StepLine'
@@ -26,6 +26,37 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
+const StyledApp = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => props.theme.colors.white};
+`
+
+const StyledHeader = styled.div`
+  position: relative;
+  height: 32px;
+`
+
+const StyledPresets = styled.div`
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 128px;
+`
+
+const StyledConnector = styled.div`
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 48px;
+`
+
+const StyledGain = styled.div`
+  position: relative;
+  width: 100%;
+  height: 300px;
+`
+
 export const App: React.FC<Props> = ({
   connected,
   presetIndex,
@@ -34,24 +65,24 @@ export const App: React.FC<Props> = ({
   connectEffector = () => {},
   updateGain = () => {}
 }) => (
-  <div className={Styles.effector}>
-    <div className={Styles.header}>
-      <div className={Styles.presets}>
+  <StyledApp>
+    <StyledHeader>
+      <StyledPresets>
         <PresetsSelector
           presetIndex={presetIndex}
           onSelect={(index) => selectPreset(index)}
         />
-      </div>
-      <div className={Styles.connector}>
+      </StyledPresets>
+      <StyledConnector>
         <ConnectorSwitch connected={connected} onChange={connectEffector} />
-      </div>
-    </div>
-    <div className={Styles.gain}>
+      </StyledConnector>
+    </StyledHeader>
+    <StyledGain>
       <StepLineLimit />
       <StepLine />
       {gains.map((gain, index) => (
         <Slider key={index} index={index} value={gain} onChange={updateGain} />
       ))}
-    </div>
-  </div>
+    </StyledGain>
+  </StyledApp>
 )

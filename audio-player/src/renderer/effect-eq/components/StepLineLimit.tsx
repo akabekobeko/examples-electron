@@ -1,37 +1,39 @@
 import React from 'react'
-import * as Styles from './StepLineLimit.scss'
+import styled from 'styled-components'
 import { GraphicEqulizerParams as EQ } from '../../Constants'
 import { StepLineParams as Line } from '../Constants'
 
-type Props = {}
+const StyledLine = styled.div`
+  user-select: none;
+  position: absolute;
+  left: 0;
+  width: 38px;
+  text-align: right;
+  font-size: 11px;
+  cursor: default;
+`
 
 /**
  * Limit line of step on slider control.
  */
-export const StepLineLimit: React.FC<Props> = () => (
+export const StepLineLimit: React.FC = () => (
   <>
-    <div
-      key={0}
-      className={Styles.line}
-      style={{ top: Line.Begin - Line.Offset }}
-    >
-      {'+' + EQ.GainMax + ' dB'}
-    </div>
-    <div
+    <StyledLine key={0} style={{ top: Line.Begin - Line.Offset }}>
+      {'+' + EQ.GainMax}
+    </StyledLine>
+    <StyledLine
       key={Line.CenterIndex}
-      className={Styles.line}
       style={{ top: Line.Begin + Line.CenterIndex * Line.Step - Line.Offset }}
     >
-      {'+' + EQ.GainFlat + ' dB'}
-    </div>
-    <div
+      {'+' + EQ.GainFlat}
+    </StyledLine>
+    <StyledLine
       key={Line.Count - 1}
-      className={Styles.line}
       style={{
         top: Line.Begin + (Line.Count - 1) * Line.Step - Line.Offset
       }}
     >
-      {EQ.GainMin + ' dB'}
-    </div>
+      {EQ.GainMin}
+    </StyledLine>
   </>
 )

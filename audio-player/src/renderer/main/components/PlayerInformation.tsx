@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { Music } from '../models/Music'
 import { secondsToString } from '../Util'
 import { PlayerSpectrumAnalyzer } from './PlayerSpectrumAnalyzer'
-import Styles from './PlayerInformation.scss'
 
 /**
  * Create a information for display.
@@ -39,6 +39,115 @@ type Props = {
   onSeek: (position: number) => void
 }
 
+const StyledPlayerInformation = styled.div`
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 256px;
+  right: 256px;
+  height: 100%;
+`
+
+const StyledContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-left: solid 1px ${(props) => props.theme.colors.gray};
+  border-right: solid 1px ${(props) => props.theme.colors.gray};
+  background-color: ${(props) => props.theme.colors.grayLightness};
+`
+
+const StyledImage = styled.img`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: ${(props) => props.theme.layout.playerHeight};
+  height: ${(props) => props.theme.layout.playerHeight};
+  object-fit: contain;
+  background-color: transparent;
+`
+
+const StyledTitle = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  left: ${(props) => props.theme.layout.playerHeight};
+  right: 0;
+  font-size: 15px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
+const StyledAlbum = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 18px;
+  left: calc(${(props) => props.theme.layout.playerHeight} + 34px);
+  right: 34px;
+  font-size: 12px;
+  color: ${(props) => props.theme.colors.grayDark};
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
+const StyledPlaybackTime = styled.div`
+  position: absolute;
+  top: 19px;
+  font-size: 12px;
+  color: ${(props) => props.theme.colors.grayDark};
+  left: calc(${(props) => props.theme.layout.playerHeight} + 4px);
+`
+
+const StyledDuration = styled.div`
+  position: absolute;
+  top: 19px;
+  font-size: 12px;
+  color: ${(props) => props.theme.colors.grayDark};
+  right: 4px;
+`
+
+const StyledSlider = styled.div`
+  position: absolute;
+  left: ${(props) => props.theme.layout.playerHeight};
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  height: 16px;
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 16px;
+    background-color: transparent;
+  }
+
+  input[type='range']:focus {
+    outline: none;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -8px;
+    width: 4px;
+    height: 11px;
+    background-color: ${(props) => props.theme.colors.grayDark};
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    margin-top: 13px;
+    height: 2px;
+    background-color: ${(props) => props.theme.colors.gray};
+  }
+`
+
 /**
  * Component of the playing music information.
  */
@@ -52,9 +161,9 @@ export const PlayerInformation: React.FC<Props> = ({
   const [enabledAnalizer, setEnabledAnalizer] = useState(false)
 
   return (
-    <div className={Styles.information}>
-      <div className={Styles.container}>
-        <img className={Styles.image} src={info.imageFilePath} alt="" />
+    <StyledPlayerInformation>
+      <StyledContainer>
+        <StyledImage src={info.imageFilePath} alt="" />
         <PlayerSpectrumAnalyzer
           enabled={enabledAnalizer}
           spectrums={spectrums}
@@ -64,12 +173,12 @@ export const PlayerInformation: React.FC<Props> = ({
           style={{ display: enabledAnalizer ? 'none' : 'block' }}
           onClick={() => setEnabledAnalizer(!enabledAnalizer)}
         >
-          <div className={Styles.title}>{info.title}</div>
-          <div className={Styles.album}>{info.albumArtist}</div>
-          <div className={Styles.playbacktime}>{info.currentTimeText}</div>
-          <div className={Styles.duration}>{info.durationText}</div>
+          <StyledTitle>{info.title}</StyledTitle>
+          <StyledAlbum>{info.albumArtist}</StyledAlbum>
+          <StyledPlaybackTime>{info.currentTimeText}</StyledPlaybackTime>
+          <StyledDuration>{info.durationText}</StyledDuration>
         </div>
-        <div className={Styles.slider}>
+        <StyledSlider>
           <input
             type="range"
             min={0}
@@ -77,8 +186,8 @@ export const PlayerInformation: React.FC<Props> = ({
             value={info.currentTime}
             onChange={(ev) => onSeek(Number(ev.target.value))}
           />
-        </div>
-      </div>
-    </div>
+        </StyledSlider>
+      </StyledContainer>
+    </StyledPlayerInformation>
   )
 }
