@@ -23,10 +23,8 @@ export const App: React.FC<Props> = ({
   onRequestSend = () => {},
   onRequestCreateNewWindow = () => {}
 }) => (
-  <>
-    <form>
-      <NewWindow onClick={onRequestCreateNewWindow} />
-      <Message message={message} windowIds={windowIds} onSend={onRequestSend} />
-    </form>
-  </>
+  <form>
+    <NewWindow onClick={onRequestCreateNewWindow} />
+    <Message message={message} windowIds={windowIds} onSend={onRequestSend} />
+  </form>
 )

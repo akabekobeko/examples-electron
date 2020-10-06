@@ -1,11 +1,24 @@
 import React from 'react'
-import * as Styles from './Message.scss'
+import styled from 'styled-components'
+import { Theme } from '../Theme'
+import { Button } from './Button'
 
 type Props = {
   message: string
   windowIds: number[]
   onSend: (targetWindowId: number, message: string) => void
 }
+
+const StyledMessage = styled.fieldset`
+  margin-top: 1em;
+  border: solid 1px ${(props) => props.theme.colors.grayDark};
+
+  input[type='text'] {
+    font-size: 1em;
+    font-family: sans-serif;
+    padding: 0.3em;
+  }
+`
 
 /**
  * Component of a message viewer.
@@ -15,7 +28,7 @@ export const Message: React.FC<Props> = ({ message, windowIds, onSend }) => {
   let input: HTMLInputElement
 
   return (
-    <fieldset className={Styles.container}>
+    <StyledMessage>
       <legend>Message</legend>
       <p>
         <label>Received message: </label>
@@ -43,14 +56,14 @@ export const Message: React.FC<Props> = ({ message, windowIds, onSend }) => {
           }}
         />
       </p>
-      <div
-        className={Styles.button}
+      <Button
+        label="Send Message"
+        labelColor={Theme.colors.white}
+        backgroundColor={Theme.colors.green}
         onClick={() => {
           onSend(Number(select.value), input.value)
         }}
-      >
-        Send Message
-      </div>
-    </fieldset>
+      />
+    </StyledMessage>
   )
 }
