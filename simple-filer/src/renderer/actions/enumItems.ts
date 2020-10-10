@@ -2,7 +2,7 @@ import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 import { FileItem } from '../../common/Types'
-import { ActionType, Folder } from '../Types'
+import { ActionType, Folder } from '../RendererTypes'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { selectItem, openItem } from '../actions/index'
-import { FileViewItem, AppState } from '../Types'
+import { FileViewItem, AppState } from '../RendererTypes'
 import {
   FileItemList,
   StateByProps,

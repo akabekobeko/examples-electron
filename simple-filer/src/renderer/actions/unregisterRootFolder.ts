@@ -1,4 +1,4 @@
-import { ActionType } from '../Types'
+import { ActionType } from '../RendererTypes'
 
 /**
  * Request to unregister current root folder.

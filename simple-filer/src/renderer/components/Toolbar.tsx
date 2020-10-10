@@ -1,6 +1,8 @@
 import React from 'react'
-import { toolbar } from './Toolbar.scss'
-import { FileViewItem } from '../Types'
+import styled from 'styled-components'
+import { FileViewItem } from '../RendererTypes'
+import { Theme } from '../Theme'
+import { Icon, IconDisable } from './Icon'
 
 export type StateByProps = {
   currentItem?: FileViewItem
@@ -16,38 +18,54 @@ export type DispatchByProps = {
 export type Props = StateByProps & DispatchByProps
 
 /**
- * Component of the toolbar.
+ * Get the root folder icon.
+ * @param canUnregister Value of whether can unregister.
+ * @param unregister Function to unregister.
+ * @returns Icon.
  */
-export const Toolbar: React.SFC<Props> = ({
-  currentItem,
-  canUnregisterRootFolder,
-  registerRootFolder = () => {},
-  unregisterRootFolder = () => {},
-  openItem = () => {}
-}) => (
-  <div className={toolbar}>
-    <i
-      className="icon_circle_with_plus"
-      title="Register root folder"
-      onClick={registerRootFolder}
-    />
-    <i
-      className={
-        canUnregisterRootFolder
-          ? 'icon_circle_with_minus'
-          : 'icon_circle_with_minus disable'
-      }
+const getRootFolderIcon = (
+  canUnregister: boolean,
+  unregister: () => void
+): JSX.Element => {
+  return canUnregister ? (
+    <Icon
+      icon={Theme.icons.circleWithMinus}
+      color={Theme.colors.text}
       title="Unregister root folder"
       onClick={() => {
-        if (canUnregisterRootFolder) {
-          unregisterRootFolder()
+        if (canUnregister) {
+          unregister()
         }
       }}
     />
-    <i
-      className={
-        currentItem ? 'icon_controller_play' : 'icon_controller_play disable'
-      }
+  ) : (
+    <IconDisable
+      icon={Theme.icons.circleWithMinus}
+      color={Theme.colors.text}
+      title="Unregister root folder"
+      onClick={() => {
+        if (canUnregister) {
+          unregister()
+        }
+      }}
+    />
+  )
+}
+
+/**
+ * Get the play icon.
+ * @param currentItem Item (File or Folder) of current.
+ * @param openItem Function to open an item.
+ * @returns Icon.
+ */
+const getPlayIcon = (
+  currentItem: FileViewItem | undefined,
+  openItem: (itemPath: string) => void
+) => {
+  return currentItem ? (
+    <Icon
+      icon={Theme.icons.controllerPlay}
+      color={Theme.colors.text}
       title="Open the selected item with an operating system (Shell)."
       onClick={() => {
         if (currentItem) {
@@ -55,5 +73,45 @@ export const Toolbar: React.SFC<Props> = ({
         }
       }}
     />
-  </div>
+  ) : (
+    <IconDisable
+      icon={Theme.icons.controllerPlay}
+      color={Theme.colors.text}
+      title="Open the selected item with an operating system (Shell)."
+    />
+  )
+}
+
+const StyledToolbar = styled.div`
+  box-sizing: border-box;
+  background-color: ${(props) => props.theme.colors.grayLightness};
+  height: 2rem;
+  padding: 0.5rem;
+  border-bottom: solid 1px ${(props) => props.theme.colors.gray};
+
+  i {
+    padding-right: 0.5rem;
+  }
+`
+
+/**
+ * Component of the toolbar.
+ */
+export const Toolbar: React.SFC<Props> = ({
+  currentItem,
+  canUnregisterRootFolder,
+  registerRootFolder = () => {},
+  unregisterRootFolder = () => {},
+  openItem = (itemPath: string) => {}
+}) => (
+  <StyledToolbar>
+    <Icon
+      icon={Theme.icons.circleWithPlus}
+      color={Theme.colors.text}
+      title="Register root folder"
+      onClick={registerRootFolder}
+    />
+    {getRootFolderIcon(canUnregisterRootFolder, unregisterRootFolder)}
+    {getPlayIcon(currentItem, openItem)}
+  </StyledToolbar>
 )

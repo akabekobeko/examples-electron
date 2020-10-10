@@ -1,4 +1,4 @@
-import { ActionType, FileViewItem } from '../Types'
+import { ActionType, FileViewItem } from '../RendererTypes'
 
 /**
  * Select an item.

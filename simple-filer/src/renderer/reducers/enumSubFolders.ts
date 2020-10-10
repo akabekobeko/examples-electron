@@ -1,5 +1,5 @@
 import { finishEnumSubFolders } from '../actions/index'
-import { Folder, AppState } from '../Types'
+import { Folder, AppState } from '../RendererTypes'
 
 /**
  * Compare old and new folder lists and merge to the latest state.

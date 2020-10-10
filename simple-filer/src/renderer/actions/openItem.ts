@@ -1,5 +1,5 @@
 import { IpcRenderer, IpcRendererEvent } from 'electron'
-import { ActionType } from '../Types'
+import { ActionType } from '../RendererTypes'
 import { Dispatch } from 'redux'
 import { IPCKey } from '../../common/Constants'
 

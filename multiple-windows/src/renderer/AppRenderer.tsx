@@ -52,6 +52,7 @@ window.addEventListener('load', () => {
   render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
+        <GlobalStyle />
         <App />
       </ThemeProvider>
     </Provider>,
