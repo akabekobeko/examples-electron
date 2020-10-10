@@ -4,7 +4,7 @@ import {
   unregisterRootFolder,
   openItem
 } from '../actions/index'
-import { AppState } from '../Types'
+import { AppState } from '../RendererTypes'
 import { Toolbar, StateByProps, DispatchByProps } from '../components/Toolbar'
 
 const mapStateToProps = (state: AppState): StateByProps => ({

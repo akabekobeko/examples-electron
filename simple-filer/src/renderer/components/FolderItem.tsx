@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { Folder, CurrentFolder } from '../Types'
-import { folderitem, subfolder, normal, selected } from './FolderItem.scss'
+import styled from 'styled-components'
+import { Folder, CurrentFolder } from '../RendererTypes'
+import { Theme } from '../Theme'
+import { Icon } from './Icon'
 
 type Props = {
   folder: Folder
@@ -8,6 +10,37 @@ type Props = {
   enumItems: (folder: Folder) => void
   enumSubFolders: (folderPath: string) => void
 }
+
+const StyledFolderItem = styled.li`
+  user-select: none;
+  list-style: none;
+  list-style-position: inside;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .normal {
+    padding: 0.2rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .selected {
+    background-color: ${(props) => props.theme.colors.orangeLight};
+    padding: 0.2rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    padding-left: 0.5rem;
+  }
+
+  .subfolder {
+    padding-left: 1rem;
+  }
+`
 
 /**
  * Component of an item on folder explorer.
@@ -21,13 +54,13 @@ export const FolderItem: React.FC<Props> = ({
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <li className={folderitem}>
+    <StyledFolderItem>
       <div
         className={
           folder.treeId === currentFolder.treeId &&
           folder.path === currentFolder.path
-            ? selected
-            : normal
+            ? 'selected'
+            : 'normal'
         }
         onClick={() => {
           if (
@@ -38,8 +71,9 @@ export const FolderItem: React.FC<Props> = ({
           }
         }}
       >
-        <i
-          className={expanded ? 'icon_triangle_down' : 'icon_triangle_right'}
+        <Icon
+          icon={expanded ? Theme.icons.triangleDown : Theme.icons.triangleRight}
+          color={Theme.colors.text}
           onClick={(ev) => {
             ev.stopPropagation()
 
@@ -51,11 +85,11 @@ export const FolderItem: React.FC<Props> = ({
             setExpanded(!expanded)
           }}
         />
-        <i className="icon_folder" />
+        <Icon icon={Theme.icons.folder} color={Theme.colors.blue} />
         <span>{folder.name}</span>
       </div>
       {!expanded || folder.subFolders.length === 0 ? null : (
-        <ul className={subfolder}>
+        <ul className="subfolder">
           {folder.subFolders.map((subFolder, index) => (
             <FolderItem
               key={index}
@@ -67,6 +101,6 @@ export const FolderItem: React.FC<Props> = ({
           ))}
         </ul>
       )}
-    </li>
+    </StyledFolderItem>
   )
 }

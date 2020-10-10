@@ -1,5 +1,5 @@
 import React from 'react'
-import Styles from './ArtistList.scss'
+import styled from 'styled-components'
 import { ArtistListItem } from './ArtistListItem'
 import { Artist } from '../models/Artist'
 
@@ -14,6 +14,18 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
+const StyledArtistList = styled.div`
+  user-select: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: scroll;
+  background-color: #fafafa;
+`
+
 /**
  * Component of an artist list.
  */
@@ -22,7 +34,7 @@ export const ArtistList: React.FC<Props> = ({
   currentArtist,
   selectArtist = () => {}
 }) => (
-  <div className={Styles.container}>
+  <StyledArtistList>
     {artists.map((artist, index) => (
       <ArtistListItem
         key={index}
@@ -31,5 +43,5 @@ export const ArtistList: React.FC<Props> = ({
         onSelect={selectArtist}
       />
     ))}
-  </div>
+  </StyledArtistList>
 )

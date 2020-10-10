@@ -1,5 +1,5 @@
 import { unregisterRootFolder } from '../actions/index'
-import { AppState } from '../Types'
+import { AppState } from '../RendererTypes'
 
 /**
  * Check the result of requestUnregisterRootFolder and generate a new state.

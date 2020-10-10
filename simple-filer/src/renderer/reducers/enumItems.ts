@@ -1,5 +1,5 @@
 import { FileItem } from '../../common/Types'
-import { FileViewItem, FileType, AppState } from '../Types'
+import { FileViewItem, FileType, AppState } from '../RendererTypes'
 import { finishEnumItems } from '../actions/index'
 
 /**

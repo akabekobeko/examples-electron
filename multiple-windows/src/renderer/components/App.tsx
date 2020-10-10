@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Message } from './Message'
 import { NewWindow } from './NewWindow'
 
@@ -14,6 +15,10 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
+const StyledApp = styled.form`
+  padding: 1rem;
+`
+
 /**
  * Component of the entry point on application.
  */
@@ -23,10 +28,8 @@ export const App: React.FC<Props> = ({
   onRequestSend = () => {},
   onRequestCreateNewWindow = () => {}
 }) => (
-  <>
-    <form>
-      <NewWindow onClick={onRequestCreateNewWindow} />
-      <Message message={message} windowIds={windowIds} onSend={onRequestSend} />
-    </form>
-  </>
+  <StyledApp>
+    <NewWindow onClick={onRequestCreateNewWindow} />
+    <Message message={message} windowIds={windowIds} onSend={onRequestSend} />
+  </StyledApp>
 )

@@ -23,7 +23,7 @@ export const connect = (connected: boolean) => async (
 ) => {
   await ipcRenderer.invoke(
     IPCKey.ApplyEqualizerState,
-    connect,
+    connected,
     getState().gains
   )
   dispatch(finishConnect(connected))

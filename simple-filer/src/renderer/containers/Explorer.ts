@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { enumSubFolders, enumItems } from '../actions/index'
-import { Folder, AppState } from '../Types'
+import { Folder, AppState } from '../RendererTypes'
 import { Explorer, StateByProps, DispatchByProps } from '../components/Explorer'
 
 const mapStateToProps = (state: AppState): StateByProps => ({

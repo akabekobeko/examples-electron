@@ -1,4 +1,4 @@
-import { AppState } from '../Types'
+import { AppState } from '../RendererTypes'
 import { selectItem } from '../actions/index'
 
 /**

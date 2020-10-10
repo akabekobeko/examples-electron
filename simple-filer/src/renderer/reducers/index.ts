@@ -5,7 +5,7 @@ import {
   unregisterRootFolder,
   selectItem
 } from '../actions/index'
-import { ActionType, AppState } from '../Types'
+import { ActionType, AppState } from '../RendererTypes'
 import { checkRegisterRootFolder } from './registerRootFolder'
 import { checkUnregisterRootFolder } from './unregisterRootFolder'
 import { checkEnumSubFolders } from './enumSubFolders'

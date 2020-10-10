@@ -1,5 +1,5 @@
 import { finishRegisterRootFolder } from '../actions/index'
-import { AppState, Folder } from '../Types'
+import { AppState, Folder } from '../RendererTypes'
 
 /**
  * A unique identifier to assign to the next added tree.

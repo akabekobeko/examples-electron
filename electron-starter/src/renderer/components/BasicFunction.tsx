@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from '../components/Link'
 import { Button } from '../components/Button'
-import { area } from './BasicFunction.scss'
+import styled from 'styled-components'
+import { Theme } from '../Theme'
 
 export type StateByProps = {
   url: string
@@ -15,6 +16,11 @@ export type DispatchByProps = {
 
 type Props = StateByProps & DispatchByProps
 
+const StyledBasicFunction = styled.div`
+  padding-bottom: 1rem;
+  text-align: center;
+`
+
 /**
  * Component of the basic functions.
  */
@@ -24,9 +30,9 @@ export const BasicFunction: React.FC<Props> = ({
   updateTime = () => {},
   showURL = () => {}
 }) => (
-  <div className={area}>
+  <StyledBasicFunction>
     <Button label="Click" onClick={updateTime} />
     <span>{dateTime}</span>
-    <Link label={url} url={url} icon="icon_github" onClick={showURL} />
-  </div>
+    <Link label={url} url={url} icon={Theme.icons.github} onClick={showURL} />
+  </StyledBasicFunction>
 )

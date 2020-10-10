@@ -1,5 +1,3 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
 import { Configuration } from 'webpack'
 
 export default (env: any, argv: Configuration) => {
@@ -43,43 +41,9 @@ export default (env: any, argv: Configuration) => {
               }
             }
           ]
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: {
-                  localIdentName: PROD
-                    ? '[hash:base64]'
-                    : '[name]-[local]-[hash:base64:5]'
-                },
-                url: false,
-                importLoaders: 1,
-                sourceMap: !PROD
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: !PROD,
-                sassOptions: {
-                  outputStyle: PROD ? 'compressed' : 'expanded'
-                }
-              }
-            }
-          ]
         }
       ]
     },
-    plugins: PROD
-      ? [
-          new MiniCssExtractPlugin({ filename: 'bundle.css' }),
-          new OptimizeCssAssetsWebpackPlugin()
-        ]
-      : [new MiniCssExtractPlugin({ filename: 'bundle.css' })],
     externals: MAIN ? [] : ['electron']
   }
 }

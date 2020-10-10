@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Styles from './PlayerSpectrumAnalyzer.scss'
+import styled from 'styled-components'
 
 /**This is the maximum value of the spectrum. */
 const MaxSpectrum = 255
@@ -117,6 +117,19 @@ type Props = {
   onClick: () => void
 }
 
+const StyledAnalyzer = styled.div`
+  position: absolute;
+  top: 4px;
+  left: calc(${(props) => props.theme.layout.playerHeight} + 4px);
+  right: 4px;
+  bottom: 12px;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+`
+
 /**
  * Component of Spectrum analyzer to the current playing music.
  */
@@ -129,12 +142,11 @@ export const PlayerSpectrumAnalyzer: React.FC<Props> = ({
   draw(canvas.current, spectrums)
 
   return (
-    <div
-      className={Styles.analyzer}
+    <StyledAnalyzer
       style={{ display: enabled ? 'block' : 'none' }}
       onClick={onClick}
     >
       <canvas ref={canvas} />
-    </div>
+    </StyledAnalyzer>
   )
 }

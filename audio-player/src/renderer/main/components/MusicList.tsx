@@ -1,7 +1,7 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Music } from '../models/Music'
 import { MusicListItem } from './MusicListItem'
-import Styles from './MusicList.scss'
 
 /**
  * Group music by disc number.
@@ -64,6 +64,16 @@ const Musics: React.FC<Props> = ({
   </>
 )
 
+const StyledMusicList = styled.div`
+  width: 100%;
+`
+
+const StyledDisc = styled.div`
+  width: 100%;
+  padding: 4px;
+  color: ${(props) => props.theme.colors.grayDarkness};
+`
+
 /**
  * Component of a music list.
  */
@@ -76,7 +86,7 @@ export const MusicList: React.FC<Props> = ({
 }) => {
   const discs = groupByDisc(musics)
   return (
-    <div className={Styles.list}>
+    <StyledMusicList>
       {discs.length === 1 ? (
         <Musics
           musics={musics}
@@ -88,7 +98,7 @@ export const MusicList: React.FC<Props> = ({
       ) : (
         discs.map((musicsByDisc, index) => (
           <React.Fragment key={index}>
-            <div className={Styles.disc}>Disc {index + 1}</div>
+            <StyledDisc>Disc {index + 1}</StyledDisc>
             <Musics
               musics={musicsByDisc}
               selectedMusic={selectedMusic}
@@ -99,6 +109,6 @@ export const MusicList: React.FC<Props> = ({
           </React.Fragment>
         ))
       )}
-    </div>
+    </StyledMusicList>
   )
 }

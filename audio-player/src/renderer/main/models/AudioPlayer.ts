@@ -185,20 +185,13 @@ export class AudioPlayer {
    * Play the audio.
    * @returns Asynchronous task.
    */
-  play(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (!this._audio || this._playbackState === PlaybackState.Playing) {
-        return resolve()
-      }
+  async play(): Promise<void> {
+    if (!this._audio || this._playbackState === PlaybackState.Playing) {
+      return
+    }
 
-      this._audio
-        .play()
-        .then(() => {
-          this._playbackState = PlaybackState.Playing
-          resolve()
-        })
-        .catch((error) => reject(error))
-    })
+    await this._audio.play()
+    this._playbackState = PlaybackState.Playing
   }
 
   /**

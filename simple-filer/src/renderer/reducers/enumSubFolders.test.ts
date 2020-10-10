@@ -1,5 +1,5 @@
 import { merge } from './enumSubFolders'
-import { Folder } from '../Types'
+import { Folder } from '../RendererTypes'
 
 const makeFolder = (
   name: string,
