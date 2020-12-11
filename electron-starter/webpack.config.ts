@@ -14,7 +14,7 @@ export default (env: any, argv: Configuration) => {
       path: PROD ? `${__dirname}/dist/src/assets` : `${__dirname}/src/assets`,
       filename: MAIN ? 'main.js' : 'renderer.js'
     },
-    devtool: PROD ? '' : 'inline-source-map',
+    devtool: PROD ? undefined : 'inline-source-map',
     node: {
       __dirname: false,
       __filename: false
