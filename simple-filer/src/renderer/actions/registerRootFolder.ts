@@ -1,10 +1,6 @@
-import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../common/Constants'
 import { SelectFolderResult } from '../../common/Types'
 import { Folder, ActionType } from '../RendererTypes'
-
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /**
  * Request to register root folder.
@@ -31,9 +27,7 @@ export const finishRegisterRootFolder = (folder?: Folder) => ({
  */
 export const registerRootFolder = () => async (dispatch: Dispatch) => {
   dispatch(requestRegisterRootFolder())
-  const result: SelectFolderResult | undefined = await ipcRenderer.invoke(
-    IPCKey.SelectFolder
-  )
+  const result = await window.myAPI.selectFolder()
   if (!result) {
     return dispatch(finishRegisterRootFolder())
   }

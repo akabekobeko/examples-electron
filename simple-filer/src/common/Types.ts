@@ -16,7 +16,7 @@ export type FileItem = {
 
 /** Result values of SelectFolder API. */
 export type SelectFolderResult = {
-  /** Name of the selected foleder. */
+  /** Name of the selected folder. */
   name: string
   /** Path of the selected folder. */
   folderPath: string
