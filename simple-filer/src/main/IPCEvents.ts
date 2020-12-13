@@ -77,7 +77,7 @@ export const initializeIpcEvents = () => {
 
   ipcMain.handle(IPCKey.SelectFolder, onSelectFolder)
   ipcMain.handle(IPCKey.EnumItems, onEnumItems)
-  ipcMain.handle(IPCKey.OepnItem, onOpenItem)
+  ipcMain.handle(IPCKey.OpenItem, onOpenItem)
 }
 
 /**
@@ -87,7 +87,7 @@ export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.SelectFolder)
     ipcMain.removeAllListeners(IPCKey.EnumItems)
-    ipcMain.removeAllListeners(IPCKey.OepnItem)
+    ipcMain.removeAllListeners(IPCKey.OpenItem)
   }
 
   initialized = false

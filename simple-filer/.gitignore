@@ -7,9 +7,5 @@ esdoc/
 *.map
 *.d.ts
 package-lock.json
-src/assets/renderer.js
-src/assets/main.js
-src/assets/bundle.css
+src/assets/*.js
 !.gitignore
-!.babelrc
-!.esdoc.json

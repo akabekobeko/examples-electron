@@ -4,5 +4,5 @@
 export enum IPCKey {
   SelectFolder = 'SelectFolder',
   EnumItems = 'EnumItems',
-  OepnItem = 'OepnItem'
+  OpenItem = 'OpenItem'
 }

@@ -9,5 +9,3 @@ esdoc/
 package-lock.json
 src/assets/*.js
 !.gitignore
-!.babelrc
-!.esdoc.json

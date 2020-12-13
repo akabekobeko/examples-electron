@@ -1,12 +1,35 @@
-import { FileItem } from '../common/Types'
+import { SelectFolderResult, FileItem } from '../common/Types'
 
 /**
  * Declare a type that depends on the renderer process of Electron.
  */
 declare global {
   interface Window {
-    require: any
+    myAPI: MyAPI
   }
+}
+
+/**
+ * Provides an application-specific API.
+ */
+export type MyAPI = {
+  /**
+   * Select the target folder.
+   * @returns Path of the selected folder. `undefined` if not selected.
+   */
+  selectFolder: () => Promise<SelectFolderResult | undefined>
+
+  /**
+   * Enumerates the items in the specified folder.
+   * @param folderPath Path of the target folder.
+   */
+  enumItems: (folderPath: string) => Promise<FileItem[]>
+
+  /**
+   * Opens the specified item in the application associated with the system (shell).
+   * @param itemPath Path of the target item.
+   */
+  openItem: (itemPath: string) => Promise<string>
 }
 
 /**
