@@ -1,9 +1,10 @@
-import { updateMessage, updateWindowIds } from '../actions/'
+import { updateMessage, updateWindowIds, finishGetWindowIds } from '../actions/'
 import { ActionType, AppState } from '../Types'
 
 type Actions =
   | ReturnType<typeof updateMessage>
   | ReturnType<typeof updateWindowIds>
+  | ReturnType<typeof finishGetWindowIds>
 
 const InitialState: AppState = {
   id: window.location.hash ? Number(window.location.hash.replace('#', '')) : 0,
@@ -30,6 +31,11 @@ export const reducer = (state: AppState = InitialState, action: Actions) => {
       })
 
     case ActionType.UpdateWindowIds:
+      return Object.assign({}, state, {
+        windowIds: action.payload.windowIds.filter((id) => id !== state.id)
+      })
+
+    case ActionType.GetWindowIds:
       return Object.assign({}, state, {
         windowIds: action.payload.windowIds.filter((id) => id !== state.id)
       })

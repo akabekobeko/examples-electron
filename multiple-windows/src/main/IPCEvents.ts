@@ -1,6 +1,6 @@
 import { ipcMain, IpcMainInvokeEvent } from 'electron'
 import { IPCKey } from '../common/Constants'
-import { createNewWindow, getWindowIds, sendMessege } from './WindowManager'
+import { createNewWindow, getWindowIds, sendMessage } from './WindowManager'
 
 /**
  * Occurs when create window is requested.
@@ -21,7 +21,7 @@ const onSendMessage = (
   targetWindowId: number,
   message: string
 ) => {
-  ev.sender.send(IPCKey.SendMessage, sendMessege(targetWindowId, message))
+  ev.sender.send(IPCKey.SendMessage, sendMessage(targetWindowId, message))
 }
 
 /**
@@ -29,7 +29,7 @@ const onSendMessage = (
  * @param ev Event data.
  */
 const onGetWindowIds = (ev: IpcMainInvokeEvent) => {
-  ev.sender.send(IPCKey.UpdateWindowIds, getWindowIds())
+  return getWindowIds()
 }
 
 /**
