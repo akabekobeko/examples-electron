@@ -1,10 +1,14 @@
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../common/Constants'
-import { IpcRenderer } from 'electron'
+import { ActionType } from '../Types'
 
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
+export const finishGetWindowIds = (windowIds: number[]) => ({
+  type: ActionType.GetWindowIds as ActionType.GetWindowIds,
+  payload: {
+    windowIds
+  }
+})
 
-export const getWindowIds = () => (dispatch: Dispatch) => {
-  // Finish handler is UpdateWindowIds
-  ipcRenderer.invoke(IPCKey.GetWindowIds)
+export const getWindowIds = () => async (dispatch: Dispatch) => {
+  const windowIds = await window.myAPI.getWindowIds()
+  dispatch(finishGetWindowIds(windowIds))
 }

@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron'
-import Path from 'path'
+import path from 'path'
 import { IPCKey } from '../common/Constants'
 
 /**
@@ -33,7 +33,10 @@ export const createNewWindow = () => {
     minHeight: 320,
     resizable: true,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      worldSafeExecuteJavaScript: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
@@ -49,7 +52,7 @@ export const createNewWindow = () => {
 
   // The window identifier can be checked from the Renderer side.
   // `win.loadFile` will escape `#` to `%23`, So use `win.loadURL`
-  const filePath = Path.join(__dirname, 'index.html')
+  const filePath = path.join(__dirname, 'index.html')
   newWindow.loadURL(`file://${filePath}#${windowId}`)
 
   currentWindows.set(windowId, newWindow)
@@ -62,7 +65,7 @@ export const createNewWindow = () => {
  * @param message Message to be sent
  * @returns `true` on success. `false` if the target window can't be found.
  */
-export const sendMessege = (
+export const sendMessage = (
   targetWindowId: number,
   message: string
 ): boolean => {

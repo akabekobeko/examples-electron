@@ -1,9 +1,6 @@
-import { IpcRenderer, IpcRendererEvent } from 'electron'
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../common/Constants'
 import { ActionType } from '../Types'
 
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 let handled = false
 
 export const updateWindowIds = (windowIds: number[]) => ({
@@ -20,10 +17,7 @@ export const handleUpdateWindowIds = () => (dispatch: Dispatch) => {
   }
   handled = true
 
-  ipcRenderer.on(
-    IPCKey.UpdateWindowIds,
-    (ev: IpcRendererEvent, windowIds: number[]) => {
-      dispatch(updateWindowIds(windowIds))
-    }
+  window.myAPI.onUpdateWindowIds((windowIds: number[]) =>
+    dispatch(updateWindowIds(windowIds))
   )
 }
