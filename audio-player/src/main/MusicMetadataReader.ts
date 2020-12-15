@@ -10,7 +10,7 @@ let imageSaveDirPath: string = ''
 
 /**
  * Get the SHA-1 hash from binary data.
- * @param data Ninary data.
+ * @param data Binary data.
  * @returns Hash string.
  */
 const hash = (data: Buffer) => {
@@ -21,7 +21,7 @@ const hash = (data: Buffer) => {
 
 /**
  * Save the image data as a file.
- * @param pictures Collection of the picrure.
+ * @param pictures Collection of the picture.
  * @returns Path of saved image file on success. Otherwise it is the empty string.
  */
 const saveImageFile = (pictures: IPicture[] | undefined): string => {
@@ -31,8 +31,8 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
 
   try {
     const picture = pictures[0]
-    const extention = picture.format.replace('image/', '')
-    const fileName = `${hash(picture.data)}.${extention}`
+    const extension = picture.format.replace('image/', '')
+    const fileName = `${hash(picture.data)}.${extension}`
     const filePath = path.resolve(imageSaveDirPath, fileName)
     if (fs.existsSync(filePath)) {
       return filePath
@@ -50,8 +50,8 @@ const saveImageFile = (pictures: IPicture[] | undefined): string => {
 }
 
 /**
- * Set a path of an image save destination direcgtory.
- * @param dirPath Path of an image save destination direcgtory.
+ * Set a path of an image save destination directory.
+ * @param dirPath Path of an image save destination directory.
  */
 export const setImageSaveDir = (dirPath: string) => {
   if (dirPath && !fs.existsSync(dirPath)) {
@@ -75,6 +75,9 @@ export const readMusicMetadata = (filePath: string): Promise<MusicMetadata> => {
       .then((metadata: IAudioMetadata) => {
         const imageFilePath = saveImageFile(metadata.common.picture)
         const common = metadata.common
+        common.track.no = common.track.no || 0
+        common.disk.no = common.disk.no || 0
+
         resolve({
           filePath,
           artist: common.artist || '',

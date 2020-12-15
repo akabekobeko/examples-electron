@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron'
+import path from 'path'
 
 /** Type of window. */
 enum WindowTypes {
@@ -25,18 +26,24 @@ const createGraphicEqualizerWindow = () => {
       resizable: false,
       alwaysOnTop: true,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: false,
+        contextIsolation: true,
+        worldSafeExecuteJavaScript: true,
+        preload: path.join(__dirname, 'preload.js')
       }
     })
   } else {
-    // Add a heigth for menu bar
+    // Add a height for menu bar
     newWindow = new BrowserWindow({
       width: 370,
       height: 320,
       resizable: false,
       alwaysOnTop: true,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: false,
+        contextIsolation: true,
+        worldSafeExecuteJavaScript: true,
+        preload: path.join(__dirname, 'preload.js')
       }
     })
 
@@ -74,7 +81,10 @@ export const createMainWindow = () => {
     minHeight: 320,
     resizable: true,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      worldSafeExecuteJavaScript: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 

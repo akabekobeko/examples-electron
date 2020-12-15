@@ -1,19 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { GraphicEqulizerParams as Params } from '../../Constants'
+import { GraphicEqualizerParams as Params } from '../Constants'
 
 /**
  * Convert frequency to a string.
- * @param frequecy Value of frequecy.
+ * @param frequency Value of frequency.
  * @returns Converted value.
  */
-const frequecyToString = (frequecy: number): string => {
-  if (1000 <= frequecy) {
-    const value = frequecy / 1000
+const frequencyToString = (frequency: number): string => {
+  if (1000 <= frequency) {
+    const value = frequency / 1000
     return value + 'K'
   }
 
-  return String(frequecy)
+  return String(frequency)
 }
 
 type Props = {
@@ -53,7 +53,7 @@ const StyledSlider = styled.input`
   }
 `
 
-const StyledFrequecy = styled.div`
+const StyledFrequency = styled.div`
   user-select: none;
   position: absolute;
   top: 225px;
@@ -75,8 +75,8 @@ export const Slider: React.FC<Props> = ({ index, value, onChange }) => (
       step={Params.GainStep}
       onChange={(ev) => onChange(index, Number(ev.target.value))}
     />
-    <StyledFrequecy style={{ left: index * 32 + 46 }}>
-      {frequecyToString(Params.Bands[index])}
-    </StyledFrequecy>
+    <StyledFrequency style={{ left: index * 32 + 46 }}>
+      {frequencyToString(Params.Bands[index])}
+    </StyledFrequency>
   </div>
 )

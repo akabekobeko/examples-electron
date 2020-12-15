@@ -1,10 +1,6 @@
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../../common/Constants'
 import { ActionType, AppState } from '../Types'
 import { Presets, PresetIndexManual } from '../Constants'
-import { IpcRenderer } from 'electron'
-
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 export const finishConnect = (connected: boolean) => ({
   type: ActionType.FinishConnect as ActionType.FinishConnect,
@@ -21,11 +17,7 @@ export const connect = (connected: boolean) => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  await ipcRenderer.invoke(
-    IPCKey.ApplyEqualizerState,
-    connected,
-    getState().gains
-  )
+  await window.myAPI.applyEqualizerState(connected, getState().gains)
   dispatch(finishConnect(connected))
 }
 
@@ -46,8 +38,11 @@ export const selectPreset = (presetIndex: number) => async (
 ) => {
   const connected = getState().connected
   const gains =
-    presetIndex === PresetIndexManual ? getState().gains : Presets[presetIndex]
-  await ipcRenderer.invoke(IPCKey.ApplyEqualizerState, connected, gains)
+    presetIndex === PresetIndexManual
+      ? getState().gains
+      : Presets[presetIndex].gains
+
+  await window.myAPI.applyEqualizerState(connected, gains)
   dispatch(finishSelectPreset(presetIndex))
 }
 
@@ -72,6 +67,6 @@ export const updateGain = (index: number, value: number) => async (
   const gains = getState().gains.concat()
   gains[index] = value
 
-  await ipcRenderer.invoke(IPCKey.ApplyEqualizerState, connected, gains)
+  await window.myAPI.applyEqualizerState(connected, gains)
   dispatch(finishUpdateGain(index, value))
 }
