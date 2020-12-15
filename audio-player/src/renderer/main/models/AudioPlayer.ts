@@ -1,4 +1,4 @@
-import { GraphicEqulizerParams as GEQ } from '../../Constants'
+import { GraphicEqualizerParams as GEQ } from '../../effect-eq/Constants'
 import { PlaybackState } from '../Types'
 import { EffectEqualizer } from './EffectEqualizer'
 
@@ -35,7 +35,7 @@ export class AudioPlayer {
   private _playbackState: PlaybackState
 
   /**
-   * Initliaze instance.
+   * Initialize instance.
    */
   constructor() {
     this._context = new AudioContext()

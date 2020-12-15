@@ -3,11 +3,7 @@ import {
   dialog,
   ipcMain,
   OpenDialogOptions,
-  MessageBoxOptions,
-  SaveDialogOptions,
   IpcMainInvokeEvent,
-  MessageBoxReturnValue,
-  SaveDialogReturnValue,
   OpenDialogReturnValue
 } from 'electron'
 import { IPCKey } from '../common/Constants'
@@ -30,40 +26,6 @@ const onShowOpenDialog = (
   const win = BrowserWindow.fromWebContents(ev.sender)
   if (win) {
     return dialog.showOpenDialog(win, options)
-  } else {
-    throw new Error('Message sender window does not exist')
-  }
-}
-
-/**
- * Occurs when show of a save dialog is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showSaveDialog`.
- */
-const onShowSaveDialog = (
-  ev: IpcMainInvokeEvent,
-  options: SaveDialogOptions
-): Promise<SaveDialogReturnValue> => {
-  const win = BrowserWindow.fromWebContents(ev.sender)
-  if (win) {
-    return dialog.showSaveDialog(win, options)
-  } else {
-    throw new Error('Message sender window does not exist')
-  }
-}
-
-/**
- * Occurs when show of a message box is requested.
- * @param ev Event data.
- * @param options Options of `dialog.showMessageBox`.
- */
-const onShowMessageBox = (
-  ev: IpcMainInvokeEvent,
-  options: MessageBoxOptions
-): Promise<MessageBoxReturnValue> => {
-  const win = BrowserWindow.fromWebContents(ev.sender)
-  if (win) {
-    return dialog.showMessageBox(win, options)
   } else {
     throw new Error('Message sender window does not exist')
   }
@@ -121,8 +83,6 @@ export const initializeIpcEvents = () => {
   initialized = true
 
   ipcMain.handle(IPCKey.ShowOpenDialog, onShowOpenDialog)
-  ipcMain.handle(IPCKey.ShowSaveDialog, onShowSaveDialog)
-  ipcMain.handle(IPCKey.ShowMessageBox, onShowMessageBox)
   ipcMain.handle(IPCKey.ReadMusicMetadata, onReadMusicMetadata)
   ipcMain.handle(IPCKey.ShowEffector, onShowEffector)
   ipcMain.handle(IPCKey.ApplyEqualizerState, onApplyEqualizerState)
@@ -134,8 +94,6 @@ export const initializeIpcEvents = () => {
 export const releaseIpcEvents = () => {
   if (initialized) {
     ipcMain.removeAllListeners(IPCKey.ShowOpenDialog)
-    ipcMain.removeAllListeners(IPCKey.ShowSaveDialog)
-    ipcMain.removeAllListeners(IPCKey.ShowMessageBox)
     ipcMain.removeAllListeners(IPCKey.ReadMusicMetadata)
     ipcMain.removeAllListeners(IPCKey.ShowEffector)
     ipcMain.removeAllListeners(IPCKey.ApplyEqualizerState)

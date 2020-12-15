@@ -3,8 +3,6 @@
  */
 export enum IPCKey {
   ShowOpenDialog = 'ShowOpenDialog',
-  ShowSaveDialog = 'ShowSaveDialog',
-  ShowMessageBox = 'ShowMessageBox',
   ReadMusicMetadata = 'ReadMusicMetadata',
   ShowEffector = 'ShowEffector',
   ApplyEqualizerState = 'ApplyEqualizerState'

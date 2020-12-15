@@ -1,14 +1,9 @@
 import { Dispatch } from 'redux'
-import { IPCKey } from '../../../common/Constants'
-import { ActionType, PlaybackState } from '../Types'
+import { ActionType } from '../Types'
 import { MusicListManager } from '../models/MusicListManager'
 import { AudioPlayer } from '../models/AudioPlayer'
 import { Artist } from '../models/Artist'
 import { Music } from '../models/Music'
-import { IpcRenderer } from 'electron'
-
-/** Sends and receives messages with the main process. */
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /** Music ist. */
 const musicList = new MusicListManager()
@@ -225,6 +220,6 @@ export const finishShowEffector = () => ({
  * Show effector window.
  */
 export const showEffector = () => async (dispatch: Dispatch<any>) => {
-  await ipcRenderer.invoke(IPCKey.ShowEffector)
+  await window.myAPI.showEffector()
   dispatch(finishShowEffector())
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { GraphicEqulizerParams as EQ } from '../../Constants'
+import { GraphicEqualizerParams as EQ } from '../Constants'
 import { StepLineParams as Line } from '../Constants'
 
 const StyledLine = styled.div`

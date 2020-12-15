@@ -1,18 +1,13 @@
-import { IpcRenderer, OpenDialogReturnValue } from 'electron'
-import { IPCKey } from '../../../common/Constants'
 import { MusicMetadata } from '../../../common/Types'
-
-/** Sends and receives messages with the main process. */
-const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
 /**
  * Show the import dialog.
- * @returns Asynchronous task, retuen the path of user selection.
+ * @returns Path of the user selection files.
  */
 const showImportDialog = async (): Promise<string[]> => {
-  const result: OpenDialogReturnValue = await ipcRenderer.invoke(
-    IPCKey.ShowOpenDialog
-  )
+  const result = await window.myAPI.showOpenDialog({
+    properties: ['multiSelections', 'openFile']
+  })
   return result.filePaths
 }
 
@@ -21,15 +16,8 @@ const showImportDialog = async (): Promise<string[]> => {
  * @param filePath Path of the music file.
  * @returns Asynchronous task, return the metadata of music.
  */
-const readMusicMetadata = async (
-  filePath: string
-): Promise<MusicMetadata | undefined> => {
-  const metadata: MusicMetadata | undefined = await ipcRenderer.invoke(
-    IPCKey.ReadMusicMetadata,
-    filePath
-  )
-  return metadata
-}
+const readMusicMetadata = (filePath: string): Promise<MusicMetadata> =>
+  window.myAPI.readMusicMetadata(filePath)
 
 /**
  * Check that the specified music file is a supported.
@@ -56,9 +44,13 @@ export const importMusicMetadata = async (): Promise<MusicMetadata[]> => {
       continue
     }
 
-    const metadata = await readMusicMetadata(path)
-    if (metadata) {
-      results.push(metadata)
+    try {
+      const metadata = await readMusicMetadata(path)
+      if (metadata) {
+        results.push(metadata)
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 

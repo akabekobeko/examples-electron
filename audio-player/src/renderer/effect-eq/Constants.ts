@@ -1,8 +1,7 @@
-import { GraphicEqulizerParams } from '../Constants'
 import { Preset } from './Types'
 
 /**
- * Prests of equalizer gains.
+ * Presets of equalizer gains.
  */
 export const Presets: Preset[] = [
   { name: 'Manual', gains: [] },
@@ -19,9 +18,17 @@ export const Presets: Preset[] = [
  */
 export const PresetIndexManual = 0
 
+export const GraphicEqualizerParams = {
+  GainMin: -40,
+  GainMax: 40,
+  GainFlat: 0,
+  GainStep: 5,
+  Bands: [31.25, 62.5, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+}
+
 const lineCount =
-  Math.abs(GraphicEqulizerParams.GainMin) / GraphicEqulizerParams.GainStep +
-  Math.abs(GraphicEqulizerParams.GainMax) / GraphicEqulizerParams.GainStep +
+  Math.abs(GraphicEqualizerParams.GainMin) / GraphicEqualizerParams.GainStep +
+  Math.abs(GraphicEqualizerParams.GainMax) / GraphicEqualizerParams.GainStep +
   1
 
 export const StepLineParams = {
