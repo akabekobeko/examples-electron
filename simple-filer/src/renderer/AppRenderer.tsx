@@ -9,7 +9,7 @@ import { Theme } from './Theme'
 import { Container as Explorer } from './containers/Explorer'
 import { Container as Toolbar } from './containers/Toolbar'
 import { Container as FileItemList } from './containers/FileItemList'
-import SplitPane from 'react-split-pane'
+import SplitPane from './components/react-split-pane/'
 
 const GlobalStyle = createGlobalStyle`
   html,
