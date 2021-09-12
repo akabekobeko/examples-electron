@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from 'electron'
+import { BrowserWindow } from 'electron'
 import path from 'path'
 
 let mainWindow: BrowserWindow | null
@@ -18,6 +18,9 @@ export const createMainWindow = () => {
     minHeight: 320,
     resizable: true,
     webPreferences: {
+      nativeWindowOpen: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
