@@ -26,7 +26,6 @@ const createGraphicEqualizerWindow = () => {
       resizable: false,
       alwaysOnTop: true,
       webPreferences: {
-        nativeWindowOpen: false,
         nodeIntegration: false,
         contextIsolation: true,
         preload: path.join(__dirname, 'preload.js')
@@ -40,7 +39,6 @@ const createGraphicEqualizerWindow = () => {
       resizable: false,
       alwaysOnTop: true,
       webPreferences: {
-        nativeWindowOpen: false,
         nodeIntegration: false,
         contextIsolation: true,
         preload: path.join(__dirname, 'preload.js')
@@ -81,7 +79,6 @@ export const createMainWindow = () => {
     minHeight: 320,
     resizable: true,
     webPreferences: {
-      nativeWindowOpen: false,
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
