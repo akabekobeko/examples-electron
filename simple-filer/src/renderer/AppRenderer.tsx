@@ -1,8 +1,7 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import ReduxThunkMiddleware from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 import { reducer as RootReducer } from './reducers/index'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Theme } from './Theme'
@@ -92,9 +91,11 @@ const StyledContent = styled.div`
 `
 
 window.addEventListener('load', () => {
-  let store = createStore(RootReducer, applyMiddleware(ReduxThunkMiddleware))
+  let store = configureStore({ reducer: RootReducer })
+  const container = document.querySelector('.app')
+  const root = createRoot(container!)
 
-  render(
+  root.render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
         <GlobalStyle />
@@ -106,7 +107,6 @@ window.addEventListener('load', () => {
           </SplitPane>
         </StyledContent>
       </ThemeProvider>
-    </Provider>,
-    document.querySelector('.app')
+    </Provider>
   )
 })

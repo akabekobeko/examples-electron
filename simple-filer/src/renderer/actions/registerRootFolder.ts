@@ -1,5 +1,4 @@
-import { Dispatch } from 'redux'
-import { SelectFolderResult } from '../../common/Types'
+import { Dispatch } from '@reduxjs/toolkit'
 import { Folder, ActionType } from '../RendererTypes'
 
 /**

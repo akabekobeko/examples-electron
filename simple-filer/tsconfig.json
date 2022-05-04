@@ -7,6 +7,8 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "allowJs": true,
     "plugins": [{ "name": "typescript-styled-plugin" }]
-  }
+  },
+  "include": ["./src"]
 }

@@ -5,7 +5,6 @@ esdoc/
 *.
 *.log
 *.map
-*.d.ts
 package-lock.json
 src/assets/*.js
 !.gitignore

@@ -112,18 +112,17 @@ const getPermissionString = (item: FileItem): string => {
  */
 const itemToViewItems = (items: FileItem[]): FileViewItem[] => {
   const viewItems: FileViewItem[] = []
-  const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' }
-
   items.forEach((item) => {
     viewItems.push({
       item: item,
       type: getType(item),
       size: item.isDirectory ? '' : getSizeString(item.size),
       permission: getPermissionString(item),
-      date: new Date(item.mtime).toLocaleDateString(
-        navigator.language,
-        dateOptions
-      )
+      date: new Date(item.mtime).toLocaleDateString(navigator.language, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
     })
   })
 

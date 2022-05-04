@@ -1,8 +1,7 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import ReduxThunkMiddleware from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 import SplitPane from './main/components/react-split-pane/'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Theme } from './Theme'
@@ -102,15 +101,16 @@ const GlobalStyle = createGlobalStyle`
  * @param element Root element of application.
  */
 const renderGEQ = (element: Element) => {
-  let store = createStore(ReducerGEQ, applyMiddleware(ReduxThunkMiddleware))
-  render(
+  let store = configureStore({ reducer: ReducerGEQ })
+  const root = createRoot(element!)
+
+  root.render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
         <ContainerGEQ />
         <GlobalStyle />
       </ThemeProvider>
-    </Provider>,
-    element
+    </Provider>
   )
 }
 
@@ -119,11 +119,12 @@ const renderGEQ = (element: Element) => {
  * @param element Root element of application.
  */
 const renderMain = (element: Element) => {
-  let store = createStore(ReducerMain, applyMiddleware(ReduxThunkMiddleware))
+  let store = configureStore({ reducer: ReducerMain })
+  const root = createRoot(element!)
 
   store.dispatch(loadMusicList() as any)
 
-  render(
+  root.render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
         <div className="page">
@@ -137,8 +138,7 @@ const renderMain = (element: Element) => {
         </div>
         <GlobalStyle />
       </ThemeProvider>
-    </Provider>,
-    element
+    </Provider>
   )
 }
 

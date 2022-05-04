@@ -1,8 +1,7 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import reduxThunk from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 import { reducer as RootReducer } from './reducers'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Theme } from './Theme'
@@ -39,16 +38,16 @@ const GlobalStyle = createGlobalStyle`
 `
 
 window.addEventListener('load', () => {
-  let store = createStore(RootReducer, applyMiddleware(reduxThunk))
-
-  render(
+  let store = configureStore({ reducer: RootReducer })
+  const container = document.querySelector('.app')
+  const root = createRoot(container!)
+  root.render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
         <GlobalStyle />
         <BasicFunction />
         <DialogForm />
       </ThemeProvider>
-    </Provider>,
-    document.querySelector('.app')
+    </Provider>
   )
 })
