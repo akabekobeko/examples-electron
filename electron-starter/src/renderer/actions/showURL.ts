@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { ActionType } from '../Types'
 
 export const requestShowURL = () => ({

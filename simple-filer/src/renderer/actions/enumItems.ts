@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { FileItem } from '../../common/Types'
 import { ActionType, Folder } from '../RendererTypes'
 

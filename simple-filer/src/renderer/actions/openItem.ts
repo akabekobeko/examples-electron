@@ -1,5 +1,5 @@
+import { Dispatch } from '@reduxjs/toolkit'
 import { ActionType } from '../RendererTypes'
-import { Dispatch } from 'redux'
 
 /**
  * Open the selected item with an operating system (shell).

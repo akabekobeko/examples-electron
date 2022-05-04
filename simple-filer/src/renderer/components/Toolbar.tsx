@@ -97,7 +97,7 @@ const StyledToolbar = styled.div`
 /**
  * Component of the toolbar.
  */
-export const Toolbar: React.SFC<Props> = ({
+export const Toolbar: React.FC<Props> = ({
   currentItem,
   canUnregisterRootFolder,
   registerRootFolder = () => {},

@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { ActionType, Folder } from '../RendererTypes'
 import { FileItem } from '../../common/Types'
 
@@ -30,23 +30,22 @@ export const finishEnumSubFolders = (
  * Enumerate the sub folders in the folder.
  * @param folderPath Path of the target folder.
  */
-export const enumSubFolders = (folderPath: string) => async (
-  dispatch: Dispatch
-) => {
-  dispatch(requestEnumSubFolders())
-  const items: FileItem[] = await window.myAPI.enumItems(folderPath)
+export const enumSubFolders =
+  (folderPath: string) => async (dispatch: Dispatch) => {
+    dispatch(requestEnumSubFolders())
+    const items: FileItem[] = await window.myAPI.enumItems(folderPath)
 
-  const folders = items
-    .filter((item) => item.isDirectory)
-    .map(
-      (item): Folder => ({
-        treeId: 0,
-        isRoot: false,
-        name: item.name,
-        path: item.path,
-        subFolders: []
-      })
-    )
+    const folders = items
+      .filter((item) => item.isDirectory)
+      .map(
+        (item): Folder => ({
+          treeId: 0,
+          isRoot: false,
+          name: item.name,
+          path: item.path,
+          subFolders: []
+        })
+      )
 
-  dispatch(finishEnumSubFolders(folderPath, folders))
-}
+    dispatch(finishEnumSubFolders(folderPath, folders))
+  }

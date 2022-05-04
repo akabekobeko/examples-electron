@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { ActionType } from '../Types'
 import { MusicListManager } from '../models/MusicListManager'
 import { AudioPlayer } from '../models/AudioPlayer'
@@ -77,7 +77,7 @@ export const loadMusicList = () => async (dispatch: Dispatch) => {
     await musicList.load()
     dispatch(updateAppState())
   } catch (error) {
-    dispatch(updateAppState(error))
+    dispatch(updateAppState(error as Error))
   }
 }
 
@@ -89,7 +89,7 @@ export const importMusic = () => async (dispatch: Dispatch) => {
     await musicList.import()
     dispatch(updateAppState())
   } catch (error) {
-    dispatch(updateAppState(error))
+    dispatch(updateAppState(error as Error))
   }
 }
 
@@ -128,7 +128,7 @@ export const removeMusic = () => async (dispatch: Dispatch) => {
     await musicList.remove(musicList.currentMusic)
     dispatch(updateAppState())
   } catch (error) {
-    dispatch(updateAppState(error))
+    dispatch(updateAppState(error as Error))
   }
 }
 
@@ -144,7 +144,7 @@ export const openWithPlay = (music: Music) => async (dispatch: Dispatch) => {
     timerStart(dispatch)
     dispatch(updateAppState())
   } catch (error) {
-    dispatch(updateAppState(error))
+    dispatch(updateAppState(error as Error))
   }
 }
 
@@ -152,20 +152,22 @@ export const openWithPlay = (music: Music) => async (dispatch: Dispatch) => {
  * Select the previous or next music.
  * If music is playing, it will play new things again.
  */
-export const next = (isNext: boolean = true) => (dispatch: Dispatch<any>) => {
-  if (playingMusic) {
-    const music = musicList.getNextMusic(playingMusic, isNext)
-    if (music) {
-      audioPlayer.stop()
-      dispatch(openWithPlay(music))
-    }
-  } else if (musicList.currentMusic) {
-    const music = musicList.getNextMusic(musicList.currentMusic, isNext)
-    if (music) {
-      dispatch(selectMusic(music))
+export const next =
+  (isNext: boolean = true) =>
+  (dispatch: Dispatch<any>) => {
+    if (playingMusic) {
+      const music = musicList.getNextMusic(playingMusic, isNext)
+      if (music) {
+        audioPlayer.stop()
+        dispatch(openWithPlay(music))
+      }
+    } else if (musicList.currentMusic) {
+      const music = musicList.getNextMusic(musicList.currentMusic, isNext)
+      if (music) {
+        dispatch(selectMusic(music))
+      }
     }
   }
-}
 
 /**
  * Play the music.
