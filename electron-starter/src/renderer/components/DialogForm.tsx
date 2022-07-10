@@ -1,42 +1,63 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { FC } from 'react'
+import { Box, Typography } from '@mui/material'
 import { Button } from './Button'
 
 export type StateByProps = {}
 
 export type DispatchByProps = {
+  /**
+   * Execute the Electron API `dialog.showOpenDialog`.
+   */
   showOpenDialog?: () => void
+  /**
+   * Execute the Electron API `dialog.showSaveDialog`.
+   */
   showSaveDialog?: () => void
+  /**
+   * Execute the Electron API `dialog.showMessageBox`.
+   */
   showMessageBox?: () => void
 }
 
-type Porps = StateByProps & DispatchByProps
-
-const StyledDialogForm = styled.div`
-  padding: 1rem;
-  text-align: center;
-
-  fieldset {
-    border: solid 1px ${(props) => props.theme.colors.grayDark};
-  }
-`
+type Props = StateByProps & DispatchByProps
 
 /**
  * Component of a dialog api tester.
  */
-export const DialogForm: React.FC<Porps> = ({
+export const DialogForm: FC<Props> = ({
   showOpenDialog = () => {},
   showSaveDialog = () => {},
   showMessageBox = () => {}
 }) => (
-  <StyledDialogForm>
-    <form>
-      <fieldset>
-        <legend>Dialog &amp; MessageBox</legend>
-        <Button label="OpenDialog" onClick={showOpenDialog} />
-        <Button label="SaveDialog" onClick={showSaveDialog} />
-        <Button label="MessageBox" onClick={showMessageBox} />
-      </fieldset>
-    </form>
-  </StyledDialogForm>
+  <Box component="form">
+    <Box
+      component="fieldset"
+      sx={{
+        textAlign: 'center',
+        border: 'solid 1px #bdc3c7',
+        borderRadius: '.2rem'
+      }}
+    >
+      <Typography component="legend" sx={{ padding: '0 .5rem' }}>
+        Dialog &amp; MessageBox
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '1rem'
+        }}
+      >
+        <Button variant="contained" onClick={showOpenDialog}>
+          OpenDialog
+        </Button>
+        <Button variant="contained" onClick={showSaveDialog}>
+          SaveDialog
+        </Button>
+        <Button variant="contained" onClick={showMessageBox}>
+          MessageBox
+        </Button>
+      </Box>
+    </Box>
+  </Box>
 )

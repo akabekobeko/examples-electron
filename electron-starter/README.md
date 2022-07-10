@@ -64,7 +64,7 @@ It is also will be skipped by running the `release:mac` or `release:pack-mac` in
 How to build a package for Windows in macOS. Introduction you will install the [WineHQ](https://www.winehq.org/). It is recommended that you use the [Homebrew](http://brew.sh/).
 
 ```bash
-brew install wine
+brew install --cask wine-stable
 ```
 
 Then run the following command. If it is correct environment you should succeed to build the package for Windows.
